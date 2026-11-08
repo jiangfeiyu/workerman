@@ -1,0 +1,7 @@
+# 忽略工作空间临时文件
+test_cwd.txt
+__pycache__/
+*.pyc
+
+# 官方源码库作为参考，避免嵌套 git 冲突
+workerman-source/
