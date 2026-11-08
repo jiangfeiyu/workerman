@@ -239,42 +239,252 @@ echo "【接线员】被保安拍醒了！有动静的通道数量: $num\n";
 ---
 
 ### 🧪 关卡 5.10：招式演进 v0.9 —— 正式把 `stream_select` 封装进 `Worker::run()`！
-我们在 [`05_worker_select_v09.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/05_worker_select_v09.php) 中正式将这套机制组装成了现代 Worker 类：
+
+- **🤔 演进背景与架构动机**：
+  在第 4 章中，我们实现的 `Worker` 类（`03_worker_with_onmessage.php`）虽然有了 `$onMessage` 业务回调，但它内部仍然是单连接阻塞模型（每次只能陪 1 个客人聊到底，第 2 个客人直接被晾在门外）。
+  在关卡 5.7 ~ 5.9 中，我们已经在独立的测试脚本里，彻底推导明白了 `stream_select` 的休眠神效与“总花名册防涂改”铁律。
+  **现在的任务**：把这套经过实战检验的高并发事件驱动机制，真正“移植封装进 `Worker` 类的身体”，升级出 **ModernWorker v0.9**！
+  让框架层把底层的 `stream_select` 系统调用完全屏蔽在 `run()` 引擎内部，而上层业务开发者依然只需要极其优雅地写一句：
+  ```php
+  $worker->onMessage = function($conn, $msg) { ... };
+  ```
+  就能自动享受到高并发、低延迟、CPU 0% 的极致体验！
+
+---
+
+#### 🧪 完整的核心类实现代码（[`05_worker_select_v09.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/05_worker_select_v09.php)）
 
 ```php
-// 每次循环前：复印一份临时名单送检
-$read = $this->allSockets;
-$write = $except = null;
+<?php
+// 关卡 5.10 【招式演进 v0.9】：正式把 stream_select 与总花名册装入 Worker 类！
+class Worker {
+    // 业务生命周期回调插座
+    public $onWorkerStart = null;
+    public $onMessage     = null;
+    public $onClose       = null;
 
-// 委托保安盯梢，进程休眠
-if (stream_select($read, $write, $except, null) <= 0) continue;
+    // 🌟 核心属性 1：原始电话本（总花名册），跨循环持久保存所有 Socket
+    protected array $allSockets = [];
+    
+    // 🌟 核心属性 2：大门口迎宾员句柄
+    protected $server;
 
-// 醒来后，只遍历保安留下的有动静 FD
-foreach ($read as $socket) {
-    if ($socket === $this->server) {
-        // 大门口迎宾员亮灯 -> 接新客并登记入总电话本！
-        $conn = stream_socket_accept($this->server);
-        $this->allSockets[(int)$conn] = $conn;
-    } else {
-        // 老客人通道亮灯 -> 读消息并交由 onMessage 处理
-        $msg = fread($socket, 1024);
-        ...
+    public function __construct(public string $address) {}
+
+    /**
+     * 启动 Worker 引擎：把 stream_select 的力量封印进 run() 循环中！
+     */
+    public function run(): void {
+        // 1. 触发 Worker 启动生命周期回调
+        if ($this->onWorkerStart) {
+            ($this->onWorkerStart)();
+        }
+
+        // 2. 创建监听服务（大门迎宾员）
+        $this->server = stream_socket_server($this->address);
+        if (!$this->server) {
+            exit("❌ 创建监听失败！\n");
+        }
+
+        // 3. 【核心关键步】：把大门口迎宾员先登记入原始总电话本！
+        $this->allSockets[(int)$this->server] = $this->server;
+
+        echo "=== Worker (PID: " . posix_getpid() . ") 启动成功，基于 stream_select 事件驱动 ===\n";
+
+        // 4. 正式进入主事件循环！
+        while (true) {
+            // 4.1 【防涂改铁律】：每一轮循环前，必须从原始总电话本复印一份临时名单送检！
+            $read = $this->allSockets;
+            $write = $except = null;
+
+            // 4.2 委托内核保安盯梢，当前进程休眠（让出 CPU，0.0% 占用）
+            // 只要没有任何通道响铃，进程就死死睡在这里；一旦有人说话或敲门，瞬间被踹醒！
+            if (stream_select($read, $write, $except, null) <= 0) {
+                continue; // 被系统信号打断或出错时，继续下一轮
+            }
+
+            // 4.3 保安把我们拍醒！此时 $read 纸条已被内核涂改，里面【只剩下有动静的 Socket】！
+            foreach ($read as $socket) {
+                // 🌟 角色甄别 A：如果亮灯的是大门口迎宾员 -> 说明有【新客人】来敲门了！
+                if ($socket === $this->server) {
+                    $conn = stream_socket_accept($this->server);
+                    if ($conn) {
+                        $fd = (int)$conn;
+                        // 登记新客人：把新客人的包厢通道加入原始总电话本！
+                        $this->allSockets[$fd] = $conn;
+                        echo "🔔【迎宾员】新客敲门进店，登记入册 (FD: $fd)！当前总连接数: " . count($this->allSockets) . "\n";
+                    }
+                } 
+                // 🌟 角色甄别 B：否则亮灯的是之前进店的【老客人通道】 -> 客人开口说话了！
+                else {
+                    $fd = (int)$socket;
+                    $msg = fread($socket, 1024);
+
+                    // 挂断判断（关卡 5.11 伏笔与止血点）
+                    if ($msg === '' || $msg === false) {
+                        echo "🚪【客人离开】FD $fd 挂断离开，从总电话本注销并关闭通道！\n";
+                        fclose($socket);
+                        unset($this->allSockets[$fd]); // 从总花名册抹除！
+                        if ($this->onClose) {
+                            ($this->onClose)($socket);
+                        }
+                        continue;
+                    }
+
+                    // 正常业务消息：触发业务层的 onMessage 回调！
+                    if ($this->onMessage) {
+                        ($this->onMessage)($socket, $msg);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ==================== 业务层使用范例 ====================
+$worker = new Worker("tcp://0.0.0.0:8080");
+
+// 业务方只需关心自己的业务逻辑，高并发细节全被框架 run() 封装消化了！
+$worker->onMessage = function ($conn, $msg) {
+    echo "【收到业务消息】" . trim($msg) . "\n";
+    fwrite($conn, "服务端回复: " . trim($msg) . "\n");
+};
+
+$worker->onClose = function ($conn) {
+    echo "【业务通知】连接 " . (int)$conn . " 已安全关闭！\n";
+};
+
+$worker->run();
+```
+
+---
+
+#### 🔍 显微镜级逐行机制拆解：底层的每一块砖是怎么砌进 `Worker::run()` 的？
+
+让我们拿着放大镜，逐行透视这段封装代码的内部乾坤：
+
+1. **类属性 `$allSockets = []` 的不可替代性**：
+   - **输入/存储**：键是 `(int)$stream`（Socket 在内核中的文件描述符数字编号），值是 PHP 的 Socket 资源句柄本身。
+   - **为什么必须是类属性（`protected array $allSockets`）？**
+     因为它是**常驻进程内存的总花名册**！如果定义在 `run()` 内部作为局部变量，或者定义在循环内部，每次循环或者外部方法想查连接时就会被清空或无法访问。类属性让连接状态与 Worker 实例生命周期紧密内聚。
+
+2. **为什么开局就要把 `$this->server` 塞进 `$this->allSockets`？**
+   - 很多初学者误以为：“`$allSockets` 不是存客户端连接的吗？大门迎宾员怎么也塞进去了？”
+   - **内功核心**：在 Linux“一切皆文件”的大一统哲学下，**大门口监听套接字（Listen Socket）和包厢通信套接字（Connected Socket）在内核看来都是普通的文件描述符 FD**！
+   - 当客户端敲门连入（三次握手完成）时，内核在大门 FD 上产生的是**可读事件（POLLIN）**；当客户端发送数据时，内核在专职通道 FD 上产生的也是**可读事件（POLLIN）**！
+   - 把大门口 `$this->server` 和所有客户端 `$conn` 一同放入总花名册，内核保安就可以用一套统一的 `stream_select` 帮我们同时盯大门和包厢！
+
+3. **`while (true)` 顶部的“复印纸条”防涂改防线**：
+   - 代码：`$read = $this->allSockets;`
+   - **如果不写这一行会怎样？**
+     如果你图省事直接写 `stream_select($this->allSockets, ...)`，因为 PHP 的系统函数是引用传递（`&$read`），内核保安在报告结果时会用**涂改液抹掉所有没出声的 Socket**！
+     仅仅经过一轮循环，你的 `$this->allSockets` 里的迎宾员和大批挂机客人就会凭空人间蒸发！
+     因此，**每次循环必须用 `$read = $this->allSockets` 掏出一张崭新的复印件送检**，总账本永远纹丝不动！
+
+4. **进程休眠与精准唤醒机制**：
+   - 代码：`if (stream_select($read, $write, $except, null) <= 0) continue;`
+   - 传入 `null` 代表**无限期休眠**。只要店里没人说话、门外没人敲门，操作系统调度器会直接把进程挪出 CPU 运行队列，进程状态变为休眠 `S`，CPU 占用率绝对为 **0.0%**！
+   - 一旦有任何动静，网卡产生硬件中断，内核瞬间把进程状态改回就绪态 `R` 并唤醒；返回值如果 `<= 0`（如被 Linux 信号中断或出错），执行 `continue` 安全进入下一轮。
+
+5. **`foreach ($read as $socket)` 角色智能甄别**：
+   - 此时 `$read` 已经被内核保安涂改过了，**里面装的 100% 全是有动静的 FD**。
+   - 怎么区分动静来自哪里？
+     - **甄别逻辑**：`if ($socket === $this->server)`
+       - **真（大门迎宾员亮灯）**：说明门外有新连接敲门！执行 `$conn = stream_socket_accept(...)` 接客，并**顺手把新客人登记进总花名册：`$this->allSockets[(int)$conn] = $conn;`**！这样下一轮循环复印名单时，这个新客人的 FD 就会自动受到内核保安的贴身保护！
+       - **假（老客人通道亮灯）**：说明是已进店的客人开口发话！执行 `fread($socket, 1024)` 听客人说话，并通过回调机制 `$this->onMessage($socket, $msg)` 把数据喂给上层业务！
+
+---
+
+#### 👉 你可以亲自运行的命令（见证 Worker v0.9 的并发魔力）
+
+请打开两个或三个终端窗口，亲自敲击以下命令体验：
+
+- **终端 1（启动 Worker v0.9 服务端）**：
+  ```bash
+  php chapters/chapter05_concurrency_and_eventloop/05_worker_select_v09.php
+  ```
+  *(你会看到终端打印：`=== Worker (PID: ...) 启动成功，基于 stream_select 事件驱动 ===`)*
+
+- **终端 2（模拟客人 A 连入，发送消息并保持连接挂机）**：
+  ```bash
+  nc 127.0.0.1 8080
+  ```
+  敲下回车后输入：`我是客人A，我占着连接不挂断！`
+  *(此时服务端秒回：`服务端回复: 我是客人A，我占着连接不挂断！`，客人 A 绝不按 Ctrl+C，就在包厢里坐着喝茶！)*
+
+- **终端 3（模拟客人 B 连入）**：
+  ```bash
+  nc 127.0.0.1 8080
+  ```
+  敲下回车后输入：`我是客人B，我也进来了！`
+  *(见证奇迹的时刻：在客人 A 完全没有挂断的情况下，客人 B 瞬间得到了服务端的秒级回复！并发大门彻底打通！)*
+
+---
+
+### 💥 关卡 5.11：现场大翻车！客户端断开连接引发的“空消息死循环风暴”！
+
+很多初学者学到关卡 5.10，心里会想：
+*“`stream_select` 这么神奇，我把新客 `accept` 和老客 `fread` 都写好了，这不就已经是一个完美的高并发服务器了吗？”*
+
+然而，**现实的网络世界极其残酷**！
+如果我们在处理老客人的代码里，写得稍微草率一点点（比如像初学者经常犯的毛病：以为“既然 `select` 唤醒了就一定有正常文本”，不加防备直接读），一场恐怖的灾难就会瞬间降临！
+
+让我们看看翻车的现场重现代码：[`06_disconnect_storm_bug.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/06_disconnect_storm_bug.php)！
+
+---
+
+#### 🧪 翻车肇事代码完整透视（[`06_disconnect_storm_bug.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/06_disconnect_storm_bug.php)）
+
+```php
+<?php
+// 关卡 5.11 💥【内功捉虫】：当客人 Ctrl+C 断开连接时，为什么会引发 100% 空消息风暴？
+$server = stream_socket_server("tcp://0.0.0.0:8080");
+$allSockets = [(int)$server => $server];
+
+echo "=== 死循环风暴测试服务器启动 (PID: " . posix_getpid() . ") ===\n";
+
+$loopCount = 0;
+
+while (true) {
+    $read = $allSockets;
+    $write = $except = null;
+    stream_select($read, $write, $except, null);
+
+    foreach ($read as $socket) {
+        if ($socket === $server) {
+            $conn = stream_socket_accept($server);
+            $allSockets[(int)$conn] = $conn;
+            echo "【大门】新客人进门: FD " . (int)$conn . "\n";
+        } else {
+            // ❌❌❌ 致命翻车重灾区 ❌❌❌
+            // 开发者天真地以为：既然 stream_select 醒了，就肯定有正常消息，直接读取并处理！
+            $msg = fread($socket, 1024);
+            $loopCount++;
+            echo "【第 $loopCount 次收到动静】收到消息内容: [" . $msg . "]\n";
+
+            // 为了防止死循环彻底卡死学员电脑，我们在代码里加了一个保险栓：触发 10 次紧急刹车
+            if ($loopCount >= 10) {
+                echo "...... 停！仅仅 0.001 秒就狂触发了 10 次空消息！正在紧急止血终止程序！......\n";
+                exit(0);
+            }
+        }
     }
 }
 ```
 
 ---
 
-### 💥 关卡 5.11：现场大翻车！客户端断开连接引发的“空消息死循环风暴”！
-很多人以为只要装上了 `stream_select` 就万事大吉了。
-但如果我们在读客人消息时不加防备（如 [`06_disconnect_storm_bug.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/06_disconnect_storm_bug.php)）：
-当客人连入后，在终端按下了 `Ctrl+C` 断开离开，诡异的惨案再次发生了：
+#### 💥 惨烈的现场实测大翻车：
 
-#### 终端现场实测输出：
+我们在两个终端里做实验：
+1. 终端 1 启动该脚本；
+2. 终端 2 执行 `nc 127.0.0.1 8080` 连入，然后直接按下 **`Ctrl+C`** 挂断离开！
+
+#### 终端 1 现场真实实测输出：
 ```text
 === 死循环风暴测试服务器启动 (PID: 894) ===
 【大门】新客人进门: FD 6
---- 客户端挂断离开 ---
+--- [此时客户端在终端 2 按下了 Ctrl+C 挂断离开] ---
 【第 1 次收到动静】收到消息内容: []
 【第 2 次收到动静】收到消息内容: []
 【第 3 次收到动静】收到消息内容: []
@@ -289,34 +499,121 @@ foreach ($read as $socket) {
 ```
 
 **😱 恐怖风暴**：
-仅仅过了 0.001 秒，控制台狂印了无数条空消息！CPU 瞬间又被打到了 100%！
+仅仅过了 **0.001 秒**，控制台瞬间狂刷了无数条空消息 `[]`！
+如果我们不加那段 `exit(0)` 的刹车代码，服务端的 CPU 瞬间就会被打到 **100.0%**，整个屏幕像瀑布一样飞速滚动空消息，进程完全陷入疯狂的死循环风暴！
 
 ---
-
-
----
-
-## 🟢 第五幕（关卡 5.12 ~ 5.14）：终极解耦 —— 铸造事件循环引擎 `SelectLoop` 与 Workerman 源码印证！
 
 ### 💬 师徒苏格拉底对话录 5：破案 TCP 断开与“挂断抹除”
+
 - **🤔 导师提问**：
-  > 1. “客人挂电话离开时，明明没说新话，为什么 Linux 内核还会认为这个 Socket‘有动静（可读事件就绪）’并唤醒我们？”
-  > 2. “接线员此时读出来的结果是什么？必须对这个 Socket 和原始电话本执行什么操作，才能彻底平息风暴？”
+  > 1. “客人按下 `Ctrl+C` 挂电话离开时，明明没有说任何新话，为什么 Linux 内核还会认为这个 Socket‘有动静（可读事件就绪）’并唤醒我们？”
+  > 2. “接线员此时用 `fread` 读出来的结果是什么？必须对这个 Socket 和原始总电话本执行什么操作，才能彻底平息风暴？”
 - **🎯 你的思考与回答**：
   > **1. “不太理解，还没系统学 TCP。”**
   > **2. “挂断，并且抹除。”**
 - **👏 深度复盘（万物皆文件之 EOF 绝美真理）**：
-  1. **完全不需要死记 TCP 协议！只要抓住 Linux 的核心 ——“一切皆文件”：**
+  1. **完全不需要死记晦涩的 TCP 协议！只要抓住 Linux 的终极哲学 ——“一切皆文件”：**
      - 想象你在读硬盘上的一个普通文本文件，当你读到最后一个字后面时，会发生什么？会撞上 **`EOF`（End of File，文件末尾）**！
-     - 此时如果你再去调 `fread()`，它绝不会卡死睡觉，而是**瞬间返回 0 字节（PHP 里返回空字符串 `""`）**！
-     - 网络 Socket 也完全一样！客人按 `Ctrl+C` 挂机（TCP 发送 `FIN` 挥手包），在内核看来就是：**“这个网络文件已经到头了（EOF）！”**
-     - 内核必须通过唤醒“可读事件”来通知接线员，接线员一读发现是 `""`，才能恍然大悟：*“原来对方挂了！”*。如果内核不唤醒，接线员将永远不知道客人已经走了！
-  2. **“挂断，并且抹除”是唯一的救命稻草：**
-     - **挂断**：`fclose($socket)`，关闭文件释放 FD；
-     - **抹除**：`unset($this->allSockets[$fd])`，从原始电话本中划掉，防止下一轮 `select` 再次被 EOF 反复唤醒引发 100% CPU 狂暴死循环；
-     - **通知业务**：顺理成章触发经典生命周期回调 `($this->onClose)($conn)`！
+     - 此时如果你再去调 `fread()`，它会卡死睡觉吗？**绝不会！它会瞬间返回 0 字节（在 PHP 里表现为空字符串 `""`）**！
+     - 网络 Socket 也完全一样！客人按 `Ctrl+C` 挂机（TCP 协议发送 `FIN` 挥手包），在 Linux 内核看来就是：**“远端把写通道关了，这个网络文件已经读到头了（到达 EOF）！”**
+     - **关键内核逻辑**：根据 POSIX 标准，**到达 EOF 的文件描述符，永远处于“可读就绪（POLLIN）”状态！**
+     - 为什么？因为如果内核不唤醒你的 `stream_select`，接线员将永远蒙在鼓里，一辈子都不知道客人已经离开！内核唤醒你，就是为了让你 `fread` 一次，通过拿到 `""` 来得知：*“原来对方已经退房走了！”*
+  2. **为什么不处理会形成 100% CPU 的狂暴死循环？（死循环风暴链条）**
+     - **第 1 圈**：客户端断开 $\rightarrow$ 内核标记 FD 为 EOF（可读） $\rightarrow$ `select` 唤醒 $\rightarrow$ 进程读出 `""` $\rightarrow$ 打印空消息 $\rightarrow$ **但是！代码没有 `fclose`，也没有从 `$allSockets` 里划掉该 FD！**
+     - **第 2 圈**：下一轮 `while(true)` 开始，`$read = $allSockets` 再次把这个已断开的 FD 递给内核保安；
+     - **水平触发（LT）的必然惩罚**：内核保安一看，这个 FD 依然处于 EOF 状态（警戒水位依然超标），**0.00001 秒都不睡，立刻再次踹醒接线员！**
+     - **第 3 圈、第 4 圈……第 100,000 圈**：进程在用户态和内核态之间陷入无休止的疯狗空转，CPU 瞬间被顶到 100%！
 
 ---
+
+#### 💊 治本救命良方：挂断、抹除与业务通知“铁三角”
+
+要想彻底平息死循环风暴，必须在读取消息后，立刻建立坚固的三道防线：
+
+```php
+// 老客人通道有动静时：
+$msg = fread($socket, 1024);
+
+// 🛡️ 救命防线：严格识别连接断开（读到空字符串或 false）
+if ($msg === '' || $msg === false) {
+    $fd = (int)$socket;
+    echo "🚪【客人离开】检测到客人 FD $fd 挂机断开 (EOF)！\n";
+    
+    // 动作 1：【挂断】关闭套接字，把 FD 号码牌归还给 Linux 内核
+    fclose($socket);
+    
+    // 动作 2：【抹除】从原始总电话本里彻底注销，防止下一轮 select 被反复唤醒！
+    unset($this->allSockets[$fd]);
+    
+    // 动作 3：【通知业务】触发业务层的 onClose 回调，通知业务清理该连接的缓存或状态！
+    if ($this->onClose) {
+        ($this->onClose)($socket);
+    }
+    
+    continue; // 成功平息风暴，跳过后续业务处理！
+}
+```
+
+---
+
+#### 👉 你可以亲自运行的命令（亲手点燃并见证死循环风暴）
+
+- **终端 1（运行翻车测试服务器）**：
+  ```bash
+  php chapters/chapter05_concurrency_and_eventloop/06_disconnect_storm_bug.php
+  ```
+- **终端 2（连入并直接断开）**：
+  ```bash
+  nc 127.0.0.1 8080
+  ```
+  连上之后，不要输入文字，直接敲下键盘快捷键：**`Ctrl + C`**！
+- **返回终端 1 观察**：
+  你将亲眼目睹控制台在 0.001 秒内闪电般打出 10 次空消息并触发紧急止血退出！亲身感受底层 EOF 与水平触发带来的震撼威慑力！
+
+---
+
+### 🌉 架构思维升华：从 `Worker v0.9` 迈向独立 `SelectLoop` 的结构性危机
+
+让我们退后一步，审视我们目前写出的 `Worker v0.9`（关卡 5.10 + 关卡 5.11）：
+表面上看，它既能支持多客户端并发通信，又能安抚客户端断开引发的风暴，似乎已经天下太平。
+
+但是，站在大型工业级框架架构师的视角，这段代码里正潜伏着一个极其致命的**结构性架构危机（Code Smell，代码异味）**：
+
+请看 `Worker::run()` 里的核心派发逻辑：
+```php
+foreach ($read as $socket) {
+    if ($socket === $this->server) {
+        // 大门接待逻辑...
+    } else {
+        // 客人读取逻辑...
+    }
+}
+```
+
+**🤔 致命三问**：
+1. **职责严重混杂（违反单一职责原则 SRP）**：
+   `Worker` 本应是一个代表“业务工作进程”的类，但现在的 `Worker` 既要管底层的 `stream_select` 操作系统调用、名单复印、超时计算，又要管具体的迎宾接客、数据读取、协议解析与生命周期分发。它既是“发动机”，又是“车身”，还是“方向盘”！
+2. **`if-else` 的硬编码噩梦**：
+   如果明天业务经理提需求：*“我们的服务器不仅要监听 8080 端口，还要同时监听 80 端口跑 HTTP、同时监听 0 号文件 `STDIN` 接受终端管理员输入命令”*，你的代码是不是得改成：
+   ```php
+   if ($socket === $this->server1) { ... }
+   else if ($socket === $this->server2) { ... }
+   else if ($socket === STDIN) { ... }
+   else { ... }
+   ```
+   代码里的 `if-else` 会无限膨胀，最终变成无法维护的垃圾山！
+3. **完全无法复用**：
+   如果明天你想写一个异步 MySQL 客户端、异步 Redis 客户端、或者异步 HTTP 客户端，它们也需要 `stream_select` 事件循环，难道你要把整套 `Worker` 连皮带肉全部复制粘贴一份？
+
+**💡 破局之道 —— 终极解耦！**
+我们必须把**“纯粹负责跟操作系统内核打交道、盯梢 FD、哪个 FD 亮灯就通知哪个函数”**的繁重苦力活彻底剥离出来，抽成一颗完全独立的通用动力心脏 —— **`SelectLoop` 事件循环引擎**！
+
+这就是第五幕的伟大任务！
+
+---
+
+## 🟢 第五幕（关卡 5.12 ~ 5.14）：终极解耦 —— 铸造事件循环引擎 `SelectLoop` 与 Workerman 源码印证！
 
 ### 🏛️ 关卡 5.12 & 5.13：架构解耦 —— 手写独立事件循环引擎 `SelectLoop`！
 在第 3 章中，我们把“具体业务”从框架中抽离了出去。
@@ -662,15 +959,278 @@ while (true) {
 ---
 
 ### 🌉 从“门铃表”到面向对象 `SelectLoop` 的桥梁：
-请对比上面这段大白话代码与面向对象架构：
-| 面向过程（门铃表模型） | 面向对象（Workerman / ModernWorker 架构） |
-| :--- | :--- |
-| 门铃表 `$sockets` + 卡片表 `$handlers` | `SelectLoop` 类内部的 `$readFds` 和 `$readCallbacks` 属性 |
-| 向两张表增加记录 | `SelectLoop::addRead($stream, $callback)` 方法 |
-| 从两张表注销记录 | `SelectLoop::delRead($stream)` 方法 |
-| `while(true)` 循环查表分发 | `SelectLoop::loop()` 方法 |
-| 迎宾员函数 `handleNewGuest` | `Worker::acceptConnection()` 类方法 |
-| 服务员函数 `handleGuestMessage` | `Worker::readFromClient()` 类方法 |
-| 绑定函数 `'handleNewGuest'` | 绑定对象方法 `[$this, 'acceptConnection']` |
 
-你看！面向对象不过是给上面的两个数组和两个函数穿上了一件工整的“西装”，骨子里的每一根血管和每一个动作，完全一模一样！
+请对比上面这段大白话代码与面向对象架构：
+| 面向过程（门铃表模型） | 面向对象（Workerman / ModernWorker 架构） | 核心设计意图与演进本质 |
+| :--- | :--- | :--- |
+| 门铃表 `$sockets` + 卡片表 `$handlers` | `SelectLoop` 类内部的 `$readFds` 和 `$readCallbacks` 属性 | 消灭 `global` 全局变量污染，实现实例内部状态强内聚 |
+| 向两张表增加记录 | `SelectLoop::addRead($stream, $callback)` 方法 | 统一注册入口，支持 PHP 任意 callable（闭包/对象方法） |
+| 从两张表注销记录 | `SelectLoop::delRead($stream)` 方法 | 原子性双清，彻底消除遗漏注销导致的死循环风暴与内存泄漏 |
+| `while(true)` 循环查表分发 | `SelectLoop::loop()` 方法 | 抽象出通用事件引擎，彻底与上层业务逻辑剥离 |
+| 迎宾员函数 `handleNewGuest` | `Worker::acceptConnection()` 类方法 | 职责归位：大门迎宾业务收敛至 Worker 业务类中 |
+| 服务员函数 `handleGuestMessage` | `Worker::readFromClient()` 类方法 | 职责归位：包厢聊天业务收敛至 Worker 业务类中 |
+| 绑定函数 `'handleNewGuest'` | 绑定对象方法 `[$this, 'acceptConnection']` | 对象上下文随身携带，随时随地安全访问 `$this` 状态 |
+
+---
+
+#### 🔍 显微镜级代码细节逐段比对：面向对象的“西装”是如何穿在骨架上的？
+
+为了让你百分之百看透面向对象背后的代码映射逻辑，我们把每一处的面向过程代码与面向对象实现摆在一起，做显微镜级的逐行比对：
+
+##### 1. 【数据结构比对】全局变量 vs 类的内部受保护属性
+
+```php
+// ==================== 面向过程（门铃表模型） ====================
+// 缺点：全局暴露，代码任何角落都可以随意修改，极易被污染！
+$sockets  = []; // [FD编号 => Socket资源]
+$handlers = []; // [FD编号 => 函数名字符串]
+
+// 每个函数里必须极其别扭地引入全局变量：
+function handleNewGuest($server) {
+    global $sockets, $handlers;
+    ...
+}
+```
+$\updownarrow$ **穿上面向对象西装后：**
+```php
+// ==================== 面向对象（SelectLoop 内部） ====================
+class SelectLoop {
+    // 优点：封装为 protected 属性，外部严禁越权直接篡改，状态强内聚！
+    protected array $readFds       = []; // [FD编号 => Socket资源]
+    protected array $readCallbacks = []; // [FD编号 => callable 回调]
+}
+```
+> **💡 代码细节深度解读**：
+> 面向对象把两个零散飘荡在全局空间的数组，正式收归于 `SelectLoop` 实例的肚子里。
+> 以后哪怕你在同一个 PHP 脚本里实例化了 10 个不同的 EventLoop，它们的 `$readFds` 和 `$readCallbacks` 也绝对各自独立、互不干扰，彻底斩断了 `global` 的万恶之源！
+
+---
+
+##### 2. 【注册监听比对】手动写两张表 vs `addRead()` 方法
+
+```php
+// ==================== 面向过程（门铃表模型） ====================
+// 迎宾员接客后，必须手动向两张表逐一加项：
+$sockets[$connId]  = $conn;
+$handlers[$connId] = 'handleGuestMessage'; // 必须写死全局函数名字符串！
+```
+$\updownarrow$ **穿上面向对象西装后：**
+```php
+// ==================== 面向对象（业务层调用） ====================
+// 迎宾员方法 acceptConnection 内部只需调用一行清晰的方法：
+$this->loop->addRead($conn, [$this, 'readFromClient']);
+
+// --- SelectLoop::addRead() 底层实现细节 ---
+public function addRead($stream, callable $callback): void {
+    $fd = (int)$stream;
+    $this->readFds[$fd]       = $stream;   // 相当于：$sockets[$connId] = $conn;
+    $this->readCallbacks[$fd] = $callback; // 相当于：$handlers[$connId] = $handler;
+}
+```
+> **💡 代码细节深度解读**：
+> 1. **类型安全飞跃**：面向过程传的是裸字符串 `'handleGuestMessage'`，一旦有手误拼错，编译器完全不报错，直到客人说话运行时才报 `Fatal error: Call to undefined function` 惨烈崩掉；而面向对象使用强类型 `callable $callback`，在传参阶段即可获得语法提示与安全检查！
+> 2. **对象状态携带**：面向对象传递的是数组形式的回调 `[$this, 'readFromClient']`。这不仅仅是传递了一个方法名，而是**把当前的 `$this`（代表当前 `Worker` 实例及其身上的所有业务属性）打包一并带了过去**！当回调被触发时，方法内部依然可以自由访问 `$this->onMessage`、`$this->address`！
+
+---
+
+##### 3. 【注销监听比对】手动双 unset + fclose vs `delRead()` 原子化注销
+
+```php
+// ==================== 面向过程（门铃表模型） ====================
+// 客人退房断开时：
+fclose($conn);
+// 致命陷阱：极易遗漏！如果程序员粗心只 unset 了 $sockets，却漏了 $handlers，
+// 内存里就会留下永久不会被回收的废弃闭包/函数名，造成隐形内存泄漏！
+unset($sockets[$connId], $handlers[$connId]);
+```
+$\updownarrow$ **穿上面向对象西装后：**
+```php
+// ==================== 面向对象（业务层调用） ====================
+// 客人断开时，业务层只需调用封装好的原子注销方法：
+$this->loop->delRead($conn);
+fclose($conn);
+
+// --- SelectLoop::delRead() 底层实现细节 ---
+public function delRead($stream): void {
+    $fd = (int)$stream;
+    // 一键原子注销两张表，绝无遗漏可能！
+    unset($this->readFds[$fd], $this->readCallbacks[$fd]);
+}
+```
+> **💡 代码细节深度解读**：
+> 面向对象将“注销两张表”的操作固化成了单一职责的原子方法 `delRead()`。
+> 开发者再也不用去记忆底层究竟维护了多少张中间表，调一次 `delRead()`，框架内部保证 100% 干净利落地清扫一切痕迹！
+
+---
+
+##### 4. 【事件派发引擎比对】大堂经理 while 查表 vs 通用 `SelectLoop::loop()`
+
+```php
+// ==================== 面向过程（门铃表模型） ====================
+while (true) {
+    $read = $sockets;
+    $write = $except = null;
+    if (stream_select($read, $write, $except, null) <= 0) continue;
+
+    foreach ($read as $socket) {
+        $id = (int)$socket;
+        $workerName = $handlers[$id]; // 查卡片表
+        $workerName($socket);         // 执行：'handleNewGuest' 或 'handleGuestMessage'
+    }
+}
+```
+$\updownarrow$ **穿上面向对象西装后：**
+```php
+// ==================== 面向对象（SelectLoop::loop()） ====================
+public function loop(): void {
+    while (true) {
+        $read = $this->readFds;
+        $write = $except = null;
+        if (@stream_select($read, $write, $except, null) <= 0) continue;
+
+        foreach ($read as $stream) {
+            $fd = (int)$stream;
+            if (isset($this->readCallbacks[$fd])) {
+                // 查卡片表并执行：可能是 [$worker, 'acceptConnection'] 或 [$worker, 'readFromClient']
+                ($this->readCallbacks[$fd])($stream);
+            }
+        }
+    }
+}
+```
+> **💡 代码细节深度解读**：
+> 仔细对比这两段代码，你会发现它们的执行逻辑**几乎完全对称**！
+> 但其精神内核已经发生了质的升华：
+> 面向过程的循环是和具体的大饭店业务脚本写死在一起的；
+> 而面向对象的 `SelectLoop::loop()` 变成了一个**绝对通用、极其纯粹的物理发动机**！
+> 这颗发动机根本不知道什么是“大门”、什么是“客人”、什么是“聊天数据”。它唯一掌握的底层铁律就是：
+> **“内核告诉我哪个数字 FD 亮灯了，我就把挂在这个数字 FD 上的 callable 卡片拿出来执行一下！”**
+> 无论是 80 端口的 HTTP、8080 端口的 WebSocket、0 号终端键盘输入 `STDIN`，统统只要通过 `addRead` 往里一插，发动机就能全自动、永不停歇地欢快转动！
+
+---
+
+##### 5. 【职责归位比对】游离的办事员函数 vs `Worker` 业务核心方法
+
+```php
+// ==================== 面向过程 ====================
+// 办事员 1
+function handleNewGuest($server) { ... }
+// 办事员 2
+function handleGuestMessage($conn) { ... }
+```
+$\updownarrow$ **穿上面向对象西装后：**
+```php
+// ==================== 面向对象 ====================
+class Worker {
+    protected SelectLoop $loop;
+
+    // 迎宾员归位为 Worker 的内部方法
+    public function acceptConnection($server): void {
+        $conn = stream_socket_accept($server);
+        ...
+        $this->loop->addRead($conn, [$this, 'readFromClient']);
+    }
+
+    // 服务员归位为 Worker 的内部方法
+    public function readFromClient($conn): void {
+        $msg = fread($conn, 1024);
+        ...
+        if ($this->onMessage) ($this->onMessage)($conn, $msg);
+    }
+}
+```
+> **💡 终极顿悟**：
+> 看到这里，所有的迷雾彻底消散：
+> - **`SelectLoop`**：专门负责底层的系统调用与事件轮询（**“动力底盘”**）；
+> - **`Worker`**：专门负责具体的网络连接生命周期管理与业务分发（**“车身与座舱”**）；
+> 这就是现代高性能网络服务器最核心的经典设计模式 —— **Reactor（反应堆）模式**！
+
+---
+
+## 🚀 本章全景复盘与通往第 6 章、第 7 章的宏伟进化全景
+
+### 🏆 第 5 章修炼里程碑回顾
+
+在这一章里，我们完成了从“玩具脚本”向“工业级高并发网络服务器”最壮丽的一次惊险飞跃：
+1. **关卡 5.1 ~ 5.3**：朴素双层嵌套循环接客 $\rightarrow$ 客人 A 挂机喝茶，客人 B 连个标点符号都得不到（单连接阻塞车祸现场）；
+2. **关卡 5.4 ~ 5.6**：自救演进开启非阻塞 + 接线员花名册 $\rightarrow$ 遭遇疯狗忙轮询，CPU 100% 狂转风扇轰鸣惨案；
+3. **关卡 5.7 ~ 5.9**：委托 Linux 内核保安 `stream_select` 代劳 $\rightarrow$ CPU 瞬间优雅降至 0.0%，并破案了“涂改液纸条陷阱”；
+4. **关卡 5.10 ~ 5.11**：招式演进 v0.9，将 `stream_select` 封印进 `Worker::run()` $\rightarrow$ 亲历客户端 `Ctrl+C` 断开引发的“空消息死循环风暴”并破案 EOF 挂断抹除；
+5. **关卡 5.12 ~ 5.14**：终极解耦 $\rightarrow$ 手写工业级事件循环引擎 `SelectLoop`，并与 Workerman 官方源码第 71、388 行逐行印证；
+6. **关卡 5.15**：通过大白话“大饭店门铃与岗位卡片”彻底粉碎面向对象的神秘面纱！
+
+我们现在拥有了一颗能够并发支撑成千上万个 Socket 的强大心脏 —— `SelectLoop`！
+
+---
+
+### 🚨 然而……两大致命的新现实危机，正悄然逼近！
+
+现在的 `SelectLoop` + `Worker` 已经具备了处理高并发网络 I/O 的能力。
+但是，**工业级生产服务器远不止“被动收发消息”这么简单！**
+在紧接着的后面两章中，我们将直面两记直击灵魂的现实重拳：
+
+```mermaid
+flowchart TD
+    Current["第 5 章成果：SelectLoop 事件循环引擎<br/>（已搞定：多连接并发、非阻塞 I/O、事件分发）"]
+    
+    Current --> Crisis1["💥 现实危机一：时间的危机！<br/>（业务需要心跳检测、超时踢人、延时任务，<br/>但调 sleep(3) 会瞬间全服时间定身冻结！）"]
+    Current --> Crisis2["💥 现实危机二：协议与大数据的危机！<br/>（裸句柄无法挂载 uid 属性报错崩溃，<br/>发 10MB 大文件导致内核发送缓冲区撑爆丢包！）"]
+    
+    Crisis1 --> Ch6["👉 第 6 章：时间的魔术<br/>【非阻塞定时器 Timer 与最小堆 SplPriorityQueue】<br/>榨干 stream_select 超时参数，将算法复杂度从 O(N) 优化至 O(log N)"]
+    Crisis2 --> Ch7["👉 第 7 章：面向对象工业级 TCP 连接封装<br/>【TcpConnection 与应用层异步发送缓冲区】<br/>造包装盒承载连接属性，唤醒 stream_select 的 $write 可写事件！"]
+```
+
+---
+
+#### 💥 现实危机一：时间的危机（通往第 6 章《时间的魔术 —— 定时器 Timer 与最小堆》）
+
+- **残酷的现实业务拷问**：
+  高并发服务器绝不能只是被动地“等客人开口”！
+  1. **心跳保活检测（Heartbeat）**：移动网络环境错综复杂，客户端经常直接掉线、进电梯或断网（此时根本不会走正常的 TCP 四次挥手，内核收不到 FIN 包，根本感知不到 EOF！）。如果服务端不主动出击，这个死连接将永久霸占着你的内存和 FD 号码牌！服务器必须每隔 5 秒主动查一次心跳；
+  2. **超时强制踢人**：某个客人连入后整整 30 秒一句话不说，必须强制执行 `close` 释放资源；
+  3. **延时与定时任务**：客人进店下单后，模拟 3 秒钟做菜后自动回复“您的菜做好了”。
+
+- **初学者的自杀式写法 —— `sleep(3)`**：
+  初学者面对“等 3 秒”，第一个想到的必然是 `sleep(3)`。
+  但因为我们的现代服务器是**单进程单线程 Reactor 模型**，一旦你在代码里执行了 `sleep(3)`，整个进程直接被挂起 3 秒钟！
+  在这 3 秒钟内，**全服所有在线客人的消息全部卡死，大门口所有新客人全部被死死挡在门外！全服遭遇时间定身大血案！**
+
+- **第 6 章的救赎伏笔**：
+  - 我们如何在**绝对不调用 `sleep()`** 的前提下，实现毫秒级高精度非阻塞定时器？
+  - 还记得我们在关卡 5.8 讲过的 `stream_select` 的最后两个超时参数吗？
+    `stream_select($read, $write, $except, $tv_sec, $tv_usec)`
+    如果我们把超时时间动态计算为“离最近一个定时器到期还剩多少毫秒”，就能让内核在**没人发消息时只睡这么久就自动醒来触发定时器**！
+  - 当服务器里有 10 万个连接、每个连接都有定时器时，如果每一轮都用数组循环查谁超时，CPU 同样会被活活拖垮（$O(N)$ 复杂度）！我们该如何请出计算机算法界的镇殿神器 —— **优先队列与最小堆（`SplPriorityQueue`）**，把时间复杂度降到极致的 $O(\log N)$？
+  - **这就是第 6 章《时间的魔术》即将带你推导的硬核算法与时间底座！**
+
+---
+
+#### 💥 现实危机二：协议与大数据的危机（通往第 7 章《从发大文件丢包推导出 TcpConnection 与异步发送缓冲区》）
+
+- **残酷的现实业务拷问**：
+  在目前的代码中，客人连入后的 `$conn` 依然是一个最原始的 PHP `resource (stream)` 裸句柄，发数据我们都是直接写 `fwrite($conn, $msg)`。
+
+- **语法憋屈：裸句柄挂不了业务属性**：
+  业务开发说：*“张三登录成功了，我想把他的 UID 挂在连接上（`$conn->uid = 10086;`），方便下一句话识别他是张三。”*
+  结果代码一跑，PHP 8 直接抛出致命致命错误（Fatal Error）：
+  `Attempt to assign property "uid" on resource`！
+  原生 resource 是底层 C 语言指针封装，根本不是面向对象里的类对象，严禁挂载任何属性！
+
+- **万丈深渊：发送 10MB 大图片引发的“丢包吞噬血案”**：
+  如果业务需要给客户端发送一张 10MB 的高清大图片，我们直接写一句 `fwrite($conn, $bigData)`，会发生什么？
+  **灾难发生了！**
+  Linux 内核分配给每个 TCP Socket 的内核发送缓冲区（`SO_SNDBUF`）默认只有区区几百 KB！
+  面对 10MB 的狂暴写入，内核发送缓冲区在 0.0001 秒内被瞬间塞满，`fwrite` 只能写入前面的几十 KB，剩下的 9MB 多数据由于写不进去，**直接被操作系统就地丢弃或截断！客户端收到的图片直接损坏花屏！**
+
+- **第 7 章的救赎伏笔**：
+  - 我们必须为原生裸句柄打造一个面向对象的专业包装盒 —— **`TcpConnection`**！
+  - 怎么在 `TcpConnection` 内部实现**应用层异步发送缓冲区（Send Buffer）**？内核缓冲区满了写不进去时，框架自动把剩余的 9MB 多数据先暂存到用户态内存队列中；
+  - 暂存之后，什么时候才能继续发？
+    **还记得我们在关卡 5.8 埋下的天大伏笔吗？**
+    `stream_select` 的第 2 个参数 —— **`$write`（可写事件监听）**！
+    我们一直传 `null`，因为当时我们不需要监听可写。而在第 7 章，当发送缓冲区被撑满时，我们将正式激活 `$write` 监听，委托内核保安盯梢：*“只要网卡把这几百 KB 发空了，立刻叫醒我继续把暂存的下一批数据灌进网卡！”*
+  - **这就是第 7 章《面向对象工业级 TCP 连接封装 TcpConnection》将带你铸造的工程级网络防线！**
+
+---
+
+让我们带着在第 5 章铸就的坚不可摧的 `SelectLoop` 事件循环内功，昂首挺胸，大步迈入 **第 6 章：时间的魔术 —— 定时器 Timer 与最小堆**！

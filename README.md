@@ -51,6 +51,10 @@
   * EventLoop 超时时间与定时器的天作之合（`stream_select` 纳秒精度）
   * 最小堆（Min-Heap）与时间轮（Timing Wheel）算法推导
   * Workerman 定时器精准调度与心跳超时剔除实战
+* **[第 7 章：TcpConnection 封装与异步发送缓冲区 —— 突破丢包血案](chapters/chapter07_tcp_connection/README.md)**
+  * 原生 PHP resource 无法挂载业务属性与对象包装盒思想
+  * 从 10MB 大文件吞噬 7MB 现场推导出内核发送缓冲区（`SO_SNDBUF`）
+  * 应用层 `$sendBuffer` 缓存截断与事件循环 `$write` 可写事件排空机制
 
 ---
 
