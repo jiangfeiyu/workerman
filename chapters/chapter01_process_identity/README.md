@@ -157,10 +157,304 @@ Linux 内核 /proc/452/cwd 软链接指向: /mnt/d/Workerman
 正解：守护进程常驻或引入文件，务必使用绝对路径或 __DIR__！
 ```
 
-### 📖 Workerman 源码真迹印证
-为什么在标准 Unix 守护进程规范以及 Workerman 启动时，工作目录如此关键？
-1. **守护进程的标准修养**：如果一个常驻后台进程一直在 `/mnt/d/myproject` 或某个挂载的 U 盘目录下运行，系统管理员想要 `umount` 卸载这块磁盘时，就会收到报错：`Device or resource busy`！因为你的进程正踩在上面！所以标准 Unix 守护进程通常会用 `chdir('/')` 将立足点转移到根目录。
-2. **Workerman 源码防漂移**：正因为相对路径可能会随着启动命令所在的工作目录发生漂移，Workerman 源码中所有的核心路径（PID 文件、日志文件、配置路径）全部使用绝对路径，并在启动阶段通过 `Worker::$stdoutFile`、`Worker::$pidFile` 锁定绝对位置，防止工作目录变化导致日志写丢！
+### 📖 Workerman 源码真迹印证：工作目录生死攸关与源码级“防漂移”全景透视
+
+在关卡 1.6 中，我们亲手通过 `03_cwd_and_chdir.php` 见证了 `chdir('/tmp')` 后，原本好端端的相对路径 `./test_cwd.txt` 瞬间断裂惨死。但在真实的工业级服务器编程中，工作目录（CWD）的水远比这要深得多！
+
+---
+
+#### 🔍 深度透视 1：为什么在标准 Unix 守护进程规范（APUE）中，工作目录如此生死攸关？
+
+在 UNIX 圣经《UNIX 环境高级编程》（APUE）第 13 章关于守护进程（Daemon）的规范中，祖师爷 W. Richard Stevens 提出了著名的守护进程编写铁律：
+> **“将当前工作目录更改为根目录 `chdir('/')`。”**
+
+为什么非要这一步？为什么守护进程不能安安心心地留在启动时的目录？
+
+1. **Linux 内核底层机制：VFS 与 `task_struct->fs->pwd` 的引用锁**
+   - 在 Linux 内核中，每个进程在内核空间都有一个 `task_struct` 进程控制块。
+   - `task_struct->fs` 指向一个 `struct fs_struct`，其中的核心成员 `pwd`（Path of Working Directory）直接持有该进程当前所在目录项（`struct dentry`）和所属挂载点（`struct vfsmount`）。
+   - **内核在挂载点上维护着一个活跃引用计数（`mnt_count`）**。只要有一个存活进程的 `pwd` 踩在这个挂载点（或其下任何子目录）上，该挂载点的引用计数就无法清零！
+2. **生产环境惨案一：存储热卸载死锁 —— `EBUSY (Device or resource busy)`**
+   - 想象真实场景：你的多进程长连接服务部署在一个独立挂载的数据盘（如 `/data` 或挂载的 NAS / NFS / AWS EBS 卷 / 运维维护用的移动硬盘）下。
+   - 某天深夜，系统运维需要对这块磁盘做扩容、文件系统坏道修复（`fsck`）或迁移卸载，于是敲下了命令：
+     ```bash
+     umount /data
+     ```
+   - Linux 内核立刻无情拒绝并抛出经典报错：
+     ```text
+     umount: /data: target is busy.
+     (In some cases useful info about processes that use the device is found by lsof(8) or fuser(1))
+     ```
+   - 运维用 `lsof /data` 或 `fuser -m /data` 一查：**原来是你那个常驻后台跑了 3 个月的后台守护进程，双脚还稳稳当当地“踩”在 `/data/project` 下！**
+   - 即使你的服务此刻完全没有读写磁盘，哪怕它正在高并发处理纯内存的 TCP 消息，但因为进程的 `cwd` 踩在挂载点上，内核坚决不准卸载！如果运维暴力执行 `umount -l`（Lazy Unmount），会导致新命令找不到该挂载点，而原进程向已脱钩的文件系统句柄写数据，极易造成静默数据损毁！
+3. **生产环境惨案二：Core Dump（崩溃核心转储）丢失与权限黑洞**
+   - 如果一个后台守护进程是在某个普通开发者的家目录（比如 `/home/developer_tom/`）下敲命令启动的。
+   - 几个月后，开发人员 Tom 离职，运维删除了 `/home/developer_tom` 目录，或者收回了该目录的写权限。
+   - 此时常驻后台的守护进程的工作目录（`cwd`）瞬间变成了**悬空目录（Dangling CWD）**！当程序偶发段错误（Segmentation fault）或致命崩溃时，Linux 内核试图在进程当前工作目录下生成用于排障的 `core` 内存转储文件，结果因目录不存在或 `Permission denied` 直接失败！
+   - 最终现象：服务崩溃暴毙，案发现场连一滴血迹（Core 文件）都没留下，运维排障完全陷入两眼一抹黑的绝境！
+4. **祖师爷的避风港设计：为什么偏偏是 `chdir('/')`？**
+   - 在 Linux 体系中，根文件系统（`/`）是操作系统启动时挂载的基石。
+   - 只要系统不关机断电，**根分区是绝对不可能、也坚决不允许被单独卸载（umount）的**！
+   - 将工作目录切换到根目录 `chdir('/')`，相当于解开了进程踩在任何外接分区、独立数据盘上的“物理绳索”，赋予了守护进程在操作系统全局常驻的纯粹修养。
+
+---
+
+#### 🤔 深度透视 2：世纪两难！为什么 Workerman 没有简单粗暴地执行 `chdir('/')`？
+
+既然 Unix 标准规范要求守护进程 `chdir('/')`，那为什么打开 Workerman 源码查看 `Worker::daemonize()` 时，压根找不到 `chdir('/')` 这行代码？
+
+打开 [`Workerman/src/Worker.php` 第 1465~1487 行 (`Worker::daemonize`)](file:///d:/Workerman/workerman-source/src/Worker.php#L1465-L1487)：
+```php
+protected static function daemonize(): void
+{
+    if (!static::$daemonize || DIRECTORY_SEPARATOR !== '/') {
+        return;
+    }
+    umask(0);
+    $pid = pcntl_fork();
+    if (-1 === $pid) {
+        throw new RuntimeException('Fork fail');
+    } elseif ($pid > 0) {
+        exit(0);
+    }
+    if (-1 === posix_setsid()) {
+        throw new RuntimeException("Setsid fail");
+    }
+    // Fork again avoid SVR4 system regain the control of terminal.
+    $pid = pcntl_fork();
+    if (-1 === $pid) {
+        throw new RuntimeException("Fork fail");
+    } elseif (0 !== $pid) {
+        exit(0);
+    }
+}
+```
+你看：这里有两次 `fork`，有 `posix_setsid()` 脱离控制终端，有 `umask(0)` 清除掩码，**唯独没有 `chdir('/')`！**
+
+为什么 walkor（Workerman 作者）不加上这行标准规范代码？
+
+- **💥 现实残酷原因：PHP 生态与动态脚本语言的“相对路径沉疴”**
+  - C 语言编译出的守护进程（如 Nginx、Redis）通常在编译期或通过命令行传入固定绝对配置文件路径（如 `/etc/nginx/nginx.conf`），内部资源完全不依赖相对路径。
+  - 但在 PHP 业务开发中，开发者大量写出这样的代码：
+    ```php
+    // 业务常见写法
+    require './config/database.php';
+    $cert = file_get_contents('./cert/server.key');
+    ```
+  - **灾难推演**：
+    1. 开发者在终端输入 `php start.php start`（调试模式）。此时没有调用 `daemonize()`，进程 cwd 在 `/var/www/myproject`，相对路径 `./config/database.php` 读取成功，服务完美运行！
+    2. 开发者满意地按下 `Ctrl+C`，准备上线部署，输入 `php start.php start -d`（开启守护进程模式）。
+    3. 如果 Workerman 在 `daemonize()` 内部自作主张执行了 `chdir('/')`：
+       - `getcwd()` 在一微秒之内从 `/var/www/myproject` 突变到了 Linux 根目录 `/`！
+       - 下一行业务代码执行 `require './config/database.php'` 时，PHP 就会去读 `/config/database.php`！
+       - 结果瞬间触发致命崩溃：`Fatal error: Failed opening required './config/database.php'`！
+    4. 开发者当场抓狂：“为什么不加 `-d` 跑得好好的，加了 `-d` 框架就找不到我的配置文件了？！辣鸡框架！”
+
+- **💡 架构抉择**：
+  Workerman 必须保持**调试模式（Debug）**与**守护模式（Daemon）**下业务代码执行环境的**绝对一致性**！绝不能为了盲从标准而砸碎数万开发者的饭碗。
+
+---
+
+#### 🛡️ 深度透视 3：Workerman 源码级“防漂移架构（Anti-Drifting Architecture）”深度解剖
+
+既然 Workerman 放弃了在底层粗暴调用 `chdir('/')`，这就带来了一个极其严峻的工程挑战：
+> **如果运维在各种不同的路径下随心所欲敲命令，或者有第三方扩展在运行期偷偷调用了 `chdir()`，Workerman 自己的核心资产（PID 进程管理锁、主从日志文件、标准输出流重定向）如何确保 100% 绝对不走样、不丢失、不写偏？**
+
+这就是 Workerman 源码中令人拍案叫绝的 **“防漂移三道核心防线”**！
+
+```mermaid
+flowchart TD
+    subgraph S1 ["1. 启动入口锚定（The Absolute Anchor）"]
+        A["debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)"] --> B["end($backtrace)['file']"]
+        B --> C["锁定物理绝对路径 static::$startFile (如 /var/www/project/start.php)"]
+        C --> D["锁定世界坐标系原点 $startFileDir (如 /var/www/project)"]
+    end
+
+    subgraph S2 ["2. PID 锁死与 CLI 制导闭环（Prevent Ghost Master）"]
+        D --> E["$pidFile = sprintf('%s/workerman.%s.pid', $startFileDir, ...)"]
+        E --> F["Master 启动：独占锁定写入 PID"]
+        E --> G["CLI (stop/reload/status)：以相同算法精准命中同一物理文件"]
+    end
+
+    subgraph S3 ["3. 日志与标准输出防丢（Log Truncation & Stdout Redirect）"]
+        D --> H["$logFile = sprintf('%s/workerman.log', $startFileDir)"]
+        H --> I["Worker::log 滚动截断：rename($newFile, static::$logFile) 精准原子替换"]
+        J["Worker::$stdoutFile = '/dev/null' 或显式绝对路径"] --> K["Worker::resetStd() 重定向标准输出，彻底剥离终端"]
+    end
+```
+
+---
+
+##### 🎯 防线一：入口文件的“时空原点锚定” —— `debug_backtrace` 绝技
+
+- **源码出处**：[`Worker.php` 第 755~760 行 (`Worker::init`)](file:///d:/Workerman/workerman-source/src/Worker.php#L755-L760)
+```php
+// Start file.
+$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+static::$startFile = static::$startFile ?: end($backtrace)['file'];
+$startFilePrefix = basename(static::$startFile);
+$startFileDir = dirname(static::$startFile);
+```
+
+- **显微镜级逐行机制拆解**：
+  1. **为什么不用 `$argv[0]`？**
+     - 场景测试：如果运维站在 `/home/ubuntu` 目录下敲命令：
+       ```bash
+       cd /home/ubuntu
+       php /var/www/project/start.php start -d
+       ```
+     - 或者更离谱的相对路径命令：
+       ```bash
+       cd /var/log
+       php ../www/project/start.php start -d
+       ```
+     - 在这种情况下，`$argv[0]` 是有毒的！它可能只是 `../www/project/start.php`。一旦进程启动后目录发生变化，相对路径立刻失效；如果是通过 PATH 环境变量或全局软链接执行，`$argv[0]` 甚至只包含符号链接名！
+  2. **为什么不用 `$_SERVER['SCRIPT_FILENAME']`？**
+     - 在 CLI 模式、Swoole/FPM 混合嵌入环境，或者某些特定的 PHP 编译参数下，`$_SERVER['SCRIPT_FILENAME']` 可能会被上层调用者污染或篡改，行为不可靠。
+  3. **Workerman 祖师爷的绝技：`debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)`**
+     - `debug_backtrace()` 获取整个 PHP 脚本从启动以来的调用栈。
+     - `end($backtrace)['file']` 提取调用栈**最深、最底层的第一个入口文件**！
+     - 这是 PHP 解释器内核（Zend Engine）在最开始编译装载文件时赋予的**真实物理绝对路径（Canonical Absolute Path）**！
+     - 无论运维站在 `/root`、`/tmp` 还是宇宙尽头敲命令，`end($backtrace)['file']` **必定 100% 绝对解析出 `/var/www/project/start.php`**！
+     - `dirname(static::$startFile)` 瞬间提取出 `$startFileDir`（`/var/www/project`）。
+     - **从此，Workerman 拥有了一个绝对不可动摇的“世界坐标系原点”！**
+
+---
+
+##### 🎯 防线二：PID 文件的“发射与制导闭环” —— 彻底杜绝幽灵进程与端口冲突
+
+- **源码出处**：
+  - 初始化锁死：[`Worker.php` 第 770~772 行](file:///d:/Workerman/workerman-source/src/Worker.php#L770-L772)
+    ```php
+    // Pid file.
+    static::$pidFile = static::$pidFile ?: sprintf('%s/workerman.%s.pid', $startFileDir, $startFilePrefix);
+    ```
+  - CLI 控制命令读取：[`Worker.php` 第 1146 行 (`Worker::parseCommand`)](file:///d:/Workerman/workerman-source/src/Worker.php#L1146)
+    ```php
+    $masterPid = is_file(static::$pidFile) ? (int)file_get_contents(static::$pidFile) : 0;
+    ```
+  - Master 保存自身 PID：[`Worker.php` 第 1544 行 (`Worker::saveMasterPid`)](file:///d:/Workerman/workerman-source/src/Worker.php#L1544)
+    ```php
+    if (false === file_put_contents(static::$pidFile, static::$masterPid)) {
+        throw new RuntimeException('can not save pid to ' . static::$pidFile);
+    }
+    ```
+
+- **惨案推导：如果 PID 路径发生漂移会怎样？**
+  - 假想 Workerman 使用普通的相对路径 `static::$pidFile = 'workerman.pid'`：
+    1. 运维在 `/root` 下启动了服务：`php /var/www/project/start.php start -d`
+       - 此时进程立足点在 `/root`，PID 文件被悄悄写到了 `/root/workerman.pid`，里面记录 Master PID = 10001。
+    2. 下午项目发布，CI/CD 自动化部署脚本进入项目目录准备热重启：
+       - `cd /var/www/project && php start.php reload`
+       - 此时命令行的 cwd 是 `/var/www/project`，Workerman 按照相对路径去找 `/var/www/project/workerman.pid`！
+       - 结果：**文件不存在！** 终端直接冰冷地输出：
+         ```text
+         Workerman[start.php] not run
+         ```
+       - 部署脚本以为服务没在跑，立刻执行 `start -d`！
+       - 新 Master 进程尝试启动并监听端口，当场暴毙：
+         ```text
+         Fatal error: Uncaught Exception: stream_socket_server(): Unable to bind to ... Address already in use
+         ```
+       - 而后台原来的 10001 进程因为 PID 文件失联，无法用 `php start.php stop` 杀死，彻底变成了游荡在内存中的**“孤儿幽灵进程（Ghost Process）”**！
+  - **Workerman 的防漂移设计**：
+    - 因为在 `Worker::init()` 中，`$pidFile` 在第一秒就由绝对基准目录 `$startFileDir` 拼接完成（`/var/www/project/workerman.start.php.pid`）。
+    - 启动时写入的是这个绝对路径；
+    - 执行 `stop` / `reload` / `status` 时，即使你在根目录 `/` 下执行 `php /var/www/project/start.php stop`，CLI 脚本算出来的 PID 文件绝对路径和 Master 当初写下的完全分毫不差！
+    - **启动者与管理者通过绝对路径锁定了同一个物理抽屉，信号制导 100% 命中！**
+
+---
+
+##### 🎯 防线三：日志文件（Log）与标准输出（Stdout）的“防丢”与“轮转原子性”
+
+- **源码出处**：
+  - 日志绝对路径锁定：[`Worker.php` 第 778~788 行 (`Worker::init`)](file:///d:/Workerman/workerman-source/src/Worker.php#L778-L788)
+    ```php
+    // Log file.
+    static::$logFile = static::$logFile ?: sprintf('%s/workerman.log', $startFileDir);
+
+    if (static::$logFile !== '/dev/null' && !is_file(static::$logFile) && !str_contains(static::$logFile, '://')) {
+        // if /runtime/logs default folder not exists
+        if (!is_dir(dirname(static::$logFile))) {
+            mkdir(dirname(static::$logFile), 0777, true);
+        }
+        touch(static::$logFile);
+        chmod(static::$logFile, 0644);
+    }
+    ```
+  - 日志写入与滚动截断防漂移：[`Worker.php` 第 2391~2434 行 (`Worker::log`)](file:///d:/Workerman/workerman-source/src/Worker.php#L2391-L2434)
+    ```php
+    file_put_contents(static::$logFile, sprintf("%s pid:%d %s\n", date('Y-m-d H:i:s'), $pid, $msg), FILE_APPEND | LOCK_EX);
+
+    // 超过 10MB 自动轮转截断
+    if (!empty(static::$logFileMaxSize) && ($fileSize = filesize(static::$logFile)) > static::$logFileMaxSize) {
+        // ...
+        $newFile = static::$logFile . '.tmp';
+        $destination = fopen($newFile, 'w');
+        // ... 拷贝后半截日志到 $newFile ...
+        rename($newFile, static::$logFile);
+        // ...
+    }
+    ```
+  - 标准输出重定向彻底脱钩：[`Worker.php` 第 1519~1530 行 (`Worker::resetStd`)](file:///d:/Workerman/workerman-source/src/Worker.php#L1519-L1530)
+    ```php
+    $stdOutStream = fopen(static::$stdoutFile, 'a');
+    ```
+
+- **机制深度透视**：
+  1. **防止日志写丢**：
+     - 在常驻内存的多进程程序中，难免引入各种第三方 Composer 扩展包（比如某些图像处理库、PDF 生成库、加密库）。这些底层包在执行系统调用时，经常会在内部调用 `chdir('/tmp')` 来处理临时文件。
+     - 如果 `static::$logFile` 是相对路径 `'workerman.log'`：
+       - 当第三方库执行了 `chdir('/tmp')` 后，Worker 进程产生的日志瞬间被写到了 `/tmp/workerman.log`！
+       - 开发者查看项目目录下的 `workerman.log`，发现日志戛然而止，以为进程卡死了，实际上日志完全“写丢”到了 `/tmp`！
+  2. **日志轮转（Log Rotation）的原子替换防漂移**：
+     - Workerman 内置了单文件最大 10MB（`$logFileMaxSize = 10_485_760`）的自动平滑截断保护，防止磁盘被日志撑爆。
+     - 当日志超过 10MB 时，Workerman 将后半部分写入临时文件 `$newFile = static::$logFile . '.tmp'`，最后调用 `rename($newFile, static::$logFile)` 实现原子替换。
+     - **如果这两个路径是相对路径**，一旦在读写期间进程的 cwd 发生了瞬时改变，`rename()` 将找不到源文件或把日志移动到错误的目标目录，导致宝贵的高并发生产排障日志彻底丢失！
+     - 正因为在 `Worker::init()` 阶段，`static::$logFile` 已经被死死锁为 `/var/www/project/workerman.log`，底层 VFS 系统调用无论何时执行 `rename()`，都拥有绝对不变的物理目标！
+
+---
+
+#### 🏛️ 深度透视 4：架构师的高阶修养 —— 生产环境如何真正实现“运行时与挂载点脱钩”？
+
+现在你已经掌握了全貌：
+1. **标准 Unix 守护进程**：为了防止挂载盘 `EBUSY` 无法卸载，要求必须 `chdir('/')`；
+2. **Workerman 框架权衡**：为了保护业务代码中的相对路径不崩塌，没有强加 `chdir('/')`，而是采用 `debug_backtrace` 锁死绝对路径的**防漂移架构**。
+
+那么，作为一名资深的架构师，在极严苛的金融级、电信级生产环境中，**如果我们既要让 Workerman 享受绝对路径的安全，又要彻底解除对项目所在数据磁盘的挂载占用，达到标准 Unix 守护进程的最高修养，应该怎么做？**
+
+Workerman 在源码设计中早就给架构师留出了优雅的高级配置接口！
+
+##### 👉 生产级架构标准配置：显式脱钩到系统根分区
+在你的服务入口脚本（`start.php`）中，**在调用 `Worker::runAll()` 之前**，显式配置绝对系统目录：
+
+```php
+use Workerman\Worker;
+
+// 1. 将 PID 文件挂载到 Linux 根分区的专用运行时内存文件系统 (tmpfs)
+// 机器重启自动清理，且完全脱离业务项目所在磁盘
+Worker::$pidFile = '/var/run/my_cluster_worker.pid';
+
+// 2. 将框架日志存放在系统专用的日志目录 /var/log 中
+Worker::$logFile = '/var/log/my_cluster_worker.log';
+
+// 3. 将标准输出重定向到系统黑洞或专用输出日志
+Worker::$stdoutFile = '/dev/null'; // 或 '/var/log/my_cluster_stdout.log';
+
+// 4. 【铁律】在所有业务代码中，杜绝一切裸露的相对路径！
+// ❌ 危险写法（随 cwd 漂移）：require './config.php';
+// ✅ 安全写法（编译期绝对路径）：require __DIR__ . '/config.php';
+
+Worker::runAll();
+```
+
+通过这一套组合拳：
+- **PID 锁在 `/var/run/`**，系统命令随时精准寻址；
+- **日志写在 `/var/log/`**，自带 logrotate 运维集成；
+- **业务代码全部使用 `__DIR__` 锁定绝对物理位置**；
+- 哪怕未来你将整个服务放在独立云盘 `/data/myproject` 下，并在启动后执行了 `chdir('/')`，系统也绝不会丢失任何文件或阻碍任何磁盘卸载！这才是 Linux 系统编程与 Workerman 源码融会贯通后的最高境界！
+
+---
 
 ---
 

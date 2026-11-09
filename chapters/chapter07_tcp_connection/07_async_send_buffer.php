@@ -114,14 +114,18 @@ class TcpConnection {
         if ($this->onMessage) ($this->onMessage)($this, $data);
     }
 
+    public function getSendBufferSize(): int {
+        return strlen($this->sendBuffer);
+    }
+
     /**
      * 🌟 工业级 send 方法：永不丢包！
      */
-    public function send(string $data): void {
+    public function send(string $data): bool|null {
         // 如果之前已经有积压在排队了，新来的数据绝不能插队，必须追加在尾巴上！
         if ($this->sendBuffer !== '') {
             $this->sendBuffer .= $data;
-            return;
+            return null;
         }
 
         // 尝试直接往内核写一次
@@ -132,7 +136,7 @@ class TcpConnection {
 
         // 如果一次性写完了，圆满成功！
         if ($len === strlen($data)) {
-            return;
+            return true;
         }
 
         // 💥 没写完！剩下的尾巴存入应用层发送缓冲区！
@@ -141,6 +145,7 @@ class TcpConnection {
 
         // 🌟 告诉事件循环：一旦内核池子腾出空位，立刻调我的 baseWrite 接着倒水！
         $this->loop->addWrite($this->socket, [$this, 'baseWrite']);
+        return null;
     }
 
     /**
