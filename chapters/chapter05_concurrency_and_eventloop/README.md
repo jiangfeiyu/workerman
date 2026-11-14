@@ -16,6 +16,8 @@
   - **内层循环**：`while (true)` 调用 `fread($conn)`，专职服务员陪这个客人一直聊，直到客人挂断电话（`fread` 返回空或 `false`），再退出内层回到外层接下一位。
 
 - **🧪 实验代码（[`01_naive_multiclient.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/01_naive_multiclient.php)）**：
+
+![5.1 双层循环与串行长连接](5.1_双层循环与串行长连接.png)
   ```php
   <?php
   // 关卡 5.1 【笨办法演进】：为了能持续接待客人，我们在 accept 里再套一层 while(true)
@@ -44,6 +46,9 @@
 ---
 
 ### 💥 关卡 5.2：撞墙大车祸！两个终端（客人 A 与客人 B）同时连入
+
+![5.2 A不退出B得不到回复的阻塞现场](5.2_A不退出B得不到回复的阻塞现场.png)
+![5.3 strace定位阻塞读取](5.3_strace定位阻塞读取.png)
 - **实验场景设计**：
   1. 客人 A 连入服务器，发送了一句 `"你好"`，然后**保持连接，不去挂断**（就像客人进包厢坐下了，喝茶看菜单，暂时不说话）。
   2. 此时客人 B 急冲冲跑来连入服务器，疯狂喊叫：`"有人吗？救命！"`。
@@ -62,6 +67,13 @@
   【收到客人消息】: 有人吗？救命！
   服务端回复: 有人吗？救命！
   ```
+
+> [!TIP]
+> **【👉 本关亲手实操任务（第一幕：5.1 ~ 5.3 亲历阻塞车祸）】**
+> - **终端 1（服务端）**：`wsl php chapters/chapter05_concurrency_and_eventloop/01_naive_multiclient.php`
+> - **终端 2（客人 A）**：`wsl nc 127.0.0.1 8080`，输入 `你好` 回车后保持连接不退出。
+> - **终端 3（客人 B）**：`wsl nc 127.0.0.1 8080`，输入 `有人吗` 回车。
+> - **观察靶标**：终端 3 死活收不到回复！接着用 `wsl strace -p 服务端PID` 偷看，亲眼看到进程死死卡在 `read(5, ...)` 上！回到终端 2 按 `Ctrl+C` 退出后，终端 3 才瞬间拿到回复。
 
 ---
 
@@ -84,6 +96,9 @@
 ---
 
 ### 🧪 关卡 5.4 & 5.5：自救演进 v0.8 —— 非阻塞 I/O + 接线员花名册！
+
+![5.4 stream_set_blocking开启非阻塞](5.4_stream_set_blocking开启非阻塞.png)
+![5.5 连接花名册与轮询](5.5_连接花名册与轮询.png)
 要实现你所说的“如果 A 没说话就去接 B”，必须让 Linux 内核遵守一条新军规：
 **“管子里要是现在没水，你别让我睡觉，立刻给我返回 `false`（底层 `EAGAIN`），让我去干别的事！”**
 在 PHP 中，这就是：
@@ -129,6 +144,8 @@ while (true) {
 ---
 
 ### 💥 关卡 5.6：乐极生悲！CPU 100% 惨案现场
+
+![5.6 忙轮询与CPU空转](5.6_忙轮询与CPU空转.png)
 表面上看，上面的代码极其漂亮：客人 A 和客人 B 即使同时连入，也能互不干扰、丝滑聊天！
 但我们立刻用 `top` 命令给运行中的进程做了一次性能体检：
 
@@ -149,12 +166,20 @@ while (true) {
 
 CPU 的运算核心每秒几十亿次时钟周期，全被浪费在这种毫无意义的空转询问上！
 
+> [!TIP]
+> **【👉 本关亲手实操任务（第二幕：5.4 ~ 5.6 见证 CPU 100%））】**
+> - **终端 1**：`wsl php chapters/chapter05_concurrency_and_eventloop/02_nonblocking_polling.php`
+> - **终端 2**：运行 `wsl top -p $(pgrep -f 02_nonblocking_polling)`（或 `wsl top`）
+> - **观察靶标**：即使没有任何客户端连入，该 `php` 进程状态依然是 **`R`** 且 **`%CPU` 狂飙接近 `100.0`**！观察完后记得在终端 1 按 `Ctrl+C` 及时关闭免得风扇狂转。
+
 
 ---
 
 ## 🟢 第三幕（关卡 5.7 ~ 5.9）：请内核保安盯梢 —— I/O 多路复用诞生与 `stream_select` 涂改液陷阱
 
 ### 💬 师徒苏格拉底对话录 3：从累吐血的忙轮询到委托内核保安
+
+![5.7 IO多路复用与内核等待](5.7_IO多路复用与内核等待.png)
 - **🤔 导师提问**：
   > 1. “如果接线员把手里这堆号码牌 `[3, 4, 5]` 打包成一张名单递给内核保安，接线员会对保安提什么要求？在什么情况下保安才把接线员叫醒？”
   > 2. “在没有任何人说话的那几秒钟里，我们的接线员在干什么？CPU 占用率会变成多少？”
@@ -171,6 +196,8 @@ CPU 的运算核心每秒几十亿次时钟周期，全被浪费在这种毫无�
 ---
 
 ### 🧪 关卡 5.8：实战验证 `stream_select()` 的神仙效果（[`03_stream_select_demo.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/03_stream_select_demo.php)）
+
+![5.8 stream_select就绪名单](5.8_stream_select就绪名单.png)
 ```php
 <?php
 $server = stream_socket_server("tcp://0.0.0.0:8080");
@@ -200,6 +227,9 @@ echo "【接线员】被保安拍醒了！有动静的通道数量: $num\n";
 ---
 
 ### 💥 关卡 5.9：内功细节大撞墙 —— 消失的 3 号大门！
+
+![5.9 stream_select修改数组的陷阱](5.9_stream_select修改数组的陷阱.png)
+
 既然 `stream_select` 这么神，我们马上准备把它应用到多个连接上。
 但很多初学者在这里会撞上一堵诡异的高墙（[`04_select_reference_trap.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/04_select_reference_trap.php)）：
 接线员手里明明有 2 个 Socket：`3号迎宾员`（监听端口）和 `4号专职通道`（客人 A）。
@@ -218,6 +248,11 @@ echo "【接线员】被保安拍醒了！有动静的通道数量: $num\n";
 **😱 灵异事件发生了**：
 原本名单里的 **5 号大门迎宾员凭空蒸发了！**
 如果直接把这个 `$read` 带入下一次循环，大门口将彻底失联，任何新客人都再也进不来了！
+
+> [!TIP]
+> **【👉 本关亲手实操任务（第三幕：5.7 ~ 5.9）】**
+> - **实验 1（0% CPU 等待）**：终端 1 跑 `wsl php chapters/chapter05_concurrency_and_eventloop/03_stream_select_demo.php`，终端 2 用 `wsl ps aux | grep php` 看其状态稳稳处于 **`S+` 且 `%CPU = 0.0`**，随后用 `wsl nc 127.0.0.1 8080` 连入，亲眼看它毫秒唤醒！
+> - **实验 2（涂改液陷阱）**：终端 1 跑 `wsl php chapters/chapter05_concurrency_and_eventloop/04_select_reference_trap.php`，终端 2 用 `nc` 连入发一句话，亲眼看到 `$read` 数组里原本的监听句柄被抹掉了！
 
 
 ---
@@ -239,6 +274,9 @@ echo "【接线员】被保安拍醒了！有动静的通道数量: $num\n";
 ---
 
 ### 🧪 关卡 5.10：招式演进 v0.9 —— 正式把 `stream_select` 封装进 `Worker::run()`！
+
+![5.10 总名单与Worker事件分发](5.10_总名单与Worker事件分发.png)
+![5.10 补充 可写监听与发送缓冲](5.10_补充_可写监听与发送缓冲.png)
 
 - **🤔 演进背景与架构动机**：
   在第 4 章中，我们实现的 `Worker` 类（`03_worker_with_onmessage.php`）虽然有了 `$onMessage` 业务回调，但它内部仍然是单连接阻塞模型（每次只能陪 1 个客人聊到底，第 2 个客人直接被晾在门外）。
@@ -506,6 +544,9 @@ while (true) {
 
 ### 💬 师徒苏格拉底对话录 5：破案 TCP 断开与“挂断抹除”
 
+![5.11 EOF可读与空消息风暴](5.11_EOF可读与空消息风暴.png)
+![5.11 补充 空字符串不一定是断线](5.11_补充_空字符串不一定是断线.png)
+
 - **🤔 导师提问**：
   > 1. “客人按下 `Ctrl+C` 挂电话离开时，明明没有说任何新话，为什么 Linux 内核还会认为这个 Socket‘有动静（可读事件就绪）’并唤醒我们？”
   > 2. “接线员此时用 `fread` 读出来的结果是什么？必须对这个 Socket 和原始总电话本执行什么操作，才能彻底平息风暴？”
@@ -616,6 +657,9 @@ foreach ($read as $socket) {
 ## 🟢 第五幕（关卡 5.12 ~ 5.14）：终极解耦 —— 铸造事件循环引擎 `SelectLoop` 与 Workerman 源码印证！
 
 ### 🏛️ 关卡 5.12 & 5.13：架构解耦 —— 手写独立事件循环引擎 `SelectLoop`！
+
+![5.12 抽离事件循环与职责分离](5.12_抽离事件循环与职责分离.png)
+![5.13 SelectLoop注册注销与分发](5.13_SelectLoop注册注销与分发.png)
 在第 3 章中，我们把“具体业务”从框架中抽离了出去。
 现在，我们再把**“替我盯梢哪些 FD、哪个 FD 亮灯就调哪个函数”**的繁重苦力活，从 `Worker` 中剥离出来，抽成独立的事件循环发动机 —— **`SelectLoop`**（见 [`07_select_loop.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/07_select_loop.php)）！
 
@@ -704,9 +748,17 @@ class Worker {
 ```
 **并发共存、长短连接、挂断回收，全部丝滑运转！**
 
+> [!TIP]
+> **【👉 本关亲手实操任务（第五幕：5.12 ~ 5.13 `SelectLoop` 引擎实战）】**
+> - **终端 1（服务端）**：`wsl php chapters/chapter05_concurrency_and_eventloop/07_select_loop.php`
+> - **终端 2 & 3（两个并发客户端）**：分别运行 `wsl nc 127.0.0.1 8080`，交替发消息并用 `Ctrl+C` 关闭其中一个客户端。
+> - **观察靶标**：终端 1 打印出完整的挂断注销与 `onClose` 业务通知，另一位客户端完全不受影响，CPU 保持 `0.0%`。
+
 ---
 
 ### 📖 关卡 5.14：Workerman 官方源码真迹对照印证！
+
+![5.14 手写SelectLoop与官方Select对应](5.14_手写SelectLoop与官方Select对应.png)
 
 请打开 Workerman 官方源码文件：[`d:/Workerman/workerman-source/src/Events/Select.php`](file:///d:/Workerman/workerman-source/src/Events/Select.php)！
 
@@ -779,6 +831,9 @@ while ($this->running) {
 ---
 
 ### 🪜 铺垫台阶：不用任何面向对象，先用 2 个普通数组消灭一切 `if-else`！
+
+![5.12 补充 数组存函数与查表执行](5.12_补充_数组存函数与查表执行.png)
+![5.13 补充 普通函数到对象方法回调](5.13_补充_普通函数到对象方法回调.png)
 在把代码抽象成类之前，我们先写一个最纯粹的中间态（见 [`09_step_by_step_callbacks.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/09_step_by_step_callbacks.php)）：
 本质上，每一个 Socket 无非都需要**绑定一个它专属的回调函数**！
 我们只需要在外面准备两个普通的关联数组：
@@ -823,6 +878,8 @@ while (true) {
 ---
 
 ### 🌊 隐藏内功 1：水平触发（Level-Triggered, LT）的本质实测！
+
+![5.15 补充 水平触发与未读数据](5.15_补充_水平触发与未读数据.png)
 - **🤔 祖师爷的困境**：
   如果客户端一次性发送了 6 个字节 `"ABCDEF"`，但我们的服务端每次调用 `fread($conn, 2)` **极其抠门，故意只读 2 个字节**，内核保安会怎么办？
 - **🧪 实验验证（[`08_level_triggered_demo.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/08_level_triggered_demo.php)）**：
@@ -840,6 +897,8 @@ while (true) {
 ---
 
 ### ⛓️ 隐藏内功 2：1024 诅咒 —— 为什么 Workerman 会报 1024 告警？
+
+![5.9 补充 select限制与ulimit的区别](5.9_补充_select限制与ulimit的区别.png)
 翻看 `workerman-source/src/Events/Select.php` 第 200 行：
 ```php
 if (count($this->readFds) >= 1024) {
@@ -872,21 +931,32 @@ if (count($this->readFds) >= 1024) {
 ---
 
 ### ⏱️ 隐藏内功 4：超时参数（Timeout）的三种神态
+
+![5.8 补充 select超时的三种模式](5.8_补充_select超时的三种模式.png)
 `stream_select($read, $write, $except, $tv_sec, $tv_usec)` 的最后两个参数是控制时间的：
 1. **`null`**：**永久休眠**。没有任何动静就一直睡，CPU 占用率 0.0%，靠网络中断唤醒；
 2. **`0`**：**毫秒不睡，瞬间返回**。变成了非阻塞探测（忙轮询模式）；
 3. **`> 0`（如 1 秒）**：**限时打盹**。如果在 1 秒内有人说话，立刻提前醒来；如果整整 1 秒都没人理你，1 秒钟一到保安也会把你叫醒！
    > 🌟 **为第 6 章埋下惊天伏笔**：这正是我们不需要 `sleep()` 也能实现**高精度非阻塞定时器（Timer）**的绝对核心原理！
 
+> [!TIP]
+> **【👉 本关亲手实操任务（第六幕：查表派发与水平触发实测）】**
+> - **实验 A（2 个普通数组平缓过渡）**：终端 1 运行 `wsl php chapters/chapter05_concurrency_and_eventloop/09_step_by_step_callbacks.php`，终端 2 用 `nc 127.0.0.1 8080` 验证无需 `class` 也能消灭 `if-else`。
+> - **实验 B（亲眼见证水平触发 LT）**：运行 `wsl php chapters/chapter05_concurrency_and_eventloop/08_level_triggered_demo.php`（自发 `"ABCDEF"` 每次故意只 `fread` 2 字节），观察 `stream_select` 如何连续 3 次毫不犹豫地唤醒你直到把 6 字节掏空！
+
 
 ---
 
 ## 🟢 第七幕（重中之重）：大白话拆解“门铃与岗位卡” —— 彻底理清事件派发机制
 
+![5.12 补充 门铃表与岗位卡](5.12_补充_门铃表与岗位卡.png)
+
 ### 💡 核心痛点诊断：为什么上一节的闭包嵌套代码让人头皮发麻？
 在上一节的过渡代码中，我们把闭包（匿名函数）嵌套在了另一个闭包内部，还带着一堆晦涩的 `use (&$readFds, &$callbacks, $fd)` 变量引用。这种写法在视觉上极易让人迷失时间线和数据流！
 
-为了让你 100% 毫无门槛地看透本质，我们在 [`11_hotel_reception_stepped.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/11_hotel_reception_stepped.php) 中彻底消灭了所有闭包嵌套，换成**两个完全独立的、有名字的普通函数**！
+在正式开启网络版前，你也可以先运行极简纯函数演示 [`10_gentle_dispatch_table.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/10_gentle_dispatch_table.php)（只用数组下标把函数名挂在“钩子”上查表执行，彻底看懂派发字典的本质）。
+
+然后为了让你 100% 毫无门槛地看透真实网络模型，我们在 [`11_hotel_reception_stepped.php`](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/11_hotel_reception_stepped.php) 中彻底消灭了所有闭包嵌套，换成**两个完全独立的、有名字的普通函数**！
 
 ---
 
@@ -955,6 +1025,11 @@ while (true) {
     }
 }
 ```
+
+> [!TIP]
+> **【👉 本关亲手实操任务（第七幕：门铃表与岗位卡实操）】**
+> 1. **先跑零网络纯数组版**：`wsl php chapters/chapter05_concurrency_and_eventloop/10_gentle_dispatch_table.php`，彻底看清“函数装进数组再按 key 查表调用”的魔术。
+> 2. **再跑饭店前台版**：终端 1 运行 `wsl php chapters/chapter05_concurrency_and_eventloop/11_hotel_reception_stepped.php`，终端 2 用 `nc 127.0.0.1 8080` 连入发消息，对照终端 1 打印的门铃与岗位卡轨迹！
 
 ---
 
@@ -1234,3 +1309,10 @@ flowchart TD
 ---
 
 让我们带着在第 5 章铸就的坚不可摧的 `SelectLoop` 事件循环内功，昂首挺胸，大步迈入 **第 6 章：时间的魔术 —— 定时器 Timer 与最小堆**！
+
+---
+
+## 🗂️ 本章 Anki 闪卡复习沉淀
+
+本章核心知识点（阻塞 vs 非阻塞 `EAGAIN`、忙轮询 CPU 100%、`stream_select` 引用篡改、`EOF` 与水平触发空消息风暴、派发字典 `DispatchTable`、1024 `FD_SETSIZE` 诅咒、可写监听忌讳、`SelectLoop` 与官方 `Select.php` 对照）已全部沉淀至总库：[workerman_anki_cards.txt](file:///d:/Workerman/anki/workerman_anki_cards.txt)。
+- 导入 Anki 后搜索 **`tag:Chapter05`** 即可抽取本章全部 **13 张** 高密度问答卡！

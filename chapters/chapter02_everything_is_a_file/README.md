@@ -14,6 +14,9 @@ write(1, "Hello Linux!\n", 13) = 13
 当时我们心中升起了一个巨大的问号：**我们在代码里根本没有调用 `fopen` 打开任何文件，为什么 `write` 的第一个参数是数字 `1`？这个 `1` 是从哪冒出来的？为什么往 `1` 里面写字，黑窗口屏幕就会亮起像素？**
 
 ### 🧪 4 行代码钻进进程肚子里探秘（[`01_born_with_three_fds.php`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/01_born_with_three_fds.php)）
+
+![2.1 标准输入输出错误与FD](2.1_标准输入输出错误与FD.png)
+
 让 PHP 自己去扫描自己的 `/proc/PID/fd` 文件夹（`fd` 是 File Descriptor 文件描述符的缩写）：
 ```php
 <?php
@@ -24,10 +27,14 @@ foreach (scandir("/proc/$pid/fd") as $fd) {
     }
 }
 ```
-#### 👉 你可以亲自在终端运行的命令：
-```powershell
-wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/01_born_with_three_fds.php
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第一幕：2.1）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/01_born_with_three_fds.php
+>   ```
+> - **观察靶标**：即使一行 `fopen` 都没写，进程生来也自带 `FD [0]`、`FD [1]`、`FD [2]`，全指向当前终端 `/dev/pts/x`。
+> - **对比实验**：在命令后面加上管道重定向 `| cat`，再跑一次看 `FD [1]` 是不是立刻从 `/dev/pts/x` 变成了 `pipe:[xxxx]`！
 #### 终端真实输出：
 ```text
 肚子里自带的 FD [0] ---> 指向: /dev/pts/0
@@ -56,16 +63,22 @@ wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/01_born_with_th
   - 祖师爷把管子分开：**`>` 重定向符默认只把 `1` 号管子（正常输出）导入 `bill.txt`；而 `2` 号管子（报错信息）依然留在屏幕上！** 这样导出的账单干干净净，报错信息也绝不会漏掉！
 
 ### 🧪 实验验证（[`02_stdout_vs_stderr.php`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/02_stdout_vs_stderr.php)）
+
+![2.2 STDOUT与STDERR分流](2.2_STDOUT与STDERR分流.png)
+
 ```php
 <?php
 fwrite(STDOUT, "账单数据: 充值 +100 元\n"); // 往 1 号管子写
 fwrite(STDERR, "⚠️ 警告: 数据库连接稍有波动，请注意！\n"); // 往 2 号管子写
 ```
-#### 👉 你可以亲自在终端运行的命令：
-```powershell
-wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/02_stdout_vs_stderr.php > d:\Workerman\chapters\chapter02_everything_is_a_file\bill.txt
-Get-Content d:\Workerman\chapters\chapter02_everything_is_a_file\bill.txt
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第二幕：2.2 ~ 2.3）】**
+> - **终端命令（测试 `1` 号与 `2` 号管子分流）**：
+>   ```powershell
+>   wsl bash -c "php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/02_stdout_vs_stderr.php > /tmp/bill.txt; echo '---bill.txt---'; cat /tmp/bill.txt; rm -f /tmp/bill.txt"
+>   ```
+> - **观察靶标**：警告文字直接打在屏幕上，而 `bill.txt` 里只保留干净的账单数据！
+> - **改错/对比实验**：把 `>` 改成 `2> /tmp/err.txt`，观察报错信息被单独装走、账单直接打印在屏幕上！
 #### 终端真实输出：
 1. 终端屏幕上立即显示：`⚠️ 警告: 数据库连接稍有波动，请注意！`（2 号管子直奔屏幕！）
 2. 查看 `bill.txt` 内容，只有干净的：`账单数据: 充值 +100 元`（1 号管子被分流进文件！）
@@ -73,6 +86,10 @@ Get-Content d:\Workerman\chapters\chapter02_everything_is_a_file\bill.txt
 ---
 
 ### 🧪 关卡 2.3 【内功黑客魔术】：终端只是个文件，隔空往进程的 1 号管子倒水！（[`01b_ghost_terminal.php`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/01b_ghost_terminal.php)）
+
+![2.3 dev pts终端设备](2.3_dev_pts终端设备.png)
+![2.3 补充 proc_fd跨进程写入](2.3_补充_proc_fd跨进程写入.png)
+
 既然在 Linux 眼里，屏幕也只是一个文件（比如 `/dev/pts/0`），那我能不能从另一个进程，直接往这个进程的 `/proc/PID/fd/1` 塞一句话？
 ```php
 <?php
@@ -82,10 +99,13 @@ echo "我马上闭嘴睡觉 2 秒钟（不执行任何 echo）...\n";
 sleep(2);
 echo "\n我是进程 A，我醒了！刚才屏幕上是不是凭空冒出了字？\n";
 ```
-#### 👉 你可以亲自在终端运行的命令：
-```powershell
-wsl bash -c 'php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/01b_ghost_terminal.php & pid=$!; sleep 0.5; echo "👻 [来自外部进程的幽灵输入]：我直接把数据倒进了你的 1 号管子！" > /proc/$pid/fd/1; wait'
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（关卡 2.3 跨进程写入）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl bash -c 'php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/01b_ghost_terminal.php & pid=$!; sleep 0.5; echo "👻 [来自外部进程的幽灵输入]：我直接把数据倒进了你的 1 号管子！" > /proc/$pid/fd/1; wait'
+>   ```
+> - **观察靶标**：进程 A 明明在 `sleep(2)`，屏幕却在它沉睡期间凭空吐出了外部进程塞进来的幽灵文字！
 #### 终端真实输出：
 ```text
 我是进程 A (PID: 444)！
@@ -115,10 +135,17 @@ wsl bash -c 'php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/01b_gh
   - 当你 `fclose($f1)` 时，`3` 号位置瞬间空出；下次 `fopen` 时，内核一眼相中 `3` 号，于是 `c.txt` 抢占了 `3` 号！
 
 ### 🧪 实验验证（[`03_lowest_fd_reuse.php`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/03_lowest_fd_reuse.php)）
-```powershell
-wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/03_lowest_fd_reuse.php
-```
-验证结果与你的推导完全吻合！
+
+![2.4 fopen与文件描述符表](2.4_fopen与文件描述符表.png)
+![2.5 最小可用FD与号码复用](2.5_最小可用FD与号码复用.png)
+
+> [!TIP]
+> **【👉 本关亲手实操任务（第三幕：2.4 ~ 2.5）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/03_lowest_fd_reuse.php
+>   ```
+> - **观察靶标**：第 1、2 个文件分到 `3`、`4`；关掉第 1 个（腾出 `3`）后，第 3 个文件精准抢占复用了 `3` 号槽位！
 
 ---
 
@@ -133,10 +160,16 @@ ulimit -n  # 默认通常是 1024
 一旦打开第 1024 个文件，系统当场暴毙报错：**`failed to open stream: Too many open files`**！
 这也是为什么所有高并发服务器（包括 Workerman 和 Nginx）在生产部署前，第一件事就是把系统的 `ulimit -n` 调大到 100,000 以上！
 
+![2.6 FD泄漏与打开文件数上限](2.6_FD泄漏与打开文件数上限.png)
+
 ### 🧪 实验验证（[`05_fd_leak_limit.php`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/05_fd_leak_limit.php)）
-```powershell
-wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/05_fd_leak_limit.php
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第四幕：2.6）】**
+> - **终端命令（先看上限再触发撞墙）**：
+>   ```powershell
+>   wsl bash -c "ulimit -n; php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/05_fd_leak_limit.php"
+>   ```
+> - **观察靶标**：记录循环到底开到第多少个句柄时撞上 `Too many open files` 天花板（刚好比 `ulimit -n` 少掉已占用的 `0,1,2,3` 等几个初始 FD）。
 
 ---
 
@@ -155,6 +188,9 @@ wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/05_fd_leak_limi
   4. 从此以后，所有业务代码里的 `echo`，全部自动重定向流进了 `workerman.log`！
 
 ### 🧪 5 行代码见证重定向奇迹（[`04_magic_reset_std.php`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/04_magic_reset_std.php)）
+
+![2.7 resetStd输出重定向](2.7_resetStd输出重定向.png)
+
 ```php
 <?php
 fclose(STDOUT); // 1. 关掉 1 号管子
@@ -162,6 +198,14 @@ $log = fopen(__DIR__ . "/workerman.log", "w+"); // 2. 日志文件自动抢占 1
 
 echo "这句普通的 echo，没有出现在屏幕上，而是写进了 workerman.log！\n";
 ```
+> [!TIP]
+> **【👉 本关亲手实操任务（第五幕：2.7）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl bash -c "php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/04_magic_reset_std.php && echo '---查看生成的日志---' && cat /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/workerman.log"
+>   ```
+> - **观察靶标**：`echo` 的内容没有输出到屏幕，而是靠“最小可用 FD 原则”悄无声息落进了 `workerman.log`！
+> - **改错实验**：如果把 `fclose(STDOUT);` 删掉再运行，看看 `echo` 是不是马上回到了黑窗口里而不再进入日志文件！
 #### 📖 Workerman 源码真迹印证
 打开原版源码 [`Workerman/src/Worker.php` 第 1494~1525 行 (`resetStd`)](file:///d:/Workerman/workerman-source/src/Worker.php#L1494-L1525)：
 ```php
@@ -199,6 +243,10 @@ $data = fread(STDIN, 1024);
 为什么程序停在那里一动不动，既不往下走，也不报错退出？
 
 ### 🧪 实验验证（[`04b_stdin_blocking.php`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/04b_stdin_blocking.php)）
+
+![2.8 阻塞读取STDIN](2.8_阻塞读取STDIN.png)
+![2.8 补充 延迟输入与阻塞耗时测量](2.8_补充_延迟输入与阻塞耗时测量.png)
+
 ```php
 <?php
 $pid = posix_getpid();
@@ -211,10 +259,14 @@ $input = fread(STDIN, 1024);
 $cost = round(microtime(true) - $start, 3);
 echo "🎉 拿到数据: [" . trim($input) . "]，共等待阻塞了 {$cost} 秒！\n";
 ```
-#### 👉 你可以亲自在终端运行的命令：
-```powershell
-wsl bash -c '(sleep 1; echo "你好，我是键盘输入！") | php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/04b_stdin_blocking.php'
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第六幕：2.8）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl bash -c '(sleep 1; echo "你好，我是键盘输入！") | php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/04b_stdin_blocking.php'
+>   ```
+> - **观察靶标**：打印出的阻塞耗时紧贴 `1.0` 秒，证明 `fread(STDIN, 1024)` 在没水时真被内核挂起睡眠了。
+> - **交互实验**：直接裸跑 `wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/04b_stdin_blocking.php`，故意发呆 3 秒后再敲一行字按回车，看打印出的耗时是不是正好 3 秒多！
 #### 终端真实输出：
 ```text
 进程 (PID: 459) 启动，准备从 0 号管子 (STDIN) 读取数据...
@@ -243,6 +295,11 @@ Linux 内核提供了 `flock` 系统调用（PHP 对应函数 `flock($fp, $opera
 - **`LOCK_NB`（Non-blocking，非阻塞尝试）**：如果锁被人占了，我不要排队傻等，立刻返回 `false` 告诉我！
 
 ### 🧪 实验验证（[`06_flock_concurrency.php`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/06_flock_concurrency.php)）
+
+![2.9 flock文件锁与并发写入](2.9_flock文件锁与并发写入.png)
+![2.9 补充 LOCK_NB与单例启动](2.9_补充_LOCK_NB与单例启动.png)
+![2.9 补充 flock阻塞锁排队实验](2.9_补充_flock阻塞锁排队实验.png)
+
 ```php
 <?php
 // 父子进程并发写日志，用 flock(LOCK_EX) 确保不穿插
@@ -252,10 +309,13 @@ fwrite($fp, "进程 " . posix_getpid() . " 正在安全写入...\n");
 flock($fp, LOCK_UN); // 释放锁
 fclose($fp);
 ```
-#### 👉 你可以亲自在终端运行的命令：
-```powershell
-wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/06_flock_concurrency.php
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第七幕：2.9 ~ 2.10）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/06_flock_concurrency.php
+>   ```
+> - **观察靶标**：子进程在父进程持锁期间被阻塞等待了 ~0.9 秒才抢到锁写入，日志顺序绝对完整；同时第 2 次非阻塞抢锁 (`LOCK_EX | LOCK_NB`) 立刻失败退出。
 #### 终端真实输出：
 ```text
 === 1. 验证文件独占锁 flock(LOCK_EX) 的排队保护 ===
@@ -310,8 +370,19 @@ file_put_contents(static::$logFile, sprintf("%s pid:%d %s\n", date('Y-m-d H:i:s'
 
 ## 🗂️ 本章总结与内功沉淀
 
+![2.10 一切皆文件与统一IO](2.10_一切皆文件与统一IO.png)
+
 在本章中，我们彻底打通了 Linux“一切皆文件”的核心内功：
 1. **0, 1, 2 号文件描述符**：键盘(`0`)、屏幕输出(`1`)、屏幕报错(`2`)；
 2. **最小可用编号原则**：掌握了内核的号码牌复用机制，破解了 Workerman `resetStd()` 重定向黑魔法；
 3. **阻塞 I/O 的本质**：0 号文件没数据时进程睡眠（`S+` 态）；
 4. **文件锁 `flock`**：掌握了 `LOCK_EX` 排队写入与 `LOCK_NB` 单例 Master 保护机制！
+
+---
+
+## 🗂️ 本章 Anki 闪卡复习沉淀
+
+本章核心知识点已提炼为 **12 张** 深度原子问答卡：
+- 📂 **本章专属牌组**：[`anki_cards.txt`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/anki_cards.txt)
+- 🌐 **全课程汇总牌组**：[`d:/Workerman/anki/workerman_anki_cards.txt`](file:///d:/Workerman/anki/workerman_anki_cards.txt)（筛选 `tag:Chapter02`）
+- 📖 **导入教程与牌组说明**：[`d:/Workerman/anki/README.md`](file:///d:/Workerman/anki/README.md)

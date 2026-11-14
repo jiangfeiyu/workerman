@@ -1,2 +1,0 @@
-【魔术见证】我明明写的是普通的 echo，但我没有出现在屏幕上，而是流进了 workerman.log！
-不信你看我现在内核 1 号管子指着谁: /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/workerman.log

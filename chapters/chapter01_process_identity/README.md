@@ -12,6 +12,11 @@
 3. **痛点 3（进程改名卡）**：假如服务器上跑了主进程、网关进程、业务进程十几个 PHP 进程，运维用 `ps aux` 一看，满屏幕全叫 `php start.php`，想杀掉其中一个或者看谁内存高，眼都看花了！怎么让每个进程在 `ps` 里显示自己专属的名字？
 
 ### 🧪 4 行代码搞定身份三连（[`01_identity.php`](file:///d:/Workerman/chapters/chapter01_process_identity/01_identity.php)）
+
+![1.1 posix_getpid获取自身PID](1.1_posix_getpid获取自身PID.png)
+![1.2 PPID与进程家族树](1.2_PPID与进程家族树.png)
+![1.3 进程改名与角色识别](1.3_进程改名与角色识别.png)
+
 ```php
 <?php
 cli_set_process_title("modern-worker: master"); // 给自己换个帅气的名字！
@@ -19,10 +24,14 @@ echo "我的身份证号 (PID) 是: " . posix_getpid() . "\n";
 echo "我老爹的身份证号 (PPID) 是: " . posix_getppid() . "\n";
 sleep(2);
 ```
-#### 👉 你可以亲自在终端运行的命令：
-```powershell
-wsl bash -c "php /mnt/d/Workerman/chapters/chapter01_process_identity/01_identity.php & sleep 0.5; ps -ef | grep -E 'modern-worker|bash' | grep -v grep; wait"
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第一幕：1.1 ~ 1.3）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl bash -c "php /mnt/d/Workerman/chapters/chapter01_process_identity/01_identity.php & sleep 0.5; ps -ef | grep -E 'modern-worker|bash' | grep -v grep; wait"
+>   ```
+> - **观察靶标**：核对脚本打印的 `PID`/`PPID` 与 `ps -ef` 第 2、3 列是否一致，且最后一列进程名已变为 `modern-worker: master`。
+> - **改错/对比实验**：把 `sleep(2);` 改成 `sleep(10);` 后在第二个终端手动运行 `wsl pstree -p` 或 `wsl ps -ef | grep modern-worker`，亲眼看到它的父进程就是当前窗口的 `bash`！
 #### 终端真实输出：
 ```text
 我的身份证号 (PID) 是: 406
@@ -68,6 +77,10 @@ protected static function setProcessTitle(string $title): void
      - 另一个在 **`status`** 文件的第一行，字段名真的就叫 **`Name:`**（存放程序原本的短名 `php`）！
 
 ### 🧪 6 行代码让 PHP 自己偷看自己的 `/proc` 档案袋（[`02_proc_explore.php`](file:///d:/Workerman/chapters/chapter01_process_identity/02_proc_explore.php)）
+
+![1.4 proc伪文件系统](1.4_proc伪文件系统.png)
+![1.5 proc进程档案](1.5_proc进程档案.png)
+
 ```php
 <?php
 cli_set_process_title("modern-worker: master");
@@ -78,11 +91,15 @@ echo "2. /proc/$pid/status 里的户口本前 6 行:\n";
 $lines = array_slice(file("/proc/$pid/status"), 0, 6);
 echo implode("", $lines);
 ```
-#### 👉 你可以亲自在终端运行的命令：
-```powershell
-wsl php /mnt/d/Workerman/chapters/chapter01_process_identity/02_proc_explore.php
-wsl ls /proc/310
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第二幕：1.4 ~ 1.5）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl php /mnt/d/Workerman/chapters/chapter01_process_identity/02_proc_explore.php
+>   wsl ls /proc/刚才打印的PID
+>   ```
+> - **观察靶标**：第 1 条命令看到 `State: R (running)`，第 2 条命令立刻报 `No such file or directory`（进程死亡，`/proc/PID` 瞬间蒸发）。
+> - **进阶探究**：运行 `wsl bash -c 'php -r "sleep(10);" & p=$!; sleep 0.2; grep VmRSS /proc/$p/status; wait'`，亲眼读取活体进程的物理内存占用！
 #### 终端真实输出：
 ```text
 1. 进程改名后，/proc/310/cmdline 的内容是: modern-worker: master                                                        
@@ -123,6 +140,10 @@ Pid:	310
     - `./`：是**运行期相对路径**，完全被进程当时的 `cwd` 牵着鼻子走！
 
 ### 🧪 4 行代码揭示立足点漂移与惨案复现（[`03_cwd_and_chdir.php`](file:///d:/Workerman/chapters/chapter01_process_identity/03_cwd_and_chdir.php)）
+
+![1.6 工作目录与相对路径](1.6_工作目录与相对路径.png)
+![1.6 补充 getcwd与proc_cwd同步变化](1.6_补充_getcwd与proc_cwd同步变化.png)
+
 ```php
 <?php
 $pid = posix_getpid();
@@ -134,10 +155,15 @@ chdir('/tmp');
 echo "chdir('/tmp') 后，新 getcwd(): " . getcwd() . "\n";
 echo "再次访问 ./test.txt：惨遭报错！因为进程已经跑到 /tmp 去了！\n";
 ```
-#### 👉 你可以亲自在终端运行的命令：
-```powershell
-wsl php /mnt/d/Workerman/chapters/chapter01_process_identity/03_cwd_and_chdir.php
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第三幕：1.6）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl php /mnt/d/Workerman/chapters/chapter01_process_identity/03_cwd_and_chdir.php
+>   ```
+> - **对比实验**：先在 `d:\Workerman` 下运行，再切到 `wsl bash -c "cd /tmp && php /mnt/d/Workerman/chapters/chapter01_process_identity/03_cwd_and_chdir.php"` 跑一次，观察为什么连第 2 步也会找不到相对路径 `./test_cwd.txt`，而用 `__DIR__ . '/test_cwd.txt'` 则永远稳如泰山！
+
+![1.6 补充 守护进程路径与__DIR__](1.6_补充_守护进程路径与__DIR__.png)
 #### 终端真实输出：
 ```text
 === 1. 探秘进程当前立足点 (cwd) ===
@@ -480,6 +506,9 @@ Worker::runAll();
   - 所以铁律必须是：**趁着自己还是皇上（`UID=0`），先把部门降为平民（`posix_setgid(33)`），最后一步才把自己的用户身份降为平民（`posix_setuid(33)`）！**
 
 ### 🧪 实验验证（[`04_drop_privilege.php`](file:///d:/Workerman/chapters/chapter01_process_identity/04_drop_privilege.php)）
+
+![1.7 UID与GID安全降权](1.7_UID与GID安全降权.png)
+
 ```php
 <?php
 echo "初始身份: UID=" . posix_getuid() . ", GID=" . posix_getgid() . "\n";
@@ -493,10 +522,14 @@ echo "降权结果: setgid=" . ($gidOk ? '成功' : '失败') . ", setuid=" . ($
 echo "当前身份: UID=" . posix_getuid() . ", GID=" . posix_getgid() . "\n";
 echo "如果现在已经是平民了，再试图改回皇上部门(GID=0): " . (posix_setgid(0) ? '成功' : '失败！没权限了！') . "\n";
 ```
-#### 👉 你可以亲自在终端运行的命令：
-```powershell
-wsl -u root php /mnt/d/Workerman/chapters/chapter01_process_identity/04_drop_privilege.php
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第四幕：1.7）】**
+> - **终端命令（以 `root` 启动测试降权）**：
+>   ```powershell
+>   wsl -u root php /mnt/d/Workerman/chapters/chapter01_process_identity/04_drop_privilege.php
+>   ```
+> - **观察靶标**：输出 `初始身份: UID=0, GID=0` → `当前身份: UID=33, GID=33` → 最后试图改回 `GID=0` 失败。
+> - **改错实验**：临时把 `posix_setuid(33)` 放到 `posix_setgid(33)` 前面跑一次，亲眼见证 `setgid=失败` 且 `GID` 依然危险地留在 `0`（改完记得恢复原顺序）！
 #### 终端真实输出：
 ```text
 初始身份: UID=0, GID=0
@@ -533,6 +566,10 @@ Linux 规定：任何进程在退出时（`exit($code)`），都可以给老爹�
 而如果 PHP 代码写错了（比如调用了不存在的函数触发 Fatal Error），代码当场崩溃，连后面的日志代码都来不及执行怎么办？PHP 提供了一个**“临终遗嘱钩子”：`register_shutdown_function()`**——不管进程是因为正常 `exit` 还是因为致命错误暴毙，在它咽下最后一口气之前，一定会先执行这里面的遗嘱函数！
 
 ### 🧪 实验代码（[`05_exit_and_shutdown.php`](file:///d:/Workerman/chapters/chapter01_process_identity/05_exit_and_shutdown.php)）
+
+![1.8 退出码与父进程判断](1.8_退出码与父进程判断.png)
+![1.9 shutdown钩子与最后错误](1.9_shutdown钩子与最后错误.png)
+
 ```php
 <?php
 register_shutdown_function(function () {
@@ -543,11 +580,17 @@ register_shutdown_function(function () {
 echo "进程正在干活，突然决定带着状态码 250 退出...\n";
 exit(250);
 ```
-#### 👉 你可以亲自在终端运行的命令：
-```powershell
-wsl php /mnt/d/Workerman/chapters/chapter01_process_identity/05_exit_and_shutdown.php
-echo $LASTEXITCODE
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第五幕：1.8 ~ 1.10）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl php /mnt/d/Workerman/chapters/chapter01_process_identity/05_exit_and_shutdown.php
+>   echo $LASTEXITCODE
+>   ```
+> - **观察靶标**：先打印 `[临终遗言]`，紧接着在 PowerShell/Bash 里捕获到进程真实遗言退出码 **`250`**。
+> - **改错实验**：在 `exit(250);` 之前故意调用一个不存在的函数 `boom_crash();`，再运行一次，观察 `error_get_last()` 如何在进程暴毙前精准抓到致命死因！
+
+![1.10 Worker进程管理骨架](1.10_Worker进程管理骨架.png)
 #### 终端真实输出：
 ```text
 进程正在干活，突然决定带着状态码 250 退出...

@@ -16,6 +16,8 @@
   2. *“给客人发消息，每次都要写原生的 `fwrite($conn, $data)`，太底层、太丑陋了，能不能直接 `$conn->send($data)`？”*
 
 - **🧪 实验 1：给裸 resource 挂属性引发的血案（[`01_raw_resource_error.php`](file:///d:/Workerman/chapters/chapter07_tcp_connection/01_raw_resource_error.php)）**：
+
+![7.1 原生resource不能挂对象属性](7.1_原生resource不能挂对象属性.png)
   ```php
   $conn = stream_socket_accept($server); // 返回 resource (stream)
   $conn->uid = 10086; // 试图挂属性！
@@ -29,6 +31,8 @@
 ---
 
 ### 📦 关卡 7.2：包装盒诞生 —— `TcpConnection`
+
+![7.2 TcpConnection包装原生Socket](7.2_TcpConnection包装原生Socket.png)
 既然裸句柄挂不了属性，最直白的解决方案就是**造一个面向对象的收纳盒，把裸句柄藏在收纳盒肚子里**（见 [`02_tcp_connection_box.php`](file:///d:/Workerman/chapters/chapter07_tcp_connection/02_tcp_connection_box.php)）！
 并在类上打上 PHP 8.2+ 的属性注解 `#[AllowDynamicProperties]`：
 ```php
@@ -60,6 +64,8 @@ $conn->send("你好张三！");     // 语义优雅清晰！
 ---
 
 ### 🚚 关卡 7.3：职责大搬家 —— `TcpConnection` 自治管理
+
+![7.3 baseRead职责搬到连接对象](7.3_baseRead职责搬到连接对象.png)
 - **架构反思**：
   在旧版中，`Worker` 类既要负责大门监听接客，又要管具体连接怎么读消息（`baseRead`）、怎么处理挂断。
   既然每个客人已经是一个独立的 `TcpConnection` 对象了，**为什么不把“怎么读消息、怎么关闭”这套苦力活，直接交给 `TcpConnection` 自己管？**
@@ -90,11 +96,18 @@ $conn->send("你好张三！");     // 语义优雅清晰！
   ```
   **架构收益**：`Worker` 瞬间极致瘦身！`Worker` 只管在门口守着，来一个客人就 `new TcpConnection($socket, $this->loop)`，剩下的所有交互全由 `TcpConnection` 自身搞定！
 
+> [!TIP]
+> **【👉 本关亲手实操任务（第一幕：7.1 ~ 7.3）】**
+> - **实验 A（亲手触发 resource 崩溃）**：终端 1 运行 `wsl php chapters/chapter07_tcp_connection/01_raw_resource_error.php`，终端 2 运行 `wsl nc 127.0.0.1 8080` 敲回车，亲眼见证 `Error: Attempt to assign property "uid" on resource`。
+> - **实验 B（验证包装盒与自治）**：终端 1 改跑 `wsl php chapters/chapter07_tcp_connection/02_tcp_connection_box.php`（或 `03_responsibility_refactor.php`），终端 2 用 `nc` 连入发一句话，验证动态挂载 `$conn->uid` 与 `$conn->send()` 正常运行。
+
 ---
 
 ## 🟢 第二幕（关卡 7.4 ~ 7.5）：核爆级丢包惨案 —— 吞掉 7MB 数据的 `fwrite`！
 
 ### 💥 关卡 7.4：发送 10MB 大数据车祸现场（[`04_big_packet_loss_bug.php`](file:///d:/Workerman/chapters/chapter07_tcp_connection/04_big_packet_loss_bug.php)）
+
+![7.4 大数据一次fwrite与短写实验](7.4_大数据一次fwrite与短写实验.png)
 现在我们以为有了 `TcpConnection->send()` 就可以高枕无忧了。
 业务要在聊天室里发一张 10MB 的高清大图（`str_repeat("A", 10000000)`）：
 ```php
@@ -112,10 +125,17 @@ $conn->send($bigData);
 **😱 恐怖惊魂现场**：
 整整 **7.02 MB 的数据凭空蒸发了！** 客户端收到的图片直接变成了损坏文件！
 
+> [!TIP]
+> **【👉 本关亲手实操任务（第二幕：7.4 复现半写丢包）】**
+> - **终端命令**：`wsl php chapters/chapter07_tcp_connection/04_big_packet_loss_bug.php`（若需客户端接收配合可再开终端连 `8080`：`wsl php -r '$c=stream_socket_client("tcp://127.0.0.1:8080"); sleep(1);'`）。
+> - **观察靶标**：核对 `fwrite()` 实际返回字节数远小于 `10,000,000`，亲眼抓到非阻塞模式下的**半写（Partial Write）丢包事故**！
+
 
 ---
 
 ## 🟢 第三幕（架构演进深度透视）：为什么需要“铁三角”？（Worker、SelectLoop、TcpConnection）
+
+![7.3 补充 Worker事件循环连接铁三角](7.3_补充_Worker事件循环连接铁三角.png)
 
 ### 💡 核心痛点反思：第 5 章里的“上帝类”反模式
 在第 5 章中，我们的 `Worker` 类一个人干了全店所有的脏活累活：
@@ -211,6 +231,8 @@ Worker 执行 new TcpConnection($socket, $loop) ──> TcpConnection 构造函�
 
 ## 🟢 第四幕（显微镜级代码拆解）：`TcpConnection` 4 大关键语法与指针机制
 
+> 🧪 **配套可运行显微镜脚本**：[`06_code_details_magnifier.php`](file:///d:/Workerman/chapters/chapter07_tcp_connection/06_code_details_magnifier.php)（单进程纯内存实测 `[$this, 'method']` 回调机制、对象引用计数与清理顺序）。
+
 ### 🔬 细节 1：为什么写成 `[$this, 'baseRead']`？
 看 `TcpConnection::__construct` 的第 17 行：
 ```php
@@ -239,6 +261,8 @@ $this->connections[$connection->id] = $connection; // 🌟 生死线！
   如果不用一个持久属性（`$this->connections` 数组）死死攥住它，当迎宾匿名函数执行完毕退出作用域的那一纳秒，**PHP 的引用计数垃圾回收机制（GC）发现没有任何人引用这个对象，就会当场触发 `__destruct` 把它给销毁释放掉！**
 - **结论**：`$this->connections` 是连接在内存中的**锚点（强引用）**，客人在线多久，这个数组就抓着它多久！
 
+![7.3 补充 连接引用与生命周期](7.3_补充_连接引用与生命周期.png)
+
 ---
 
 ### 🔬 细节 3：接力棒传递 —— `($this->onMessage)($this, $data)`
@@ -262,6 +286,8 @@ $worker->onMessage = function (TcpConnection $conn, string $msg) {
 ---
 
 ### 🔬 细节 4：断开清理的“四步连环拔管”（消灭内存泄漏）
+
+![7.3 补充 连接关闭与四步清理](7.3_补充_连接关闭与四步清理.png)
 看客户端断开时的执行逻辑：
 ```php
 // 1. 探测到 EOF（对方挂机）
@@ -275,6 +301,11 @@ if ($data === '' || $data === false) {
 }
 ```
 这一步执行完，`$this->connections` 对该对象的强引用被拔除，引用计数归零，PHP 彻底回收该连接占用的内存，整个生命周期丝丝入扣，零内存泄漏！
+
+> [!TIP]
+> **【👉 本关亲手实操任务（第三 & 四幕：铁三角联调与语法显微镜）】**
+> - **实验 A（代码细节显微镜）**：直接运行 `wsl php chapters/chapter07_tcp_connection/06_code_details_magnifier.php`，逐行对照输出看透 `[$this, 'baseRead']` 与引用生命周期。
+> - **实验 B（铁三角完整运转）**：终端 1 运行 `wsl php chapters/chapter07_tcp_connection/05_architecture_triangle.php`，终端 2 用 `wsl nc 127.0.0.1 8080` 发几句话并按 `Ctrl+C` 断开，对照终端 1 的建连、收发与四步清理轨迹。
 
 
 ---
@@ -292,6 +323,9 @@ if ($data === '' || $data === false) {
   > **3. “write 参数看管子内还有没有在传输的内容。”**
 - **👏 深度复盘（击中本质）**：
   **全中！这就是现代高并发网络底层“双层蓄水池模型”的核心真相！**
+
+![7.5 内核Socket发送缓冲区](7.5_内核Socket发送缓冲区.png)
+![7.6 应用层sendBuffer保存尾部](7.6_应用层sendBuffer保存尾部.png)
 
 ```
  ┌────────────────────────────────────────────────────────┐
@@ -336,6 +370,8 @@ stream_select($read, $write, $except, $sec, $usec);
 ---
 
 #### 2. `AdvancedSelectLoop` 逐行解剖镜
+
+![7.7 补充 AdvancedSelectLoop读写双表](7.7_补充_AdvancedSelectLoop读写双表.png)
 
 ```php
 class AdvancedSelectLoop extends SelectLoop {
@@ -407,6 +443,8 @@ class AdvancedSelectLoop extends SelectLoop {
 ---
 
 #### 4. 第一次直写与暂存尾巴（`TcpConnection::send()`）
+
+![7.6 补充 新数据追加与发送顺序](7.6_补充_新数据追加与发送顺序.png)
 ```php
 public function send(string $data): void {
     // 1. 如果之前已经有积压在排队了，新来的数据绝不能插队，必须追加到尾部！
@@ -431,6 +469,8 @@ public function send(string $data): void {
 ```
 
 #### 5. 异步冲刷与“生死注销”（`TcpConnection::baseWrite()`）
+
+![7.7 baseWrite异步排空](7.7_baseWrite异步排空.png)
 ```php
 public function baseWrite($socket): void {
     // 1. 趁内核池子有空位，赶紧继续往里塞！
@@ -450,6 +490,8 @@ public function baseWrite($socket): void {
 ---
 
 ### 💥 关卡 7.8 深度透视：为什么发完数据必须立刻 `delWrite`？
+
+![7.8 发送排空后注销可写监听](7.8_发送排空后注销可写监听.png)
 - **致命陷阱**：在 Linux 底层，只要内核发送缓冲区**有哪怕 1 个字节的空位**，内核保安就判定该 Socket **“处于可写就绪态”**！
 - 如果 `$sendBuffer` 已经排空变为了 `""`，而你忘了调用 `delWrite`：
   下一轮循环，内核保安一看：“池子是空的，完全可写！”，于是微秒级连续唤醒你；
@@ -492,6 +534,8 @@ wsl php chapters/chapter07_tcp_connection/09_write_storm_proof.php
 ---
 
 ### 🧪 关卡 7.7 实战验证：10MB 大数据 0 丢包传输！
+
+![7.7 补充 大数据完整接收验证](7.7_补充_大数据完整接收验证.png)
 我们在 [`07_async_send_buffer.php`](file:///d:/Workerman/chapters/chapter07_tcp_connection/07_async_send_buffer.php) 与 [`test_big_receive.php`](file:///d:/Workerman/chapters/chapter07_tcp_connection/test_big_receive.php) 中完成了测试：
 
 #### 终端现场毫秒级实测输出：
@@ -512,9 +556,24 @@ wsl php chapters/chapter07_tcp_connection/09_write_storm_proof.php
 ```
 **丢包隐患彻底消灭！整整 1000 万字节，分 4 次精准冲刷，耗时仅 0.022 秒，0 字节丢失！**
 
+> [!TIP]
+> **【👉 本关亲手实操任务（第五幕：7.5 ~ 7.8 写事件与 10MB 零丢包）】**
+> 1. **放大镜与空转风暴单进程验证**：
+>    ```powershell
+>    wsl php chapters/chapter07_tcp_connection/08_loop_write_event_magnifier.php
+>    wsl php chapters/chapter07_tcp_connection/09_write_storm_proof.php
+>    ```
+>    - **观察靶标**：`09` 会在短短 0.2 秒内触发近 10 万次空转唤醒，亲身感受漏写 `delWrite` 的毁灭性！
+> 2. **双终端 10MB 零丢包极限压测**：
+>    - **终端 1（异步发送服务端）**：`wsl php chapters/chapter07_tcp_connection/07_async_send_buffer.php`
+>    - **终端 2（大包接收客户端）**：`wsl php chapters/chapter07_tcp_connection/test_big_receive.php`
+>    - **观察靶标**：终端 2 稳稳累计收到 **`10000000 字节`**，100% 0 丢包！
+
 ---
 
-## 🟢 第三幕（关卡 7.9）：防御恶意慢客户端 —— 高低水位线与背压机制（Backpressure）
+## 🟢 第六幕（关卡 7.9）：防御恶意慢客户端 —— 高低水位线与背压机制（Backpressure）
+
+![7.9 慢客户端与背压](7.9_慢客户端与背压.png)
 
 ### 💬 师徒苏格拉底对话录 3：水龙头、小水管与贪得无厌的大背包
 - **🤔 祖师爷的困境**：
@@ -534,6 +593,9 @@ wsl php chapters/chapter07_tcp_connection/09_write_storm_proof.php
 ---
 
 ### 🔬 核心代码显微镜拆解（`BackpressureConnection`）
+
+![7.9 补充 水位阈值与硬上限](7.9_补充_水位阈值与硬上限.png)
+![7.9 补充 转发链路暂停和恢复](7.9_补充_转发链路暂停和恢复.png)
 
 ```php
 class BackpressureConnection extends TcpConnection {
@@ -604,9 +666,17 @@ wsl php chapters/chapter07_tcp_connection/10_slow_client_backpressure.php
 ```
 **铁证现象**：第 1、2 次填满内核，第 3 次溢出应用层，第 4、5 次精准触发背压拦截丢包，死死守住了服务器内存底线；随后客户端开始读水，低水位通知准时响应！
 
+> [!TIP]
+> **【👉 本关亲手实操任务（第六幕：7.9 高低水位背压拦截）】**
+> - **终端命令**：`wsl php chapters/chapter07_tcp_connection/10_slow_client_backpressure.php`
+> - **观察靶标**：第 4、5 次发送触发 `⚠️ [高水位报警 onBufferFull]` 并拒绝继续堆积，客户端读走数据后立刻触发 `🌊 [低水位通知 onBufferDrain]`。
+> - **改错实验**：临时把 `10_slow_client_backpressure.php` 里的 `$conn->maxSendBufferSize` 从 `512 * 1024` 调小成 `1024`（1KB）或调大成 `10 * 1024 * 1024`，观察背压报警时机与内存曲线的变化！
+
 ---
 
-## 🟢 第四幕（关卡 7.10）：离线大礼包截胡案 —— 连接状态机与优雅关闭（Graceful Close）
+## 🟢 第七幕（关卡 7.10）：离线大礼包截胡案 —— 连接状态机与优雅关闭（Graceful Close）
+
+![7.10 连接状态机与优雅关闭](7.10_连接状态机与优雅关闭.png)
 
 ### 💬 师徒苏格拉底对话录 4：发完就拜拜场景的截胡悲剧
 - **🤔 祖师爷的困境**：
@@ -705,6 +775,9 @@ class GracefulConnection extends TcpConnection {
 ---
 
 ### 📖 Workerman 官方源码真迹对照
+
+![7.10 补充 连接状态位掩码](7.10_补充_连接状态位掩码.png)
+![7.10 补充 close与end的区别](7.10_补充_close与end的区别.png)
 打开 Workerman 官方源码 [`workerman-source/src/Connection/TcpConnection.php`](file:///d:/Workerman/workerman-source/src/Connection/TcpConnection.php)：
 1. **状态常量 —— 2的幂次位掩码设计（Workerman v5 现代架构）**（[TcpConnection.php#L81-L116](file:///d:/Workerman/workerman-source/src/Connection/TcpConnection.php#L81-L116)）：
    ```php
@@ -770,9 +843,17 @@ wsl php chapters/chapter07_tcp_connection/11_graceful_close_demo.php
 ```
 **铁证事实**：业务层虽然在 `send()` 之后立刻调了 `close()`，但由于状态机将连接切为 `STATUS_CLOSING` 延迟销毁，剩下的 236 万字节被完整冲刷给客户端后，连接才安然挂断，**5,000,000 字节 0 丢包！**
 
+> [!TIP]
+> **【👉 本关亲手实操任务（第七幕：7.10 优雅关闭 0 丢包）】**
+> - **终端命令**：`wsl php chapters/chapter07_tcp_connection/11_graceful_close_demo.php`
+> - **观察靶标**：先打印 `标记状态为 STATUS_CLOSING，等待排空！`，直到剩余 236 万字节全部倒进内核才执行 `destroy()`，客户端稳收整整 `5000000` 字节！
+> - **破坏对比实验**：临时把 `GracefulConnection::close()` 里的 `if ($this->sendBuffer === '')` 删掉、强制直接调 `$this->destroy()`，立刻亲眼看到客户端收到截断残包、接收字节数不足 500 万（验证完记得还原）。
+
 ---
 
-## 🟢 第五幕（关卡 7.11 ~ 7.12）：常驻内存抓鬼记 —— 引用计数、闭包死结与工业级 `destroy()`
+## 🟢 第八幕（关卡 7.11 ~ 7.12）：常驻内存抓鬼记 —— 引用计数、闭包死结与工业级 `destroy()`
+
+![7.11 常驻进程内存泄漏对照实验](7.11_常驻进程内存泄漏对照实验.png)
 
 ### 💬 师徒苏格拉底对话录 5：幽灵内存与无休止的膨胀
 - **🤔 祖师爷的困境**：
@@ -786,6 +867,8 @@ wsl php chapters/chapter07_tcp_connection/11_graceful_close_demo.php
 ---
 
 ### 🔬 破案显微镜：PHP 引用计数（refcount）与隐秘的闭包锁链
+
+![7.11 补充 气球绳子与闭包循环引用](7.11_补充_气球绳子与闭包循环引用.png)
 
 PHP 的垃圾回收是基于 **引用计数（Reference Counting）** 的。一个对象只有在其引用计数降到 **`0`** 时，才会被内存管理器立即释放（调用 `__destruct()`）。
 
@@ -849,6 +932,8 @@ wsl php chapters/chapter07_tcp_connection/13_refcount_balloon_experiment.php
 
 ### 🗡️ 工业级解法：外科手术般精准的 `destroy()`
 
+![7.12 Workerman_TcpConnection源码对照](7.12_Workerman_TcpConnection源码对照.png)
+
 让我们看 Workerman 官方源码是如何下刀切断所有绳子的：
 
 ```php
@@ -890,6 +975,8 @@ public function destroy(): void {
 ---
 
 ### 🧪 关卡 7.11 实战验证：半吊子销毁 vs 工业级 `destroy()` 内存抓鬼（[`12_memory_leak_experiment.php`](file:///d:/Workerman/chapters/chapter07_tcp_connection/12_memory_leak_experiment.php)）
+
+![7.11 补充 PHP内存用量与RSS](7.11_补充_PHP内存用量与RSS.png)
 ```bash
 wsl php chapters/chapter07_tcp_connection/12_memory_leak_experiment.php
 ```
@@ -912,6 +999,15 @@ wsl php chapters/chapter07_tcp_connection/12_memory_leak_experiment.php
 - 测试 A 中，断开 100 个连接后，整整 10.23MB 内存毫无知觉地永久蒸发泄漏！
 - 测试 B 中，调用标准 `destroy()` 斩断引用链，10MB 内存瞬间如退潮般干净归还，泄漏量仅为 28KB（底层引擎运行期微量开销）！
 
+> [!TIP]
+> **【👉 本关亲手实操任务（第八幕：7.11 ~ 7.12 引用计数与内存抓鬼）】**
+> - **终端依次执行两套内存实验**：
+>   ```powershell
+>   wsl php chapters/chapter07_tcp_connection/13_refcount_balloon_experiment.php
+>   wsl php chapters/chapter07_tcp_connection/12_memory_leak_experiment.php
+>   ```
+> - **观察靶标**：`13` 里 `unset($balloon2)` 后气球居然没有爆炸，直到 `unset($eventLoopCallbacks['fd_15'])` 才引爆销毁；`12` 里测试 A 永久泄露 `10.23 MB`，测试 B 调用工业级 `destroy()` 后内存瞬间回落恢复！
+
 ---
 
 ## 🏆 阶段 7 巅峰大结语：从裸句柄到工业级 `TcpConnection`
@@ -926,3 +1022,10 @@ wsl php chapters/chapter07_tcp_connection/12_memory_leak_experiment.php
 8. **内存抓鬼**：攻破常驻进程循环引用死结 $\rightarrow$ 锻造出滴水不漏的工业级 `destroy()`。
 
 **至此，阶段 7 全部关卡（7.1 ~ 7.12）圆满攻克！你已经彻底看穿了 Workerman 最核心类 `TcpConnection` 的每一行灵魂！**
+
+---
+
+## 🗂️ 本章 Anki 闪卡复习沉淀
+
+本章核心知识点（`TcpConnection` 包装与 `AllowDynamicProperties`、非阻塞半写与 `SO_SNDBUF`、写事件生命周期与 `Events\Select`、高低水位线背压、`STATUS_CLOSING` vs `STATUS_ENDING` 位掩码、引用计数与工业级 `destroy()`）已全部沉淀至总库：[workerman_anki_cards.txt](file:///d:/Workerman/anki/workerman_anki_cards.txt)。
+- 导入 Anki 后搜索 **`tag:Chapter07`** 即可抽取本章全部 **9 张** 高密度问答卡！

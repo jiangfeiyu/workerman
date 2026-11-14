@@ -1,172 +1,209 @@
-# 第 4 章：破壳通网 —— 把 0 号文件换成 3 号 Socket 文件，你的 `Worker` 瞬间变成网络服务器！
+# 第 4 章：网络 Socket 与 HTTP —— 从“本地终端水管”一步步推导出跨主机 TCP 服务与生命周期插座
 
-> **本章核心灵魂**：网络编程到底有多难？一点都不难！因为在 Linux 眼里，网络套接字（Socket）无非也是一个普通的文件描述符 FD。我们一步一步推导：从只有大门口迎宾员（监听 Socket）到分配专属服务员（连接 Socket），亲身撞上闭包回不了话的绝境从而推导出 `$onMessage($conn, $msg)`，顺手手写出第一个 Web 服务器，并彻底剖析 TCP 的三次握手、四次挥手与 `SO_REUSEADDR`！
-
----
-
-## 🟢 第一幕（关卡 4.1 ~ 4.3）：网络 Socket 只是另一个 3 号文件！
-
-### 💬 师徒苏格拉底对话录 1：从本地文件到网线插口
-- **🤔 祖师爷的困境**：
-  在第 2 章我们知道了：键盘是 `0` 号文件，屏幕是 `1` 号文件，打开本地文本是 `3` 号文件。那如果我想给远在千里之外的另一台电脑发消息，Linux 的“一切皆文件”哲学怎么做？
-  **答案是：把网线插口也变成一个文件描述符 FD！** 这个网线插座文件就叫 **Socket**。
-- **🧪 实验代码（[`01_socket_is_fd.php`](file:///d:/Workerman/chapters/chapter04_network_socket/01_socket_is_fd.php)）**：
-  ```php
-  <?php
-  $server = stream_socket_server("tcp://0.0.0.0:8080");
-  $pid = posix_getpid();
-  echo "=== 开启网络监听后，查看 /proc/$pid/fd 里的号码牌 ===\n";
-  foreach (scandir("/proc/$pid/fd") as $fd) {
-      if ($fd >= 3) echo "  内核 FD [$fd] -> " . @readlink("/proc/$pid/fd/$fd") . "\n";
-  }
-  sleep(2);
-  ```
-- **终端真实输出**：
-  ```text
-  内核 FD [4] -> socket:[2696]
-  LISTEN 0      32     0.0.0.0:8080     0.0.0.0:*   users:(("php",pid=391,fd=4))
-  ```
-  在内核眼里，它真真切切就是一个数字号码牌（FD 4，类型为 `socket`），而在网络监听表（`ss -tlnp`）里，它正处于 `LISTEN` 状态！
+> [!IMPORTANT]
+> 本章打通阶段 4（关卡 `4.1 ~ 4.12`）：核心任务是把第 3 章只能在本地键盘敲字的 [`Worker`](file:///d:/Workerman/chapters/chapter03_socratic_onmessage/v05_robust_worker.php)，真正插上 Linux 内核网卡，推导出**门卫迎宾句柄 vs 专职服务员句柄**、TCP 三次握手/四次挥手、HTTP 报文边界、`onConnect`/`onMessage`/`onClose` 生命周期，以及重启端口冲突救星 `SO_REUSEADDR`。
 
 ---
 
-## 🟢 第二幕（关卡 4.4 ~ 4.7）：迎宾小姐接客，分配“包厢专职服务员 `$conn`”
+## 🟢 第一幕（关卡 4.1 ~ 4.4）：网络 Socket 也是文件描述符 FD！监听句柄为什么不能 `fread`？
 
-### 💬 师徒苏格拉底对话录 2：为什么不能直接对 `$server` 执行 `fread()`？
-- **🤔 导师提问**：
-  > “既然 `$server` 已经是一个文件了，为什么不能直接对它调用 `fread($server, 1024)` 读客人的消息？大饭店的大门口应该怎么接客？”
-- **🎯 你的思考与回答**：
-  > **“不行啊，server 是我们自己创建出来的 FD。”**
-- **👏 深度复盘（大饭店接客模型）**：
-  太精准了！`$server` 只是我们在大门口立的一个“迎宾员/总机电话”，它连网线那头客人是谁都不知道，怎么能跟它聊天？
-  大饭店的标准规矩必须是：
-  1. **迎宾员（`$server`，监听 Socket）**：永远守在门口（`LISTEN`），一旦客人拨通电话，调用 `stream_socket_accept($server)`。
-  2. **包厢服务员（`$conn`，传输 Socket）**：内核接通电话的瞬间，当场孵化出一个全新的专职服务员句柄 `$conn`！
-  3. 接下来，迎宾员 `$server` 继续站在门口等李四、王五；而专职服务员 `$conn` 领着张三去包厢，对准 `$conn` 调用 `fread()` 听客人说话，调用 `fwrite()` 给客人回话！
+### 💬 师徒苏格拉底对话录 1：从 `/dev/pts/0` 键盘管子到网卡 `socket:[inode]`
 
-### 🧪 实验验证（[`02_accept_and_waiter.php`](file:///d:/Workerman/chapters/chapter04_network_socket/02_accept_and_waiter.php)）
+- **🤔 徒弟的困惑**：第 3 章里我们的 `Worker` 只能用 `fgets(STDIN)` 陪自己玩。现实里用户都在千里之外的浏览器和手机上，怎么让另一台电脑连进我们的 PHP 进程里？
+- **💡 师父点拨**：先别被“网络编程”四个字吓住，还记得第 2 章“一切皆文件”的铁律吗？键盘是一根管子（`FD 0`），硬盘文件是一根管子（`FD 3`）。Linux 祖师爷同样把**网卡与网络连接**也做成了一根插在进程肚子里的“管子”，给它编个整数号 —— 它依然是个 **FD（文件描述符）**，只不过类型叫 `socket:[编号]`！
+- **🤔 徒弟追问**：太爽了！那我用 `stream_socket_server("tcp://0.0.0.0:8080")` 拿到 `$server` 这根管子后，是不是就能直接像键盘那样 `fread($server, 1024)` 等客人发消息过来了？
+- **💡 师父反问**：你想想看，如果有 **1000 个客人同时连到 `0.0.0.0:8080` 饭店门口**，你全用同一根 `$server` 管子去读数据：张三说一句“加个鸡腿”，李四说一句“结账”，字符全混在同一根管子里怎么区分谁是谁？而且你回一句话，到底是回给张三还是李四？
+- **🎯 顿悟**：**门卫（监听 Socket `$server`）只负责站在门口接待新客人，不负责伺候某个具体客人聊天！**
+
+![4.1 Socket与文件描述符](4.1_Socket与文件描述符.png)
+![4.2 IP端口与监听地址](4.2_IP端口与监听地址.png)
+
+### 🔬 关卡 4.1 ~ 4.3 显微镜实验：亲眼抓住 `socket:[inode]` 与端口状态（[`01_socket_is_fd.php`](file:///d:/Workerman/chapters/chapter04_network_socket/01_socket_is_fd.php)）
+
 ```php
-<?php
 $server = stream_socket_server("tcp://0.0.0.0:8080");
-// 阻塞等待客户端连入
-$conn = stream_socket_accept($server);
+$pid = posix_getpid();
 
-// 此时去 /proc/PID/fd 查看，同时并存着：
-// FD [4] -> 迎宾员 $server
-// FD [5] -> 刚刚分配给客人的专职服务员 $conn
+foreach (scandir("/proc/$pid/fd") as $fd) {
+    if ($fd >= 3) {
+        echo "  内核 FD [$fd] -> " . @readlink("/proc/$pid/fd/$fd") . "\n";
+    }
+}
+```
 
-$msg = fread($conn, 1024);
-fwrite($conn, "服务端回复: 已经收到您的信息!\n");
-fclose($conn);
+- **机制拆解**：
+  1. `0.0.0.0:8080`：`0.0.0.0` 代表绑定本机**所有网卡**（包括 `127.0.0.1` 回环网卡和局域网/公网网卡），`8080` 是端口号。如果只写 `127.0.0.1:8080`，则外网机器无法连入。
+  2. 执行 `stream_socket_server()` 时，PHP 会依次向 Linux 内核发起 3 个系统调用：**`socket()`**（申请一个空白网络插口） → **`bind()`**（钉死 `0.0.0.0:8080` 门牌号） → **`listen()`**（把门牌挂出去，进入 `LISTEN` 监听队列状态）。
+  3. 去 `/proc/PID/fd` 偷看，你会发现新增的 `FD 4` 指向 **`socket:[xxxx]`** —— 在 Linux 内核眼里，它与硬盘文件并无本质区别！
+
+![4.3 ss查看监听端口](4.3_ss查看监听端口.png)
+
+### 💥 关卡 4.4 撞墙实验：强行对 `$server` 调用 `fread()` 会发生什么？（[`03_fread_listen_crash.php`](file:///d:/Workerman/chapters/chapter04_network_socket/03_fread_listen_crash.php)）
+
+我们在 [`03_fread_listen_crash.php`](file:///d:/Workerman/chapters/chapter04_network_socket/03_fread_listen_crash.php) 中让客户端先连上 `8080` 并发送 `"hello\n"`，然后故意跳过 `accept` 直接对监听句柄调用 `fread($server, 1024)`：
+
+```text
+=== 1. 监听已启动 (PID: 440)，查看 /proc/440/fd ===
+  内核 FD [3] -> /mnt/d/Workerman/chapters/chapter04_network_socket/03_fread_listen_crash.php
+  内核 FD [4] -> socket:[9093]
+
+=== 2. 客户端已连接并发送了 6 字节 "hello\n" ===
+错误尝试：直接调用 fread($server, 1024)...
+  -> 返回值: false
+  -> 内核态度: 内核 recv 返回 -1 (ENOTCONN: Transport endpoint is not connected)
+
+=== 3. 正确做法：经 stream_socket_accept($server) 拿到 $conn 后再 fread($conn) ===
+  -> 成功读到客户端消息: "hello\n"
+```
+
+通过 `strace -f -e trace=recvfrom,accept` 抓出来的内核铁证如下：
+```text
+recvfrom(4, ..., 8192, 0, NULL, NULL) = -1 ENOTCONN (Transport endpoint is not connected)
+accept(4, {sa_family=AF_INET, sin_port=htons(43668), sin_addr=inet_addr("127.0.0.1")}, [128 => 16]) = 6
+recvfrom(6, "hello\n", 8192, MSG_DONTWAIT, NULL, NULL) = 6
+```
+- **真相大白**：处于 `LISTEN` 状态的 `FD 4` 根本没有绑定对端连接，直接 `recvfrom(4, ...)` 只会得到内核拒绝：**`ENOTCONN`（未连接传输端点）**；必须先经过 `accept(4)` 裂变出一根全新专职的 **`FD 6`（`$conn`）**，才能从中读出 `"hello\n"`！
+
+![4.4 监听Socket不能读取业务数据](4.4_监听Socket不能读取业务数据.png)
+
+> [!TIP]
+> **【👉 本关亲手实操任务（第一幕：4.1 ~ 4.4）】**
+> 1. **双终端抓取内核 FD 与 LISTEN 状态**：
+>    - **终端 1**：`wsl php chapters/chapter04_network_socket/01_socket_is_fd.php`（可以把脚本最后 `sleep(2)` 临时改成 `sleep(30)` 再运行）
+>    - **终端 2**：趁它在睡，运行 `wsl ss -tlnp | grep 8080`
+>    - **观察靶标**：看到终端 2 显示 `LISTEN` 与进程 `PID`、`fd=4`，与终端 1 打印的 `/proc/$pid/fd` 编号严丝合缝。
+> 2. **亲眼抓包看 `ENOTCONN` 系统调用错误**：
+>    - 运行命令：`wsl strace -f -e trace=recvfrom,accept php chapters/chapter04_network_socket/03_fread_listen_crash.php`
+>    - **改错实验**：如果把 `03_fread_listen_crash.php` 里的 `stream_set_blocking($server, false);` 注释掉再跑一次，观察为什么进程会在 `fread($server, 1024)` 处彻底卡死挂起（记得按 `Ctrl+C` 退出，并改回原样）。
+
+---
+
+## 🟢 第二幕（关卡 4.5 ~ 4.8）：推导出 `accept` 迎宾分身术、三次握手与双向读写！
+
+### 💬 师徒苏格拉底对话录 2：一个门卫 + N 个专职服务员
+
+- **🤔 徒弟理解了**：原来 `$server` 只负责在门口迎接客人！那新客人一来，`stream_socket_accept($server)` 到底干了一件什么事？
+- **💡 师父揭秘**：`accept()` 会从内核已经完成**三次握手**的全连接队列（Accept Queue）里抱出一个新客人，在当前进程的 FD 户口本里新开一个编号（比如 `FD 5`），返回给 PHP 作为专职连接句柄 `$conn`！
+  - `$server`（`FD 4`）：永远只站在大门迎宾，负责继续等下一拨客人。
+  - `$conn`（`FD 5`）：1 对 1 绑定这唯一位客人的四元组 `(源IP, 源端口, 目标IP, 目标端口)`，既能读（`fread`），也能回话（`fwrite`）！
+
+![4.5 accept建立连接句柄](4.5_accept建立连接句柄.png)
+![4.6 nc客户端与新增连接FD](4.6_nc客户端与新增连接FD.png)
+
+### 🧪 关卡 4.5 ~ 4.8 实战代码拆解（[`02_accept_and_waiter.php`](file:///d:/Workerman/chapters/chapter04_network_socket/02_accept_and_waiter.php)）
+
+```php
+$server = stream_socket_server("tcp://0.0.0.0:8080"); // 大门迎宾员 (FD 4)
+$conn = stream_socket_accept($server);                // 阻塞等待并接回专职服务员 (FD 5)
+
+$msg = fread($conn, 1024);                            // 只用专职服务员读取该客户的话
+fwrite($conn, "服务端回复: 已经收到您的信息!\n");      // 同一根全双工水管写回给客户
+
+fclose($conn);                                        // 挂断该客户，归还 FD 5
 fclose($server);
 ```
 
----
+- **关卡 4.7 TCP 三次握手内功**：为什么 `nc` 还没发一个字，`stream_socket_accept($server)` 就醒了？因为客户端与内核在后台已经悄悄完成了 **三次握手（SYN → SYN+ACK → ACK）**，把连接推进了全连接队列！具体十六进制报文与 ISN 随机序号原理，详见番外篇：[TCP 协议栈深度抓包指南](file:///d:/Workerman/chapters/chapter04_extra_tcp_deep_dive/README.md)。
+- **关卡 4.8 双向全双工字节流伏笔**：注意 TCP 管子就像自来水管——写入的每段字节在内核里会合并/拆分，**没有天然的消息边界**（第 8 章会彻底用 `ProtocolInterface` 解决粘包半包）。
 
-## 🟢 第三幕（关卡 4.8 ~ 4.11）：嫁接进 `Worker` 类，以及为什么 `$onMessage` 必须有两个参数！
+![4.7 TCP三次握手与抓包](4.7_TCP三次握手与抓包.png)
+![4.8 已连接Socket双向读写](4.8_已连接Socket双向读写.png)
+![4.8 补充 TCP可靠字节流与消息边界](4.8_补充_TCP可靠字节流与消息边界.png)
 
-### 💬 师徒苏格拉底对话录 3：闭包函数怎么回话给客户端？
-- **💥 撞墙大危机**：
-  在第 3 章我们写好的 `Worker` 类里，`$worker->onMessage = function($msg)` 只有一个参数 `$msg`。
-  现在通了网络，业务程序员收到消息后想给客人回一句 `"收到啦"`，但给客人回话需要调 `fwrite($conn, "收到啦")`，而 `$conn` 被锁在框架 `Worker::run()` 的局部变量肚子里，闭包函数根本拿不到 `$conn`！
-- **🤔 导师提问**：
-  > “为了让业务程序员能给客户端回话，作为框架作者，在触发 `$onMessage` 那一行代码时，应该怎么改？外部业务代码该怎么接？”
-- **🎯 你的思考与回答**：
-  > **“`$worker->onMessage = function($conn, $msg)`”**
-- **👏 深度复盘（揭开 Workerman 经典 API 的终极真相）**：
-  一针见血！框架在触发回调时，必须写成：
-  ```php
-  ($this->onMessage)($conn, $msg);
-  ```
-  把专职服务员通道钥匙 `$conn` 一并递给外部业务闭包，业务程序员才能为所欲为地给客户端发数据！
-
-### 🧪 终极成果：手写一个 Web 服务器（[`04_worker_network.php`](file:///d:/Workerman/chapters/chapter04_network_socket/04_worker_network.php)）
-```php
-<?php
-class Worker {
-    public $onWorkerStart = null;
-    public $onMessage = null;
-    public function __construct(public string $address) {}
-    
-    public function run() {
-        if ($this->onWorkerStart) ($this->onWorkerStart)();
-        $server = stream_socket_server($this->address);
-        
-        while (true) {
-            $conn = stream_socket_accept($server);
-            $msg = fread($conn, 1024);
-            if ($this->onMessage) {
-                ($this->onMessage)($conn, $msg); // ✅ 同时传入连接与数据！
-            }
-            fclose($conn);
-        }
-    }
-}
-
-// 业务代码：搭建 HTTP Web 服务器！
-$worker = new Worker("tcp://0.0.0.0:8080");
-$worker->onMessage = function ($conn, $msg) {
-    $body = "<h1>恭喜！这是你自己亲手写的 Web 服务器！</h1><p>底层原理：从 0 号管子进化到网络 Socket！</p>";
-    $response = "HTTP/1.1 200 OK\r\n" .
-                "Content-Type: text/html; charset=utf-8\r\n" .
-                "Content-Length: " . strlen($body) . "\r\n" .
-                "Connection: close\r\n\r\n" . $body;
-    fwrite($conn, $response);
-};
-$worker->run();
-```
-#### 👉 你可以亲自在终端运行体验：
-```powershell
-wsl php /mnt/d/Workerman/chapters/chapter04_network_socket/04_worker_network.php
-# 在另一个终端敲：
-wsl curl -i http://127.0.0.1:8080
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第二幕：4.5 ~ 4.8）】**
+> 1. **亲眼见证 FD 裂变与双端通讯**：
+>    - **终端 1**：`wsl php chapters/chapter04_network_socket/02_accept_and_waiter.php`（此时阻塞在 `stream_socket_accept`）
+>    - **终端 2**：`wsl nc 127.0.0.1 8080`，连上后先发呆 2 秒再输入 `hello` 回车。
+>    - **观察靶标**：连上的瞬间终端 1 立刻醒来并打印两个不同的 Socket FD（例如 `FD [4]` 是监听，`FD [5]` 是专职服务员）；输入 `hello` 回车后，终端 2 收到服务端回复并结束。
+> 2. **用 `tcpdump` 抓看一次真实本地三次握手（可选进阶）**：
+>    - **终端 1（抓包）**：`wsl sudo tcpdump -i lo port 8080 -nn -S`
+>    - **终端 2 & 3**：按上面同样步骤运行 `02_accept_and_waiter.php` 和 `nc 127.0.0.1 8080`。
+>    - **观察靶标**：在抓包输出中找出 `[S]`（SYN）、`[S.]`（SYN+ACK）、`[.]`（ACK）三行握手帧。
 
 ---
 
-## 🟢 第四幕（关卡 4.12 深度加餐）：彻底吃透 TCP、三次握手、四次挥手与 `SO_REUSEADDR`
+## 🟢 第三幕（关卡 4.9 ~ 4.12）：组装网络版 `Worker`、HTTP 报文规范、全生命周期插座与 `SO_REUSEADDR`！
 
-### 1. 什么是 TCP？为什么叫“自来水管（字节流）”？
-- **物理世界不可靠**：网线会丢包、路由器会拥堵、网络小数据包（IP 包）会乱序到达。
-- **UDP 的态度（平邮包裹）**：管杀不管埋，发出去就不管了，丢了不重发。
-- **TCP 的态度（高精度双向虚拟水管）**：在两个电脑之间修一条透明管道。你在这一端倒进去 `"A"、"B"、"C"` 三滴水，那一端接出来绝对保证顺序是 `"A"、"B"、"C"`，一个字节都不会丢，丢了自动重发，乱了自动排序！
+### 💬 师徒苏格拉底对话录 3：为什么浏览器访问会转圈报错？为什么重启服务报端口被占？
 
-### 2. 为什么通网必须“三次握手”？（山里打电话模型）
-- **第 1 次握手（客户端发）**：“喂，你能听到我说话吗？” *(我能发，但我不知道你能不能听)*
-- **第 2 次握手（服务端回）**：“我能听到你！你能听到我说话吗？” *(我知道你能发、我也能听；但我不知道我发的话你能不能听)*
-- **第 3 次握手（客户端回）**：“我也能听到你啦！我们开始聊吧！” *(双方确认：彼此的听筒和话筒全部完好！)*
-> **为什么 2 次不行？** 如果只有 2 次，服务端回完那句后不知道客户端有没有听到。万一客户端在第 2 次握手时断电了，服务端却以为接通了，傻傻等一整天浪费服务器资源。
+- **🤔 徒弟的疑惑 1（关卡 4.9）**：我用第 3 章的 `Worker` 改造成网络版后，用 `nc` 测试收到了 `"服务端回复"`，可为什么用 Chrome 浏览器访问 `http://127.0.0.1:8080` 却报错 `ERR_INVALID_HTTP_RESPONSE`？
+- **💡 师父点拨**：`nc` 是原始管道工，你给啥字节它直接往屏幕上吐；浏览器是**讲规矩的 HTTP 翻译官**，它期待的是一份带“快递面单”的标准响应报文——必须包含**状态行（`HTTP/1.1 200 OK\r\n`）**、**响应头（如 `Content-Length: 49\r\n`）**、**空行（`\r\n`）**，然后才是正文字节！少写一个 `\r\n` 或 `Content-Length` 算错字节数，浏览器都会拒收或死等！
+- **🤔 徒弟的疑惑 2（关卡 4.11 ~ 4.12）**：我想在客人刚敲门时做鉴权/统计人数、客人离开时清理在线列表，还要把事件名跟 Workerman 源码对齐；另外为什么有时刚 `Ctrl+C` 重启服务器就报错 `Address already in use`？
+- **💡 师父揭秘**：
+  1. 在 `$onWorkerStart`、`$onMessage` 之外，再插两个关键生命周期插座：**`$onConnect`**（刚 `accept` 建连成功时触发）和 **`$onClose`**（连接 `fclose` 挂断后触发）。
+  2. 至于重启端口被占，是因为主动关闭的一方按 TCP 铁律进入 **2MSL（60 秒）的 `TIME_WAIT`** 守候期！如果不开启 **`SO_REUSEADDR`** 端口复用，这 60 秒内操作系统绝不允许新进程重用该端口！
 
-### 3. 为什么挂电话非要“四次挥手”？（双向独立水管模型）
-因为 TCP 是全双工的（A 给 B 一根管子，B 给 A 一根管子）：
-- **第 1 次挥手（客户端说）**：“我这边的话全说完了，我要挂了（发 FIN 包）。” *(关掉客户端往外的水管)*
-- **第 2 次挥手（服务端回）**：“好的，我知道你说完了（回 ACK 包）。” *(💥 关键：此时服务端可能还有账单没给客户端发完，所以服务端的水管还在发数据……)*
-- **第 3 次挥手（服务端算完账说）**：“好啦，我这边的数据也交代完了，我也挂了（发 FIN 包）！” *(关服务端往外的水管)*
-- **第 4 次挥手（客户端回）**：“好的，拜拜（回 ACK 包）！”
+![4.9 Worker从STDIN接入网络](4.9_Worker从STDIN接入网络.png)
+![4.9 补充 HTTP响应结构与字节长度](4.9_补充_HTTP响应结构与字节长度.png)
 
-### 4. 破案：什么是 `TIME_WAIT`？为什么重启会报 `Address already in use`？
-看上面第 4 次挥手：客户端说了最后一句“好的，拜拜（ACK）”。
-万一这句“拜拜”在半路上被路由器弄丢了，服务端没收到，服务端就会超时重发第 3 步的 FIN 包！
-所以 Linux 规定：**主动挂断的那一方，发完最后一句“拜拜”后，必须在原地默默站岗等候 2MSL 时间（60 ~ 120 秒），这个状态就叫 `TIME_WAIT`！**
-如果你在这 1~2 分钟内想重新启动服务器，内核会告诉你：这个端口还没过冷静期呢！报错：`Address already in use`！
+### 🔬 关卡 4.9 ~ 4.12 核心代码逐行拆解（[`04_worker_network.php`](file:///d:/Workerman/chapters/chapter04_network_socket/04_worker_network.php)）
 
-### 5. 解药：`SO_REUSEADDR` 端口复用开关
-为了不让程序员每次重启调试都干等 2 分钟，可以在创建服务端 Socket 时开启端口地址复用：
 ```php
+// 1. 关卡 4.12：开启 SO_REUSEADDR，绕开 TIME_WAIT 端口占坑锁
 $context = stream_context_create([
     'socket' => [
-        'so_reuseaddr' => 1, // 允许立刻复用处于 TIME_WAIT 冷静期的端口！
-    ]
+        'so_reuseaddr' => 1,
+        'backlog'      => 1024,
+    ],
 ]);
-$server = stream_socket_server("tcp://0.0.0.0:8080", $errno, $errstr, STREAM_SERVER_BIND | STREAM_SERVER_LISTEN, $context);
-```
+$server = stream_socket_server(
+    $this->socketName,
+    $errno,
+    $errstr,
+    STREAM_SERVER_BIND | STREAM_SERVER_LISTEN,
+    $context
+);
 
-### 📖 Workerman 源码真迹印证
-打开原版源码 [`Workerman/src/Worker.php` 第 910~925 行](file:///d:/Workerman/workerman-source/src/Worker.php#L910-L925)：
-```php
-if (DIRECTORY_SEPARATOR === '/') {
-    // 默认开启端口地址复用！
-    stream_context_set_option($context, 'socket', 'so_reuseaddr', 1);
+// 2. 关卡 4.11：全生命周期回调串联（accept -> onConnect -> fread -> onMessage -> fclose -> onClose）
+$conn = @stream_socket_accept($server, -1, $remoteAddress);
+if (is_callable($this->onConnect)) {
+    try { ($this->onConnect)($conn, $remoteAddress); } catch (\Throwable $e) { $this->handleException($e); }
+}
+
+$msg = fread($conn, 65535);
+if ($msg !== false && $msg !== '' && is_callable($this->onMessage)) {
+    try { ($this->onMessage)($conn, $msg); } catch (\Throwable $e) { $this->handleException($e); }
+}
+
+fclose($conn);
+if (is_callable($this->onClose)) {
+    try { ($this->onClose)($conn, $remoteAddress); } catch (\Throwable $e) { $this->handleException($e); }
 }
 ```
-完全验证了我们的底层剖析！
+
+![4.10 onMessage连接与数据双参数](4.10_onMessage连接与数据双参数.png)
+![4.11 onConnect与onClose生命周期](4.11_onConnect与onClose生命周期.png)
+![4.12 TIME_WAIT与SO_REUSEADDR](4.12_TIME_WAIT与SO_REUSEADDR.png)
+![4.12 补充 四次挥手与半关闭](4.12_补充_四次挥手与半关闭.png)
+
+### 📖 Workerman 官方源码真迹对照
+
+打开原版源码 [`workerman-source/src/Worker.php`](file:///d:/Workerman/workerman-source/src/Worker.php)：
+1. **构造 `socketContext` 上下文与 `backlog`**：[`Worker.php#L583-L595`](file:///d:/Workerman/workerman-source/src/Worker.php#L583-L595) 创建并保存 `$this->socketContext = stream_context_create($socketContext)`。
+2. **创建监听与设置底层选项**：[`Worker.php#L2485-L2538`](file:///d:/Workerman/workerman-source/src/Worker.php#L2485-L2538) 中的 `listen()` 调用 `stream_socket_server($localSocket, $errNo, $errMsg, $flags, $this->socketContext)`，并进一步开启 `SO_KEEPALIVE` 与 `TCP_NODELAY`（PHP 底层 `stream_socket_server` 在创建服务端 TCP Socket 时已默认注入 `SO_REUSEADDR`，而多进程争抢端口还可通过 `$this->reusePort` 设置 `so_reuseport`）。
+3. **`acceptTcpConnection()` 与 `$onConnect` / `$onClose` 注入**：[`Worker.php#L2748-L2780`](file:///d:/Workerman/workerman-source/src/Worker.php#L2748-L2780) 中 `stream_socket_accept($socket, 0, $remoteAddress)` 拿到 `$newSocket` 后，把 `$this->onMessage`、`$this->onClose` 等回调插座转交给新建的连接对象，并在 `try { ($this->onConnect)($connection); } catch (Throwable $e)` 安全网内触发建连回调！
+
+> [!TIP]
+> **【👉 本关亲手实操任务（第三幕：4.9 ~ 4.12）】**
+> 1. **用真实浏览器或 `curl` 触发 HTTP 与全生命周期**：
+>    - **终端 1（服务端）**：`wsl php chapters/chapter04_network_socket/04_worker_network.php`
+>    - **终端 2（客户端）**：`wsl curl -i http://127.0.0.1:8080`（或直接在 Windows 浏览器打开 `http://127.0.0.1:8080`）
+>    - **观察靶标**：终端 1 严格按 `🚀 onWorkerStart` → `🟢 onConnect` → `📩 onMessage`（打印出真实 HTTP 请求头 `GET / HTTP/1.1...`）→ `🔴 onClose` 的顺序吐出日志；终端 2 收到完整 `HTTP/1.1 200 OK` 响应并正常退出。
+> 2. **改错破坏实验（验证 HTTP `Content-Length` 边界铁律）**：
+>    - 把 `04_worker_network.php` 里的 `"Content-Length: " . strlen($body)` 改成 `"Content-Length: 999"`（骗客户端后面还有 999 字节），重启服务端再用 `curl -v --max-time 3 http://127.0.0.1:8080` 访问，观察 `curl` 是如何因少收到字节而报错挂起的！验证完毕记得改回 `strlen($body)`。
+
+---
+
+## 🌉 承上启下：通往第 5 章并发风暴的伏笔
+
+在第 4 章的 [`04_worker_network.php`](file:///d:/Workerman/chapters/chapter04_network_socket/04_worker_network.php) 里，有一个极其致命的隐患：
+- **一次只能接待一个客人**！如果客人 A 用 `nc 127.0.0.1 8080` 连进来后一直不说话也不退出，我们的 `fread($conn, 65535)` 就会像木头人一样死等客人 A，客人 B、C、D 全都被拒之门外在门口罚站！
+- 下一章（[第 5 章：并发大危机与事件循环](file:///d:/Workerman/chapters/chapter05_concurrency_and_eventloop/README.md)）我们将用**非阻塞 I/O + `stream_select()` 事件循环**彻底击碎单客阻塞瓶颈！
+
+---
+
+## 🗂️ 本章 Anki 闪卡复习沉淀
+
+- 本章全部精华考点（Socket FD、门卫 vs 服务员、`ENOTCONN`、三次握手与 ISN、四次挥手与 `CLOSE_WAIT`/`TIME_WAIT`、`SO_REUSEADDR`、`onConnect`/`onClose`、Nagle 与 Delayed ACK 40ms 碰撞、TCP Keepalive 55 秒）已统一沉淀至总库：[workerman_anki_cards.txt](file:///d:/Workerman/anki/workerman_anki_cards.txt)。
+- 导入 Anki 后，直接搜索 **`tag:Chapter04`** 即可精准抽取本章全套闪卡复习！

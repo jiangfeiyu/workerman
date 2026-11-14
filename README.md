@@ -55,6 +55,10 @@
   * 原生 PHP resource 无法挂载业务属性与对象包装盒思想
   * 从 10MB 大文件吞噬 7MB 现场推导出内核发送缓冲区（`SO_SNDBUF`）
   * 应用层 `$sendBuffer` 缓存截断与事件循环 `$write` 可写事件排空机制
+* **[第 8 章：二进制与协议插槽 ProtocolInterface —— 终结粘包半包](chapters/chapter08_protocols/README.md)**
+  * 高速通信导致 TCP 粘包与半包惨剧、TCP 字节流与无边界本质
+  * 应用层接收蓄水池（`$recvBuffer`）与定界符切包机制
+  * 解耦协议解析：`input`、`decode`、`encode` 三大规范与 `Frame` 二进制变长包协议推导
 
 ---
 

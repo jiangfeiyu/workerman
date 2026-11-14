@@ -7,6 +7,9 @@
 ## 🟢 第一幕（关卡 3.1 ~ 3.3）：从“一锅粥代码”推导出 `handleMessage($msg)`
 
 ### 🔨 第一步：最直白、最笨的 v0.1 写法（[`v01_hardcoded.php`](file:///d:/Workerman/chapters/chapter03_socratic_onmessage/v01_hardcoded.php)）
+
+![3.1 循环读取与写死的机器人](3.1_循环读取与写死的机器人.png)
+
 老板让你写一个命令行客服机器人，不断从 `0` 号管子（键盘 `STDIN`）读取用户敲进来的话，然后回复他。最不假思索的写法只有 5 行：
 ```php
 <?php
@@ -16,10 +19,16 @@ while (($msg = fgets(STDIN)) !== false) {
     echo "【客服机器人回复】您刚才说的是: " . $msg . "\n";
 }
 ```
-#### 👉 你可以亲自在终端运行的命令：
-```powershell
-wsl php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v01_hardcoded.php
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第一幕：3.1 ~ 3.3）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v01_hardcoded.php
+>   ```
+> - **交互测试**：输入 `你好` 回车；再按 `Ctrl+D`（Linux 发送 EOF 信号）优雅结束。
+> - **观察靶标**：体验阻塞式 `fgets(STDIN)` 与死耦合代码；接着运行 `wsl bash -c 'echo "hi" | php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v02_extract_function.php'` 对比抽取函数后的解耦效果。
+
+![3.2 业务与读取底座耦合的痛点](3.2_业务与读取底座耦合的痛点.png)
 
 ### 💬 师徒苏格拉底对话录 1：剥离底座与业务
 - **💥 撞墙痛点 1**：
@@ -41,6 +50,8 @@ wsl php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v01_hardcoded.php
   }
   ```
 
+![3.3 handleMessage抽取业务函数](3.3_handleMessage抽取业务函数.png)
+
 ---
 
 ## 🟢 第二幕（关卡 3.4 ~ 3.6）：从“写死函数名”推导出 `$callback` 控制反转！
@@ -48,6 +59,8 @@ wsl php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v01_hardcoded.php
 ### 💬 师徒苏格拉底对话录 2：如何让底座 `runWorker` 与具体业务彻底解绑？
 - **💥 撞墙痛点 2**：
   在 `v0.2` 里，你把业务抽成了 `handleMessage($msg)`，看起来清爽多了。
+
+![3.4 写死函数名与底座复用困难](3.4_写死函数名与底座复用困难.png)
   但如果你现在想把下面的 `while` 循环封装成一个全公司通用的公共底座函数 `runWorker()`：
   ```php
   function runWorker() {
@@ -82,6 +95,18 @@ wsl php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v01_hardcoded.php
   你在没有任何提示的情况下，自己写出了 `$onMessage = "handleMessage";` 并传给了 `runWorker($onMessage)`！
   看第 11 行的 `$callback($msg);`：从此以后，`runWorker` 底座彻底变成了“瞎子”——它只管底层的脏活累活（从 FD 管子里读出 `$msg`），至于拿到 `$msg` 后到底干什么，完全由外部传进来的 `$onMessage` 决定！这就叫**业务与底层彻底解耦**！
 
+![3.5 函数变量与可调用值](3.5_函数变量与可调用值.png)
+![3.5 补充 Callable常见形态](3.5_补充_Callable常见形态.png)
+![3.6 回调参数与控制反转](3.6_回调参数与控制反转.png)
+
+> [!TIP]
+> **【👉 本关亲手实操任务（第二幕：3.4 ~ 3.6）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl bash -c 'echo "测试回调反转" | php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v03_pass_callback.php'
+>   ```
+> - **改写实验**：在 `v03_pass_callback.php` 中尝试把 `$onMessage = "handleMessage";` 改成匿名函数 `function($msg) { echo strtoupper($msg) . "\n"; }`，体会不改底座 `runWorker` 一行代码却彻底换掉业务的“控制反转”魔力！
+
 
 ---
 
@@ -99,6 +124,9 @@ wsl php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v01_hardcoded.php
   ```php
   runWorker(null, null, $onMessage, null, null); // ❌ 必须数准逗号和 null 的数量，极易错位！
   ```
+
+![3.7 生命周期事件与参数膨胀](3.7_生命周期事件与参数膨胀.png)
+![3.8 Worker属性回调插座](3.8_Worker属性回调插座.png)
 - **🤔 导师提问**：
   > “为了消灭数 `null` 的参数泥潭，如果用面向对象的盒子 `class Worker` 把底座包起来：
   > 1. 我们在类里定义 `public $onWorkerStart = null;` 和 `public $onMessage = null;` 作为公开插座。
@@ -167,12 +195,17 @@ $worker->onMessage = function ($msg) {
 $worker->run();
 ```
 
-#### 👉 你可以亲自在终端运行的命令：
-```powershell
-wsl php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v04_worker_class.php
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第三幕：3.7 ~ 3.8）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl bash -c '{ echo "hello"; echo "workerman"; } | php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v04_worker_class.php'
+>   ```
+> - **观察靶标**：`=== 机器人启动成功，准备接客！===`（`$onWorkerStart`）只打印了 **1 次**，而 `【客服机器人回复】` 触发了 **2 次**。
 
 ### 📖 Workerman 源码真迹印证
+
+![3.10 手写Worker与Workerman源码对应](3.10_手写Worker与Workerman源码对应.png)
 打开原版源码 [`Workerman/src/Worker.php`](file:///d:/Workerman/workerman-source/src/Worker.php)：
 1. **属性定义（第 235~248 行）**：
    ```php
@@ -207,8 +240,14 @@ wsl php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v04_worker_class.
 - 如果底座只调用 `($this->onWorkerStart)()`，闭包内就拿不到当前 Worker 对象，必须笨拙地写 `use ($worker)`。但在工厂模式或批量创建多进程时，`use` 很容易导致闭包引用混淆或循环引用内存泄漏。
 - 框架把 `$this` 作为第一个参数主动递进闭包，这就是现代框架标准的**上下文依赖注入（Context Injection）**！
 
+![3.8 补充 Worker上下文注入](3.8_补充_Worker上下文注入.png)
+
 ### 3. 严格校验：`is_callable()` 替代单纯的 `if ($this->onMessage)`
 单纯用 `if ($this->onMessage)` 只能判断非空，如果用户粗心传了个整数（`$worker->onMessage = 123;`）或拼错了函数名字符串，执行时依然会引发致命的语法错误。使用 `is_callable()` 才能确保无论用户传的是闭包、字符串函数、还是面向对象数组，都能安全调度。
+
+![3.9 is_callable防御非法回调](3.9_is_callable防御非法回调.png)
+![3.9 补充 Throwable异常安全网](3.9_补充_Throwable异常安全网.png)
+![3.9 补充 onError回调与异常分流](3.9_补充_onError回调与异常分流.png)
 
 ### 4. 面向对象的多样化回调支持：`[$controller, 'action']`
 在真实的复杂大型项目（如 MVC 架构）中，业务逻辑通常写在控制器类中。PHP 的回调机制天然支持用数组语法 `[$bot, 'reply']` 传入类的实例方法。
@@ -256,10 +295,14 @@ class Worker {
 }
 ```
 
-#### 👉 你可以亲自在终端运行的命令（模拟业务抛异常测试）：
-```powershell
-wsl bash -c '{ echo "hello"; echo "bomb"; echo "world"; } | php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v05_robust_worker.php'
-```
+> [!TIP]
+> **【👉 本关亲手实操任务（第四幕：3.9 ~ 3.10 异常安全网）】**
+> - **终端命令（模拟业务抛异常测试）**：
+>   ```powershell
+>   wsl bash -c '{ echo "hello"; echo "bomb"; echo "world"; } | php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v05_robust_worker.php'
+>   ```
+> - **观察靶标**：收到 `"bomb"` 时抛出异常被安全网拦截，随后 `"world"` 依然被顺利处理！
+> - **改错实验**：临时把 `v05_robust_worker.php` 里的 `try { ... } catch (\Throwable $e)` 注释掉再跑同一条命令，亲眼看进程如何在 `"bomb"` 处当场暴毙，连 `"world"` 都收不到（验证后改回）。
 #### 终端真实输出：
 ```text
 === ChatRobotWorker (PID: 435) 启动成功，准备接客！===

@@ -32,9 +32,14 @@
 
 ## 第一幕：用十六进制彻底扒掉四层协议栈的外衣
 
+### 💬 师徒苏格拉底对话录 1：5 个字节的 `"hello"` 为什么在网线里膨胀成 57 字节？
+
+- **🤔 徒弟的疑惑**：我在 PHP 里只写了一句 `fwrite($client, "hello")`，明明只有 5 个字母，怎么在网络里一抓包却变成了 57 个字节？多出来的 52 字节是谁塞进去的？
+- **💡 师父点拨**：你寄顺丰快递只装了一支口红（5 克），快递站难道光秃秃把口红扔上货车吗？必须外面套纸箱、贴运单（收发件人地址与端口 = **TCP/IP 首部**），上高速还得记车牌（**链路层帧头**）！把 [`01_send_hello.php`](file:///d:/Workerman/chapters/chapter04_extra_tcp_deep_dive/01_send_hello.php) 跑起来抓一眼 16 进制源码，一切黑盒瞬间透明！
+
 ### 图解：TCP/IP 四层模型与包裹封装切片
 
-![番外.1 四层协议封装与报文切片](file:///d:/Workerman/chapters/chapter04_extra_tcp_deep_dive/4.extra_1_四层协议封装与报文切片.png)
+![番外.1 四层协议封装与报文切片](4.extra_1_四层协议封装与报文切片.png)
 
 ```mermaid
 flowchart TD
@@ -100,13 +105,25 @@ flowchart TD
      - `0x6c` = `'l'`
      - `0x6f` = `'o'`
 
+> [!TIP]
+> **【👉 本关亲手实操任务（番外 第一幕）】**
+> - **终端 1（开启抓包显微镜）**：`wsl sudo tcpdump -i lo -nn -X port 9999`
+> - **终端 2（运行发包脚本）**：`wsl php chapters/chapter04_extra_tcp_deep_dive/01_send_hello.php`
+> - **观察靶标**：在终端 1 的 16 进制输出末尾找到 `6865 6c6c 6f`（即 `hello`），并对照前面的 `270f`（十进制 `9999` 目的端口）与 `7f00 0001`（`127.0.0.1`）。
+> - **改错/扩展实验**：把 `01_send_hello.php` 中的 `"hello"` 改成 `"Workerman!"`（10 字节）再抓一次，验证 IP 首部总长度字段是否从 `0x0039`（57）精准涨到 `0x003e`（62）！
+
 ---
 
 ## 第二幕：三次握手抓包与两大底层谜题
 
+### 💬 师徒苏格拉底对话录 2：为什么序号不从 `0` 开始？SYN 明明没带数据为啥耗 1 个序号？
+
+- **🤔 徒弟的疑惑**：看三次握手抓包时我发现了两个怪现象：第一，客户端上来发的 `seq` 是一串十位数的天文数字，干嘛不从 `0` 或 `1` 开始？第二，`SYN` 包长度是 `0`，怎么服务端回复的 `ack` 却加了 `1`？
+- **💡 师父反问**：假设上次连接的包在公网迷路 3 秒后才抵达，如果每次新连接都从 `seq=0` 开始，新连接岂不是把上辈子的幽灵残包当成今天的新数据吸进去？至于 `SYN` 为啥占 1 个序号——**凡是需要让对方确认收到的标记，都必须占一个门牌号！**
+
 ### 图解：三次握手时序与数学序号演进
 
-![番外.2 三次握手与ISN防幽灵包](file:///d:/Workerman/chapters/chapter04_extra_tcp_deep_dive/4.extra_2_三次握手与ISN防幽灵包.png)
+![番外.2 三次握手与ISN防幽灵包](4.extra_2_三次握手与ISN防幽灵包.png)
 
 ```mermaid
 sequenceDiagram
@@ -148,9 +165,14 @@ sequenceDiagram
 
 ## 第三幕：四次挥手与亲手制造 CLOSE_WAIT 生产事故
 
+### 💬 师徒苏格拉底对话录 3：为什么生产环境服务器会出现成千上万个 `CLOSE_WAIT`？
+
+- **🤔 徒弟的疑惑**：网上总听说“服务器出现大量 `CLOSE_WAIT` 导致句柄耗尽崩溃”，这到底是 Linux 内核的 Bug 还是网络丢包？
+- **💡 师父破案**：恰恰相反，**`CLOSE_WAIT` 是内核在替粗心程序员擦屁股！** 当对端发来 `FIN`（第 1 次挥手），Linux 内核自动回一个 `ACK`（第 2 次挥手）后，会把连接放进 `CLOSE_WAIT`，死等上层 PHP 代码确认“我这边数据也发完了”并亲手调用 `fclose($conn)`，它才敢发出第 3 次挥手 `FIN`！下面用 [`02_close_wait_bug.php`](file:///d:/Workerman/chapters/chapter04_extra_tcp_deep_dive/02_close_wait_bug.php) 亲手把案发现场复现出来！
+
 ### 图解：四次挥手与 CLOSE_WAIT 泄漏现场
 
-![番外.3 四次挥手与CLOSE_WAIT泄露](file:///d:/Workerman/chapters/chapter04_extra_tcp_deep_dive/4.extra_3_四次挥手与CLOSE_WAIT泄露.png)
+![番外.3 四次挥手与CLOSE_WAIT泄露](4.extra_3_四次挥手与CLOSE_WAIT泄露.png)
 
 ```mermaid
 sequenceDiagram
@@ -205,7 +227,7 @@ CLOSE-WAIT 1      0          127.0.0.1:9999     127.0.0.1:34534
 - **后果**：由于 PHP 代码没有调用 `fclose`，Linux 内核无法发出最后的 FIN。连接数打满后，整个服务报错 `Too many open files` 崩溃瘫痪！
 
 ### Workerman 源码对比：如何毫秒级消除 CLOSE_WAIT
-Workerman 在 [`src/Connection/TcpConnection.php` (Line 718-723)](file:///mnt/d/Workerman/workerman-source/src/Connection/TcpConnection.php#L718-L723) 严格监控读取：
+Workerman 在 [`src/Connection/TcpConnection.php` (Line 718-723)](file:///d:/Workerman/workerman-source/src/Connection/TcpConnection.php#L718-L723) 严格监控读取：
 ```php
 if ($buffer === '' || $buffer === false) {
     if ($checkEof && (!is_resource($socket) || feof($socket) || $buffer === false)) {
@@ -216,13 +238,21 @@ if ($buffer === '' || $buffer === false) {
 ```
 并在 `destroy()` 中调用 `@fclose($this->socket)`，瞬间让内核向客户端发出第 3 次挥手的 FIN，终结连接，杜绝了任何一个连接卡死在 `CLOSE_WAIT`！
 
+> [!TIP]
+> **【👉 本关亲手实操任务（番外 第三幕）】**
+> - **终端 1（运行泄漏服务端）**：`wsl php chapters/chapter04_extra_tcp_deep_dive/02_close_wait_bug.php`
+> - **终端 2（连入并主动断线）**：运行 `wsl nc 127.0.0.1 9999`，连上后直接按 `Ctrl+C` 模拟客户端主动挥手关闭。
+> - **终端 3（抓现场）**：立刻运行 `wsl ss -tan | grep 9999`
+> - **观察靶标**：在 60 秒睡眠窗口内，亲眼看到服务端 `127.0.0.1:9999` 变成醒目的 **`CLOSE-WAIT`**，而客户端变成 `FIN-WAIT-2`！
+> - **改错恢复实验**：在 `02_close_wait_bug.php` 的 `sleep(60);` 前加上 `fclose($conn);` 再跑一次，观察 `CLOSE-WAIT` 瞬间消失！
+
 ---
 
 ## 第四幕：TIME_WAIT 与 2MSL 的哲学守候
 
 ### 图解：TIME_WAIT 为什么必须死等 2MSL？
 
-![番外.4 TIME_WAIT与2MSL灵魂守候](file:///d:/Workerman/chapters/chapter04_extra_tcp_deep_dive/4.extra_4_TIME_WAIT与2MSL灵魂守候.png)
+![番外.4 TIME_WAIT与2MSL灵魂守候](4.extra_4_TIME_WAIT与2MSL灵魂守候.png)
 
 ```mermaid
 sequenceDiagram
@@ -259,9 +289,14 @@ sequenceDiagram
 
 ## 第五幕：Nagle 算法与 Delayed ACK 的 40ms 延迟惨案
 
+### 💬 师徒苏格拉底对话录 4：高并发微包为什么会莫名其妙卡顿 40ms？
+
+- **🤔 徒弟的疑惑**：局域网延迟明明不到 0.2ms，为什么有时连续发两次小数据，中间平白无故卡死 40 毫秒？
+- **💡 师父揭秘**：那是两个好心办坏事的优化机制撞车了——发送端的 **Nagle** 想“攒一攒小包再发”，接收端的 **Delayed ACK** 想“等 40ms 看有没有回信一起捎带确认”，结果两人大眼瞪小眼互相死等 40ms！Workerman 果断用 `TCP_NODELAY` 一刀切掉 Nagle。
+
 ### 图解：世纪大撞车 40ms 延迟死锁
 
-![番外.5 Nagle与Delayed_ACK的40ms大撞车](file:///d:/Workerman/chapters/chapter04_extra_tcp_deep_dive/4.extra_5_Nagle与Delayed_ACK的40ms大撞车.png)
+![番外.5 Nagle与Delayed_ACK的40ms大撞车](4.extra_5_Nagle与Delayed_ACK的40ms大撞车.png)
 
 ```mermaid
 sequenceDiagram
@@ -293,7 +328,7 @@ Workerman 配置 `socket_set_option($socket, SOL_TCP, TCP_NODELAY, 1);` 直接�
 
 ### 图解：内核保活与进程脑死亡的差异
 
-![番外.6 TCP保活55秒与应用层心跳](file:///d:/Workerman/chapters/chapter04_extra_tcp_deep_dive/4.extra_6_TCP保活55秒与应用层心跳.png)
+![番外.6 TCP保活55秒与应用层心跳](4.extra_6_TCP保活55秒与应用层心跳.png)
 
 ```mermaid
 flowchart TD
@@ -324,7 +359,7 @@ flowchart TD
 
 ## 第七幕：Workerman 核心 Socket 源码全景对照
 
-打开 Workerman 源码 [`src/Worker.php` (Line 2520-2534)](file:///mnt/d/Workerman/workerman-source/src/Worker.php#L2520-L2534)：
+打开 Workerman 源码 [`src/Worker.php` (Line 2520-2534)](file:///d:/Workerman/workerman-source/src/Worker.php#L2520-L2534)：
 
 ```php
 // Try to open keepalive for tcp and disable Nagle algorithm.

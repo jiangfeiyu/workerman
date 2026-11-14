@@ -14,3 +14,4 @@
   * [🟢 第 5 章：高并发与 EventLoop 事件循环](chapters/chapter05_concurrency_and_eventloop/README.md)
   * [🟢 第 6 章：定时器与最小堆/时间轮](chapters/chapter06_timer_and_heap/README.md)
   * [🟢 第 7 章：TcpConnection 与异步发送缓冲区](chapters/chapter07_tcp_connection/README.md)
+  * [🟢 第 8 章：二进制与协议插槽 ProtocolInterface](chapters/chapter08_protocols/README.md)

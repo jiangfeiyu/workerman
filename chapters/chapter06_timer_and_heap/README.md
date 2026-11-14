@@ -32,6 +32,9 @@
 ---
 
 ### 💥 关卡 6.1：现场大车祸！全服被施“时间定身法”！
+
+![6.1 回调sleep阻塞整个Worker](6.1_回调sleep阻塞整个Worker.png)
+
 我们在后台进行了严格的时间戳实测模拟：
 1. **[14:17:37]** 客人 A 发送 `"点宫保鸡丁"`，服务器进入 `onMessage` 并执行 `sleep(3)`；
 2. **[14:17:38]** 仅仅 1 秒后，门外来了客人 B，急匆匆敲门并大喊：`"救命！"`。
@@ -60,10 +63,19 @@
 客人 B 只是想问一句话，但因为客人 A 点了道菜，客人 B 连大门都没能走进来，在寒风中被硬生生晾了整整 3 秒！
 在常驻内存服务中，**`sleep()` 就像一颗原子弹，一旦引爆，全服所有在线用户瞬间被集体定身！**
 
+> [!TIP]
+> **【👉 本关亲手实操任务（第一幕：6.1 灾难复现）】**
+> - **终端 1（服务端）**：`wsl php chapters/chapter06_timer_and_heap/01_sleep_disaster.php`
+> - **终端 2（客人 A）**：`wsl nc 127.0.0.1 8080`，发送 `点宫保鸡丁` 回车。
+> - **终端 3（客人 B，趁 3 秒内火速连入）**：`wsl nc 127.0.0.1 8080`，发送 `救命` 回车。
+> - **观察靶标**：终端 3 会硬生生卡住整整 3 秒才被终端 1 接进门并打印 `新客人进门`。
 
 ---
 
 ## 🟢 第二幕（关卡 6.2 ~ 6.3）：唯一净土与非阻塞闹钟的诞生！
+
+![6.2 事件循环等待与延迟任务](6.2_事件循环等待与延迟任务.png)
+![6.3 after登记非阻塞闹钟](6.3_after登记非阻塞闹钟.png)
 
 ### 💬 师徒苏格拉底对话录 2：从 sleep 绝境到 stream_select 打盹
 - **🤔 导师提问**：
@@ -128,9 +140,18 @@ foreach ($this->timers as $index => $timer) {
 - 客人 B 在第 1 秒进门喊话，**秒进大门，瞬间得到响应**，再也没有被定身！
 - 客人 A 在整整 3 秒后，准时收到了他的宫保鸡丁！
 
+> [!TIP]
+> **【👉 本关亲手实操任务（第二幕：6.2 ~ 6.3）】**
+> - **终端 1（非阻塞定时器服务端）**：`wsl php chapters/chapter06_timer_and_heap/02_nonblocking_timer.php`
+> - **终端 2（客人 A）**：`wsl nc 127.0.0.1 8080`，发送 `点宫保鸡丁` 回车。
+> - **终端 3（客人 B，1 秒内立刻连入）**：`wsl nc 127.0.0.1 8080`，发送 `救命` 回车。
+> - **观察靶标**：终端 1 秒级打印 `接待新客人`（客人 B 绝不再被定身！），3 秒整准时给 A、B 各自端菜。
+
 ---
 
 ### 💥 关卡 6.4 性能痛点撞墙：50,000 个闹钟的灾难！
+
+![6.4 五万个定时器与全表扫描](6.4_五万个定时器与全表扫描.png)
 现在的闹钟虽然能跑，但请看上面的代码实现：
 ```php
 foreach ($this->timers as $t) { ... } // 找最小时间
@@ -145,7 +166,9 @@ foreach ($this->timers as $t) { ... } // 检查哪个闹钟到期
 
 ## 🟢 第三幕（显微镜级透视）：定时器核心代码逐行机制与数学拆解
 
-### 🔬 核心代码显微镜拆解（对应课程铁律 8）
+### 🔬 核心代码显微镜拆解（对应课程铁律 8，配套实验 [`12_timer_math_breakdown.php`](file:///d:/Workerman/chapters/chapter06_timer_and_heap/12_timer_math_breakdown.php)）
+
+![6.3 补充 超时秒与微秒换算](6.3_补充_超时秒与微秒换算.png)
 
 ```php
 // 1. 业务点餐：记小本本，函数毫秒级立刻返回！
@@ -235,6 +258,14 @@ foreach ($this->timers as $index => $timer) {
   下一轮循环时，当前时间依然 `>= 103.2`，它每毫秒都会重复执行一次！而且随着长连接越来越多，数组只增不减，最终会导致**内存泄漏（Memory Leak）撑爆服务器**！  
   `unset` 就是在闹钟本上彻底划掉这一页，释放内存！
 
+> [!TIP]
+> **【👉 本关亲手实操任务（第三幕：微秒换算与超时保护）】**
+> - **终端命令**：
+>   ```powershell
+>   wsl php chapters/chapter06_timer_and_heap/12_timer_math_breakdown.php
+>   ```
+> - **观察靶标**：看脚本如何将浮点延迟时间精确拆分为 `tv_sec`（整数秒）与 `tv_usec`（微秒余数），并演示当回调逾期出现负差值时 `max(0, ...)` 如何保命。
+
 ---
 
 
@@ -260,6 +291,8 @@ foreach ($this->timers as $index => $timer) {
 ---
 
 ### 🏥 生活大比喻：医院急诊室与“优先队列（Priority Queue）”
+
+![6.5 优先队列与最小堆](6.5_优先队列与最小堆.png)
 - **普通队列（FIFO，如排队买奶茶）**：谁先来，谁先买。
 - **优先队列（急诊室模式）**：不看谁先挂号，**全看谁的病情最紧急（优先级最高）**！危重病人哪怕刚进门，也立刻被送到手术室最前排！
 - **什么是“堆（Heap）”？**  
@@ -271,6 +304,8 @@ foreach ($this->timers as $index => $timer) {
 ---
 
 ### 🪄 PHP 内置神兵与 Workerman 的“负数黑魔法”：
+
+![6.6 SplPriorityQueue负数时间戳](6.6_SplPriorityQueue负数时间戳.png)
 PHP 原生自带了优先队列类：**`SplPriorityQueue`**（见 [`13_spl_priority_queue_demo.php`](file:///d:/Workerman/chapters/chapter06_timer_and_heap/13_spl_priority_queue_demo.php)）：
 ```php
 $queue = new SplPriorityQueue();
@@ -298,6 +333,8 @@ $top = $queue->top(); // 拿出来的正是 2 秒后的闹钟！
 ---
 
 ### 📖 关卡 6.7：Workerman 官方源码真迹对照印证！
+
+![6.7 定时器与Workerman源码对照](6.7_定时器与Workerman源码对照.png)
 
 请打开 Workerman 官方源码文件：[`workerman-source/src/Events/Select.php`](file:///d:/Workerman/workerman-source/src/Events/Select.php)！
 
@@ -348,6 +385,9 @@ while (!$this->scheduler->isEmpty()) {
 ---
 
 ### 🧪 关卡 6.8：实战串联 —— 心跳广播机器人 + 延迟上菜任务
+
+![6.8 周期广播与延迟回复共存](6.8_周期广播与延迟回复共存.png)
+
 在 [`15_robot_timer_demo.php`](file:///d:/Workerman/chapters/chapter06_timer_and_heap/15_robot_timer_demo.php) 中，我们启动了搭载最小堆定时器的高性能服务器：
 - 每隔 2 秒自动向全场在线客人广播当前系统时间；
 - 同时客人发来点餐时，3 秒后准时端出热菜回复；
@@ -391,6 +431,9 @@ while (!$this->scheduler->isEmpty()) {
 ---
 
 ### 🧩 积木 1：为什么需要“两张表”（`$scheduler` 堆 + `$timerTasks` 账本）？
+
+![6.6 补充 堆与任务账本双表协作](6.6_补充_堆与任务账本双表协作.png)
+![6.6 补充 取消定时器与惰性删除](6.6_补充_取消定时器与惰性删除.png)
 看第 8~12 行：
 ```php
 protected SplPriorityQueue $scheduler; // 1. 最小堆金字塔
@@ -450,6 +493,8 @@ while (!$this->scheduler->isEmpty()) {
 ---
 
 ### 🧩 积木 4：`loop()` 方法里的“醒后兑现与重新入队”
+
+![6.8 补充 after与repeat重新入队](6.8_补充_after与repeat重新入队.png)
 看第 101~127 行：
 ```php
 $now = microtime(true);
@@ -515,3 +560,20 @@ while (!$this->scheduler->isEmpty()) {
 - **T = 4.0 秒**：时间到，机器人第 2 次广播！
 
 **这就是为什么高并发服务器既能处理成千上万个客人说话，又能同时跑成千上万个定时器，CPU 还停留在 0.0% 的秘密！**
+
+> [!TIP]
+> **【👉 本关亲手实操任务（第四 & 五幕：最小堆验证与全栈定时器联调）】**
+> 1. **验证最小堆负数技巧**：
+>    - 运行命令：`wsl php chapters/chapter06_timer_and_heap/13_spl_priority_queue_demo.php`
+>    - **改错实验**：临时把脚本里插入优先级从 `-$delay` 改成正数 `$delay`，运行观察出堆顺序如何立刻变成“最晚的先响”！
+> 2. **双终端体验并发广播 + 点餐延时**：
+>    - **终端 1**：`wsl php chapters/chapter06_timer_and_heap/15_robot_timer_demo.php`
+>    - **终端 2**：`wsl nc 127.0.0.1 8080`，输入 `点菜` 回车。
+>    - **观察靶标**：每 2 秒自动收到广播报时，同时第 3 秒准确插队收到厨师热菜，随后广播继续 0 漂移运行！
+
+---
+
+## 🗂️ 本章 Anki 闪卡复习沉淀
+
+本章核心知识点（禁 `sleep` 铁律、非阻塞定时器与 `struct timeval`、`max(0, ...)` 防线、最小堆与负数优先队列、双表惰性删除、`repeat` 防漂移）已全部沉淀至总库：[workerman_anki_cards.txt](file:///d:/Workerman/anki/workerman_anki_cards.txt)。
+- 导入 Anki 后搜索 **`tag:Chapter06`** 即可抽取本章全部 8 张高密度问答卡！
