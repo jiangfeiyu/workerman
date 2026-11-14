@@ -5,7 +5,8 @@ require_once __DIR__ . '/03_protocol_interface_slot.php';
 echo "=== 关卡 8.9 换行符协议撞车惨案 (PID: " . posix_getpid() . ") ===\n\n";
 
 $loop = new AdvancedSelectLoop();
-$server = stream_socket_server("tcp://127.0.0.1:8087");
+$context = stream_context_create(['socket' => ['so_reuseaddr' => true]]);
+$server = stream_socket_server("tcp://127.0.0.1:8087", $errno, $errstr, STREAM_SERVER_BIND | STREAM_SERVER_LISTEN, $context);
 stream_set_blocking($server, false);
 
 $triggerCount = 0;

@@ -98,32 +98,34 @@ class Worker
 }
 
 // ==================== 业务开发者的使用姿势（完全仿照 Workerman） ====================
-$worker = new Worker("tcp://0.0.0.0:8080");
+if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'] ?? '')) {
+    $worker = new Worker("tcp://0.0.0.0:8080");
 
-$worker->onWorkerStart = function (Worker $w) {
-    echo "🚀 [onWorkerStart] Worker 已就位，监听地址: {$w->socketName} (PID: " . posix_getpid() . ")\n";
-};
+    $worker->onWorkerStart = function (Worker $w) {
+        echo "🚀 [onWorkerStart] Worker 已就位，监听地址: {$w->socketName} (PID: " . posix_getpid() . ")\n";
+    };
 
-$worker->onConnect = function ($conn, string $remoteAddress) {
-    echo "🟢 [onConnect] 新访客连入: $remoteAddress (资源标识: $conn)\n";
-};
+    $worker->onConnect = function ($conn, string $remoteAddress) {
+        echo "🟢 [onConnect] 新访客连入: $remoteAddress (资源标识: $conn)\n";
+    };
 
-$worker->onMessage = function ($conn, string $data) {
-    echo "📩 [onMessage] 收到请求前 40 字节: " . json_encode(substr($data, 0, 40)) . "\n";
+    $worker->onMessage = function ($conn, string $data) {
+        echo "📩 [onMessage] 收到请求前 40 字节: " . json_encode(substr($data, 0, 40)) . "\n";
 
-    // 返回标准的 HTTP/1.1 响应报文，浏览器和 curl 都能直接看懂！
-    $body = "<h1>Hello from My Tiny Workerman (Stage 4)!</h1>\n";
-    $response = "HTTP/1.1 200 OK\r\n"
-              . "Content-Type: text/html; charset=utf-8\r\n"
-              . "Content-Length: " . strlen($body) . "\r\n"
-              . "Connection: close\r\n"
-              . "\r\n"
-              . $body;
-    fwrite($conn, $response);
-};
+        // 返回标准的 HTTP/1.1 响应报文，浏览器和 curl 都能直接看懂！
+        $body = "<h1>Hello from My Tiny Workerman (Stage 4)!</h1>\n";
+        $response = "HTTP/1.1 200 OK\r\n"
+                  . "Content-Type: text/html; charset=utf-8\r\n"
+                  . "Content-Length: " . strlen($body) . "\r\n"
+                  . "Connection: close\r\n"
+                  . "\r\n"
+                  . $body;
+        fwrite($conn, $response);
+    };
 
-$worker->onClose = function ($conn, string $remoteAddress) {
-    echo "🔴 [onClose] 访客已断开清理: $remoteAddress\n\n";
-};
+    $worker->onClose = function ($conn, string $remoteAddress) {
+        echo "🔴 [onClose] 访客已断开清理: $remoteAddress\n\n";
+    };
 
-$worker->run();
+    $worker->run();
+}

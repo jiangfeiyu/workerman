@@ -1,5 +1,5 @@
 <?php
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 $pid = posix_getpid();
 echo "1. 饭店开门（\$server 是门口迎宾员），等待客人上门（阻塞在这里）...\n";
 

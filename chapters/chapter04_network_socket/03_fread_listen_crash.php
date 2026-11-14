@@ -3,7 +3,7 @@
 // 1) 对处于 LISTEN 状态的监听 Socket 调用 fread() 不会读取客户端数据（阻塞模式会死锁，非阻塞模式返回 false 并触发内核 ENOTCONN）；
 // 2) 必须先用 stream_socket_accept($server) 接客，生出专职连接句柄 $conn 后，才能用 fread($conn, 1024) 读数据！
 
-$server = stream_socket_server("tcp://127.0.0.1:8080", $errno, $errstr);
+$server = stream_socket_server("tcp://127.0.0.1:8080", $errno, $errstr, context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 if (!$server) {
     exit("启动监听失败: [$errno] $errstr\n");
 }

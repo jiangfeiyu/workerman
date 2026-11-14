@@ -762,7 +762,7 @@ class Worker {
 
 请打开 Workerman 官方源码文件：[`d:/Workerman/workerman-source/src/Events/Select.php`](file:///d:/Workerman/workerman-source/src/Events/Select.php)！
 
-#### 1. 属性定义与注册监听（第 71 行、第 198~222 行）：
+#### 1. 属性定义与注册监听（[`Select.php#L71`](file:///d:/Workerman/workerman-source/src/Events/Select.php#L71)、[`Select.php#L198-L222`](file:///d:/Workerman/workerman-source/src/Events/Select.php#L198-L222)）：
 ```php
 // Workerman 官方源码：
 private array $readFds = [];
@@ -785,7 +785,7 @@ public function offReadable($stream): bool {
 ```
 > **起鸡皮疙瘩的对照**：Workerman 的 `readFds`、`readEvents`、`(int)$stream` 转数字 key、以及 `unset` 移除，与我们刚才手写的 `SelectLoop` 一模一样！
 
-#### 2. 事件循环分发引擎（第 388~408 行）：
+#### 2. 事件循环分发引擎（[`Select.php#L388-L408`](file:///d:/Workerman/workerman-source/src/Events/Select.php#L388-L408)）：
 ```php
 // Workerman 官方源码：
 while ($this->running) {
@@ -899,7 +899,7 @@ while (true) {
 ### ⛓️ 隐藏内功 2：1024 诅咒 —— 为什么 Workerman 会报 1024 告警？
 
 ![5.9 补充 select限制与ulimit的区别](5.9_补充_select限制与ulimit的区别.png)
-翻看 `workerman-source/src/Events/Select.php` 第 200 行：
+翻看 [`Select.php#L200-L205`](file:///d:/Workerman/workerman-source/src/Events/Select.php#L200-L205)：
 ```php
 if (count($this->readFds) >= 1024) {
     trigger_error("System call select exceeded the maximum number of connections 1024, please install event extension for more connections.", E_USER_WARNING);

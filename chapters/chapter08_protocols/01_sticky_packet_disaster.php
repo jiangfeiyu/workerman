@@ -5,7 +5,8 @@ require_once __DIR__ . '/../chapter07_tcp_connection/07_async_send_buffer.php';
 echo "=== 关卡 8.1 & 8.2 TCP 粘包与拆包车祸现场 (PID: " . posix_getpid() . ") ===\n\n";
 
 $loop = new AdvancedSelectLoop();
-$server = stream_socket_server("tcp://127.0.0.1:8084");
+$context = stream_context_create(['socket' => ['so_reuseaddr' => true]]);
+$server = stream_socket_server("tcp://127.0.0.1:8084", $errno, $errstr, STREAM_SERVER_BIND | STREAM_SERVER_LISTEN, $context);
 stream_set_blocking($server, false);
 
 $triggerCount = 0;

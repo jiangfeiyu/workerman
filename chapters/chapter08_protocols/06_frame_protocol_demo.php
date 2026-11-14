@@ -18,11 +18,10 @@ class FrameProtocol implements ProtocolInterface {
         $unpack = unpack('Ntotal_len', $buffer);
         $totalLen = $unpack['total_len'];
 
-        // 3. 安全防洪：如果包长超过 10MB，判定为黑客恶意攻击，返回 -1 踢掉连接！
+        // 3. 安全防洪：如果包长超过 10MB 或小于 4 字节，判定为非法恶意攻击，返回 -1 交由底座踢掉连接！
         if ($totalLen > self::MAX_PACKAGE_SIZE || $totalLen < 4) {
-            echo "   ⚠️ [安全拦截] 收到非法超大包长: $totalLen 字节！踢下线！\n";
-            $connection->destroy();
-            return 0;
+            echo "   ⚠️ [安全拦截] 收到非法包长: $totalLen 字节！返回 -1 通知底座踢下线！\n";
+            return -1;
         }
 
         // 4. 返回整个数据包的准确长度
@@ -44,7 +43,8 @@ class FrameProtocol implements ProtocolInterface {
 
 // ----------------- 服务端启动 -----------------
 $loop = new AdvancedSelectLoop();
-$server = stream_socket_server("tcp://127.0.0.1:8088");
+$context = stream_context_create(['socket' => ['so_reuseaddr' => true]]);
+$server = stream_socket_server("tcp://127.0.0.1:8088", $errno, $errstr, STREAM_SERVER_BIND | STREAM_SERVER_LISTEN, $context);
 stream_set_blocking($server, false);
 
 $triggerCount = 0;
@@ -86,7 +86,18 @@ $loop->after(0.05, function () use ($client) {
     fwrite($client, $pkg1 . $pkg2);
 });
 
-$loop->after(0.15, function () {
+// 故意测试一次“半包”分两次发送（先发前 10 字节含 4 字节长度头，20ms 后再发剩余包体）
+$pkg3 = FrameProtocol::encode("【半包重拼测试】前半截与后半截跨网络到达，照样完整交付！", null);
+$loop->after(0.10, function () use ($client, $pkg3) {
+    echo "2. [客户端] 故意拆包发送第 3 个数据包：先发前 10 字节半包...\n\n";
+    fwrite($client, substr($pkg3, 0, 10));
+});
+$loop->after(0.13, function () use ($client, $pkg3) {
+    echo "3. [客户端] 补发第 3 个数据包的剩余字节...\n\n";
+    fwrite($client, substr($pkg3, 10));
+});
+
+$loop->after(0.22, function () {
     echo "=== 实验圆满成功 ===\n";
     exit(0);
 });

@@ -14,7 +14,7 @@ class Worker {
     public function run() {
         if ($this->onWorkerStart) ($this->onWorkerStart)();
 
-        $this->server = stream_socket_server($this->address);
+        $this->server = stream_socket_server($this->address, context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
         // 把大门口迎宾员先录入总电话本
         $this->allSockets[(int)$this->server] = $this->server;
 

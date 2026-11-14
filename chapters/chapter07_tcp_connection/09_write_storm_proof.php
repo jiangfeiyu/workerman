@@ -5,7 +5,7 @@ require_once __DIR__ . '/07_async_send_buffer.php';
 echo "=== 实验：透视写事件不注销导致的‘空转风暴’ ===\n";
 
 $loop = new AdvancedSelectLoop();
-$server = stream_socket_server("tcp://127.0.0.1:8081");
+$server = stream_socket_server("tcp://127.0.0.1:8081", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 $client = stream_socket_client("tcp://127.0.0.1:8081");
 $conn = stream_socket_accept($server);
 

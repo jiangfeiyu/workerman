@@ -65,6 +65,7 @@ class JsonProtocol implements ProtocolInterface {
 class ProtocolConnection extends TcpConnection {
     protected string $recvBuffer = '';
     public ?string $protocol = null; // 插槽！插入哪个协议类名，就跑哪个协议！
+    public int $maxPackageSize = 10485760; // 默认单包上限 10MB，防恶意伪造包头撑爆内存
 
     public function baseRead($socket): void {
         $data = @fread($socket, 65535);
@@ -88,10 +89,27 @@ class ProtocolConnection extends TcpConnection {
         // 🌟 核心通用切包循环：向协议芯片连发三问！
         while ($this->recvBuffer !== '') {
             // 一问协议芯片：水库里的水够一个包吗？长度是多少？
-            $pkgLen = ($this->protocol)::input($this->recvBuffer, $this);
+            try {
+                $pkgLen = ($this->protocol)::input($this->recvBuffer, $this);
+            } catch (\Throwable $e) {
+                $pkgLen = -1;
+            }
 
             if ($pkgLen === 0) {
-                // 半包！不够一个包，立刻 break 跳出循环，等下一次网卡来水！
+                // 长度还未知的半包，立刻 break 跳出循环，等下一次网卡来水！
+                break;
+            }
+
+            if ($pkgLen < 0 || $pkgLen > $this->maxPackageSize) {
+                // 错误包或恶意超大包：立即切断连接，防止内存暴涨或死循环
+                echo "   ⚠️ [协议安全拦截] 非法或超限包长 ($pkgLen 字节)，立即销毁连接！\n";
+                $this->destroy();
+                if ($this->onClose) ($this->onClose)($this);
+                return;
+            }
+
+            if ($pkgLen > strlen($this->recvBuffer)) {
+                // 已知目标总长（如 FrameProtocol 已读出 4 字节头），但包体尚未收齐，继续等后续碎片！
                 break;
             }
 
@@ -123,7 +141,8 @@ class ProtocolConnection extends TcpConnection {
 // =================== 验证实验：插入 JsonProtocol 协议芯片 ===================
 if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'] ?? '')) {
     $loop = new AdvancedSelectLoop();
-    $server = stream_socket_server("tcp://127.0.0.1:8086");
+    $context = stream_context_create(['socket' => ['so_reuseaddr' => true]]);
+    $server = stream_socket_server("tcp://127.0.0.1:8086", $errno, $errstr, STREAM_SERVER_BIND | STREAM_SERVER_LISTEN, $context);
     stream_set_blocking($server, false);
 
     $loop->addRead($server, function ($server) use ($loop) {

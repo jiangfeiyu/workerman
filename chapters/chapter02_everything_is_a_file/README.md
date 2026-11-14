@@ -31,7 +31,7 @@ foreach (scandir("/proc/$pid/fd") as $fd) {
 > **【👉 本关亲手实操任务（第一幕：2.1）】**
 > - **终端命令**：
 >   ```powershell
->   wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/01_born_with_three_fds.php
+>   wsl php chapters/chapter02_everything_is_a_file/01_born_with_three_fds.php
 >   ```
 > - **观察靶标**：即使一行 `fopen` 都没写，进程生来也自带 `FD [0]`、`FD [1]`、`FD [2]`，全指向当前终端 `/dev/pts/x`。
 > - **对比实验**：在命令后面加上管道重定向 `| cat`，再跑一次看 `FD [1]` 是不是立刻从 `/dev/pts/x` 变成了 `pipe:[xxxx]`！
@@ -75,7 +75,7 @@ fwrite(STDERR, "⚠️ 警告: 数据库连接稍有波动，请注意！\n"); /
 > **【👉 本关亲手实操任务（第二幕：2.2 ~ 2.3）】**
 > - **终端命令（测试 `1` 号与 `2` 号管子分流）**：
 >   ```powershell
->   wsl bash -c "php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/02_stdout_vs_stderr.php > /tmp/bill.txt; echo '---bill.txt---'; cat /tmp/bill.txt; rm -f /tmp/bill.txt"
+>   wsl bash -c "php chapters/chapter02_everything_is_a_file/02_stdout_vs_stderr.php > /tmp/bill.txt; echo '---bill.txt---'; cat /tmp/bill.txt; rm -f /tmp/bill.txt"
 >   ```
 > - **观察靶标**：警告文字直接打在屏幕上，而 `bill.txt` 里只保留干净的账单数据！
 > - **改错/对比实验**：把 `>` 改成 `2> /tmp/err.txt`，观察报错信息被单独装走、账单直接打印在屏幕上！
@@ -103,7 +103,7 @@ echo "\n我是进程 A，我醒了！刚才屏幕上是不是凭空冒出了字�
 > **【👉 本关亲手实操任务（关卡 2.3 跨进程写入）】**
 > - **终端命令**：
 >   ```powershell
->   wsl bash -c 'php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/01b_ghost_terminal.php & pid=$!; sleep 0.5; echo "👻 [来自外部进程的幽灵输入]：我直接把数据倒进了你的 1 号管子！" > /proc/$pid/fd/1; wait'
+>   wsl bash -c 'php chapters/chapter02_everything_is_a_file/01b_ghost_terminal.php & pid=$!; sleep 0.5; echo "👻 [来自外部进程的幽灵输入]：我直接把数据倒进了你的 1 号管子！" > /proc/$pid/fd/1; wait'
 >   ```
 > - **观察靶标**：进程 A 明明在 `sleep(2)`，屏幕却在它沉睡期间凭空吐出了外部进程塞进来的幽灵文字！
 #### 终端真实输出：
@@ -143,7 +143,7 @@ echo "\n我是进程 A，我醒了！刚才屏幕上是不是凭空冒出了字�
 > **【👉 本关亲手实操任务（第三幕：2.4 ~ 2.5）】**
 > - **终端命令**：
 >   ```powershell
->   wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/03_lowest_fd_reuse.php
+>   wsl php chapters/chapter02_everything_is_a_file/03_lowest_fd_reuse.php
 >   ```
 > - **观察靶标**：第 1、2 个文件分到 `3`、`4`；关掉第 1 个（腾出 `3`）后，第 3 个文件精准抢占复用了 `3` 号槽位！
 
@@ -167,7 +167,7 @@ ulimit -n  # 默认通常是 1024
 > **【👉 本关亲手实操任务（第四幕：2.6）】**
 > - **终端命令（先看上限再触发撞墙）**：
 >   ```powershell
->   wsl bash -c "ulimit -n; php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/05_fd_leak_limit.php"
+>   wsl bash -c "ulimit -n; php chapters/chapter02_everything_is_a_file/05_fd_leak_limit.php"
 >   ```
 > - **观察靶标**：记录循环到底开到第多少个句柄时撞上 `Too many open files` 天花板（刚好比 `ulimit -n` 少掉已占用的 `0,1,2,3` 等几个初始 FD）。
 
@@ -202,7 +202,7 @@ echo "这句普通的 echo，没有出现在屏幕上，而是写进了 workerma
 > **【👉 本关亲手实操任务（第五幕：2.7）】**
 > - **终端命令**：
 >   ```powershell
->   wsl bash -c "php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/04_magic_reset_std.php && echo '---查看生成的日志---' && cat /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/workerman.log"
+>   wsl bash -c "php chapters/chapter02_everything_is_a_file/04_magic_reset_std.php && echo '---查看生成的日志---' && cat chapters/chapter02_everything_is_a_file/workerman.log"
 >   ```
 > - **观察靶标**：`echo` 的内容没有输出到屏幕，而是靠“最小可用 FD 原则”悄无声息落进了 `workerman.log`！
 > - **改错实验**：如果把 `fclose(STDOUT);` 删掉再运行，看看 `echo` 是不是马上回到了黑窗口里而不再进入日志文件！
@@ -263,10 +263,10 @@ echo "🎉 拿到数据: [" . trim($input) . "]，共等待阻塞了 {$cost} 秒
 > **【👉 本关亲手实操任务（第六幕：2.8）】**
 > - **终端命令**：
 >   ```powershell
->   wsl bash -c '(sleep 1; echo "你好，我是键盘输入！") | php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/04b_stdin_blocking.php'
+>   wsl bash -c '(sleep 1; echo "你好，我是键盘输入！") | php chapters/chapter02_everything_is_a_file/04b_stdin_blocking.php'
 >   ```
 > - **观察靶标**：打印出的阻塞耗时紧贴 `1.0` 秒，证明 `fread(STDIN, 1024)` 在没水时真被内核挂起睡眠了。
-> - **交互实验**：直接裸跑 `wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/04b_stdin_blocking.php`，故意发呆 3 秒后再敲一行字按回车，看打印出的耗时是不是正好 3 秒多！
+> - **交互实验**：直接裸跑 `wsl php chapters/chapter02_everything_is_a_file/04b_stdin_blocking.php`，故意发呆 3 秒后再敲一行字按回车，看打印出的耗时是不是正好 3 秒多！
 #### 终端真实输出：
 ```text
 进程 (PID: 459) 启动，准备从 0 号管子 (STDIN) 读取数据...
@@ -294,11 +294,9 @@ Linux 内核提供了 `flock` 系统调用（PHP 对应函数 `flock($fp, $opera
 - **`LOCK_UN`（Unlock，解锁）**：我写完了，开门放下一个排队的进程进去！
 - **`LOCK_NB`（Non-blocking，非阻塞尝试）**：如果锁被人占了，我不要排队傻等，立刻返回 `false` 告诉我！
 
-### 🧪 实验验证（[`06_flock_concurrency.php`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/06_flock_concurrency.php)）
-
 ![2.9 flock文件锁与并发写入](2.9_flock文件锁与并发写入.png)
-![2.9 补充 LOCK_NB与单例启动](2.9_补充_LOCK_NB与单例启动.png)
-![2.9 补充 flock阻塞锁排队实验](2.9_补充_flock阻塞锁排队实验.png)
+
+### 🧪 实验验证（[`06_flock_concurrency.php`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/06_flock_concurrency.php)）
 
 ```php
 <?php
@@ -313,7 +311,7 @@ fclose($fp);
 > **【👉 本关亲手实操任务（第七幕：2.9 ~ 2.10）】**
 > - **终端命令**：
 >   ```powershell
->   wsl php /mnt/d/Workerman/chapters/chapter02_everything_is_a_file/06_flock_concurrency.php
+>   wsl php chapters/chapter02_everything_is_a_file/06_flock_concurrency.php
 >   ```
 > - **观察靶标**：子进程在父进程持锁期间被阻塞等待了 ~0.9 秒才抢到锁写入，日志顺序绝对完整；同时第 2 次非阻塞抢锁 (`LOCK_EX | LOCK_NB`) 立刻失败退出。
 #### 终端真实输出：
@@ -324,7 +322,11 @@ fclose($fp);
   [子进程 403] 也来写日志，尝试获取锁...
 [父进程 290] 🔓 释放锁 (LOCK_UN)
   [子进程 403] 终于排队等到了锁！(被阻塞挂起了 0.9 秒)
+```
 
+![2.9 补充 flock阻塞锁排队实验](2.9_补充_flock阻塞锁排队实验.png)
+
+```text
 === 最终日志文件内容 ===
 ===== 父进程开始写入 =====
 ===== 父进程写入完毕 =====
@@ -334,6 +336,8 @@ fclose($fp);
 第 1 次加锁 (Master 启动): ✅ 成功 (自己是唯一主进程)
 第 2 次加锁 (另一个进程试图重复启动): ❌ 失败 (检测到已有 Master 在运行，立即报错退出！)
 ```
+
+![2.9 补充 LOCK_NB与单例启动](2.9_补充_LOCK_NB与单例启动.png)
 
 ### 📖 Workerman 源码真迹印证
 打开原版源码 [`Workerman/src/Worker.php` 第 843~862 行 (`lock`)](file:///d:/Workerman/workerman-source/src/Worker.php#L843-L862) 与 [第 2393 行 (`log`)](file:///d:/Workerman/workerman-source/src/Worker.php#L2393)：

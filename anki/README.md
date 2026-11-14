@@ -19,7 +19,7 @@
    - **允许在字段中使用 HTML**：已自动勾选为 `是`
    - **标签**：已自动映射到第 3 列
 5. 直接点击右下角的 **【导入】(Import)** 按钮！
-6. 🎉 **完成！** 32 张精美卡片瞬间入库，即可开始每天艾宾浩斯复习！
+6. 🎉 **完成！** 目前第 0～8 章全套 **99 张** 高密度深度问答卡已收齐，瞬间入库即可开始每天艾宾浩斯复习！
 
 > [!TIP]
 > **后续章节增量更新怎么导？**
@@ -33,11 +33,13 @@
 
 | 文件路径 | 作用说明 | 卡片数量 |
 | :--- | :--- | :--- |
-| **[`d:/Workerman/anki/workerman_anki_cards.txt`](file:///d:/Workerman/anki/workerman_anki_cards.txt)** | **【全量主文件】** 包含全部章节的汇总卡片，日常导入首选 | **32 张** |
-| [`chapters/chapter00_kernel_and_process/anki_cards.txt`](file:///d:/Workerman/chapters/chapter00_kernel_and_process/anki_cards.txt) | 第 0 章独立牌组（带子牌组层级） | 8 张 |
-| [`chapters/chapter01_process_identity/anki_cards.txt`](file:///d:/Workerman/chapters/chapter01_process_identity/anki_cards.txt) | 第 1 章独立牌组（带子牌组层级） | 12 张 |
-| [`chapters/chapter02_everything_is_a_file/anki_cards.txt`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/anki_cards.txt) | 第 2 章独立牌组（带子牌组层级） | 12 张 |
-| [`d:/Workerman/anki/generate_cards.py`](file:///d:/Workerman/anki/generate_cards.py) | 自动生成与增量编译脚本 | - |
+| **[`d:/Workerman/anki/workerman_anki_cards.txt`](file:///d:/Workerman/anki/workerman_anki_cards.txt)** | **【全量主文件】** 包含第 0～8 章全部章节的汇总卡片（支持按 `tag:ChapterXX` 抽取），日常导入首选 | **99 张** |
+| [`chapters/chapter00_kernel_and_process/anki_cards.txt`](file:///d:/Workerman/chapters/chapter00_kernel_and_process/anki_cards.txt) | 第 0 章早期独立备份（已 100% 同步入全量主文件） | 8 张 |
+| [`chapters/chapter01_process_identity/anki_cards.txt`](file:///d:/Workerman/chapters/chapter01_process_identity/anki_cards.txt) | 第 1 章早期独立备份（已 100% 同步入全量主文件） | 17 张 |
+| [`chapters/chapter02_everything_is_a_file/anki_cards.txt`](file:///d:/Workerman/chapters/chapter02_everything_is_a_file/anki_cards.txt) | 第 2 章早期独立备份（已 100% 同步入全量主文件） | 12 张 |
+| [`chapters/chapter03_socratic_onmessage/anki_cards.txt`](file:///d:/Workerman/chapters/chapter03_socratic_onmessage/anki_cards.txt) | 第 3 章早期独立备份（已 100% 同步入全量主文件） | 9 张 |
+
+> **第 4～8 章卡片组织说明**：从第 4 章起不再维护分散备份文件，所有新增章节卡片统一沉淀至全量主文件 [`workerman_anki_cards.txt`](file:///d:/Workerman/anki/workerman_anki_cards.txt)，通过第 3 列标签 `Chapter04` ~ `Chapter08` 精准区分（各章分布：Ch00=8、Ch01=17、Ch02=12、Ch03=9、Ch04=10、Ch05=13、Ch06=8、Ch07=12、Ch08=10）。
 
 ---
 

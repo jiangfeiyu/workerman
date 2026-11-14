@@ -45,7 +45,7 @@ function handleGuestMessage($conn) {
 
 
 // 【第三部分：饭店开门营业】
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 $serverId = (int)$server;
 
 // 在两张表上登记大门迎宾员：

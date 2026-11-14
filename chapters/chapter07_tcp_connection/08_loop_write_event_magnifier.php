@@ -6,7 +6,7 @@ require_once __DIR__ . '/07_async_send_buffer.php';
 echo "=== 单独透视 AdvancedSelectLoop 写事件机制 ===\n\n";
 
 $loop = new AdvancedSelectLoop();
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 
 $client = stream_socket_client("tcp://127.0.0.1:8080");
 $conn = stream_socket_accept($server);

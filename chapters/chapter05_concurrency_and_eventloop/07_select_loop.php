@@ -61,7 +61,7 @@ class Worker {
     public function run(): void {
         if ($this->onWorkerStart) ($this->onWorkerStart)();
 
-        $server = stream_socket_server($this->address);
+        $server = stream_socket_server($this->address, context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
         stream_set_blocking($server, false);
 
         // 迎宾员就位：只要大门有动静，就调用 acceptConnection

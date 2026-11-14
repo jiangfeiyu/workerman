@@ -8,7 +8,7 @@ class SimpleWorker {
     public function __construct(public string $address) {}
 
     public function run() {
-        $server = stream_socket_server($this->address);
+        $server = stream_socket_server($this->address, context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
         $this->readFds[(int)$server] = $server;
         echo "=== 服务器已启动 (PID: " . posix_getpid() . ")，监听 0.0.0.0:8080 ===\n";
 

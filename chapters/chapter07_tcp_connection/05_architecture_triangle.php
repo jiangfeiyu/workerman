@@ -72,7 +72,7 @@ class Worker {
     }
 
     public function run(): void {
-        $server = stream_socket_server($this->address);
+        $server = stream_socket_server($this->address, context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
         stream_set_blocking($server, false);
 
         echo "【Worker 职责 1】大门迎宾员在 8080 就位，监听大门口...\n";

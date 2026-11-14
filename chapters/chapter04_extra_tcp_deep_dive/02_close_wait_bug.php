@@ -1,6 +1,6 @@
 <?php
 // 服务端：故意忘记 fclose，制造生产环境臭名昭著的 CLOSE_WAIT 泄露
-$server = stream_socket_server('tcp://127.0.0.1:9999', $errno, $errstr);
+$server = stream_socket_server('tcp://127.0.0.1:9999', $errno, $errstr, context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 echo "[服务端] 监听 9999 端口...\n";
 
 $conn = stream_socket_accept($server);

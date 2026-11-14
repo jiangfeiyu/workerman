@@ -1,6 +1,6 @@
 <?php
 // 关卡 5.1 【笨办法演进】：为了能持续接待客人，我们在 accept 里再套一层 while(true)
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 echo "=== 服务器启动 (PID: " . posix_getpid() . ")，监听 0.0.0.0:8080 ===\n";
 
 while (true) {

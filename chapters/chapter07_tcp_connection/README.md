@@ -536,7 +536,7 @@ wsl php chapters/chapter07_tcp_connection/09_write_storm_proof.php
 ### 🧪 关卡 7.7 实战验证：10MB 大数据 0 丢包传输！
 
 ![7.7 补充 大数据完整接收验证](7.7_补充_大数据完整接收验证.png)
-我们在 [`07_async_send_buffer.php`](file:///d:/Workerman/chapters/chapter07_tcp_connection/07_async_send_buffer.php) 与 [`test_big_receive.php`](file:///d:/Workerman/chapters/chapter07_tcp_connection/test_big_receive.php) 中完成了测试：
+我们在 [`07_async_send_buffer.php`](file:///d:/Workerman/chapters/chapter07_tcp_connection/07_async_send_buffer.php) 与 [`07b_big_receive_client.php`](file:///d:/Workerman/chapters/chapter07_tcp_connection/07b_big_receive_client.php) 中完成了测试：
 
 #### 终端现场毫秒级实测输出：
 ```text
@@ -566,7 +566,7 @@ wsl php chapters/chapter07_tcp_connection/09_write_storm_proof.php
 >    - **观察靶标**：`09` 会在短短 0.2 秒内触发近 10 万次空转唤醒，亲身感受漏写 `delWrite` 的毁灭性！
 > 2. **双终端 10MB 零丢包极限压测**：
 >    - **终端 1（异步发送服务端）**：`wsl php chapters/chapter07_tcp_connection/07_async_send_buffer.php`
->    - **终端 2（大包接收客户端）**：`wsl php chapters/chapter07_tcp_connection/test_big_receive.php`
+>    - **终端 2（大包接收客户端）**：`wsl php chapters/chapter07_tcp_connection/07b_big_receive_client.php`
 >    - **观察靶标**：终端 2 稳稳累计收到 **`10000000 字节`**，100% 0 丢包！
 
 ---

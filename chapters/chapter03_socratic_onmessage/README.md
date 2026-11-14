@@ -23,10 +23,10 @@ while (($msg = fgets(STDIN)) !== false) {
 > **【👉 本关亲手实操任务（第一幕：3.1 ~ 3.3）】**
 > - **终端命令**：
 >   ```powershell
->   wsl php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v01_hardcoded.php
+>   wsl php chapters/chapter03_socratic_onmessage/v01_hardcoded.php
 >   ```
 > - **交互测试**：输入 `你好` 回车；再按 `Ctrl+D`（Linux 发送 EOF 信号）优雅结束。
-> - **观察靶标**：体验阻塞式 `fgets(STDIN)` 与死耦合代码；接着运行 `wsl bash -c 'echo "hi" | php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v02_extract_function.php'` 对比抽取函数后的解耦效果。
+> - **观察靶标**：体验阻塞式 `fgets(STDIN)` 与死耦合代码；接着运行 `wsl bash -c 'echo "hi" | php chapters/chapter03_socratic_onmessage/v02_extract_function.php'` 对比抽取函数后的解耦效果。
 
 ![3.2 业务与读取底座耦合的痛点](3.2_业务与读取底座耦合的痛点.png)
 
@@ -73,6 +73,9 @@ while (($msg = fgets(STDIN)) !== false) {
   一旦写死了 `handleMessage($msg)`，客服部想调 `replyCustomer($msg)` 用不了，订单部想调 `createOrder($msg)` 也用不了！底座跟 `handleMessage` 还是死死绑在一起的！
 - **🤔 导师提问**：
   > “平时我们写函数不想把数字写死，会把数字当成参数传进去。那现在我们在 `runWorker()` 里不想把‘要调用的业务函数’写死成 `handleMessage`，能不能给 `runWorker` 加一个参数 `function runWorker($callback)`，把你的 `handleMessage` 当成变量传进去？”
+
+![3.5 函数变量与可调用值](3.5_函数变量与可调用值.png)
+
 - **🎯 你亲手写出的 v0.3 里程碑代码（[`v03_pass_callback.php`](file:///d:/Workerman/chapters/chapter03_socratic_onmessage/v03_pass_callback.php)）**：
   ```php
   <?php
@@ -91,19 +94,20 @@ while (($msg = fgets(STDIN)) !== false) {
 
   runWorker($onMessage);
   ```
+
+![3.5 补充 Callable常见形态](3.5_补充_Callable常见形态.png)
+
 - **👏 深度复盘（软件工程最核心的跃迁：回调 Callback 与控制反转 IoC）**：
   你在没有任何提示的情况下，自己写出了 `$onMessage = "handleMessage";` 并传给了 `runWorker($onMessage)`！
   看第 11 行的 `$callback($msg);`：从此以后，`runWorker` 底座彻底变成了“瞎子”——它只管底层的脏活累活（从 FD 管子里读出 `$msg`），至于拿到 `$msg` 后到底干什么，完全由外部传进来的 `$onMessage` 决定！这就叫**业务与底层彻底解耦**！
 
-![3.5 函数变量与可调用值](3.5_函数变量与可调用值.png)
-![3.5 补充 Callable常见形态](3.5_补充_Callable常见形态.png)
 ![3.6 回调参数与控制反转](3.6_回调参数与控制反转.png)
 
 > [!TIP]
 > **【👉 本关亲手实操任务（第二幕：3.4 ~ 3.6）】**
 > - **终端命令**：
 >   ```powershell
->   wsl bash -c 'echo "测试回调反转" | php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v03_pass_callback.php'
+>   wsl bash -c 'echo "测试回调反转" | php chapters/chapter03_socratic_onmessage/v03_pass_callback.php'
 >   ```
 > - **改写实验**：在 `v03_pass_callback.php` 中尝试把 `$onMessage = "handleMessage";` 改成匿名函数 `function($msg) { echo strtoupper($msg) . "\n"; }`，体会不改底座 `runWorker` 一行代码却彻底换掉业务的“控制反转”魔力！
 
@@ -199,7 +203,7 @@ $worker->run();
 > **【👉 本关亲手实操任务（第三幕：3.7 ~ 3.8）】**
 > - **终端命令**：
 >   ```powershell
->   wsl bash -c '{ echo "hello"; echo "workerman"; } | php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v04_worker_class.php'
+>   wsl bash -c '{ echo "hello"; echo "workerman"; } | php chapters/chapter03_socratic_onmessage/v04_worker_class.php'
 >   ```
 > - **观察靶标**：`=== 机器人启动成功，准备接客！===`（`$onWorkerStart`）只打印了 **1 次**，而 `【客服机器人回复】` 触发了 **2 次**。
 
@@ -207,19 +211,21 @@ $worker->run();
 
 ![3.10 手写Worker与Workerman源码对应](3.10_手写Worker与Workerman源码对应.png)
 打开原版源码 [`Workerman/src/Worker.php`](file:///d:/Workerman/workerman-source/src/Worker.php)：
-1. **属性定义（第 235~248 行）**：
+1. **属性定义（[`Worker.php#L169`](file:///d:/Workerman/workerman-source/src/Worker.php#L169) 与 [`Worker.php#L219`](file:///d:/Workerman/workerman-source/src/Worker.php#L219)）**：
    ```php
    public $onWorkerStart = null;
    public $onMessage = null;
    ```
-2. **触发调用（第 2545~2553 行）**：
+2. **安全触发调用（[`Worker.php#L2675-L2691`](file:///d:/Workerman/workerman-source/src/Worker.php#L2675-L2691)）**：
    ```php
-   if ($this->onWorkerStart) {
-       try {
-           ($this->onWorkerStart)($this);
-       } catch (Throwable $e) {
-           static::stopAll(250, $e);
-       }
+   if (!$this->onWorkerStart) {
+       return;
+   }
+   try {
+       ($this->onWorkerStart)($this);
+   } catch (Throwable $e) {
+       sleep(1);
+       static::stopAll(250, $e);
    }
    ```
 你亲自推导出的这套设计，与官方生产级源码的逻辑结构 **完全吻合**！
@@ -233,7 +239,10 @@ $worker->run();
 ### 1. 致命漏洞：业务代码抛异常，常驻进程直接暴毙！
 - **传统 Web（PHP-FPM）机制**：业务代码里写了个 `$db->query()` 报错抛出 Exception，当前 HTTP 请求返回 500 报错，但 PHP-FPM 进程会自动清理内存，继续接待下一个用户，整个服务器不会倒。
 - **常驻进程（CLI 守护进程）灾难**：如果你的 `Worker` 在处理某一条消息时抛出了未被捕获的 `Throwable`，**整个 PHP 进程会直接退出终结（Exit）！所有的并发连接当场全被切断！**
-- **破局之道**：底座必须用 `try { ... } catch (\Throwable $e)` 死死焊住每一个回调调用的外层！无论业务代码抛出什么级别的异常或 Fatal Error，全部拦截并记录日志，誓死捍卫事件循环主进程存活！
+- **破局之道**：底座必须用 `try { ... } catch (\Throwable $e)` 死死焊住每一个回调调用的外层！无论业务代码抛出什么级别的异常或 Fatal Error，全部拦截并记录日志或分流给 `$onError`，誓死捍卫事件循环主进程存活！
+
+![3.9 补充 Throwable异常安全网](3.9_补充_Throwable异常安全网.png)
+![3.9 补充 onError回调与异常分流](3.9_补充_onError回调与异常分流.png)
 
 ### 2. 上下文注入：为什么必须传 `($this->onWorkerStart)($this)`？
 - 用户写 `$worker->onWorkerStart = function($worker) { echo $worker->name; };`
@@ -246,8 +255,6 @@ $worker->run();
 单纯用 `if ($this->onMessage)` 只能判断非空，如果用户粗心传了个整数（`$worker->onMessage = 123;`）或拼错了函数名字符串，执行时依然会引发致命的语法错误。使用 `is_callable()` 才能确保无论用户传的是闭包、字符串函数、还是面向对象数组，都能安全调度。
 
 ![3.9 is_callable防御非法回调](3.9_is_callable防御非法回调.png)
-![3.9 补充 Throwable异常安全网](3.9_补充_Throwable异常安全网.png)
-![3.9 补充 onError回调与异常分流](3.9_补充_onError回调与异常分流.png)
 
 ### 4. 面向对象的多样化回调支持：`[$controller, 'action']`
 在真实的复杂大型项目（如 MVC 架构）中，业务逻辑通常写在控制器类中。PHP 的回调机制天然支持用数组语法 `[$bot, 'reply']` 传入类的实例方法。
@@ -299,7 +306,7 @@ class Worker {
 > **【👉 本关亲手实操任务（第四幕：3.9 ~ 3.10 异常安全网）】**
 > - **终端命令（模拟业务抛异常测试）**：
 >   ```powershell
->   wsl bash -c '{ echo "hello"; echo "bomb"; echo "world"; } | php /mnt/d/Workerman/chapters/chapter03_socratic_onmessage/v05_robust_worker.php'
+>   wsl bash -c '{ echo "hello"; echo "bomb"; echo "world"; } | php chapters/chapter03_socratic_onmessage/v05_robust_worker.php'
 >   ```
 > - **观察靶标**：收到 `"bomb"` 时抛出异常被安全网拦截，随后 `"world"` 依然被顺利处理！
 > - **改错实验**：临时把 `v05_robust_worker.php` 里的 `try { ... } catch (\Throwable $e)` 注释掉再跑同一条命令，亲眼看进程如何在 `"bomb"` 处当场暴毙，连 `"world"` 都收不到（验证后改回）。

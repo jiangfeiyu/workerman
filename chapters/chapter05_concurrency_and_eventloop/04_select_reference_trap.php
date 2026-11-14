@@ -1,6 +1,6 @@
 <?php
 // 关卡 5.9 💥【内功细节撞墙】：消失的 3 号大门！
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 
 // 模拟连入一个客户端
 $client = stream_socket_client("tcp://127.0.0.1:8080");

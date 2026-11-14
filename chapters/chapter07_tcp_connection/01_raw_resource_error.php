@@ -1,7 +1,7 @@
 <?php
 // 关卡 7.1 💥 痛点 1（语法憋屈）：原生 resource 句柄为什么不能绑定业务属性？
 
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 echo "=== 服务器启动 (PID: " . posix_getpid() . ")，等待客户端连入... ===\n";
 
 // 模拟客户端连入

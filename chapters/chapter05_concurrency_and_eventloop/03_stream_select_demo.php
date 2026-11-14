@@ -1,6 +1,6 @@
 <?php
 // 关卡 5.8 【体验 stream_select 的神仙效果】
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 echo "=== 服务器启动 (PID: " . posix_getpid() . ") ===\n";
 
 $read = [$server];

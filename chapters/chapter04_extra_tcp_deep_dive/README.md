@@ -384,3 +384,10 @@ if (function_exists('socket_import_stream') && self::BUILD_IN_TRANSPORTS[$this->
 ```
 
 至此，TCP/IP 协议栈所有核心机制已无任何黑盒，全部在 Workerman 底层源码中找到真实归宿！
+
+---
+
+## 🗂️ 本章 Anki 闪卡复习沉淀
+
+- 本番外篇的核心底层考点（TCP 32 位 ISN 随机序号与 `SYN` 抓包、半关闭与 `CLOSE_WAIT` 泄露、`TIME_WAIT` 与 `2MSL`、`Nagle` + `Delayed ACK` 40ms 碰撞、`TCP_NODELAY`、55 秒 Keepalive 击穿 NAT 60 秒黑洞）已统一收录至全课程总库：[workerman_anki_cards.txt](file:///d:/Workerman/anki/workerman_anki_cards.txt)。
+- 导入 Anki 后，直接筛选 **`tag:Chapter04`** 即可与第 4 章主线卡片一并复习！

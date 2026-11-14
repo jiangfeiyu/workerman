@@ -1,6 +1,6 @@
 <?php
 // 关卡 5.12 铺垫台阶：不用任何面向对象类，先用一个普通的 $callbacks 数组消灭所有 if-else！
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 
 $readFds = [(int)$server => $server];
 $callbacks = [];

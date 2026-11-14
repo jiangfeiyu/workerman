@@ -1,7 +1,7 @@
 <?php
 // 关卡 7.4 💥 痛点 2（核爆级丢包车祸）：发送 5MB 大数据，神秘消失 4.8MB！
 
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 stream_set_blocking($server, false);
 
 echo "=== 大数据丢包测试服务器启动 (PID: " . posix_getpid() . ") ===\n";

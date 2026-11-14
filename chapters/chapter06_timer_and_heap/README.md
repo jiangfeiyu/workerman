@@ -338,7 +338,7 @@ $top = $queue->top(); // 拿出来的正是 2 秒后的闹钟！
 
 请打开 Workerman 官方源码文件：[`workerman-source/src/Events/Select.php`](file:///d:/Workerman/workerman-source/src/Events/Select.php)！
 
-#### 1. 构造函数初始化优先队列调度器（第 93 行、第 141 行）：
+#### 1. 构造函数初始化优先队列调度器（[`Select.php#L93`](file:///d:/Workerman/workerman-source/src/Events/Select.php#L93)、[`Select.php#L139-L143`](file:///d:/Workerman/workerman-source/src/Events/Select.php#L139-L143)）：
 ```php
 // Workerman 源码 Select.php:
 private SplPriorityQueue $scheduler;
@@ -349,7 +349,7 @@ public function __construct() {
 }
 ```
 
-#### 2. 插入定时器与负数时间戳（第 151~153 行）：
+#### 2. 插入定时器与负数时间戳（[`Select.php#L151-L153`](file:///d:/Workerman/workerman-source/src/Events/Select.php#L151-L153)）：
 ```php
 // Workerman 源码 Select.php:
 $runTime = microtime(true) + $delay;
@@ -358,7 +358,7 @@ $this->scheduler->insert($timerId, -$runTime);
 $this->eventTimer[$timerId] = [$func, $args];
 ```
 
-#### 3. 提取堆顶最近闹钟计算打盹时间（第 349~353 行）：
+#### 3. 提取堆顶最近闹钟计算打盹时间（[`Select.php#L348-L353`](file:///d:/Workerman/workerman-source/src/Events/Select.php#L348-L353)）：
 ```php
 // Workerman 源码 Select.php:
 $schedulerData = $this->scheduler->top(); // 光速 O(1) 看一眼堆顶！
@@ -366,7 +366,7 @@ $nextRunTime = -$schedulerData['priority']; // 还原真实时间戳！
 $this->setNextTickTime($nextRunTime);
 ```
 
-#### 4. 循环中只看堆顶（第 326~344 行）：
+#### 4. 循环中只看堆顶（[`Select.php#L318-L344`](file:///d:/Workerman/workerman-source/src/Events/Select.php#L318-L344)）：
 ```php
 // Workerman 源码 Select.php:
 while (!$this->scheduler->isEmpty()) {

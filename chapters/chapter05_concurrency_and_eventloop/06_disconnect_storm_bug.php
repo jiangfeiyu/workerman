@@ -1,6 +1,6 @@
 <?php
 // 关卡 5.11 💥【内功捉虫】：当客人 Ctrl+C 断开连接时，为什么会引发 100% 空消息风暴？
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 $allSockets = [(int)$server => $server];
 
 echo "=== 死循环风暴测试服务器启动 (PID: " . posix_getpid() . ") ===\n";

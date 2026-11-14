@@ -3,7 +3,7 @@
 require_once __DIR__ . '/14_select_loop_with_heap.php';
 
 $loop = new SelectLoop();
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 stream_set_blocking($server, false);
 
 $clients = [];

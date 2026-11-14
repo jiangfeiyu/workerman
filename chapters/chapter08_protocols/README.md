@@ -252,7 +252,7 @@ wsl php chapters/chapter08_protocols/02_delimiter_slicing_fixed.php
 ![8.7 ProtocolInterface三大方法](8.7_ProtocolInterface三大方法.png)
 ![8.8 协议接入baseRead与send](8.8_协议接入baseRead与send.png)
 
-打开 Workerman 官方源码 [`workerman-source/src/Protocols/ProtocolInterface.php`](file:///d:/Workerman/workerman-source/src/Protocols/ProtocolInterface.php)，全篇源码极其凝练：
+打开 Workerman 官方源码 [`ProtocolInterface.php#L24-L55`](file:///d:/Workerman/workerman-source/src/Protocols/ProtocolInterface.php#L24-L55)，全篇源码极其凝练：
 
 ```php
 interface ProtocolInterface
@@ -305,8 +305,11 @@ wsl php chapters/chapter08_protocols/03_protocol_interface_slot.php
 
 === 实验圆满成功 ===
 ```
-**不可思议的优雅解耦**：
-`TcpConnection` 内部**没有写任何一行关于 JSON 或换行符的业务代码**！业务层收到的 `$data` 直接就是一个原生的 PHP 关联数组（`type: array`）！全部脏活累活全被协议芯片在幕后消化掉了！
+**不可思议的优雅解耦与底座两道安全防线**：
+- `TcpConnection` 内部**没有写任何一行关于 JSON 或换行符的业务代码**！业务层收到的 `$data` 直接就是一个原生的 PHP 关联数组（`type: array`）！
+- 同时在 `ProtocolConnection::baseRead()` 中，我们对齐官方源码 [`Text.php#L36-L75`](file:///d:/Workerman/workerman-source/src/Protocols/Text.php#L36-L75) 与切包主循环 [`TcpConnection.php#L759-L791`](file:///d:/Workerman/workerman-source/src/Connection/TcpConnection.php#L759-L791)，补全了两道防线：
+  1. **错误包 / 超包即踢**：当 `input()` 返回 `< 0`（如 `-1`）、抛出异常或返回长度超过 `$this->maxPackageSize`（10MB）时，底座立刻 `destroy()` 切断连接；
+  2. **已知总长半包拦截**：当 `input()` 已经算出包总长（如 `FrameProtocol` 读出 4 字节头返回 `100`），但当前 `strlen($this->recvBuffer) < $pkgLen` 时，`baseRead()` 立刻 `break` 暂停切包，死等后续碎片凑齐！
 
 > [!TIP]
 > **【👉 本关亲手实操任务（第三幕：8.6 ~ 8.8）】**
@@ -351,7 +354,7 @@ wsl php chapters/chapter08_protocols/03_protocol_interface_slot.php
 ![8.12 FrameProtocol与包长上限](8.12_FrameProtocol与包长上限.png)
 ![8.12 补充 Workerman源码与半包检查](8.12_补充_Workerman源码与半包检查.png)
 
-打开 Workerman 官方源码 [`workerman-source/src/Protocols/Frame.php`](file:///d:/Workerman/workerman-source/src/Protocols/Frame.php)，整篇工业级源码仅有 30 行，结构精妙绝伦：
+打开 Workerman 官方源码 [`Frame.php#L35-L64`](file:///d:/Workerman/workerman-source/src/Protocols/Frame.php#L35-L64)，整篇工业级源码结构精妙绝伦：
 
 ```php
 class Frame implements ProtocolInterface
@@ -455,12 +458,21 @@ wsl php chapters/chapter08_protocols/06_frame_protocol_demo.php
 
 🎉 [服务端 onMessage 触发第 2 次] 收到独立完整数据包 (长度: 24 字节):
 ----------------------------------------
-【二进制流】 \x00\x0A\xFF\x0D\x0A\x88
+【二进制流】 ...
+----------------------------------------
+
+2. [客户端] 故意拆包发送第 3 个数据包：先发前 10 字节半包...
+
+3. [客户端] 补发第 3 个数据包的剩余字节...
+
+🎉 [服务端 onMessage 触发第 3 次] 收到独立完整数据包 (长度: 84 字节):
+----------------------------------------
+【半包重拼测试】前半截与后半截跨网络到达，照样完整交付！
 ----------------------------------------
 
 === 实验圆满成功 ===
 ```
-**震撼事实**：多行诗歌完整保留、纯二进制乱码完好无损，且两条粘在一起发送的消息被 100% 精准分离！**万能协议大获全胜！**
+**震撼事实**：多行诗歌完整保留、纯二进制乱码完好无损、两条粘连包被拆开，而且第 3 条**被故意切碎成两半先后到达的半包**也在 `$recvBuffer` + `baseRead()` 的 `$pkgLen > strlen($this->recvBuffer)` 守护下完好拼接交付！**万能协议大获全胜！**
 
 > [!TIP]
 > **【👉 本关亲手实操任务（第四幕：8.9 ~ 8.12）】**
@@ -470,8 +482,8 @@ wsl php chapters/chapter08_protocols/06_frame_protocol_demo.php
 >   wsl php chapters/chapter08_protocols/05_pack_unpack_microscope.php
 >   wsl php chapters/chapter08_protocols/06_frame_protocol_demo.php
 >   ```
-> - **观察靶标**：对比 `04`（《静夜思》被 `\n` 拦腰斩成 4 次回调）与 `06`（整首多行诗与包含 `\x00\x0A` 的纯二进制流双双 1 次完整送达）。
-> - **改错/破坏实验**：在 `05_pack_unpack_microscope.php` 中对比 `pack('N', 5)` 与小端序 `pack('V', 5)` 的十六进制字节序（`00000005` vs `05000000`）；思考如果黑客在 Frame 包头伪造 `0x7fffffff`（2GB）包长，为什么必须在 `input()` 里加 `$total_len > $conn->maxPackageSize` 保护拦截！
+> - **观察靶标**：对比 `04`（《静夜思》被 `\n` 拦腰斩成 4 次回调）与 `06`（整首多行诗、二进制流、以及拆成两次发送的第 3 条半包均完整送达）。
+> - **改错/破坏实验**：在 `05_pack_unpack_microscope.php` 中对比 `pack('N', 5)` 与小端序 `pack('V', 5)` 的十六进制字节序（`00000005` vs `05000000`）；在 `06_frame_protocol_demo.php` 中尝试用 `pack('N', 20000000)` 伪造一个 20MB 假包头，亲眼看 `FrameProtocol::input()` 返回 `-1` 后底座如何秒踢恶意连接！
 
 ---
 
@@ -489,4 +501,4 @@ wsl php chapters/chapter08_protocols/06_frame_protocol_demo.php
 ## 🗂️ 本章 Anki 闪卡复习沉淀
 
 本章核心知识点（TCP 粘包与半包物理本质、`$recvBuffer` 切包、`ProtocolInterface` 三大契约、`maxPackageSize` 防 OOM、`Frame` 定长包头与 `pack('N')` 网络字节序、常见协议对比）已全部沉淀至总库：[workerman_anki_cards.txt](file:///d:/Workerman/anki/workerman_anki_cards.txt)。
-- 导入 Anki 后搜索 **`tag:Chapter08`** 即可抽取本章全部 8 张高密度问答卡！
+- 导入 Anki 后搜索 **`tag:Chapter08`** 即可抽取本章全部 10 张高密度问答卡！

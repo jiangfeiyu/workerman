@@ -21,7 +21,7 @@ class TcpConnection {
 }
 
 // 模拟测试
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 $client = stream_socket_client("tcp://127.0.0.1:8080");
 $rawSocket = stream_socket_accept($server);
 

@@ -24,7 +24,7 @@ class TimerWorker {
     }
 
     public function run(): void {
-        $server = stream_socket_server($this->address);
+        $server = stream_socket_server($this->address, context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
         $serverId = (int)$server;
         $this->readFds[$serverId] = $server;
         $this->handlers[$serverId] = [$this, 'acceptConnection'];

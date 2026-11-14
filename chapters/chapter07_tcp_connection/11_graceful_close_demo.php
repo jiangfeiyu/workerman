@@ -71,7 +71,7 @@ if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'] ?? '')) {
     echo "=== 关卡 7.10 连接状态机与优雅关闭演示 (PID: " . posix_getpid() . ") ===\n\n";
 
     $loop = new AdvancedSelectLoop();
-    $server = stream_socket_server("tcp://127.0.0.1:8083");
+    $server = stream_socket_server("tcp://127.0.0.1:8083", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
     stream_set_blocking($server, false);
 
     $loop->addRead($server, function ($server) use ($loop) {

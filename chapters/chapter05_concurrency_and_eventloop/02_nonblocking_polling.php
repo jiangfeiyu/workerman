@@ -1,6 +1,6 @@
 <?php
 // 关卡 5.4 & 5.5 【自救演进 v0.8】：开启非阻塞 I/O + 单循环接线员轮询
-$server = stream_socket_server("tcp://0.0.0.0:8080");
+$server = stream_socket_server("tcp://0.0.0.0:8080", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
 // 1. 将大门口迎宾员设置为非阻塞模式！
 stream_set_blocking($server, false);
 

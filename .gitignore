@@ -1,5 +1,10 @@
-# 忽略工作空间临时文件
+# 忽略工作空间与课程实验运行期生成的临时文件
 test_cwd.txt
+chapters/test_cwd.txt
+bill.txt
+workerman.log
+packet.txt
+*.pid
 __pycache__/
 *.pyc
 

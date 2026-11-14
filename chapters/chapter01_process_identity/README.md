@@ -8,14 +8,18 @@
 
 ### 🤔 三个现实工程痛点
 1. **痛点 1（我是谁 `PID`）**：在第 0 章我们在外面用 `ps` 看到了进程的 PID。但是，**PHP 进程自己在代码内部，怎么知道自己分到了几号身份证？**（比如 Workerman 主进程启动时，必须把自己的 PID 写进一个 `workerman.pid` 文件里锁起来，以后你敲 `php start.php stop` 时才能找到它并关掉它）。
-2. **痛点 2（我爹是谁 `PPID`）**：进程不是石头缝里蹦出来的。在 Linux 里，任何进程都是由另一个“父进程（Parent Process）”生出来的。我们在命令行敲 `php 01.php` 时，到底是谁生出了 PHP？
-3. **痛点 3（进程改名卡）**：假如服务器上跑了主进程、网关进程、业务进程十几个 PHP 进程，运维用 `ps aux` 一看，满屏幕全叫 `php start.php`，想杀掉其中一个或者看谁内存高，眼都看花了！怎么让每个进程在 `ps` 里显示自己专属的名字？
-
-### 🧪 4 行代码搞定身份三连（[`01_identity.php`](file:///d:/Workerman/chapters/chapter01_process_identity/01_identity.php)）
 
 ![1.1 posix_getpid获取自身PID](1.1_posix_getpid获取自身PID.png)
+
+2. **痛点 2（我爹是谁 `PPID`）**：进程不是石头缝里蹦出来的。在 Linux 里，任何进程都是由另一个“父进程（Parent Process）”生出来的。我们在命令行敲 `php 01.php` 时，到底是谁生出了 PHP？
+
 ![1.2 PPID与进程家族树](1.2_PPID与进程家族树.png)
+
+3. **痛点 3（进程改名卡）**：假如服务器上跑了主进程、网关进程、业务进程十几个 PHP 进程，运维用 `ps aux` 一看，满屏幕全叫 `php start.php`，想杀掉其中一个或者看谁内存高，眼都看花了！怎么让每个进程在 `ps` 里显示自己专属的名字？
+
 ![1.3 进程改名与角色识别](1.3_进程改名与角色识别.png)
+
+### 🧪 4 行代码搞定身份三连（[`01_identity.php`](file:///d:/Workerman/chapters/chapter01_process_identity/01_identity.php)）
 
 ```php
 <?php
@@ -28,7 +32,7 @@ sleep(2);
 > **【👉 本关亲手实操任务（第一幕：1.1 ~ 1.3）】**
 > - **终端命令**：
 >   ```powershell
->   wsl bash -c "php /mnt/d/Workerman/chapters/chapter01_process_identity/01_identity.php & sleep 0.5; ps -ef | grep -E 'modern-worker|bash' | grep -v grep; wait"
+>   wsl bash -c "php chapters/chapter01_process_identity/01_identity.php & sleep 0.5; ps -ef | grep -E 'modern-worker|bash' | grep -v grep; wait"
 >   ```
 > - **观察靶标**：核对脚本打印的 `PID`/`PPID` 与 `ps -ef` 第 2、3 列是否一致，且最后一列进程名已变为 `modern-worker: master`。
 > - **改错/对比实验**：把 `sleep(2);` 改成 `sleep(10);` 后在第二个终端手动运行 `wsl pstree -p` 或 `wsl ps -ef | grep modern-worker`，亲眼看到它的父进程就是当前窗口的 `bash`！
@@ -95,7 +99,7 @@ echo implode("", $lines);
 > **【👉 本关亲手实操任务（第二幕：1.4 ~ 1.5）】**
 > - **终端命令**：
 >   ```powershell
->   wsl php /mnt/d/Workerman/chapters/chapter01_process_identity/02_proc_explore.php
+>   wsl php chapters/chapter01_process_identity/02_proc_explore.php
 >   wsl ls /proc/刚才打印的PID
 >   ```
 > - **观察靶标**：第 1 条命令看到 `State: R (running)`，第 2 条命令立刻报 `No such file or directory`（进程死亡，`/proc/PID` 瞬间蒸发）。
@@ -159,9 +163,9 @@ echo "再次访问 ./test.txt：惨遭报错！因为进程已经跑到 /tmp 去
 > **【👉 本关亲手实操任务（第三幕：1.6）】**
 > - **终端命令**：
 >   ```powershell
->   wsl php /mnt/d/Workerman/chapters/chapter01_process_identity/03_cwd_and_chdir.php
+>   wsl php chapters/chapter01_process_identity/03_cwd_and_chdir.php
 >   ```
-> - **对比实验**：先在 `d:\Workerman` 下运行，再切到 `wsl bash -c "cd /tmp && php /mnt/d/Workerman/chapters/chapter01_process_identity/03_cwd_and_chdir.php"` 跑一次，观察为什么连第 2 步也会找不到相对路径 `./test_cwd.txt`，而用 `__DIR__ . '/test_cwd.txt'` 则永远稳如泰山！
+> - **对比实验**：先在 `d:\Workerman` 下运行，再切到 `wsl bash -c 'REPO=$(pwd); cd /tmp && php "$REPO/chapters/chapter01_process_identity/03_cwd_and_chdir.php"'` 跑一次，观察为什么连第 2 步也会找不到相对路径 `./test_cwd.txt`，而用 `__DIR__ . '/test_cwd.txt'` 则永远稳如泰山！
 
 ![1.6 补充 守护进程路径与__DIR__](1.6_补充_守护进程路径与__DIR__.png)
 #### 终端真实输出：
@@ -526,7 +530,7 @@ echo "如果现在已经是平民了，再试图改回皇上部门(GID=0): " . (
 > **【👉 本关亲手实操任务（第四幕：1.7）】**
 > - **终端命令（以 `root` 启动测试降权）**：
 >   ```powershell
->   wsl -u root php /mnt/d/Workerman/chapters/chapter01_process_identity/04_drop_privilege.php
+>   wsl -u root php chapters/chapter01_process_identity/04_drop_privilege.php
 >   ```
 > - **观察靶标**：输出 `初始身份: UID=0, GID=0` → `当前身份: UID=33, GID=33` → 最后试图改回 `GID=0` 失败。
 > - **改错实验**：临时把 `posix_setuid(33)` 放到 `posix_setgid(33)` 前面跑一次，亲眼见证 `setgid=失败` 且 `GID` 依然危险地留在 `0`（改完记得恢复原顺序）！
@@ -584,7 +588,7 @@ exit(250);
 > **【👉 本关亲手实操任务（第五幕：1.8 ~ 1.10）】**
 > - **终端命令**：
 >   ```powershell
->   wsl php /mnt/d/Workerman/chapters/chapter01_process_identity/05_exit_and_shutdown.php
+>   wsl php chapters/chapter01_process_identity/05_exit_and_shutdown.php
 >   echo $LASTEXITCODE
 >   ```
 > - **观察靶标**：先打印 `[临终遗言]`，紧接着在 PowerShell/Bash 里捕获到进程真实遗言退出码 **`250`**。

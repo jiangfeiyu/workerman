@@ -36,7 +36,8 @@ class StreamSlicedConnection extends TcpConnection {
 
 // ----------------- 服务端启动 -----------------
 $loop = new AdvancedSelectLoop();
-$server = stream_socket_server("tcp://127.0.0.1:8085");
+$context = stream_context_create(['socket' => ['so_reuseaddr' => true]]);
+$server = stream_socket_server("tcp://127.0.0.1:8085", $errno, $errstr, STREAM_SERVER_BIND | STREAM_SERVER_LISTEN, $context);
 stream_set_blocking($server, false);
 
 $triggerCount = 0;

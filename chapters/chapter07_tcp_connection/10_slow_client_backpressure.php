@@ -69,7 +69,7 @@ if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'] ?? '')) {
     echo "=== 关卡 7.9 高低水位线背压机制演示 (PID: " . posix_getpid() . ") ===\n\n";
 
     $loop = new AdvancedSelectLoop();
-    $server = stream_socket_server("tcp://127.0.0.1:8082");
+    $server = stream_socket_server("tcp://127.0.0.1:8082", context: stream_context_create(['socket' => ['so_reuseaddr' => true]]));
     stream_set_blocking($server, false);
 
     $loop->addRead($server, function ($server) use ($loop) {
