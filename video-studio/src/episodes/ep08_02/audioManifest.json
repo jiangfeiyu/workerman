@@ -1,0 +1,102 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-two-buffers": {
+      "id": "shot-01-two-buffers",
+      "audioFile": "audio/ep08_02/shot-01-two-buffers.mp3",
+      "durationSec": 12.788,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.235,
+          "text": "双向蓄水池：sendBuffer 兜底发送截断，recvBuffer 拼接接收碎片 ($recvBuffer .= $data)"
+        }
+      ]
+    },
+    "shot-02-delimiter-loop": {
+      "id": "shot-02-delimiter-loop",
+      "audioFile": "audio/ep08_02/shot-02-delimiter-loop.mp3",
+      "durationSec": 14.396,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.846,
+          "text": "定界符循环切包：while (strpos($recvBuffer, '\\n') !== false)，半包等待、粘包连切"
+        }
+      ]
+    },
+    "shot-03-hardcode-pain": {
+      "id": "shot-03-hardcode-pain",
+      "audioFile": "audio/ep08_02/shot-03-hardcode-pain.mp3",
+      "durationSec": 12.596,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.055,
+          "text": "硬编码痛点：切包规则写死在 baseRead()，换用 HTTP 或二进制协议就必须重构连接引擎"
+        }
+      ]
+    },
+    "shot-04-usb-slot": {
+      "id": "shot-04-usb-slot",
+      "audioFile": "audio/ep08_02/shot-04-usb-slot.mp3",
+      "durationSec": 13.676,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.112,
+          "text": "USB 插槽架构：TcpConnection 负责水流传输，协议解析交由 ProtocolInterface 可插拔芯片"
+        }
+      ]
+    },
+    "shot-05-method-input": {
+      "id": "shot-05-method-input",
+      "audioFile": "audio/ep08_02/shot-05-method-input.mp3",
+      "durationSec": 13.82,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.257,
+          "text": "第一问 input($buffer, $conn)：半包返回 0 继续等；完整则返回当前包总字节数 (> 0)"
+        }
+      ]
+    },
+    "shot-06-decode-encode": {
+      "id": "shot-06-decode-encode",
+      "audioFile": "audio/ep08_02/shot-06-decode-encode.mp3",
+      "durationSec": 13.028,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.463,
+          "text": "第二问 decode() 剥去协议外壳成业务数据；第三问 encode() 发送时自动封装协议头尾"
+        }
+      ]
+    },
+    "shot-07-newline-collision": {
+      "id": "shot-07-newline-collision",
+      "audioFile": "audio/ep08_02/shot-07-newline-collision.mp3",
+      "durationSec": 13.124,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.584,
+          "text": "定界符死穴：聊天古诗或二进制图片正文若自带 '\\n'，消息会被 TextProtocol 拦腰砍断"
+        }
+      ]
+    },
+    "shot-08-frame-protocol": {
+      "id": "shot-08-frame-protocol",
+      "audioFile": "audio/ep08_02/shot-08-frame-protocol.mp3",
+      "durationSec": 14.612,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.05,
+          "text": "FrameProtocol 终极解：4 字节大端长度头 pack('N') + 变长包体，兼容任意文本与二进制"
+        }
+      ]
+    }
+  }
+}

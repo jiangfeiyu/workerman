@@ -1,0 +1,75 @@
+{
+  "id": "Episode05-01",
+  "title": "第 5 章：阻塞堵门与 EventLoop 诞生",
+  "outputFile": "../chapters/chapter05_concurrency_and_eventloop/5.0_动画_阻塞与EventLoop演进.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-nested-while",
+      "chapter": "第 5 章 · 并发与事件循环",
+      "visual": "nested-while",
+      "ttsText": "为了和客人持续聊天，最直白的办法是写一个双层死循环：外层 accept 迎宾，内层 fread 陪客人一直聊。",
+      "subtitleText": "双层 while 循环：外层 accept 迎宾，内层 fread 陪客人长连接",
+      "fallbackDurationSec": 8.0
+    },
+    {
+      "id": "shot-02-blocking-crash",
+      "chapter": "第 5 章 · 并发与事件循环",
+      "visual": "blocking-crash",
+      "ttsText": "但客人 A 连进来发完你好之后，去喝茶不说话了。因为默认是阻塞模式，PHP 进程死死卡在 read 四号连接上睡大觉，门外的客人 B 喊破喉咙也进不来。",
+      "subtitleText": "阻塞惨案：客人 A 沉默不说话，进程卡在 read(4) 休眠，客人 B 被堵死门外",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-03-nonblocking",
+      "chapter": "第 5 章 · 并发与事件循环",
+      "visual": "nonblocking",
+      "ttsText": "怎么自救？调用 stream_set_blocking 开启非阻塞模式。告诉内核：管子里要是没数据，别让我睡觉，立刻返回 false 让我去问下一位。",
+      "subtitleText": "stream_set_blocking($fd, false)：没数据立刻返回 false (EAGAIN)，绝不卡死",
+      "fallbackDurationSec": 10.0
+    },
+    {
+      "id": "shot-04-polling-roster",
+      "chapter": "第 5 章 · 并发与事件循环",
+      "visual": "polling-roster",
+      "ttsText": "于是我们把接线员思路落地：用一个花名册数组存下所有连接，在单个 while 循环里挨个轮询，客人 A 和客人 B 终于能同时丝滑聊天了。",
+      "subtitleText": "单循环 + $connections 花名册：依次轮询迎宾员与老客人，实现单进程并发",
+      "fallbackDurationSec": 9.5
+    },
+    {
+      "id": "shot-05-cpu-100",
+      "chapter": "第 5 章 · 并发与事件循环",
+      "visual": "cpu-100",
+      "ttsText": "先别高兴太早，打开 top 一看，明明没有一个人说话，CPU 居然飙到了百分之百。因为非阻塞让 while 循环一秒钟空转几百万圈，全在做无用功。",
+      "subtitleText": "忙轮询惨案：无人发消息时 while 空转百万次，CPU 占用率狂飙 100%",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-06-stream-select",
+      "chapter": "第 5 章 · 并发与事件循环",
+      "visual": "stream-select",
+      "ttsText": "要想不累死自己，就把名单打包交给内核 select 保安。进程安心睡觉，CPU 降到零。只要名单里有任何一个连接有动静，内核立刻踹醒你。",
+      "subtitleText": "I/O 多路复用 stream_select：委托内核盯梢，无人说话时 CPU 0.0% 休眠",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-07-eraser-trap",
+      "chapter": "第 5 章 · 并发与事件循环",
+      "visual": "eraser-trap",
+      "ttsText": "但这里有个大坑：stream_select 的参数是引用传参。内核保安像拿了涂改液一样，把没说话的三号大门直接从你的名单里抹掉了。",
+      "subtitleText": "引用传参陷阱：stream_select(&$read) 会直接涂改数组，抹掉没动静的 3 号大门",
+      "fallbackDurationSec": 9.5
+    },
+    {
+      "id": "shot-08-all-sockets",
+      "chapter": "第 5 章 · 并发与事件循环",
+      "visual": "all-sockets",
+      "ttsText": "所以铁律诞生了：必须维护一份永久的总花名册 allSockets，每轮循环先复印一份 read 送去安检，这就是 SelectLoop 事件循环的灵魂。",
+      "subtitleText": "防涂改铁律：$read = $allSockets 复印送检 — SelectLoop 事件循环引擎诞生",
+      "fallbackDurationSec": 10.0
+    }
+  ]
+}

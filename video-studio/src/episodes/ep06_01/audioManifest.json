@@ -1,0 +1,126 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-sleep-poison": {
+      "id": "shot-01-sleep-poison",
+      "audioFile": "audio/ep06_01/shot-01-sleep-poison.mp3",
+      "durationSec": 13.58,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.028,
+          "text": "撞墙血案：在回调里写 sleep(3) 会打晕唯一的 PHP 进程，全服客人被连坐卡死！"
+        }
+      ]
+    },
+    "shot-02-single-process-rule": {
+      "id": "shot-02-single-process-rule",
+      "audioFile": "audio/ep06_01/shot-02-single-process-rule.mp3",
+      "durationSec": 13.58,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.028,
+          "text": "单进程铁律：回调必须闪电返回，整个程序唯一合法睡觉的地方只有 stream_select！"
+        }
+      ]
+    },
+    "shot-03-select-timeout": {
+      "id": "shot-03-select-timeout",
+      "audioFile": "audio/ep06_01/shot-03-select-timeout.mp3",
+      "durationSec": 15.572,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.024,
+          "text": "stream_select($r, $w, $e, $tv_sec, $tv_usec)：支持微秒精度的非阻塞闹钟底座"
+        }
+      ]
+    },
+    "shot-04-after-math": {
+      "id": "shot-04-after-math",
+      "audioFile": "audio/ep06_01/shot-04-after-math.mp3",
+      "durationSec": 14.804,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.242,
+          "text": "精确时间算术：$wait = max(0.0, $runTime - microtime(true)); 再拆分整数秒与微秒"
+        }
+      ]
+    },
+    "shot-05-wakeup-both": {
+      "id": "shot-05-wakeup-both",
+      "audioFile": "audio/ep06_01/shot-05-wakeup-both.mp3",
+      "durationSec": 13.94,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.401,
+          "text": "双通道唤醒：有网络消息提前醒来先处理网络，到点了准时醒来执行到期定时器"
+        }
+      ]
+    },
+    "shot-06-50k-timers": {
+      "id": "shot-06-50k-timers",
+      "audioFile": "audio/ep06_01/shot-06-50k-timers.mp3",
+      "durationSec": 14.78,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.23,
+          "text": "性能瓶颈：50,000 个定时器全表 foreach 扫描是 O(N) 开销，拖垮事件循环！"
+        }
+      ]
+    },
+    "shot-07-min-heap": {
+      "id": "shot-07-min-heap",
+      "audioFile": "audio/ep06_01/shot-07-min-heap.mp3",
+      "durationSec": 14.564,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.002,
+          "text": "最小堆数据结构 (SplPriorityQueue)：O(log N) 入队，永远 O(1) 瞄一眼堆顶最快闹钟"
+        }
+      ]
+    },
+    "shot-08-neg-timestamp": {
+      "id": "shot-08-neg-timestamp",
+      "audioFile": "audio/ep06_01/shot-08-neg-timestamp.mp3",
+      "durationSec": 15.956,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.408,
+          "text": "负数时间戳魔法：insert($id, -$runTime) 让最大堆瞬间变成“最早到期在堆顶”的最小堆"
+        }
+      ]
+    },
+    "shot-09-lazy-delete": {
+      "id": "shot-09-lazy-delete",
+      "audioFile": "audio/ep06_01/shot-09-lazy-delete.mp3",
+      "durationSec": 16.34,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.781,
+          "text": "惰性删除 (Lazy Deletion)：delTimer() 仅从任务账本 unset，堆顶弹出时查无此账即丢弃"
+        }
+      ]
+    },
+    "shot-10-timer-source": {
+      "id": "shot-10-timer-source",
+      "audioFile": "audio/ep06_01/shot-10-timer-source.mp3",
+      "durationSec": 13.508,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.956,
+          "text": "Workerman 源码真迹：Select::$_scheduler (SplPriorityQueue) + tick() + repeat() 重新入队"
+        }
+      ]
+    }
+  }
+}

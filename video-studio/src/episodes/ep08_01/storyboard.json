@@ -1,0 +1,67 @@
+{
+  "id": "Episode08-01",
+  "title": "第 8 章：TCP 粘包与半包的物理真相",
+  "outputFile": "../chapters/chapter08_protocols/8.0_动画_TCP粘包半包物理真相.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-parcel-illusion",
+      "chapter": "第 8 章 · 粘包与半包真相",
+      "visual": "parcel-illusion",
+      "ttsText": "在业务层的幻想里，每次调用 fwrite 发送一条消息，就像寄出一个独立的顺丰快递盒，发十次就应该触发十次 onMessage。",
+      "subtitleText": "业务层的幻想：每次 fwrite 像独立的顺丰快递盒，发 10 次触发 10 次 onMessage",
+      "fallbackDurationSec": 9.0
+    },
+    {
+      "id": "shot-02-sticky-crash",
+      "chapter": "第 8 章 · 粘包与半包真相",
+      "visual": "sticky-crash",
+      "ttsText": "可现实一跑实验全乱套了：客户端循环十次发送 hello，服务端 onMessage 居然只触发了一次，收到五十个字节粘成一坨的长串。",
+      "subtitleText": "粘包车祸现场：连续 10 次 fwrite('hello')，服务端 1 次收到 50 字节粘连长串",
+      "fallbackDurationSec": 9.5
+    },
+    {
+      "id": "shot-03-half-crash",
+      "chapter": "第 8 章 · 粘包与半包真相",
+      "visual": "half-crash",
+      "ttsText": "反过来，客户端一次性发一条十万字节的大 JSON，服务端却被触发了十几次，每次只拿到八千字节的残缺碎片，JSON 解析当场报错。",
+      "subtitleText": "半包车祸现场：1 次发 100KB 大 JSON，服务端分 13 次收到残缺碎片，json_decode 报错",
+      "fallbackDurationSec": 10.0
+    },
+    {
+      "id": "shot-04-water-pipe",
+      "chapter": "第 8 章 · 粘包与半包真相",
+      "visual": "water-pipe",
+      "ttsText": "为什么 TCP 这么不讲武德？因为 TCP 根本不是快递盒，而是一根自来水管。管子里流淌的只是连续的字节水流，水滴之间没有任何边界。",
+      "subtitleText": "底层真相：TCP 是无边界字节流 (Byte Stream) 自来水管，不保留任何消息分界线",
+      "fallbackDurationSec": 10.0
+    },
+    {
+      "id": "shot-05-why-sticky",
+      "chapter": "第 8 章 · 粘包与半包真相",
+      "visual": "why-sticky",
+      "ttsText": "为什么会粘包？为了省掉每条消息四十字节的包头开销，内核的 Nagle 算法会把短时间内的几滴小水攒成一瓢一起发，或者服务端读晚了一拍全捞了上来。",
+      "subtitleText": "粘包成因：内核 Nagle 算法合并微小短包省开销 + 服务端 fread 读取时池中已积攒多条",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-06-why-half",
+      "chapter": "第 8 章 · 粘包与半包真相",
+      "visual": "why-half",
+      "ttsText": "为什么会半包？以太网网线一次最多只能搬运大约一千四百六十字节的 MSS 净荷，十万字节的大数据必须被强行切成七十多个小碎片分批飞过来。",
+      "subtitleText": "半包成因：物理网线受限 MTU 1500 / MSS 1460 字节，大数据被底层强行切片分批到达",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-07-need-buffer",
+      "chapter": "第 8 章 · 粘包与半包真相",
+      "visual": "need-buffer",
+      "ttsText": "看透水流本质后，铁律非常清晰：绝对不能读到一点碎片就触发业务回调，必须先在连接对象里准备一个接收蓄水池 recvBuffer。",
+      "subtitleText": "破局起点：fread 读到的只是水流碎片，必须先统一倒入 $conn->recvBuffer 蓄水池",
+      "fallbackDurationSec": 9.5
+    }
+  ]
+}

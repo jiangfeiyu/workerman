@@ -1,0 +1,23 @@
+{
+  "name": "workerman-video-studio",
+  "version": "1.0.0",
+  "description": "Remotion + edge-tts animated explainer video studio for the Workerman & Linux System Programming course",
+  "private": true,
+  "scripts": {
+    "studio": "npx remotion studio src/index.ts",
+    "tts": ".venv/bin/python scripts/generate_tts.py",
+    "render": "node scripts/render_episode.mjs",
+    "typecheck": "npx tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.0",
+    "@remotion/cli": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.0"
+  }
+}

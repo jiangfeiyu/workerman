@@ -5,6 +5,27 @@
 > 这一章我们将亲历网络编程中最著名、让无数新手痛不欲生的两大案发现场：**TCP 粘包（Sticky Packet）** 与 **TCP 半包/拆包（Packet Fragmentation）**！
 > 随后，我们将一步步穿透 Linux TCP 字节流本质、Nagle 算法与 MTU/MSS，最终亲手推导出应用层接收蓄水池（`$recvBuffer`）与 Workerman 的协议插槽王牌 —— **`ProtocolInterface`**！
 
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（上）：TCP 粘包与半包的物理真相（自来水管字节流模型）</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter08_protocols/8.0_动画_TCP粘包半包物理真相.mp4"></video>
+</div>
+
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（下）：从 $recvBuffer 切包到 ProtocolInterface 协议插槽</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter08_protocols/8.0_动画_recvBuffer与ProtocolInterface.mp4"></video>
+</div>
+
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（终篇）：万能 FrameProtocol 与二进制 pack/unpack 网络大端序</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter08_protocols/8.0_动画_FrameProtocol与大端序pack拆解.mp4"></video>
+</div>
+
 ---
 
 ## 🟢 第一幕（关卡 8.1 ~ 8.3）：双重大车祸 —— 粘包与半包的血案现场

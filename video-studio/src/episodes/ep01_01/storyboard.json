@@ -1,0 +1,83 @@
+{
+  "id": "Episode01-01",
+  "title": "第 1 章：进程户口本、/proc 与安全降权",
+  "outputFile": "../chapters/chapter01_process_identity/1.0_动画_进程户口本与安全降权.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-pid-ppid",
+      "chapter": "第 1 章 · 进程身份与安全降权",
+      "visual": "pid-ppid",
+      "ttsText": "进程不是石头缝里蹦出来的。代码里调 posix_getpid 拿到自己的身份证，调 posix_getppid 查老爹，会发现老爹正是命令行 bash。",
+      "subtitleText": "posix_getpid() 与 posix_getppid()：每个进程都由父进程（如 bash）生出，组成家族树",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-02-process-title",
+      "chapter": "第 1 章 · 进程身份与安全降权",
+      "visual": "process-title",
+      "ttsText": "如果服务器上跑了十个服务在 ps 里全叫 php start.php，运维根本分不清谁是谁。用 cli_set_process_title 可以直接改掉户口本上的名字。",
+      "subtitleText": "cli_set_process_title()：改名为 master / worker process，对应 Workerman 源码 setProcessTitle",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-03-proc-fs",
+      "chapter": "第 1 章 · 进程身份与安全降权",
+      "visual": "proc-fs",
+      "ttsText": "Linux 作者极其聪明，没有为查进程发明几百个命令，而是把内核内存里的进程档案伪装成斜杠 proc 下的文件夹，进程一退出文件夹瞬间消失。",
+      "subtitleText": "/proc/<PID>/ 伪文件系统：不占硬盘空间，直接用 ls / cat 透视内存中的进程档案",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-04-proc-files",
+      "chapter": "第 1 章 · 进程身份与安全降权",
+      "visual": "proc-files",
+      "ttsText": "翻开档案袋：cmdline 记录启动名，status 里的 VmRSS 是真实物理内存占用，cwd 软链接则指着进程当前的立足工作目录。",
+      "subtitleText": "/proc/PID/ 关键档案：cmdline (进程名)、status (VmRSS 物理内存)、cwd (工作目录)",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-05-cwd-trap",
+      "chapter": "第 1 章 · 进程身份与安全降权",
+      "visual": "cwd-trap",
+      "ttsText": "守护进程化后常会执行 chdir 切换到根目录，此时相对路径 fopen a.txt 就会翻车找不到文件！所以框架必须用魔术常量 DIR 或保存初始工作目录。",
+      "subtitleText": "cwd 漂移陷阱：chdir('/') 后相对路径失效，必须使用 __DIR__ 或绝对路径基准",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-06-privilege-dilemma",
+      "chapter": "第 1 章 · 进程身份与安全降权",
+      "visual": "privilege-dilemma",
+      "ttsText": "安全大危机：80 端口只有最高统帅 root 能监听，但用 root 跑 PHP 业务一旦被黑客攻破就会直接删库！怎么既监听 80 端口又保平安？",
+      "subtitleText": "特权两难：80/443 端口要求 root (UID=0)，但业务层用 root 运行极其危险",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-07-drop-privilege",
+      "chapter": "第 1 章 · 进程身份与安全降权",
+      "visual": "drop-privilege",
+      "ttsText": "绝妙破局：先借 root 尚方宝剑占住 80 端口，占完立刻自废武功降权成普通用户 www-data！注意源码里必须先 setgid 再 setuid。",
+      "subtitleText": "先监听后降权：必须先 posix_setgid() 再 posix_setuid()（降完 UID 就没权改组了）",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-08-exit-code",
+      "chapter": "第 1 章 · 进程身份与安全降权",
+      "visual": "exit-code",
+      "ttsText": "子进程死后怎么向老爹汇报死因？通过零到二百五十五的退出状态码。零代表圆满完成，非零代表各种报错，终端里用 echo 美元问号就能收到遗言。",
+      "subtitleText": "临终遗言 Exit Code (0~255)：exit(0) 代表成功，非 0 代表错误，bash 用 $? 接收",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-09-shutdown-hook",
+      "chapter": "第 1 章 · 进程身份与安全降权",
+      "visual": "shutdown-hook",
+      "ttsText": "如果代码触发 Fatal Error 瞬间暴毙，连日志都来不及写怎么办？Workerman 用 register_shutdown_function 配合 error_get_last 完成临终抢救。",
+      "subtitleText": "临终抢救：register_shutdown_function() + error_get_last() 对应 Worker::checkErrors()",
+      "fallbackDurationSec": 11.0
+    }
+  ]
+}

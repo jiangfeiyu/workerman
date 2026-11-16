@@ -1,0 +1,83 @@
+{
+  "id": "Episode07-01",
+  "title": "第 7 章（上）：TcpConnection 与 5MB 丢包血案",
+  "outputFile": "../chapters/chapter07_tcp_connection/7.0_动画_TcpConnection与异步发送缓冲.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-resource-pain",
+      "chapter": "第 7 章（上）· TcpConnection 诞生",
+      "visual": "resource-pain",
+      "ttsText": "前面我们直接把原始 Socket 句柄传给 onMessage。可客人登录后想写 conn uid 等于 10086，PHP 当场报错！因为它是 resource 资源类型，根本不能挂业务属性。",
+      "subtitleText": "痛点 1：原生 $conn 是 PHP resource，无法动态挂载 $conn->uid 等业务属性！",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-02-wrapper-box",
+      "chapter": "第 7 章（上）· TcpConnection 诞生",
+      "visual": "wrapper-box",
+      "ttsText": "第一次进化：造一个包装盒 class TcpConnection，把原生 socket 藏在肚子里，对外提供 send 和 close 方法，还能自由挂用户 ID、房间号等任意属性。",
+      "subtitleText": "对象包装盒 TcpConnection：封装 $socket 句柄 + $id + send() + close() + 动态业务属性",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-03-iron-triangle",
+      "chapter": "第 7 章（上）· TcpConnection 诞生",
+      "visual": "iron-triangle",
+      "ttsText": "顺手完成职责搬家，形成 Workerman 铁三角：Worker 只管 accept 迎宾；TcpConnection 自己向 SelectLoop 注册 baseRead 负责该客人的收发；SelectLoop 只管监听和派发。",
+      "subtitleText": "Workerman 铁三角：Worker (迎宾) + SelectLoop (门铃引擎) + TcpConnection (连接管家)",
+      "fallbackDurationSec": 12.0
+    },
+    {
+      "id": "shot-04-5mb-disaster",
+      "chapter": "第 7 章（上）· TcpConnection 诞生",
+      "visual": "5mb-disaster",
+      "ttsText": "核爆级车祸实验来了！用 conn send 一次性发送 5MB 大数据。结果客户端一数，居然只收到了前 65536 字节，后面将近 4.9MB 数据凭空消失了！",
+      "subtitleText": "5MB 丢包血案：fwrite($socket, 5MB) 后客户端只收到 64KB，其余 4.9MB 凭空蒸发！",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-05-so-sndbuf",
+      "chapter": "第 7 章（上）· TcpConnection 诞生",
+      "visual": "so-sndbuf",
+      "ttsText": "内核真相揭秘：fwrite 不是直接飞上网线，而是先倒进内核发送缓冲区 SO_SNDBUF。因为 Socket 是非阻塞的，小池子塞满 64KB 后，fwrite 直接返回 65536 告诉你塞不下了！",
+      "subtitleText": "真相：非阻塞 fwrite 塞满内核 SO_SNDBUF 后直接短写返回 65536，余下字节被忽略扔掉！",
+      "fallbackDurationSec": 12.5
+    },
+    {
+      "id": "shot-06-app-sendbuffer",
+      "chapter": "第 7 章（上）· TcpConnection 诞生",
+      "visual": "app-sendbuffer",
+      "ttsText": "怎么救回那 4.9MB？必须在 TcpConnection 里自备大蓄水池 sendBuffer！每次检查 fwrite 返回的长度 len，只要没发完，就把剩下的尾巴 substr 存进 sendBuffer！",
+      "subtitleText": "应用层蓄水池：if ($len < strlen($data)) $this->sendBuffer .= substr($data, $len);",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-07-add-write",
+      "chapter": "第 7 章（上）· TcpConnection 诞生",
+      "visual": "add-write",
+      "ttsText": "存进 sendBuffer 后怎么接着发？利用 stream_select 的第二个参数可写事件集合！一旦内核池子腾出空位，SelectLoop 立刻触发 baseWrite 把蓄水池里的存货继续倒过去。",
+      "subtitleText": "异步排空：$loop->addWrite($socket, [$this, 'baseWrite'])，内核有空位自动唤醒续传",
+      "fallbackDurationSec": 12.0
+    },
+    {
+      "id": "shot-08-del-write-trap",
+      "chapter": "第 7 章（上）· TcpConnection 诞生",
+      "visual": "del-write-trap",
+      "ttsText": "极度隐蔽的 CPU 100% 大坑！一旦 sendBuffer 全部排空，如果不立刻注销可写监听 delWrite，因为内核池子平时永远未满、永远可写，select 就会每秒一百万次空唤醒你！",
+      "subtitleText": "可写监听铁律：有积压才 addWrite，sendBuffer 排空瞬间必须立刻 delWrite 防止 CPU 100%！",
+      "fallbackDurationSec": 12.5
+    },
+    {
+      "id": "shot-09-send-order",
+      "chapter": "第 7 章（上）· TcpConnection 诞生",
+      "visual": "send-order",
+      "ttsText": "最后注意发送顺序：当 sendBuffer 里还有老数据排队时，业务再调 send 发新消息，绝对不能直接调 fwrite 插队，必须老老实实追加到 sendBuffer 末尾保证字节有序！",
+      "subtitleText": "顺序铁律：只要 $this->sendBuffer !== ''，新数据必须追加到队尾等待顺序排空，严禁插队",
+      "fallbackDurationSec": 11.5
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-naive-robot": {
+      "id": "shot-01-naive-robot",
+      "audioFile": "audio/ep03_01/shot-01-naive-robot.mp3",
+      "durationSec": 11.876,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 11.322,
+          "text": "v0.1 笨代码：while (true) { $msg = fgets(STDIN); echo ...; }"
+        }
+      ]
+    },
+    "shot-02-spaghetti": {
+      "id": "shot-02-spaghetti",
+      "audioFile": "audio/ep03_01/shot-02-spaghetti.mp3",
+      "durationSec": 13.124,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.56,
+          "text": "撞墙痛点 1：底层读取引擎与上层业务代码强耦合，改业务就要动底座循环"
+        }
+      ]
+    },
+    "shot-03-extract-fn": {
+      "id": "shot-03-extract-fn",
+      "audioFile": "audio/ep03_01/shot-03-extract-fn.mp3",
+      "durationSec": 13.892,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.341,
+          "text": "v0.2 抽取 handleMessage()：仍然写死函数名，多部门复用依然要复制底座"
+        }
+      ]
+    },
+    "shot-04-callable-var": {
+      "id": "shot-04-callable-var",
+      "audioFile": "audio/ep03_01/shot-04-callable-var.mp3",
+      "durationSec": 14.084,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.521,
+          "text": "内功铺垫：函数也是值！$fn = function($msg) { ... }; 可作为变量自由传递"
+        }
+      ]
+    },
+    "shot-05-ioc-callback": {
+      "id": "shot-05-ioc-callback",
+      "audioFile": "audio/ep03_01/shot-05-ioc-callback.mp3",
+      "durationSec": 13.7,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.137,
+          "text": "v0.3 runServer($callback)：控制反转 (IoC) 诞生，底层与业务彻底解耦"
+        }
+      ]
+    },
+    "shot-06-param-explosion": {
+      "id": "shot-06-param-explosion",
+      "audioFile": "audio/ep03_01/shot-06-param-explosion.mp3",
+      "durationSec": 14.444,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.882,
+          "text": "撞墙痛点 3：多生命周期回调导致 runServer($onStart, $onMsg, $onStop...) 参数爆炸"
+        }
+      ]
+    },
+    "shot-07-worker-slots": {
+      "id": "shot-07-worker-slots",
+      "audioFile": "audio/ep03_01/shot-07-worker-slots.mp3",
+      "durationSec": 13.412,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.848,
+          "text": "v0.4 class Worker：属性即插座！$worker->onMessage = function($msg) { ... };"
+        }
+      ]
+    },
+    "shot-08-defensive-guard": {
+      "id": "shot-08-defensive-guard",
+      "audioFile": "audio/ep03_01/shot-08-defensive-guard.mp3",
+      "durationSec": 14.708,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.146,
+          "text": "工业级安全网：is_callable() 校验合法性 + try/catch(\\Throwable) 隔离业务崩溃"
+        }
+      ]
+    },
+    "shot-09-workerman-match": {
+      "id": "shot-09-workerman-match",
+      "audioFile": "audio/ep03_01/shot-09-workerman-match.mp3",
+      "durationSec": 11.54,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 10.997,
+          "text": "Workerman 源码印证：Worker.php 插座属性与异常隔离与推导结果 100% 吻合"
+        }
+      ]
+    }
+  }
+}

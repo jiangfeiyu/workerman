@@ -4,6 +4,27 @@
 > 这一章我们将经历从“语法憋屈”到“生产级核爆事故”的双重洗礼：
 > 试图挂载 `$conn->uid` 直接引发 PHP 崩溃 $\rightarrow$ 诞生包装盒 `TcpConnection` 并实现职责下放 $\rightarrow$ 紧接着遭遇 10MB 大文件惨遭吞噬 7MB 的丢包血案 $\rightarrow$ 一步步被逼着推导出 Linux 内核 `SO_SNDBUF`、应用层异步发送缓冲区、以及 `stream_select` 的可写事件（`$write`）！
 
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（上篇）：TcpConnection 与 5MB 丢包血案</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter07_tcp_connection/7.0_动画_TcpConnection与异步发送缓冲.mp4"></video>
+</div>
+
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（中篇）：铁三角数据包全旅程沙盘 & PHP 气球引用计数实验</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter07_tcp_connection/7.0_动画_气球引用计数与铁三角沙盘.mp4"></video>
+</div>
+
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（下篇）：背压、优雅关闭与内存零泄漏</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter07_tcp_connection/7.0_动画_背压优雅关闭与防泄漏.mp4"></video>
+</div>
+
 ---
 
 ## 🟢 第一幕（关卡 7.1 ~ 7.3）：从语法憋屈到“包装盒”与职责下放

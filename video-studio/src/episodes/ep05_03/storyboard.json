@@ -1,0 +1,67 @@
+{
+  "id": "Episode05-03",
+  "title": "第 5 章（终篇）：select 四大隐藏内功与 1024 诅咒",
+  "outputFile": "../chapters/chapter05_concurrency_and_eventloop/5.0_动画_select四大内功与1024诅咒.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-hotel-two-tables",
+      "chapter": "第 5 章（终篇）· select 隐藏内功与瓶颈",
+      "visual": "hotel-two-tables",
+      "ttsText": "为了让从过程式到面向对象 SelectLoop 的过渡彻底丝滑，我们先不用任何 class：大饭店前台只管两张普通表——3号大门与客人门铃表 readFds，以及对应谁响找谁的岗位卡 callbacks，瞬间消灭满屏 if else！",
+      "subtitleText": "无 class 阶梯过渡：门铃表 ($readFds) + 岗位回执卡 ($callbacks) 双数组消灭所有 if-else",
+      "fallbackDurationSec": 13.5
+    },
+    {
+      "id": "shot-02-lt-read-2bytes",
+      "chapter": "第 5 章（终篇）· select 隐藏内功与瓶颈",
+      "visual": "lt-read-2bytes",
+      "ttsText": "接下来实测四大隐藏内功第 1 条水平触发 LT：客户端发来 6 字节 ABCDEF，服务端故意极其抠门，每次只 fread 2 字节。运行实验 08 后发现：只要缓冲区水位没见底，stream_select 就连着唤醒 3 次分别读出 AB、CD、EF！",
+      "subtitleText": "内功 1 实测 (08_level_triggered_demo.php)：每次仅 fread 2B -> select 连喊 3 次直到掏空 ABCDEF",
+      "fallbackDurationSec": 14.0
+    },
+    {
+      "id": "shot-03-fd-setsize-1024",
+      "chapter": "第 5 章（终篇）· select 隐藏内功与瓶颈",
+      "visual": "fd-setsize-1024",
+      "ttsText": "内功 2 著名的 1024 诅咒：为什么单进程连到第 1025 个客人时 select 就会报 Warning 罢工？打开 Linux C 源码一看，select 用的是定长 fd_set 位图数组，#define FD_SETSIZE 死死焊死在 1024 个比特位！",
+      "subtitleText": "内功 2（1024 诅咒）：Linux C 底层 struct fd_set 位图上限死锁 FD_SETSIZE = 1024！",
+      "fallbackDurationSec": 13.5
+    },
+    {
+      "id": "shot-04-select-source-warn",
+      "chapter": "第 5 章（终篇）· select 隐藏内功与瓶颈",
+      "visual": "select-source-warn",
+      "ttsText": "Workerman 源码 Events/Select.php 200 行真迹印证：当监控数量大于等于 1024 时，框架亲自抛出告警提示你“请安装 event 扩展解锁更大并发！”注意区分：ulimit 管全进程句柄上限，而 1024 是 select 自身位图的硬伤。",
+      "subtitleText": "源码印证：Select.php 检查 >= 1024 触发告警 | ulimit 管进程总数 vs fd_set 管 select 上限",
+      "fallbackDurationSec": 14.0
+    },
+    {
+      "id": "shot-05-write-null-rule",
+      "chapter": "第 5 章（终篇）· select 隐藏内功与瓶颈",
+      "visual": "write-null-rule",
+      "ttsText": "内功 3：为什么平时 stream_select 的第二个参数 $write 和第三个参数 $except 几乎总传 null？因为内核发送缓冲 99.9% 的时间都有空位，只要把 Socket 塞进 $write，select 每一微秒都报可写就绪，CPU 立刻飙到 100%！",
+      "subtitleText": "内功 3：$write 平时必须传 null！否则发送区常年未满、常年可写 -> 每秒空转百万次 CPU 100%",
+      "fallbackDurationSec": 14.0
+    },
+    {
+      "id": "shot-06-timeout-three-modes",
+      "chapter": "第 5 章（终篇）· select 隐藏内功与瓶颈",
+      "visual": "timeout-three-modes",
+      "ttsText": "内功 4 超时参数三种神态：传 null 代表永久死等网络事件，CPU 占用 0%；传 0 代表不睡觉瞬间返回沦为忙轮询；传具体秒和微秒则是“限时打盹”——没消息到点自动醒来，正是第 6 章非阻塞定时器的底座！",
+      "subtitleText": "内功 4 超时三态：null (0% CPU 永久等) | 0 (瞬间返回空转) | (sec, usec) (限时打盹=定时器底座)",
+      "fallbackDurationSec": 14.5
+    },
+    {
+      "id": "shot-07-why-epoll",
+      "chapter": "第 5 章（终篇）· select 隐藏内功与瓶颈",
+      "visual": "why-epoll",
+      "ttsText": "最后埋下升级伏笔：select 每轮循环都要把 1024 位花名册整份从用户态拷贝进内核，内核再 O(N) 线性遍历扫描！上万并发时必须请出零拷贝、只返回活跃名单的终极核武 Epoll——而面向对象 EventLoopInterface 让替换引擎不改一行代码！",
+      "subtitleText": "Select 三大瓶颈 (1024上限 / 整表拷贝 / O(N)遍历) -> 引出百万并发利器 Epoll 多态替换",
+      "fallbackDurationSec": 14.5
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-hello-echo": {
+      "id": "shot-01-hello-echo",
+      "audioFile": "audio/ep00_01/shot-01-hello-echo.mp3",
+      "durationSec": 9.98,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 9.423,
+          "text": "01_echo.php：echo \"Hello Linux!\\n\" — PHP 自己能直接点亮屏幕吗？"
+        }
+      ]
+    },
+    "shot-02-security-risk": {
+      "id": "shot-02-security-risk",
+      "audioFile": "audio/ep00_01/shot-02-security-risk.mp3",
+      "durationSec": 12.26,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 11.706,
+          "text": "硬件特权隔离危机：普通程序若能直碰显卡/磁盘/物理内存，系统将毫无安全性"
+        }
+      ]
+    },
+    "shot-03-two-rings": {
+      "id": "shot-03-two-rings",
+      "audioFile": "audio/ep00_01/shot-03-two-rings.mp3",
+      "durationSec": 12.692,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.139,
+          "text": "权限分层：用户态 (Ring 3 安全房间) vs 内核态 (Ring 0 装甲保安亭)"
+        }
+      ]
+    },
+    "shot-04-syscall-window": {
+      "id": "shot-04-syscall-window",
+      "audioFile": "audio/ep00_01/shot-04-syscall-window.mp3",
+      "durationSec": 11.564,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 11.021,
+          "text": "系统调用 (Syscall)：用户态向内核态窗口递交办事申请单，由内核代操作硬件"
+        }
+      ]
+    },
+    "shot-05-strace-write": {
+      "id": "shot-05-strace-write",
+      "audioFile": "audio/ep00_01/shot-05-strace-write.mp3",
+      "durationSec": 12.86,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.307,
+          "text": "strace -e trace=write：抓捕到内核调用 write(1, \"Hello Linux!\\n\", 13) = 13"
+        }
+      ]
+    },
+    "shot-06-user-math": {
+      "id": "shot-06-user-math",
+      "audioFile": "audio/ep00_01/shot-06-user-math.mp3",
+      "durationSec": 14.324,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.786,
+          "text": "零系统调用计算：$sum += $i 在用户态 CPU 寄存器直跑，不敲内核窗户"
+        }
+      ]
+    },
+    "shot-07-program-vs-process": {
+      "id": "shot-07-program-vs-process",
+      "audioFile": "audio/ep00_01/shot-07-program-vs-process.mp3",
+      "durationSec": 15.5,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.951,
+          "text": "程序 (硬盘静态图纸) vs 进程 (内存活体打工人)：sleep(2) 触发 clock_nanosleep"
+        }
+      ]
+    },
+    "shot-08-pid-and-sleep": {
+      "id": "shot-08-pid-and-sleep",
+      "audioFile": "audio/ep00_01/shot-08-pid-and-sleep.mp3",
+      "durationSec": 15.572,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.024,
+          "text": "PID 唯一身份证 & 状态 S+ (Sleeping)：进程在等待队列休眠时 CPU = 0.0%"
+        }
+      ]
+    },
+    "shot-09-source-check": {
+      "id": "shot-09-source-check",
+      "audioFile": "audio/ep00_01/shot-09-source-check.mp3",
+      "durationSec": 13.148,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.608,
+          "text": "Workerman 源码真迹：Worker::checkSapiEnv() 校验 CLI 模式与 Linux 底层环境"
+        }
+      ]
+    }
+  }
+}

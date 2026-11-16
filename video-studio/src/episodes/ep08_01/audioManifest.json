@@ -1,0 +1,90 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-parcel-illusion": {
+      "id": "shot-01-parcel-illusion",
+      "audioFile": "audio/ep08_01/shot-01-parcel-illusion.mp3",
+      "durationSec": 11.084,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 10.528,
+          "text": "业务层的幻想：每次 fwrite 像独立的顺丰快递盒，发 10 次触发 10 次 onMessage"
+        }
+      ]
+    },
+    "shot-02-sticky-crash": {
+      "id": "shot-02-sticky-crash",
+      "audioFile": "audio/ep08_01/shot-02-sticky-crash.mp3",
+      "durationSec": 11.804,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 11.237,
+          "text": "粘包车祸现场：连续 10 次 fwrite('hello')，服务端 1 次收到 50 字节粘连长串"
+        }
+      ]
+    },
+    "shot-03-half-crash": {
+      "id": "shot-03-half-crash",
+      "audioFile": "audio/ep08_01/shot-03-half-crash.mp3",
+      "durationSec": 13.412,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.872,
+          "text": "半包车祸现场：1 次发 100KB 大 JSON，服务端分 13 次收到残缺碎片，json_decode 报错"
+        }
+      ]
+    },
+    "shot-04-water-pipe": {
+      "id": "shot-04-water-pipe",
+      "audioFile": "audio/ep08_01/shot-04-water-pipe.mp3",
+      "durationSec": 13.868,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.317,
+          "text": "底层真相：TCP 是无边界字节流 (Byte Stream) 自来水管，不保留任何消息分界线"
+        }
+      ]
+    },
+    "shot-05-why-sticky": {
+      "id": "shot-05-why-sticky",
+      "audioFile": "audio/ep08_01/shot-05-why-sticky.mp3",
+      "durationSec": 14.036,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.497,
+          "text": "粘包成因：内核 Nagle 算法合并微小短包省开销 + 服务端 fread 读取时池中已积攒多条"
+        }
+      ]
+    },
+    "shot-06-why-half": {
+      "id": "shot-06-why-half",
+      "audioFile": "audio/ep08_01/shot-06-why-half.mp3",
+      "durationSec": 14.204,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.641,
+          "text": "半包成因：物理网线受限 MTU 1500 / MSS 1460 字节，大数据被底层强行切片分批到达"
+        }
+      ]
+    },
+    "shot-07-need-buffer": {
+      "id": "shot-07-need-buffer",
+      "audioFile": "audio/ep08_01/shot-07-need-buffer.mp3",
+      "durationSec": 11.924,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 11.37,
+          "text": "破局起点：fread 读到的只是水流碎片，必须先统一倒入 $conn->recvBuffer 蓄水池"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-hotel-two-tables": {
+      "id": "shot-01-hotel-two-tables",
+      "audioFile": "audio/ep05_03/shot-01-hotel-two-tables.mp3",
+      "durationSec": 19.052,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 18.497,
+          "text": "无 class 阶梯过渡：门铃表 ($readFds) + 岗位回执卡 ($callbacks) 双数组消灭所有 if-else"
+        }
+      ]
+    },
+    "shot-02-lt-read-2bytes": {
+      "id": "shot-02-lt-read-2bytes",
+      "audioFile": "audio/ep05_03/shot-02-lt-read-2bytes.mp3",
+      "durationSec": 23.108,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 22.56,
+          "text": "内功 1 实测 (08_level_triggered_demo.php)：每次仅 fread 2B -> select 连喊 3 次直到掏空 ABCDEF"
+        }
+      ]
+    },
+    "shot-03-fd-setsize-1024": {
+      "id": "shot-03-fd-setsize-1024",
+      "audioFile": "audio/ep05_03/shot-03-fd-setsize-1024.mp3",
+      "durationSec": 22.124,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 21.562,
+          "text": "内功 2（1024 诅咒）：Linux C 底层 struct fd_set 位图上限死锁 FD_SETSIZE = 1024！"
+        }
+      ]
+    },
+    "shot-04-select-source-warn": {
+      "id": "shot-04-select-source-warn",
+      "audioFile": "audio/ep05_03/shot-04-select-source-warn.mp3",
+      "durationSec": 21.98,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 21.442,
+          "text": "源码印证：Select.php 检查 >= 1024 触发告警 | ulimit 管进程总数 vs fd_set 管 select 上限"
+        }
+      ]
+    },
+    "shot-05-write-null-rule": {
+      "id": "shot-05-write-null-rule",
+      "audioFile": "audio/ep05_03/shot-05-write-null-rule.mp3",
+      "durationSec": 22.604,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 22.067,
+          "text": "内功 3：$write 平时必须传 null！否则发送区常年未满、常年可写 -> 每秒空转百万次 CPU 100%"
+        }
+      ]
+    },
+    "shot-06-timeout-three-modes": {
+      "id": "shot-06-timeout-three-modes",
+      "audioFile": "audio/ep05_03/shot-06-timeout-three-modes.mp3",
+      "durationSec": 19.94,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 19.387,
+          "text": "内功 4 超时三态：null (0% CPU 永久等) | 0 (瞬间返回空转) | (sec, usec) (限时打盹=定时器底座)"
+        }
+      ]
+    },
+    "shot-07-why-epoll": {
+      "id": "shot-07-why-epoll",
+      "audioFile": "audio/ep05_03/shot-07-why-epoll.mp3",
+      "durationSec": 22.652,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 22.127,
+          "text": "Select 三大瓶颈 (1024上限 / 整表拷贝 / O(N)遍历) -> 引出百万并发利器 Epoll 多态替换"
+        }
+      ]
+    }
+  }
+}

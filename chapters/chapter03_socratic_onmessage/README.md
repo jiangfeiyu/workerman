@@ -2,6 +2,20 @@
 
 > **本章核心灵魂**：为什么 Workerman 要设计成 `$worker->onMessage = function($msg) { ... }`？本章我们还不碰复杂的网络，直接用第 2 章刚学的 **`0` 号键盘管子（`STDIN`）**，从最直白的 5 行 `while` 死循环出发，让你亲手经历三次“需求撞墙”，一步一步靠自己的代码重构，把 **`handleMessage` $\rightarrow$ `$callback` 函数参数 $\rightarrow$ `class Worker` 的 `$onMessage` 属性插座** 给重新发明出来！
 
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（上篇）：第 3 章：苏格拉底推导 onMessage 架构</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter03_socratic_onmessage/3.0_动画_苏格拉底推导onMessage.mp4"></video>
+</div>
+
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（下篇）：工业级 Worker 的 4 大防御细节与异常安全网</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter03_socratic_onmessage/3.0_动画_工业级Worker防御与安全网.mp4"></video>
+</div>
+
 ---
 
 ## 🟢 第一幕（关卡 3.1 ~ 3.3）：从“一锅粥代码”推导出 `handleMessage($msg)`

@@ -1,0 +1,75 @@
+{
+  "id": "Episode07-02",
+  "title": "第 7 章（下）：背压、优雅关闭与内存零泄漏",
+  "outputFile": "../chapters/chapter07_tcp_connection/7.0_动画_背压优雅关闭与防泄漏.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-slow-client",
+      "chapter": "第 7 章（下）· 背压与生命周期",
+      "visual": "slow-client",
+      "ttsText": "虽然解决了丢包，但新噩梦来了：如果有恶意慢客户端只连不收，或者拔了网线，服务器还在疯狂调 send，应用层 sendBuffer 就会像无底洞一样涨到 2GB 把内存撑爆！",
+      "subtitleText": "慢客户端灾难：对方不收包而服务端狂 send()，$sendBuffer 无限膨胀直到 OOM 崩溃！",
+      "fallbackDurationSec": 12.0
+    },
+    {
+      "id": "shot-02-watermark",
+      "chapter": "第 7 章（下）· 背压与生命周期",
+      "visual": "watermark",
+      "ttsText": "Workerman 用高低水位线实现背压保护：给 sendBuffer 设上限 maxSendBufferSize 一兆字节。一旦触及红线触发 onBufferFull 提醒业务暂停发送；排空后再触发 onBufferDrain 恢复！",
+      "subtitleText": "背压水位线：超过 $maxSendBufferSize 触发 onBufferFull 暂停；排空触发 onBufferDrain 恢复",
+      "fallbackDurationSec": 12.5
+    },
+    {
+      "id": "shot-03-close-hijack",
+      "chapter": "第 7 章（下）· 背压与生命周期",
+      "visual": "close-hijack",
+      "ttsText": "再看痛点 4：业务写了 send 大礼包，紧接着下一行直接调 close。如果 close 无脑执行 fclose，留在 sendBuffer 里没发完的大礼包会被瞬间掐断截胡！",
+      "subtitleText": "截胡悲剧：$conn->send($bigData); $conn->close(); 直接 fclose 会把剩余缓冲全扔掉！",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-04-state-machine",
+      "chapter": "第 7 章（下）· 背压与生命周期",
+      "visual": "state-machine",
+      "ttsText": "破局之道是连接状态机！调 close 时，如果 sendBuffer 还有存货，只把状态改为 CLOSING 并停止收新消息；等 baseWrite 发完最后一个字节，看到状态是 CLOSING 再真正销毁！",
+      "subtitleText": "优雅关闭状态机：ESTABLISHED -> close() 变 CLOSING -> 发完末字节再 destroy() -> CLOSED",
+      "fallbackDurationSec": 12.5
+    },
+    {
+      "id": "shot-05-mem-leak",
+      "chapter": "第 7 章（下）· 背压与生命周期",
+      "visual": "mem-leak",
+      "ttsText": "最后也是常驻内存框架最隐蔽的幽灵：内存泄漏！一万个客户端连上来又全部断开，RSS 内存却一路涨了 50MB 一分钱都不释放，为什么？",
+      "subtitleText": "常驻进程内存泄漏实验：1000 个连接断开后 memory_get_usage 仍居高不下！",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-06-circular-ref",
+      "chapter": "第 7 章（下）· 背压与生命周期",
+      "visual": "circular-ref",
+      "ttsText": "真相就像气球和绳子：TcpConnection 绑在 Worker 的 connections 数组里，SelectLoop 的回调数组里存着它的 baseRead，而连接身上又挂载了捕获自己的闭包回调，形成交叉循环引用！",
+      "subtitleText": "交叉引用死结：Worker::$connections + SelectLoop 回调 + 闭包 $this 互相攥着不放，GC 无法回收",
+      "fallbackDurationSec": 12.5
+    },
+    {
+      "id": "shot-07-four-unplug",
+      "chapter": "第 7 章（下）· 背压与生命周期",
+      "visual": "four-unplug",
+      "ttsText": "所以 destroy 必须严格执行四步连环拔管：1 注销读写事件监听，2 fclose 关掉底层 Socket，3 清空自身回调引用，4 从 Worker 连接池 unset 移除，引用计数瞬间归零！",
+      "subtitleText": "destroy() 四步拔管：delRead/delWrite -> fclose -> 清空回调属性 -> unset($worker->connections[$id])",
+      "fallbackDurationSec": 12.5
+    },
+    {
+      "id": "shot-08-tcpconn-source",
+      "chapter": "第 7 章（下）· 背压与生命周期",
+      "visual": "tcpconn-source",
+      "ttsText": "翻开原版 Workerman 的 TcpConnection.php：send、baseWrite、close、destroy 和 STATUS_CLOSING 状态机，曾经令人望而生畏的数百行源码，全被我们亲手推导出来了！",
+      "subtitleText": "Workerman 源码巅峰印证：Connection/TcpConnection.php 全分支与推导 100% 对齐",
+      "fallbackDurationSec": 11.5
+    }
+  ]
+}

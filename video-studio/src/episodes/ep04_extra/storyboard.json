@@ -1,0 +1,83 @@
+{
+  "id": "Episode04-Extra",
+  "title": "第 4 章补充：TCP 握手、挥手、CLOSE_WAIT 与 40ms 陷阱",
+  "outputFile": "../chapters/chapter04_extra_tcp_deep_dive/4.extra_0_动画_TCP协议栈深度剖析.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-four-layers",
+      "chapter": "第 4 章补充 · TCP 协议内功",
+      "visual": "four-layers",
+      "ttsText": "把一段业务数据发上网线，究竟经历了什么？自顶向下会层层套上应用层 HTTP、传输层 TCP 20 字节头、网络层 IP 20 字节头，最后交由以太网按 MTU 一千五百字节切片。",
+      "subtitleText": "四层封装全景：HTTP 载荷 -> TCP 头 (20B) -> IP 头 (20B) -> 以太网帧 (MTU 1500B)",
+      "fallbackDurationSec": 12.0
+    },
+    {
+      "id": "shot-02-three-way-syn",
+      "chapter": "第 4 章补充 · TCP 协议内功",
+      "visual": "three-way-syn",
+      "ttsText": "三次握手为什么不是两次？客户端发 SYN 并带上随机初始序号 ISN，服务端回 SYN 加 ACK，客户端再回第三次 ACK。双方通过三个回合彻底确认彼此的发送和接收通道都正常！",
+      "subtitleText": "三次握手：SYN(seq=x) -> SYN+ACK(seq=y, ack=x+1) -> ACK(ack=y+1)，确认双工通道",
+      "fallbackDurationSec": 12.5
+    },
+    {
+      "id": "shot-03-isn-ghost",
+      "chapter": "第 4 章补充 · TCP 协议内功",
+      "visual": "isn-ghost",
+      "ttsText": "为什么初始序号 ISN 必须随机生成，不能每次都从 0 开始？防止网络里滞留的上一代幽灵老包突然飞过来冒充新连接，随机序列号让历史迷路旧包直接被内核丢弃。",
+      "subtitleText": "ISN 随机序列号防幽灵包：阻止旧连接迷途报文串入新连接造成数据错乱",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-04-four-way-fin",
+      "chapter": "第 4 章补充 · TCP 协议内功",
+      "visual": "four-way-fin",
+      "ttsText": "为什么断开连接要四次挥手？因为 TCP 是全双工：主动方发 FIN 说我发完了，被动方先回一个 ACK，等自己手里剩下的数据发完，再单独发第二个 FIN！",
+      "subtitleText": "四次挥手（全双工独立关闭）：FIN -> ACK -> (处理余包) -> FIN -> ACK",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-05-close-wait",
+      "chapter": "第 4 章补充 · TCP 协议内功",
+      "visual": "close-wait",
+      "ttsText": "生产高频大事故 CLOSE_WAIT 泄漏是怎么造出来的？对方已经发了 FIN 挂断，内核回完了第一个 ACK，结果你的 PHP 代码忘了调用 fclose，导致连接死死卡在 CLOSE_WAIT 耗光 FD！",
+      "subtitleText": "CLOSE_WAIT 事故：对方发 FIN 后本端代码忘调 fclose()，连接永久泄漏占满 FD",
+      "fallbackDurationSec": 12.5
+    },
+    {
+      "id": "shot-06-time-wait",
+      "chapter": "第 4 章补充 · TCP 协议内功",
+      "visual": "time-wait",
+      "ttsText": "主动关闭的一方最后会进入 TIME_WAIT 状态守候 2MSL 约一分钟。第一为了万一最后的 ACK 丢了还能重传，第二等网线上所有迷路老包彻底消散。",
+      "subtitleText": "TIME_WAIT 守候 2MSL：1. 兜底重传最后一个 ACK；2. 等待迷途旧报文彻底消散",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-07-nagle-40ms",
+      "chapter": "第 4 章补充 · TCP 协议内功",
+      "visual": "nagle-40ms",
+      "ttsText": "为什么有时接口莫名其妙多了四十毫秒延迟？当发送端开了 Nagle 攒包，接收端开了延迟确认 Delayed ACK，你等我发包我等你回 ACK，双方死锁直到四十毫秒超时才打破！",
+      "subtitleText": "40ms 撞车惨案：Nagle (等 ACK 再发) + Delayed ACK (等 40ms 捎带) 相互死等",
+      "fallbackDurationSec": 12.5
+    },
+    {
+      "id": "shot-08-nodelay-fix",
+      "chapter": "第 4 章补充 · TCP 协议内功",
+      "visual": "nodelay-fix",
+      "ttsText": "高并发实时框架怎么破局？开启 TCP_NODELAY 禁用 Nagle 算法，或者一次性合并业务数据写入，立刻消灭这白白浪费的四十毫秒卡顿！",
+      "subtitleText": "破局：开启 TCP_NODELAY 禁止小包延迟发送，或应用层拼好包一次性 fwrite",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-09-keepalive-heartbeat",
+      "chapter": "第 4 章补充 · TCP 协议内功",
+      "visual": "keepalive-heartbeat",
+      "ttsText": "网线被突然拔掉时，没有 FIN 包怎么办？内核自带的 TCP Keepalive 默认要等两小时才探活；所以 Workerman 生产环境必须靠应用层每三十秒发一次心跳包剔除死连接！",
+      "subtitleText": "内核 TCP Keepalive 太慢 (默认 7200s) -> 必须使用应用层定时心跳 Ping/Pong 踢死链",
+      "fallbackDurationSec": 12.0
+    }
+  ]
+}

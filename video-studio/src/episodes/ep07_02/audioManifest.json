@@ -1,0 +1,102 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-slow-client": {
+      "id": "shot-01-slow-client",
+      "audioFile": "audio/ep07_02/shot-01-slow-client.mp3",
+      "durationSec": 14.78,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.23,
+          "text": "慢客户端灾难：对方不收包而服务端狂 send()，$sendBuffer 无限膨胀直到 OOM 崩溃！"
+        }
+      ]
+    },
+    "shot-02-watermark": {
+      "id": "shot-02-watermark",
+      "audioFile": "audio/ep07_02/shot-02-watermark.mp3",
+      "durationSec": 15.86,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.312,
+          "text": "背压水位线：超过 $maxSendBufferSize 触发 onBufferFull 暂停；排空触发 onBufferDrain 恢复"
+        }
+      ]
+    },
+    "shot-03-close-hijack": {
+      "id": "shot-03-close-hijack",
+      "audioFile": "audio/ep07_02/shot-03-close-hijack.mp3",
+      "durationSec": 13.82,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.269,
+          "text": "截胡悲剧：$conn->send($bigData); $conn->close(); 直接 fclose 会把剩余缓冲全扔掉！"
+        }
+      ]
+    },
+    "shot-04-state-machine": {
+      "id": "shot-04-state-machine",
+      "audioFile": "audio/ep07_02/shot-04-state-machine.mp3",
+      "durationSec": 15.692,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.144,
+          "text": "优雅关闭状态机：ESTABLISHED -> close() 变 CLOSING -> 发完末字节再 destroy() -> CLOSED"
+        }
+      ]
+    },
+    "shot-05-mem-leak": {
+      "id": "shot-05-mem-leak",
+      "audioFile": "audio/ep07_02/shot-05-mem-leak.mp3",
+      "durationSec": 13.868,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.317,
+          "text": "常驻进程内存泄漏实验：1000 个连接断开后 memory_get_usage 仍居高不下！"
+        }
+      ]
+    },
+    "shot-06-circular-ref": {
+      "id": "shot-06-circular-ref",
+      "audioFile": "audio/ep07_02/shot-06-circular-ref.mp3",
+      "durationSec": 16.004,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.444,
+          "text": "交叉引用死结：Worker::$connections + SelectLoop 回调 + 闭包 $this 互相攥着不放，GC 无法回收"
+        }
+      ]
+    },
+    "shot-07-four-unplug": {
+      "id": "shot-07-four-unplug",
+      "audioFile": "audio/ep07_02/shot-07-four-unplug.mp3",
+      "durationSec": 16.292,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.745,
+          "text": "destroy() 四步拔管：delRead/delWrite -> fclose -> 清空回调属性 -> unset($worker->connections[$id])"
+        }
+      ]
+    },
+    "shot-08-tcpconn-source": {
+      "id": "shot-08-tcpconn-source",
+      "audioFile": "audio/ep07_02/shot-08-tcpconn-source.mp3",
+      "durationSec": 15.356,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.795,
+          "text": "Workerman 源码巅峰印证：Connection/TcpConnection.php 全分支与推导 100% 对齐"
+        }
+      ]
+    }
+  }
+}

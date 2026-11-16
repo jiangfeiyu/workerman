@@ -1,0 +1,67 @@
+{
+  "id": "Episode07-03",
+  "title": "第 7 章（中篇）：气球引用计数实验与铁三角数据包沙盘",
+  "outputFile": "../chapters/chapter07_tcp_connection/7.0_动画_气球引用计数与铁三角沙盘.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-god-class-pain",
+      "chapter": "第 7 章（中篇）· 铁三角与引用计数深度破案",
+      "visual": "god-class-pain",
+      "ttsText": "为什么第 5 章末尾所有读写、缓冲、协议逻辑全都挤在 Worker 一个“上帝类”里会彻底失控？就像酒店前台既要大门口迎宾，又要给一万个房间分别端茶倒水记账单，迟早崩溃！必须拆分职责形成铁三角。",
+      "subtitleText": "反模式警报：上帝类 Worker 既当门卫又当服务员又管缓冲 -> 高耦合彻底失控",
+      "fallbackDurationSec": 13.0
+    },
+    {
+      "id": "shot-02-packet-7steps",
+      "chapter": "第 7 章（中篇）· 铁三角与引用计数深度破案",
+      "visual": "packet-7steps",
+      "ttsText": "来一遍沙盘全景还原：一条网络消息怎么穿行在铁三角之间？1 Client 发包；2 SelectLoop 的 select 唤醒；3 查岗位表回调 [$conn, 'baseRead']；4 fread 进 $recvBuffer；5 调用户 onMessage；6 $conn->send 回写！Worker 在接受连接后就功成身退。",
+      "subtitleText": "数据包 6 步流转：Client -> SelectLoop -> $conn->baseRead -> onMessage -> send",
+      "fallbackDurationSec": 14.5
+    },
+    {
+      "id": "shot-03-this-baseread-array",
+      "chapter": "第 7 章（中篇）· 铁三角与引用计数深度破案",
+      "visual": "this-baseread-array",
+      "ttsText": "显微镜盯紧这一行极易被忽略的语法：[$this, 'baseRead']！很多人以为这只是传了个方法名字串。真相是：PHP 把它当成一个二元数组——0 号下标实打实塞进了当前 $conn 对象本身的引用！",
+      "subtitleText": "语法显微镜：[$this, 'baseRead'] 是二元数组！下标 [0] 直接强引用持有着 $conn 对象本身！",
+      "fallbackDurationSec": 13.5
+    },
+    {
+      "id": "shot-04-balloon-1",
+      "chapter": "第 7 章（中篇）· 铁三角与引用计数深度破案",
+      "visual": "balloon-1",
+      "ttsText": "用课程配套实验 13 的气球模型破解 PHP 引用计数 refcount！实验 1 创建气球 1 号，只有 $balloon1 一根绳子攥着它；一执行 unset $balloon1，所有绳子全断，__destruct 立刻执行，气球当场爆炸销毁！",
+      "subtitleText": "13_refcount_balloon_experiment.php 实验 1：只有 1 根绳子 -> unset($balloon1) 立即触发 __destruct",
+      "fallbackDurationSec": 13.5
+    },
+    {
+      "id": "shot-05-balloon-2",
+      "chapter": "第 7 章（中篇）· 铁三角与引用计数深度破案",
+      "visual": "balloon-2",
+      "ttsText": "实验 2 震惊全场：把 [$balloon2, 'fly'] 放进事件循环数组后，执行 unset $balloon2——气球 2 号居然没有爆炸！因为事件循环数组的 0 号位置就是第二只紧攥着气球的手，refcount 还有 1！必须等 delRead 删掉数组项它才爆炸。",
+      "subtitleText": "实验 2：unset($balloon2) 后仍不爆炸！因为事件表 [$balloon2, 'fly'] 仍拽着第二根绳 (refcount=1)",
+      "fallbackDurationSec": 14.5
+    },
+    {
+      "id": "shot-06-balloon-3",
+      "chapter": "第 7 章（中篇）· 铁三角与引用计数深度破案",
+      "visual": "balloon-3",
+      "ttsText": "实验 3 最致命的蛇咬尾巴：气球 3 号把匿名函数挂在自己的属性 onAction 上，而闭包又用 use 捕获了 $balloon3 自己！外部 unset 之后，气球和闭包自己咬自己，引用计数永远为 1，成为不死僵尸直到把属性赋值为 null！",
+      "subtitleText": "实验 3 闭环死结：$conn->onAction = fn() use ($conn) {} 蛇咬尾巴 -> 必须置 null 剪断循环",
+      "fallbackDurationSec": 14.5
+    },
+    {
+      "id": "shot-07-connections-pool-save",
+      "chapter": "第 7 章（中篇）· 铁三角与引用计数深度破案",
+      "visual": "connections-pool-save",
+      "ttsText": "反过来思考为什么 accept 新连接时必须写 $this->connections[$id] = $connection？因为 accept 函数一结束局部变量就没了，如果没有 connections 数组拽住这根绳子（以及事件表），对象当场就会析构把连接关掉！一存一删，全凭绳子掌控生死！",
+      "subtitleText": "生死一念：accept 靠 $worker->connections[$id] 保活对象，destroy 靠四步剪绳子精确归零",
+      "fallbackDurationSec": 14.5
+    }
+  ]
+}

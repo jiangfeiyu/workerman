@@ -1,0 +1,83 @@
+{
+  "id": "Episode02-01",
+  "title": "第 2 章：一切皆文件与 FD 最小空位抢座",
+  "outputFile": "../chapters/chapter02_everything_is_a_file/2.0_动画_一切皆文件与FD抢座.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-born-three-fds",
+      "chapter": "第 2 章 · 一切皆文件与 FD",
+      "visual": "born-three-fds",
+      "ttsText": "第一章留了个悬念：echo 底层调用 write 一，那个数字一到底是谁？钻进斜杠 proc 的 fd 目录一看，进程一出生就自带 0、1、2 三根管子。",
+      "subtitleText": "进程天生自带三根管子：0 (STDIN)、1 (STDOUT)、2 (STDERR)，均指向 /dev/pts/x 终端",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-02-stdout-stderr",
+      "chapter": "第 2 章 · 一切皆文件与 FD",
+      "visual": "stdout-stderr",
+      "ttsText": "为什么屏幕要插一和二两根管子？当你把输出重定向到账单文件时，一号正常账单乖乖进了文件，而二号报错依然留在屏幕警报你，互不污染！",
+      "subtitleText": "STDOUT (1) 与 STDERR (2) 分流：php test.php > bill.txt 只存正常输出，报错仍显屏幕",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-03-ghost-terminal",
+      "chapter": "第 2 章 · 一切皆文件与 FD",
+      "visual": "ghost-terminal",
+      "ttsText": "既然屏幕也是一个设备文件，我们在窗口 B 直接向窗口 A 的 proc fd 1 写入一句话，窗口 A 的屏幕竟然凭空打出了幽灵文字！",
+      "subtitleText": "黑客实验：echo \"幽灵\" > /proc/PID/fd/1，直观印证终端设备在内核眼里也是文件",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-04-fopen-fd3",
+      "chapter": "第 2 章 · 一切皆文件与 FD",
+      "visual": "fopen-fd3",
+      "ttsText": "现在用 fopen 打开一个硬盘文件，内核会发给它几号牌？0、1、2 已经被占，下一个就是 3！PHP 里的资源句柄在内核数组里其实就是一个整数 FD。",
+      "subtitleText": "文件描述符 (FD)：fopen() 拿到数组下标 3，PHP resource 脱掉马甲就是整数 FD",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-05-lowest-fd",
+      "chapter": "第 2 章 · 一切皆文件与 FD",
+      "visual": "lowest-fd",
+      "ttsText": "连续打开 A 拿到 3 号、B 拿到 4 号。如果先 fclose 关掉 A 腾出 3 号空位，再打开 C，内核会发几号？答案是 3 号！这就是最小可用编号抢座原则。",
+      "subtitleText": "最小可用 FD 原则：关闭 3 号后新开文件直接抢占最小空位 3 号，而非递增给 5 号",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-06-fd-leak",
+      "chapter": "第 2 章 · 一切皆文件与 FD",
+      "visual": "fd-leak",
+      "ttsText": "如果写代码只管 fopen 不管 fclose，FD 编号一路狂涨到一千零二十三，第一千零二十四次就会撞穿 ulimit 上限当场报错崩溃！",
+      "subtitleText": "FD 泄漏灾难：忘记 fclose 耗尽 ulimit -n (默认 1024) -> Too many open files",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-07-reset-std",
+      "chapter": "第 2 章 · 一切皆文件与 FD",
+      "visual": "reset-std",
+      "ttsText": "现在彻底看懂 Workerman 守护进程源码 resetStd 了！它先把 0、1、2 强行关掉，紧接着打开三次黑洞或日志文件，新文件就会精准抢占 0、1、2 号座位！",
+      "subtitleText": "Workerman::resetStd() 魔法：fclose(0,1,2) 后三次 fopen('/dev/null') 精准重占 0,1,2",
+      "fallbackDurationSec": 12.0
+    },
+    {
+      "id": "shot-08-stdin-block",
+      "chapter": "第 2 章 · 一切皆文件与 FD",
+      "visual": "stdin-block",
+      "ttsText": "当读 0 号键盘文件 fread STDIN 时，如果你不敲回车，管子里没水，内核就会把进程打入睡眠等待，这就是后续并发风暴的根源：阻塞 I/O。",
+      "subtitleText": "阻塞 I/O 初体验：fread(STDIN) 管中无数据时进程卡住挂起，直到敲下回车",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-09-flock",
+      "chapter": "第 2 章 · 一切皆文件与 FD",
+      "visual": "flock",
+      "ttsText": "最后，多个进程同时往同一个文件写日志字迹会互相穿插乱套，用 flock 加独占锁就能排队写入；而统一用 FD 读写，正是 Linux 一切皆文件的终极魅力。",
+      "subtitleText": "并发文件锁 flock($fp, LOCK_EX) 防止日志交错；一切硬件皆可通过 FD 统一 fread/fwrite",
+      "fallbackDurationSec": 11.5
+    }
+  ]
+}

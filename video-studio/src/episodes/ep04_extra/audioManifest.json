@@ -1,0 +1,114 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-four-layers": {
+      "id": "shot-01-four-layers",
+      "audioFile": "audio/ep04_extra/shot-01-four-layers.mp3",
+      "durationSec": 17.396,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 16.85,
+          "text": "四层封装全景：HTTP 载荷 -> TCP 头 (20B) -> IP 头 (20B) -> 以太网帧 (MTU 1500B)"
+        }
+      ]
+    },
+    "shot-02-three-way-syn": {
+      "id": "shot-02-three-way-syn",
+      "audioFile": "audio/ep04_extra/shot-02-three-way-syn.mp3",
+      "durationSec": 17.084,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 16.514,
+          "text": "三次握手：SYN(seq=x) -> SYN+ACK(seq=y, ack=x+1) -> ACK(ack=y+1)，确认双工通道"
+        }
+      ]
+    },
+    "shot-03-isn-ghost": {
+      "id": "shot-03-isn-ghost",
+      "audioFile": "audio/ep04_extra/shot-03-isn-ghost.mp3",
+      "durationSec": 15.62,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.072,
+          "text": "ISN 随机序列号防幽灵包：阻止旧连接迷途报文串入新连接造成数据错乱"
+        }
+      ]
+    },
+    "shot-04-four-way-fin": {
+      "id": "shot-04-four-way-fin",
+      "audioFile": "audio/ep04_extra/shot-04-four-way-fin.mp3",
+      "durationSec": 14.348,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.786,
+          "text": "四次挥手（全双工独立关闭）：FIN -> ACK -> (处理余包) -> FIN -> ACK"
+        }
+      ]
+    },
+    "shot-05-close-wait": {
+      "id": "shot-05-close-wait",
+      "audioFile": "audio/ep04_extra/shot-05-close-wait.mp3",
+      "durationSec": 17.996,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 17.439,
+          "text": "CLOSE_WAIT 事故：对方发 FIN 后本端代码忘调 fclose()，连接永久泄漏占满 FD"
+        }
+      ]
+    },
+    "shot-06-time-wait": {
+      "id": "shot-06-time-wait",
+      "audioFile": "audio/ep04_extra/shot-06-time-wait.mp3",
+      "durationSec": 14.348,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.798,
+          "text": "TIME_WAIT 守候 2MSL：1. 兜底重传最后一个 ACK；2. 等待迷途旧报文彻底消散"
+        }
+      ]
+    },
+    "shot-07-nagle-40ms": {
+      "id": "shot-07-nagle-40ms",
+      "audioFile": "audio/ep04_extra/shot-07-nagle-40ms.mp3",
+      "durationSec": 16.148,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.588,
+          "text": "40ms 撞车惨案：Nagle (等 ACK 再发) + Delayed ACK (等 40ms 捎带) 相互死等"
+        }
+      ]
+    },
+    "shot-08-nodelay-fix": {
+      "id": "shot-08-nodelay-fix",
+      "audioFile": "audio/ep04_extra/shot-08-nodelay-fix.mp3",
+      "durationSec": 13.724,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.173,
+          "text": "破局：开启 TCP_NODELAY 禁止小包延迟发送，或应用层拼好包一次性 fwrite"
+        }
+      ]
+    },
+    "shot-09-keepalive-heartbeat": {
+      "id": "shot-09-keepalive-heartbeat",
+      "audioFile": "audio/ep04_extra/shot-09-keepalive-heartbeat.mp3",
+      "durationSec": 15.692,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.132,
+          "text": "内核 TCP Keepalive 太慢 (默认 7200s) -> 必须使用应用层定时心跳 Ping/Pong 踢死链"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "id": "Episode06-01",
+  "title": "第 6 章：定时器、select 超时与最小堆",
+  "outputFile": "../chapters/chapter06_timer_and_heap/6.0_动画_定时器与最小堆原理.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-sleep-poison",
+      "chapter": "第 6 章 · 定时器与最小堆",
+      "visual": "sleep-poison",
+      "ttsText": "客人 A 发来消息，业务想延迟三秒再回复他。如果随手在 onMessage 回调里写一行 sleep 3，结果那三秒里其他所有客人全都卡死！为什么？",
+      "subtitleText": "撞墙血案：在回调里写 sleep(3) 会打晕唯一的 PHP 进程，全服客人被连坐卡死！",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-02-single-process-rule",
+      "chapter": "第 6 章 · 定时器与最小堆",
+      "visual": "single-process-rule",
+      "ttsText": "因为在单进程事件循环里，代码必须在回调中毫秒返回回到主循环。你在回调里 sleep，进程就根本走不到 stream_select 去接待别人。",
+      "subtitleText": "单进程铁律：回调必须闪电返回，整个程序唯一合法睡觉的地方只有 stream_select！",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-03-select-timeout",
+      "chapter": "第 6 章 · 定时器与最小堆",
+      "visual": "select-timeout",
+      "ttsText": "灵光一闪！stream_select 的第四、第五个参数正是超时时间秒和微秒！它相当于告诉内核保安：没人说话时最多让我睡三秒，时间一到准时叫醒我！",
+      "subtitleText": "stream_select($r, $w, $e, $tv_sec, $tv_usec)：支持微秒精度的非阻塞闹钟底座",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-04-after-math",
+      "chapter": "第 6 章 · 定时器与最小堆",
+      "visual": "after-math",
+      "ttsText": "于是非阻塞闹钟 after 诞生了：先用 microtime 算出执行时间戳。进 select 前算出距离闹钟响还有几秒几微秒，再用 max 零兜底防止负数把内核搞崩！",
+      "subtitleText": "精确时间算术：$wait = max(0.0, $runTime - microtime(true)); 再拆分整数秒与微秒",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-05-wakeup-both",
+      "chapter": "第 6 章 · 定时器与最小堆",
+      "visual": "wakeup-both",
+      "ttsText": "完美协作：这三秒内如果客人 B 说话了，select 立刻提前醒来服务客人 B；如果没人说话，三秒一到 select 准时醒来触发定时回调，全程零阻塞！",
+      "subtitleText": "双通道唤醒：有网络消息提前醒来先处理网络，到点了准时醒来执行到期定时器",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-06-50k-timers",
+      "chapter": "第 6 章 · 定时器与最小堆",
+      "visual": "50k-timers",
+      "ttsText": "新痛点撞墙！线上有五万个连接，每个连接都有心跳定时器。每次循环都要 foreach 扫描五万个数组找最快要响的闹钟，O(N) 循环直接把 CPU 吃光！",
+      "subtitleText": "性能瓶颈：50,000 个定时器全表 foreach 扫描是 O(N) 开销，拖垮事件循环！",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-07-min-heap",
+      "chapter": "第 6 章 · 定时器与最小堆",
+      "visual": "min-heap",
+      "ttsText": "其实我们只关心最快要响的那第 1 个闹钟是谁！只要第 1 个没到点，后面的根本不用看！PHP 内置的优先队列 SplPriorityQueue 就是天生干这个的最小堆。",
+      "subtitleText": "最小堆数据结构 (SplPriorityQueue)：O(log N) 入队，永远 O(1) 瞄一眼堆顶最快闹钟",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-08-neg-timestamp",
+      "chapter": "第 6 章 · 定时器与最小堆",
+      "visual": "neg-timestamp",
+      "ttsText": "有个巧妙技巧：SplPriorityQueue 默认是最大堆，数字越大越靠前；而我们希望时间戳越小的越先响！所以只要传入负数时间戳负 runTime 当优先级，就秒变最小堆！",
+      "subtitleText": "负数时间戳魔法：insert($id, -$runTime) 让最大堆瞬间变成“最早到期在堆顶”的最小堆",
+      "fallbackDurationSec": 12.0
+    },
+    {
+      "id": "shot-09-lazy-delete",
+      "chapter": "第 6 章 · 定时器与最小堆",
+      "visual": "lazy-delete",
+      "ttsText": "如果想半路取消一个定时器，堆中间的元素很难直接删。Workerman 用双表协作加惰性删除：从任务账本 unset 掉 id，等它自己浮到堆顶时发现账本里没有，直接跳过丢弃！",
+      "subtitleText": "惰性删除 (Lazy Deletion)：delTimer() 仅从任务账本 unset，堆顶弹出时查无此账即丢弃",
+      "fallbackDurationSec": 12.5
+    },
+    {
+      "id": "shot-10-timer-source",
+      "chapter": "第 6 章 · 定时器与最小堆",
+      "visual": "timer-source",
+      "ttsText": "打开 Workerman/Events/Select.php 对照真迹：$_scheduler 正是 SplPriorityQueue，delay、repeat 与 tick 里的逻辑和我们手写的一模一样！",
+      "subtitleText": "Workerman 源码真迹：Select::$_scheduler (SplPriorityQueue) + tick() + repeat() 重新入队",
+      "fallbackDurationSec": 11.0
+    }
+  ]
+}

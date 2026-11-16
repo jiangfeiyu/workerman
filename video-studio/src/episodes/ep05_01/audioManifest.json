@@ -1,0 +1,102 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-nested-while": {
+      "id": "shot-01-nested-while",
+      "audioFile": "audio/ep05_01/shot-01-nested-while.mp3",
+      "durationSec": 10.052,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 9.495,
+          "text": "双层 while 循环：外层 accept 迎宾，内层 fread 陪客人长连接"
+        }
+      ]
+    },
+    "shot-02-blocking-crash": {
+      "id": "shot-02-blocking-crash",
+      "audioFile": "audio/ep05_01/shot-02-blocking-crash.mp3",
+      "durationSec": 14.66,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.098,
+          "text": "阻塞惨案：客人 A 沉默不说话，进程卡在 read(4) 休眠，客人 B 被堵死门外"
+        }
+      ]
+    },
+    "shot-03-nonblocking": {
+      "id": "shot-03-nonblocking",
+      "audioFile": "audio/ep05_01/shot-03-nonblocking.mp3",
+      "durationSec": 13.964,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.413,
+          "text": "stream_set_blocking($fd, false)：没数据立刻返回 false (EAGAIN)，绝不卡死"
+        }
+      ]
+    },
+    "shot-04-polling-roster": {
+      "id": "shot-04-polling-roster",
+      "audioFile": "audio/ep05_01/shot-04-polling-roster.mp3",
+      "durationSec": 12.572,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.019,
+          "text": "单循环 + $connections 花名册：依次轮询迎宾员与老客人，实现单进程并发"
+        }
+      ]
+    },
+    "shot-05-cpu-100": {
+      "id": "shot-05-cpu-100",
+      "audioFile": "audio/ep05_01/shot-05-cpu-100.mp3",
+      "durationSec": 13.412,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.848,
+          "text": "忙轮询惨案：无人发消息时 while 空转百万次，CPU 占用率狂飙 100%"
+        }
+      ]
+    },
+    "shot-06-stream-select": {
+      "id": "shot-06-stream-select",
+      "audioFile": "audio/ep05_01/shot-06-stream-select.mp3",
+      "durationSec": 13.676,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.112,
+          "text": "I/O 多路复用 stream_select：委托内核盯梢，无人说话时 CPU 0.0% 休眠"
+        }
+      ]
+    },
+    "shot-07-eraser-trap": {
+      "id": "shot-07-eraser-trap",
+      "audioFile": "audio/ep05_01/shot-07-eraser-trap.mp3",
+      "durationSec": 12.668,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.103,
+          "text": "引用传参陷阱：stream_select(&$read) 会直接涂改数组，抹掉没动静的 3 号大门"
+        }
+      ]
+    },
+    "shot-08-all-sockets": {
+      "id": "shot-08-all-sockets",
+      "audioFile": "audio/ep05_01/shot-08-all-sockets.mp3",
+      "durationSec": 12.692,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.139,
+          "text": "防涂改铁律：$read = $allSockets 复印送检 — SelectLoop 事件循环引擎诞生"
+        }
+      ]
+    }
+  }
+}

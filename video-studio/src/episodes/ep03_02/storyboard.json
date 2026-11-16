@@ -1,0 +1,59 @@
+{
+  "id": "Episode03-02",
+  "title": "第 3 章（下）：工业级 Worker 的 4 大防御与异常安全网",
+  "outputFile": "../chapters/chapter03_socratic_onmessage/3.0_动画_工业级Worker防御与安全网.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-uncaught-crash",
+      "chapter": "第 3 章（下）· 工业级底座防御",
+      "visual": "uncaught-crash",
+      "ttsText": "在传统 PHP-FPM 里，某个请求抛出异常挂掉只影响当前这一次请求。但在 Workerman 常驻内存服务器里，所有客人共用同一个 Worker 进程：如果业务回调里抛一个 RuntimeException，整个进程瞬间崩掉，一万个在线客人集体断线！",
+      "subtitleText": "常驻进程最大杀手：业务代码抛出一次未捕获 Exception，整台 Worker 进程直接暴毙连坐全服！",
+      "fallbackDurationSec": 14.0
+    },
+    {
+      "id": "shot-02-try-catch-net",
+      "chapter": "第 3 章（下）· 工业级底座防御",
+      "visual": "try-catch-net",
+      "ttsText": "因此工业级底座的死规矩是：必须在执行用户回调前，张开一张 try catch Throwable 异常防护安全网！哪怕业务代码抛出数据库连接超时或者 TypeError 致命错误，也只会触发 onError 打印报警，主事件循环稳如泰山继续接客！",
+      "subtitleText": "安全网：try { ($this->onMessage)(...); } catch (\\Throwable $e) { $this->triggerError($e); }",
+      "fallbackDurationSec": 14.5
+    },
+    {
+      "id": "shot-03-context-injection",
+      "chapter": "第 3 章（下）· 工业级底座防御",
+      "visual": "context-injection",
+      "ttsText": "第二个关键细节是上下文注入：为什么 Worker 触发 onWorkerStart 时，一定要把括号里的 $this 作为参数传给用户的闭包函数？因为用户要在初始化回调里访问 worker 名字、进程编号、连接池甚至挂载全局数据库连接，必须拿到当前 Worker 实例句柄！",
+      "subtitleText": "上下文注入：($this->onWorkerStart)($this) 把底座实例反向喂给业务回调，实现资源访问",
+      "fallbackDurationSec": 14.0
+    },
+    {
+      "id": "shot-04-is-callable-guard",
+      "chapter": "第 3 章（下）· 工业级底座防御",
+      "visual": "is-callable-guard",
+      "ttsText": "第三个防御细节：千万别用松散的 if $this->onMessage 判断是否有回调！万一粗心的开发者误写成了 $worker->onMessage = 'hello' 或数字 123，if 判断为真后直接括号调用，当场 Fatal Error Uncaught Error Call to a member function on string！必须用严格的 is_callable()！",
+      "subtitleText": "严格类型防御：用 is_callable($this->onMessage) 替代松散 if，拦住非法字符串或数字赋值",
+      "fallbackDurationSec": 14.5
+    },
+    {
+      "id": "shot-05-callable-variants",
+      "chapter": "第 3 章（下）· 工业级底座防御",
+      "visual": "callable-variants",
+      "ttsText": "第四个强大收益：用了 is_callable 和统一调用后，你的 Worker 插座天然兼容 PHP 全部 4 种回调形态：匿名闭包函数、普通函数名字符串、[$bot, 'reply'] 对象方法数组，以及 [Controller::class, 'handle'] 静态类方法！",
+      "subtitleText": "多态回调全兼容：Closure 匿名函数 | 'fnName' 字符串 | [$obj, 'method'] | [Class, 'static']",
+      "fallbackDurationSec": 14.0
+    },
+    {
+      "id": "shot-06-robust-demo-run",
+      "chapter": "第 3 章（下）· 工业级底座防御",
+      "visual": "robust-demo-run",
+      "ttsText": "运行 v05_robust_worker.php 实测：当客户端输入 bomb 故意引爆数据库超时异常，安全网立刻优雅拦截告警，接着输入下一句 hello，客服机器人照常回复，进程始终存活！这就是框架底座的专业尊严。",
+      "subtitleText": "v05_robust_worker.php 实测：输入 'bomb' 触发异常被安全网吞下告警，后续消息照常稳健响应",
+      "fallbackDurationSec": 13.5
+    }
+  ]
+}

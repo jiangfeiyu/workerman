@@ -1,0 +1,114 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-born-three-fds": {
+      "id": "shot-01-born-three-fds",
+      "audioFile": "audio/ep02_01/shot-01-born-three-fds.mp3",
+      "durationSec": 13.484,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.92,
+          "text": "进程天生自带三根管子：0 (STDIN)、1 (STDOUT)、2 (STDERR)，均指向 /dev/pts/x 终端"
+        }
+      ]
+    },
+    "shot-02-stdout-stderr": {
+      "id": "shot-02-stdout-stderr",
+      "audioFile": "audio/ep02_01/shot-02-stdout-stderr.mp3",
+      "durationSec": 13.508,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.956,
+          "text": "STDOUT (1) 与 STDERR (2) 分流：php test.php > bill.txt 只存正常输出，报错仍显屏幕"
+        }
+      ]
+    },
+    "shot-03-ghost-terminal": {
+      "id": "shot-03-ghost-terminal",
+      "audioFile": "audio/ep02_01/shot-03-ghost-terminal.mp3",
+      "durationSec": 11.492,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 10.937,
+          "text": "黑客实验：echo \"幽灵\" > /proc/PID/fd/1，直观印证终端设备在内核眼里也是文件"
+        }
+      ]
+    },
+    "shot-04-fopen-fd3": {
+      "id": "shot-04-fopen-fd3",
+      "audioFile": "audio/ep02_01/shot-04-fopen-fd3.mp3",
+      "durationSec": 14.996,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.447,
+          "text": "文件描述符 (FD)：fopen() 拿到数组下标 3，PHP resource 脱掉马甲就是整数 FD"
+        }
+      ]
+    },
+    "shot-05-lowest-fd": {
+      "id": "shot-05-lowest-fd",
+      "audioFile": "audio/ep02_01/shot-05-lowest-fd.mp3",
+      "durationSec": 14.972,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.423,
+          "text": "最小可用 FD 原则：关闭 3 号后新开文件直接抢占最小空位 3 号，而非递增给 5 号"
+        }
+      ]
+    },
+    "shot-06-fd-leak": {
+      "id": "shot-06-fd-leak",
+      "audioFile": "audio/ep02_01/shot-06-fd-leak.mp3",
+      "durationSec": 11.972,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 11.406,
+          "text": "FD 泄漏灾难：忘记 fclose 耗尽 ulimit -n (默认 1024) -> Too many open files"
+        }
+      ]
+    },
+    "shot-07-reset-std": {
+      "id": "shot-07-reset-std",
+      "audioFile": "audio/ep02_01/shot-07-reset-std.mp3",
+      "durationSec": 15.548,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.0,
+          "text": "Workerman::resetStd() 魔法：fclose(0,1,2) 后三次 fopen('/dev/null') 精准重占 0,1,2"
+        }
+      ]
+    },
+    "shot-08-stdin-block": {
+      "id": "shot-08-stdin-block",
+      "audioFile": "audio/ep02_01/shot-08-stdin-block.mp3",
+      "durationSec": 13.604,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.04,
+          "text": "阻塞 I/O 初体验：fread(STDIN) 管中无数据时进程卡住挂起，直到敲下回车"
+        }
+      ]
+    },
+    "shot-09-flock": {
+      "id": "shot-09-flock",
+      "audioFile": "audio/ep02_01/shot-09-flock.mp3",
+      "durationSec": 14.924,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.375,
+          "text": "并发文件锁 flock($fp, LOCK_EX) 防止日志交错；一切硬件皆可通过 FD 统一 fread/fwrite"
+        }
+      ]
+    }
+  }
+}

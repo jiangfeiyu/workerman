@@ -1,0 +1,83 @@
+{
+  "id": "Episode05-02",
+  "title": "第 5 章（下）：EOF 空消息风暴与 SelectLoop 门铃机制",
+  "outputFile": "../chapters/chapter05_concurrency_and_eventloop/5.0_动画_EOF风暴与SelectLoop源码.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-eof-storm",
+      "chapter": "第 5 章（下）· SelectLoop 深度拆解",
+      "visual": "eof-storm",
+      "ttsText": "上半场我们用总花名册 allSockets 跑通了 stream_select。可客人按 Ctrl+C 断开时突然出大事了：屏幕每秒狂印一万次空消息，CPU 又飙到了百分之百！",
+      "subtitleText": "突发怪事：客户端 Ctrl+C 断开后，服务端狂印空消息，CPU 再次飙升 100%！",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-02-fin-is-readable",
+      "chapter": "第 5 章（下）· SelectLoop 深度拆解",
+      "visual": "fin-is-readable",
+      "ttsText": "真相极其反直觉：客人挂断发来 FIN 包代表文件到达末尾 EOF。在 Linux 内核眼里，对方挂电话了也算一种可读事件！select 每次都报它可读，fread 却只读出空串。",
+      "subtitleText": "内核真相：收到 FIN (EOF) 也触发可读事件！select 狂喊有动静，fread 却返回 ''",
+      "fallbackDurationSec": 12.0
+    },
+    {
+      "id": "shot-03-eof-cleanup",
+      "chapter": "第 5 章（下）· SelectLoop 深度拆解",
+      "visual": "eof-cleanup",
+      "ttsText": "怎么扑灭风暴？只要 fread 读到空字符串或者 false，立刻从总花名册 allSockets 中 unset 划掉这个编号，调用 fclose 拔掉连接，再触发 onClose 回调。",
+      "subtitleText": "熄火修复：if ($msg === '' || $msg === false) -> unset($allSockets[$fd]); fclose($conn);",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-04-not-always-dead",
+      "chapter": "第 5 章（下）· SelectLoop 深度拆解",
+      "visual": "not-always-dead",
+      "ttsText": "注意大师级细节：非阻塞模式下读到空串不一定等于断线！有可能是信号打断或暂无数据 EAGAIN，所以严谨的框架会再用 feof 或者判断 stream_select 后无数据才确认真断线。",
+      "subtitleText": "严谨细节：EAGAIN 空读 vs 真 EOF 断线 -> 结合 feof($conn) 与 select 就绪态确认",
+      "fallbackDurationSec": 12.0
+    },
+    {
+      "id": "shot-05-extract-selectloop",
+      "chapter": "第 5 章（下）· SelectLoop 深度拆解",
+      "visual": "extract-selectloop",
+      "ttsText": "现在 Worker::run 里塞满了 select 和花名册逻辑。如果下个月想把 select 升级成性能核武 epoll 怎么办？必须把事件监控引擎单独抽成 SelectLoop 类！",
+      "subtitleText": "架构解耦：把“盯梢与派发”从 Worker 抽离为独立的 SelectLoop 事件循环引擎",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-06-bell-and-card",
+      "chapter": "第 5 章（下）· SelectLoop 深度拆解",
+      "visual": "bell-and-card",
+      "ttsText": "大白话看透 SelectLoop 内部两张表：一张是门铃表 readFds 存所有连接句柄；另一张是岗位卡 readCallbacks，用整数 fd 做键，存着谁响了该调哪个函数。",
+      "subtitleText": "两张核心表：readFds[(int)$fd] 门铃名单 | readCallbacks[(int)$fd] 对应岗位回调卡",
+      "fallbackDurationSec": 12.0
+    },
+    {
+      "id": "shot-07-loop-dispatch",
+      "chapter": "第 5 章（下）· SelectLoop 深度拆解",
+      "visual": "loop-dispatch",
+      "ttsText": "一旦 select 醒来告诉你 4 号门铃响了，引擎立刻拿着数字 4 去查岗位卡数组，精准执行 readCallbacks 四，一行 if else 都不需要写！",
+      "subtitleText": "查表派发：$fd = (int)$socket; ($this->readCallbacks[$fd])($socket); — O(1) 精准触发！",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-08-level-triggered",
+      "chapter": "第 5 章（下）· SelectLoop 深度拆解",
+      "visual": "level-triggered",
+      "ttsText": "再记一条隐藏内功：select 是水平触发 LT 模式。如果客人发了 2000 字节而你只 fread 了 1024 字节，只要内核池子里还剩哪怕 1 字节，下一轮 select 还会继续提醒你！",
+      "subtitleText": "水平触发 (LT)：只要内核缓冲区仍有未读完的字节，下一轮 select 仍会持续报告可读",
+      "fallbackDurationSec": 12.0
+    },
+    {
+      "id": "shot-09-select-source",
+      "chapter": "第 5 章（下）· SelectLoop 深度拆解",
+      "visual": "select-source",
+      "ttsText": "对照原版 Workerman 的 Events/Select.php：$_readFds、$_allEvents、add、del 与 loop 方法，和你刚刚推导出来的 SelectLoop 几乎逐行一致！",
+      "subtitleText": "Workerman 源码印证：Events/Select.php 里的 $_readFds / $_allEvents 与双表派发完全一致",
+      "fallbackDurationSec": 11.0
+    }
+  ]
+}

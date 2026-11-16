@@ -2,6 +2,20 @@
 
 > **本章核心灵魂**：如果让你设计操作系统，硬盘要用一套函数、键盘要用一套函数、显示器要用一套函数、网卡又要用一套函数，程序员非得疯掉不可！看 Unix/Linux 祖师爷如何用 **FD（文件描述符，从 0 开始的排队数字）** 一统江湖！并由此破解 Workerman 源码中著名的 `resetStd()` 黑魔法与 `Worker::lock()` 文件锁机制！
 
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（上篇）：第 2 章：一切皆文件与 FD 最小空位抢座</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter02_everything_is_a_file/2.0_动画_一切皆文件与FD抢座.mp4"></video>
+</div>
+
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（下篇）：resetStd() 重定向魔术、FD 泄漏与 flock 并发文件锁</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter02_everything_is_a_file/2.0_动画_resetStd与flock并发锁.mp4"></video>
+</div>
+
 ---
 
 ## 🟢 第一幕（关卡 2.1）：娘胎里自带的三根管子 (`0, 1, 2`)

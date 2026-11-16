@@ -1,0 +1,90 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-god-class-pain": {
+      "id": "shot-01-god-class-pain",
+      "audioFile": "audio/ep07_03/shot-01-god-class-pain.mp3",
+      "durationSec": 19.196,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 18.629,
+          "text": "反模式警报：上帝类 Worker 既当门卫又当服务员又管缓冲 -> 高耦合彻底失控"
+        }
+      ]
+    },
+    "shot-02-packet-7steps": {
+      "id": "shot-02-packet-7steps",
+      "audioFile": "audio/ep07_03/shot-02-packet-7steps.mp3",
+      "durationSec": 23.132,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 22.572,
+          "text": "数据包沙盘 6 步旅程：Client -> SelectLoop::loop -> $conn->baseRead -> onMessage -> $conn->send"
+        }
+      ]
+    },
+    "shot-03-this-baseread-array": {
+      "id": "shot-03-this-baseread-array",
+      "audioFile": "audio/ep07_03/shot-03-this-baseread-array.mp3",
+      "durationSec": 18.284,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 17.74,
+          "text": "语法显微镜：[$this, 'baseRead'] 是二元数组！下标 [0] 直接强引用持有着 $conn 对象本身！"
+        }
+      ]
+    },
+    "shot-04-balloon-1": {
+      "id": "shot-04-balloon-1",
+      "audioFile": "audio/ep07_03/shot-04-balloon-1.mp3",
+      "durationSec": 20.828,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 20.264,
+          "text": "13_refcount_balloon_experiment.php 实验 1：只有 1 根绳子 -> unset($balloon1) 立即触发 __destruct"
+        }
+      ]
+    },
+    "shot-05-balloon-2": {
+      "id": "shot-05-balloon-2",
+      "audioFile": "audio/ep07_03/shot-05-balloon-2.mp3",
+      "durationSec": 21.164,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 20.612,
+          "text": "实验 2：unset($balloon2) 后仍不爆炸！因为事件表 [$balloon2, 'fly'] 仍拽着第二根绳 (refcount=1)"
+        }
+      ]
+    },
+    "shot-06-balloon-3": {
+      "id": "shot-06-balloon-3",
+      "audioFile": "audio/ep07_03/shot-06-balloon-3.mp3",
+      "durationSec": 20.252,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 19.711,
+          "text": "实验 3 闭环死结：$conn->onAction = fn() use ($conn) {} 蛇咬尾巴 -> 必须置 null 剪断循环"
+        }
+      ]
+    },
+    "shot-07-connections-pool-save": {
+      "id": "shot-07-connections-pool-save",
+      "audioFile": "audio/ep07_03/shot-07-connections-pool-save.mp3",
+      "durationSec": 22.892,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 22.355,
+          "text": "生死一念：accept 靠 $worker->connections[$id] 保活对象，destroy 靠四步剪绳子精确归零"
+        }
+      ]
+    }
+  }
+}

@@ -3,6 +3,27 @@
 > **本章核心灵魂**：这是从“单打独斗的玩具脚本”迈向“工业级高并发网络服务器”最惊心动魄的一跃！
 > 我们绝不直接抛出晦涩的 `stream_select` 或 Reactor 模式，而是先用最朴素的双层嵌套循环接客，亲眼见证第 2 个客人被晾在门外的车祸现场 $\rightarrow$ 尝试开启非阻塞 $\rightarrow$ 遭遇 CPU 100% 暴走风扇狂转惨案 $\rightarrow$ 祖师爷被逼到绝境，最终推导出 I/O 多路复用、花名册机制与事件循环引擎 `SelectLoop`！
 
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲：为什么第 2 个客人进不来？（阻塞 → 忙轮询 CPU 100% → stream_select）</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter05_concurrency_and_eventloop/5.0_动画_阻塞与EventLoop演进.mp4"></video>
+</div>
+
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（下篇）：EOF 空消息风暴与 SelectLoop 门铃机制</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter05_concurrency_and_eventloop/5.0_动画_EOF风暴与SelectLoop源码.mp4"></video>
+</div>
+
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（终篇）：stream_select 四大隐藏内功与 1024 诅咒（通往 Epoll）</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter05_concurrency_and_eventloop/5.0_动画_select四大内功与1024诅咒.mp4"></video>
+</div>
+
 ---
 
 ## 🟢 第一幕（关卡 5.1 ~ 5.3）：并发车祸现场 —— 为什么第 2 个客人像被施了定身咒？

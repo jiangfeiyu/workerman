@@ -2,6 +2,13 @@
 
 > **核心目标**：参考《图解TCP/IP (第5版)》，不搞枯燥的死记硬背，而是用 `tcpdump` 亲手抓出 16 进制原始报文，现场制造 `CLOSE_WAIT` 生产事故，配合全套高清架构图解与 Mermaid 动态时序图，解密 `TIME_WAIT`、`TCP_NODELAY` 与 Workerman 底层核心 Socket 配置的直接映射关系。
 
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲：第 4 章补充：TCP 握手、挥手、CLOSE_WAIT 与 40ms 陷阱</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter04_extra_tcp_deep_dive/4.extra_0_动画_TCP协议栈深度剖析.mp4"></video>
+</div>
+
 ---
 
 ## 目录

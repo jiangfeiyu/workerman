@@ -1,0 +1,114 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-pid-ppid": {
+      "id": "shot-01-pid-ppid",
+      "audioFile": "audio/ep01_01/shot-01-pid-ppid.mp3",
+      "durationSec": 13.556,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.004,
+          "text": "posix_getpid() 与 posix_getppid()：每个进程都由父进程（如 bash）生出，组成家族树"
+        }
+      ]
+    },
+    "shot-02-process-title": {
+      "id": "shot-02-process-title",
+      "audioFile": "audio/ep01_01/shot-02-process-title.mp3",
+      "durationSec": 15.764,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.216,
+          "text": "cli_set_process_title()：改名为 master / worker process，对应 Workerman 源码 setProcessTitle"
+        }
+      ]
+    },
+    "shot-03-proc-fs": {
+      "id": "shot-03-proc-fs",
+      "audioFile": "audio/ep01_01/shot-03-proc-fs.mp3",
+      "durationSec": 13.916,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.365,
+          "text": "/proc/<PID>/ 伪文件系统：不占硬盘空间，直接用 ls / cat 透视内存中的进程档案"
+        }
+      ]
+    },
+    "shot-04-proc-files": {
+      "id": "shot-04-proc-files",
+      "audioFile": "audio/ep01_01/shot-04-proc-files.mp3",
+      "durationSec": 12.524,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 11.983,
+          "text": "/proc/PID/ 关键档案：cmdline (进程名)、status (VmRSS 物理内存)、cwd (工作目录)"
+        }
+      ]
+    },
+    "shot-05-cwd-trap": {
+      "id": "shot-05-cwd-trap",
+      "audioFile": "audio/ep01_01/shot-05-cwd-trap.mp3",
+      "durationSec": 15.404,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.855,
+          "text": "cwd 漂移陷阱：chdir('/') 后相对路径失效，必须使用 __DIR__ 或绝对路径基准"
+        }
+      ]
+    },
+    "shot-06-privilege-dilemma": {
+      "id": "shot-06-privilege-dilemma",
+      "audioFile": "audio/ep01_01/shot-06-privilege-dilemma.mp3",
+      "durationSec": 13.412,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.86,
+          "text": "特权两难：80/443 端口要求 root (UID=0)，但业务层用 root 运行极其危险"
+        }
+      ]
+    },
+    "shot-07-drop-privilege": {
+      "id": "shot-07-drop-privilege",
+      "audioFile": "audio/ep01_01/shot-07-drop-privilege.mp3",
+      "durationSec": 13.748,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.197,
+          "text": "先监听后降权：必须先 posix_setgid() 再 posix_setuid()（降完 UID 就没权改组了）"
+        }
+      ]
+    },
+    "shot-08-exit-code": {
+      "id": "shot-08-exit-code",
+      "audioFile": "audio/ep01_01/shot-08-exit-code.mp3",
+      "durationSec": 14.396,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.834,
+          "text": "临终遗言 Exit Code (0~255)：exit(0) 代表成功，非 0 代表错误，bash 用 $? 接收"
+        }
+      ]
+    },
+    "shot-09-shutdown-hook": {
+      "id": "shot-09-shutdown-hook",
+      "audioFile": "audio/ep01_01/shot-09-shutdown-hook.mp3",
+      "durationSec": 15.548,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.0,
+          "text": "临终抢救：register_shutdown_function() + error_get_last() 对应 Worker::checkErrors()"
+        }
+      ]
+    }
+  }
+}

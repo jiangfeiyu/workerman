@@ -1,0 +1,75 @@
+{
+  "id": "Episode08-02",
+  "title": "第 8 章：recvBuffer 与 ProtocolInterface",
+  "outputFile": "../chapters/chapter08_protocols/8.0_动画_recvBuffer与ProtocolInterface.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-two-buffers",
+      "chapter": "第 8 章 · 协议插槽推导",
+      "visual": "two-buffers",
+      "ttsText": "回顾第七章，sendBuffer 是出口蓄水池，帮我们兜住内核发不完的尾巴；而第八章的 recvBuffer 是入口蓄水池，把网线飞来的碎片先拼在一起。",
+      "subtitleText": "双向蓄水池：sendBuffer 兜底发送截断，recvBuffer 拼接接收碎片 ($recvBuffer .= $data)",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-02-delimiter-loop",
+      "chapter": "第 8 章 · 协议插槽推导",
+      "visual": "delimiter-loop",
+      "ttsText": "怎么从水池里精准舀出一句话？先定个江湖规矩：每句话末尾加换行符。用 while 循环查找换行符，没找着就憋着等半包，找着十个就连切十刀。",
+      "subtitleText": "定界符循环切包：while (strpos($recvBuffer, '\\n') !== false)，半包等待、粘包连切",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-03-hardcode-pain",
+      "chapter": "第 8 章 · 协议插槽推导",
+      "visual": "hardcode-pain",
+      "ttsText": "但如果把换行符切包写死在 TcpConnection 里，明天你想改做 HTTP 服务或者二进制游戏服务器，就得把连接引擎大卸八块重新改写。",
+      "subtitleText": "硬编码痛点：切包规则写死在 baseRead()，换用 HTTP 或二进制协议就必须重构连接引擎",
+      "fallbackDurationSec": 9.5
+    },
+    {
+      "id": "shot-04-usb-slot",
+      "chapter": "第 8 章 · 协议插槽推导",
+      "visual": "usb-slot",
+      "ttsText": "Workerman 的破局之道就像电脑主板上的 USB 插槽：TcpConnection 只管收发水流，把切包规则抽成可插拔的协议芯片，也就是 ProtocolInterface。",
+      "subtitleText": "USB 插槽架构：TcpConnection 负责水流传输，协议解析交由 ProtocolInterface 可插拔芯片",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-05-method-input",
+      "chapter": "第 8 章 · 协议插槽推导",
+      "visual": "method-input",
+      "ttsText": "连接引擎每次收到水流，都会向协议芯片发第一问 input：看一眼蓄水池，够一个完整包了吗？不够返回零继续等，够了就返回这个包的总长度。",
+      "subtitleText": "第一问 input($buffer, $conn)：半包返回 0 继续等；完整则返回当前包总字节数 (> 0)",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-06-decode-encode",
+      "chapter": "第 8 章 · 协议插槽推导",
+      "visual": "decode-encode",
+      "ttsText": "切出完整报文后，再问第二问 decode，把协议外壳脱掉变成业务数组；业务调用 send 发数据时，则触发第三问 encode，自动穿上协议外壳。",
+      "subtitleText": "第二问 decode() 剥去协议外壳成业务数据；第三问 encode() 发送时自动封装协议头尾",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-07-newline-collision",
+      "chapter": "第 8 章 · 协议插槽推导",
+      "visual": "newline-collision",
+      "ttsText": "可是换行符定界有个死穴：如果用户发一首带换行的古诗，或者传一张图片，正文里自带换行符就会和边界撞车，消息被当场拦腰砍断。",
+      "subtitleText": "定界符死穴：聊天古诗或二进制图片正文若自带 '\\n'，消息会被 TextProtocol 拦腰砍断",
+      "fallbackDurationSec": 10.0
+    },
+    {
+      "id": "shot-08-frame-protocol",
+      "chapter": "第 8 章 · 协议插槽推导",
+      "visual": "frame-protocol",
+      "ttsText": "终极解法就是 Frame 协议：不再找结束符，而是在每个包裹最前面固定用四个大端二进制字节写明总长度。先读四字节长度，再按图索骥精准切包。",
+      "subtitleText": "FrameProtocol 终极解：4 字节大端长度头 pack('N') + 变长包体，兼容任意文本与二进制",
+      "fallbackDurationSec": 10.5
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-resource-pain": {
+      "id": "shot-01-resource-pain",
+      "audioFile": "audio/ep07_01/shot-01-resource-pain.mp3",
+      "durationSec": 15.908,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.348,
+          "text": "痛点 1：原生 $conn 是 PHP resource，无法动态挂载 $conn->uid 等业务属性！"
+        }
+      ]
+    },
+    "shot-02-wrapper-box": {
+      "id": "shot-02-wrapper-box",
+      "audioFile": "audio/ep07_01/shot-02-wrapper-box.mp3",
+      "durationSec": 13.436,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.896,
+          "text": "对象包装盒 TcpConnection：封装 $socket 句柄 + $id + send() + close() + 动态业务属性"
+        }
+      ]
+    },
+    "shot-03-iron-triangle": {
+      "id": "shot-03-iron-triangle",
+      "audioFile": "audio/ep07_01/shot-03-iron-triangle.mp3",
+      "durationSec": 15.428,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.867,
+          "text": "Workerman 铁三角：Worker (迎宾) + SelectLoop (门铃引擎) + TcpConnection (连接管家)"
+        }
+      ]
+    },
+    "shot-04-5mb-disaster": {
+      "id": "shot-04-5mb-disaster",
+      "audioFile": "audio/ep07_01/shot-04-5mb-disaster.mp3",
+      "durationSec": 15.14,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.591,
+          "text": "5MB 丢包血案：fwrite($socket, 5MB) 后客户端只收到 64KB，其余 4.9MB 凭空蒸发！"
+        }
+      ]
+    },
+    "shot-05-so-sndbuf": {
+      "id": "shot-05-so-sndbuf",
+      "audioFile": "audio/ep07_01/shot-05-so-sndbuf.mp3",
+      "durationSec": 18.98,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 18.425,
+          "text": "真相：非阻塞 fwrite 塞满内核 SO_SNDBUF 后直接短写返回 65536，余下字节被忽略扔掉！"
+        }
+      ]
+    },
+    "shot-06-app-sendbuffer": {
+      "id": "shot-06-app-sendbuffer",
+      "audioFile": "audio/ep07_01/shot-06-app-sendbuffer.mp3",
+      "durationSec": 14.492,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.942,
+          "text": "应用层蓄水池：if ($len < strlen($data)) $this->sendBuffer .= substr($data, $len);"
+        }
+      ]
+    },
+    "shot-07-add-write": {
+      "id": "shot-07-add-write",
+      "audioFile": "audio/ep07_01/shot-07-add-write.mp3",
+      "durationSec": 15.812,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.264,
+          "text": "异步排空：$loop->addWrite($socket, [$this, 'baseWrite'])，内核有空位自动唤醒续传"
+        }
+      ]
+    },
+    "shot-08-del-write-trap": {
+      "id": "shot-08-del-write-trap",
+      "audioFile": "audio/ep07_01/shot-08-del-write-trap.mp3",
+      "durationSec": 16.364,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.817,
+          "text": "可写监听铁律：有积压才 addWrite，sendBuffer 排空瞬间必须立刻 delWrite 防止 CPU 100%！"
+        }
+      ]
+    },
+    "shot-09-send-order": {
+      "id": "shot-09-send-order",
+      "audioFile": "audio/ep07_01/shot-09-send-order.mp3",
+      "durationSec": 14.948,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.387,
+          "text": "顺序铁律：只要 $this->sendBuffer !== ''，新数据必须追加到队尾等待顺序排空，严禁插队"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "id": "Episode08-03",
+  "title": "第 8 章（终章）：FrameProtocol 与二进制 pack/unpack 大端序",
+  "outputFile": "../chapters/chapter08_protocols/8.0_动画_FrameProtocol与大端序pack拆解.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-poem-disaster",
+      "chapter": "第 8 章（终章）· 万能二进制 FrameProtocol",
+      "visual": "poem-disaster",
+      "ttsText": "上集我们用换行符作为边界解决了文本聊天粘包。可一旦遇到《静夜思》四行诗或者 JSON 里自带换行符、甚至传一张包含 0a 字节的 PNG 图片时，定界符当场撞车！一首完整的诗被腰斩成四段触发了 4 次 onMessage！",
+      "subtitleText": "04_poem_truncation_disaster.php：正文含 \\n，定界符协议一刀把《静夜思》腰斩成 4 次触发！",
+      "fallbackDurationSec": 14.0
+    },
+    {
+      "id": "shot-02-string-len-fail",
+      "chapter": "第 8 章（终章）· 万能二进制 FrameProtocol",
+      "visual": "string-len-fail",
+      "ttsText": "于是人们发明了包头加包体法：先报长度再发数据。但为什么包头不能写文本字符串数字？因为字符串 5 占 1 个字节，字符串 100000 占 6 个字节——连包头自己的长度都不是固定的，接收方怎么知道该先读几位长度？",
+      "subtitleText": "文本长度的悖论：'5' 占 1B 而 '100000' 占 6B，头长本身不固定导致死循环无法解析！",
+      "fallbackDurationSec": 13.5
+    },
+    {
+      "id": "shot-03-pack-n-magic",
+      "chapter": "第 8 章（终章）· 万能二进制 FrameProtocol",
+      "visual": "pack-n-magic",
+      "ttsText": "计算机二进制整数救场！实验 05 用 pack('N', $len) 把任意 0 到 42 亿的数字通通压缩成死死固定 4 字节的无符号整数：5 变成 00 00 00 05，十万变成 00 01 86 a0！无论报文大小，包头永远精准钉死在头 4 个字节！",
+      "subtitleText": "05_pack_unpack_microscope.php：pack('N', $len) 让 0~42 亿整数永远死死固定占【4 字节】！",
+      "fallbackDurationSec": 14.5
+    },
+    {
+      "id": "shot-04-big-endian",
+      "chapter": "第 8 章（终章）· 万能二进制 FrameProtocol",
+      "visual": "big-endian",
+      "ttsText": "注意大写 N 代表网络大端序 Big-Endian：高位字节在前、低位在后！例如 0x000186a0 在网络里按 00、01、86、a0 顺序排放，符合人类从左到右读数习惯，也屏蔽了不同 CPU 小端/大端硬件的跨平台差异。",
+      "subtitleText": "为什么选大写 N (Big-Endian)？高位在前低位在后，统一网络标准消除 x86 小端硬件差异",
+      "fallbackDurationSec": 13.5
+    },
+    {
+      "id": "shot-05-unpack-pitfall",
+      "chapter": "第 8 章（终章）· 万能二进制 FrameProtocol",
+      "visual": "unpack-pitfall",
+      "ttsText": "再记一个新手高频踩坑点：PHP 的 unpack('N', $bin) 如果不写键名，返回的数组下标居然从 1 开始而不是 0！所以 Workerman 源码里必定老老实实写上命名键 unpack('Ntotal_length', $buffer)，再通过关联键读取总长！",
+      "subtitleText": "unpack 经典坑：unpack('N', $b) 下标从 [1] 开始！务必命名 unpack('Ntotal_length', $buffer)",
+      "fallbackDurationSec": 13.5
+    },
+    {
+      "id": "shot-06-frame-input-3states",
+      "chapter": "第 8 章（终章）· 万能二进制 FrameProtocol",
+      "visual": "frame-input-3states",
+      "ttsText": "跟着 FrameProtocol::input() 走一遍三态嗅探：第一，strlen($buffer) 小于 4 时，连包头都没凑齐，立刻返回 0 继续等；第二，解出 $totalLen 发现还大于当前缓存，同样等半包；第三，总字节够长了，立刻精准返回 $totalLen 通知外层切片！",
+      "subtitleText": "Frame::input($buffer) 嗅探三步：< 4B 返回 0 -> unpack 总长 -> 足够即返回 $total_length 切片",
+      "fallbackDurationSec": 14.5
+    },
+    {
+      "id": "shot-07-decode-encode-binary",
+      "chapter": "第 8 章（终章）· 万能二进制 FrameProtocol",
+      "visual": "decode-encode-binary",
+      "ttsText": "打包 encode 与解包 decode 更是一眼透明：发送时把 4 加上正文长度 pack 成 4 字节头拼在最前面；收到完整一包后 decode 直接 substr($buffer, 4) 剥掉头部。正文中就算塞满换行符和 0x00 二进制图片字节流，也绝不会干扰包边界半毫！",
+      "subtitleText": "encode: pack('N', 4 + strlen($data)) . $data  |  decode: substr($buffer, 4) -> 彻底免疫 \\n 与 \\x00",
+      "fallbackDurationSec": 14.5
+    },
+    {
+      "id": "shot-08-frame-source-match",
+      "chapter": "第 8 章（终章）· 万能二进制 FrameProtocol",
+      "visual": "frame-source-match",
+      "ttsText": "对比 Workerman 官方 Protocols/Frame.php 源码与实验 06 的实战输出：连续粘着发的《静夜思》加纯二进制流、以及故意只发前 10 字节的极端半包测试，服务端 100% 精确还原出原本的三条报文！至此，你已打通网络编程底层全链路！",
+      "subtitleText": "06_frame_protocol_demo.php & Workerman/Protocols/Frame.php 源码完美对齐，全链路通关！",
+      "fallbackDurationSec": 14.5
+    }
+  ]
+}

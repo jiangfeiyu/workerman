@@ -2,6 +2,20 @@
 
 > **本章核心灵魂**：在搞复杂的多进程之前，我们先用几行代码把 **1 个进程** 在 Linux 里的全套档案（身份证号 `PID`、老爹 `PPID`、改名卡、内存活体文件夹 `/proc`、进程工作目录 `cwd`、皇上降权为平民的先后顺序、以及咽气前的临终遗言）彻底摸透，并完成我们人生中前三次 **Workerman 源码真迹核对**！
 
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（上篇）：第 1 章：进程户口本、/proc 与安全降权</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter01_process_identity/1.0_动画_进程户口本与安全降权.mp4"></video>
+</div>
+
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲（下篇）：CWD 挂载锁死、先 GID 后 UID 降权铁律与临终抢救</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter01_process_identity/1.0_动画_CWD权限降级与临终抢救.mp4"></video>
+</div>
+
 ---
 
 ## 🟢 第一幕（关卡 1.1 ~ 1.3）：我是谁？我爹是谁？怎么改掉户口本上的名字？

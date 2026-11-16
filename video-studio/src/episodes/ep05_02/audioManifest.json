@@ -1,0 +1,114 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-eof-storm": {
+      "id": "shot-01-eof-storm",
+      "audioFile": "audio/ep05_02/shot-01-eof-storm.mp3",
+      "durationSec": 15.38,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.831,
+          "text": "突发怪事：客户端 Ctrl+C 断开后，服务端狂印空消息，CPU 再次飙升 100%！"
+        }
+      ]
+    },
+    "shot-02-fin-is-readable": {
+      "id": "shot-02-fin-is-readable",
+      "audioFile": "audio/ep05_02/shot-02-fin-is-readable.mp3",
+      "durationSec": 16.436,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.889,
+          "text": "内核真相：收到 FIN (EOF) 也触发可读事件！select 狂喊有动静，fread 却返回 ''"
+        }
+      ]
+    },
+    "shot-03-eof-cleanup": {
+      "id": "shot-03-eof-cleanup",
+      "audioFile": "audio/ep05_02/shot-03-eof-cleanup.mp3",
+      "durationSec": 14.036,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.485,
+          "text": "熄火修复：if ($msg === '' || $msg === false) -> unset($allSockets[$fd]); fclose($conn);"
+        }
+      ]
+    },
+    "shot-04-not-always-dead": {
+      "id": "shot-04-not-always-dead",
+      "audioFile": "audio/ep05_02/shot-04-not-always-dead.mp3",
+      "durationSec": 17.324,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 16.778,
+          "text": "严谨细节：EAGAIN 空读 vs 真 EOF 断线 -> 结合 feof($conn) 与 select 就绪态确认"
+        }
+      ]
+    },
+    "shot-05-extract-selectloop": {
+      "id": "shot-05-extract-selectloop",
+      "audioFile": "audio/ep05_02/shot-05-extract-selectloop.mp3",
+      "durationSec": 14.444,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.894,
+          "text": "架构解耦：把“盯梢与派发”从 Worker 抽离为独立的 SelectLoop 事件循环引擎"
+        }
+      ]
+    },
+    "shot-06-bell-and-card": {
+      "id": "shot-06-bell-and-card",
+      "audioFile": "audio/ep05_02/shot-06-bell-and-card.mp3",
+      "durationSec": 14.444,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.894,
+          "text": "两张核心表：readFds[(int)$fd] 门铃名单 | readCallbacks[(int)$fd] 对应岗位回调卡"
+        }
+      ]
+    },
+    "shot-07-loop-dispatch": {
+      "id": "shot-07-loop-dispatch",
+      "audioFile": "audio/ep05_02/shot-07-loop-dispatch.mp3",
+      "durationSec": 12.404,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 11.85,
+          "text": "查表派发：$fd = (int)$socket; ($this->readCallbacks[$fd])($socket); — O(1) 精准触发！"
+        }
+      ]
+    },
+    "shot-08-level-triggered": {
+      "id": "shot-08-level-triggered",
+      "audioFile": "audio/ep05_02/shot-08-level-triggered.mp3",
+      "durationSec": 15.74,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.204,
+          "text": "水平触发 (LT)：只要内核缓冲区仍有未读完的字节，下一轮 select 仍会持续报告可读"
+        }
+      ]
+    },
+    "shot-09-select-source": {
+      "id": "shot-09-select-source",
+      "audioFile": "audio/ep05_02/shot-09-select-source.mp3",
+      "durationSec": 15.068,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.519,
+          "text": "Workerman 源码印证：Events/Select.php 里的 $_readFds / $_allEvents 与双表派发完全一致"
+        }
+      ]
+    }
+  }
+}

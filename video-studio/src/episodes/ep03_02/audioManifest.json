@@ -1,0 +1,78 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-uncaught-crash": {
+      "id": "shot-01-uncaught-crash",
+      "audioFile": "audio/ep03_02/shot-01-uncaught-crash.mp3",
+      "durationSec": 20.948,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 20.396,
+          "text": "常驻进程最大杀手：业务代码抛出一次未捕获 Exception，整台 Worker 进程直接暴毙连坐全服！"
+        }
+      ]
+    },
+    "shot-02-try-catch-net": {
+      "id": "shot-02-try-catch-net",
+      "audioFile": "audio/ep03_02/shot-02-try-catch-net.mp3",
+      "durationSec": 20.468,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 19.915,
+          "text": "安全网：try { ($this->onMessage)(...); } catch (\\Throwable $e) { $this->triggerError($e); }"
+        }
+      ]
+    },
+    "shot-03-context-injection": {
+      "id": "shot-03-context-injection",
+      "audioFile": "audio/ep03_02/shot-03-context-injection.mp3",
+      "durationSec": 22.748,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 22.199,
+          "text": "上下文注入：($this->onWorkerStart)($this) 把底座实例反向喂给业务回调，实现资源访问"
+        }
+      ]
+    },
+    "shot-04-is-callable-guard": {
+      "id": "shot-04-is-callable-guard",
+      "audioFile": "audio/ep03_02/shot-04-is-callable-guard.mp3",
+      "durationSec": 24.188,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 23.641,
+          "text": "严格类型防御：用 is_callable($this->onMessage) 替代松散 if，拦住非法字符串或数字赋值"
+        }
+      ]
+    },
+    "shot-05-callable-variants": {
+      "id": "shot-05-callable-variants",
+      "audioFile": "audio/ep03_02/shot-05-callable-variants.mp3",
+      "durationSec": 21.092,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 20.54,
+          "text": "多态回调全兼容：Closure 匿名函数 | 'fnName' 字符串 | [$obj, 'method'] | [Class, 'static']"
+        }
+      ]
+    },
+    "shot-06-robust-demo-run": {
+      "id": "shot-06-robust-demo-run",
+      "audioFile": "audio/ep03_02/shot-06-robust-demo-run.mp3",
+      "durationSec": 20.516,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 19.975,
+          "text": "v05_robust_worker.php 实测：输入 'bomb' 触发异常被安全网吞下告警，后续消息照常稳健响应"
+        }
+      ]
+    }
+  }
+}

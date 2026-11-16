@@ -3,6 +3,13 @@
 > [!IMPORTANT]
 > 本章打通阶段 4（关卡 `4.1 ~ 4.12`）：核心任务是把第 3 章只能在本地键盘敲字的 [`Worker`](file:///d:/Workerman/chapters/chapter03_socratic_onmessage/v05_robust_worker.php)，真正插上 Linux 内核网卡，推导出**门卫迎宾句柄 vs 专职服务员句柄**、TCP 三次握手/四次挥手、HTTP 报文边界、`onConnect`/`onMessage`/`onClose` 全生命周期，以及重启端口冲突救星 `SO_REUSEADDR`。
 
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲：第 4 章：Socket 迎宾与双参数回调</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter04_network_socket/4.0_动画_Socket迎宾与双参数回调.mp4"></video>
+</div>
+
 ---
 
 ## 🟢 第一幕（关卡 4.1 ~ 4.4）：网络 Socket 也是文件描述符 FD！监听句柄为什么不能 `fread`？

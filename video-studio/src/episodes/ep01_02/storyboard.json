@@ -1,0 +1,75 @@
+{
+  "id": "Episode01-02",
+  "title": "第 1 章（下）：CWD 挂载锁死、权限降级死穴与临终抢救",
+  "outputFile": "../chapters/chapter01_process_identity/1.0_动画_CWD权限降级与临终抢救.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-cwd-ebusy",
+      "chapter": "第 1 章（下）· CWD 与权限工程细节",
+      "visual": "cwd-ebusy",
+      "ttsText": "上一集提到进程工作目录切换后会找不到相对文件。在生产运维里，还有一个更致命的坑：只要后台进程双脚踩在 /data 挂载盘上，哪怕它没读写任何文件，运维执行 umount 时也会被内核报错 Device or resource busy 无情拒绝！",
+      "subtitleText": "CWD 锁死数据盘：task_struct->fs->pwd 持有挂载点引用计数，导致 umount /data 报错 EBUSY！",
+      "fallbackDurationSec": 14.0
+    },
+    {
+      "id": "shot-02-dangling-core",
+      "chapter": "第 1 章（下）· CWD 与权限工程细节",
+      "visual": "dangling-core",
+      "ttsText": "第二个惨案：如果守护进程是在离职员工家目录启动的，目录被删后就变成了悬空 CWD。半夜程序崩溃想吐出 Core Dump 内存案发现场时，写目录直接失败，故障排查彻底两眼一抹黑！",
+      "subtitleText": "悬空目录惨案：启动目录被删除或无写权限，崩溃时 Core Dump 案发现场根本留不下！",
+      "fallbackDurationSec": 13.0
+    },
+    {
+      "id": "shot-03-apue-vs-workerman",
+      "chapter": "第 1 章（下）· CWD 与权限工程细节",
+      "visual": "apue-vs-workerman",
+      "ttsText": "因此 Unix 圣经规定守护进程必须 chdir 根目录保平安；而 Workerman 为了照顾 PHP 相对路径习惯不轻易切目录，但在源码里提前用绝对路径锁定 _startFile，同时教开发者永远用 __DIR__ 拼接路径！",
+      "subtitleText": "APUE 规范 chdir('/') vs Workerman 源码：用 $_startFile 绝对路径与 __DIR__ 彻底防漂移",
+      "fallbackDurationSec": 14.0
+    },
+    {
+      "id": "shot-04-port80-dilemma",
+      "chapter": "第 1 章（下）· CWD 与权限工程细节",
+      "visual": "port80-dilemma",
+      "ttsText": "接着看第四幕皇上降权：Linux 规定 1024 以下的特权端口，例如 80 端口，必须 root 超级管理员才能监听；但如果 Worker 业务一直用 root 跑，一旦被黑客注入，整台服务器瞬间沦陷！",
+      "subtitleText": "安全两难：监听 80/443 特权端口必须 root，但跑业务代码绝不能用 root 裸奔！",
+      "fallbackDurationSec": 13.0
+    },
+    {
+      "id": "shot-05-gid-before-uid",
+      "chapter": "第 1 章（下）· CWD 与权限工程细节",
+      "visual": "gid-before-uid",
+      "ttsText": "于是必须在监听端口后降权为 www-data 平民！注意生死先后顺序：必须先调用 posix_setgid 改用户组，再调用 posix_setuid 降用户！如果顺序写反，先变成平民就再也没权力修改用户组，当场报错 Operation not permitted！",
+      "subtitleText": "降权铁律：先 posix_setgid($gid) 再 posix_setuid($uid)！写反先降 UID 就永远改不了 GID！",
+      "fallbackDurationSec": 14.5
+    },
+    {
+      "id": "shot-06-setuser-source",
+      "chapter": "第 1 章（下）· CWD 与权限工程细节",
+      "visual": "setuser-source",
+      "ttsText": "打开 Workerman/src/Worker.php 的 setUserAndGroup 方法验证源码：第 1029 行先 posix_setgid，第 1030 行再 posix_setuid！每一行先后顺序背后都是踩血踩出来的内核铁律。",
+      "subtitleText": "Workerman 源码真迹：Worker::setUserAndGroup() 严格执行先 GID 后 UID 顺序",
+      "fallbackDurationSec": 12.0
+    },
+    {
+      "id": "shot-07-exit-code-137",
+      "chapter": "第 1 章（下）· CWD 与权限工程细节",
+      "visual": "exit-code-137",
+      "ttsText": "最后来看进程临终遗言退出码：Shell 通过 $? 收集它。0 代表寿终正寝，1 到 125 是业务主动 exit 报错，而经典的 137 等于 128 加 9，正代表进程被 SIGKILL 9 号强杀信号当场处决！",
+      "subtitleText": "退出码密码本：0=正常退出 | 1~125=业务异常 | 137 = 128 + 9 (被 kill -9 强杀)",
+      "fallbackDurationSec": 13.0
+    },
+    {
+      "id": "shot-08-shutdown-rescue",
+      "chapter": "第 1 章（下）· CWD 与权限工程细节",
+      "visual": "shutdown-rescue",
+      "ttsText": "如果 Worker 半夜因为调用未定义函数触发 Fatal Error，普通 try catch 根本抓不住！Workerman 在 Worker::checkErrors 中用 register_shutdown_function 守住最后一道防线，用 error_get_last 抓出死因并写入日志，让 Master 从容拉起新 Worker！",
+      "subtitleText": "临终抢救：register_shutdown_function + error_get_last() 捕获 Fatal Error，Master 精准排障拉起",
+      "fallbackDurationSec": 14.5
+    }
+  ]
+}

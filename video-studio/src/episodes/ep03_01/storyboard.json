@@ -1,0 +1,83 @@
+{
+  "id": "Episode03-01",
+  "title": "第 3 章：苏格拉底推导 onMessage 架构",
+  "outputFile": "../chapters/chapter03_socratic_onmessage/3.0_动画_苏格拉底推导onMessage.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-naive-robot",
+      "chapter": "第 3 章 · 推导 onMessage",
+      "visual": "naive-robot",
+      "ttsText": "在碰网络之前，我们先用零号键盘文件做推演。第一版笨代码只有四行：死循环里读一行 STDIN，立刻 echo 回复，简单粗暴。",
+      "subtitleText": "v0.1 笨代码：while (true) { $msg = fgets(STDIN); echo ...; }",
+      "fallbackDurationSec": 9.5
+    },
+    {
+      "id": "shot-02-spaghetti",
+      "chapter": "第 3 章 · 推导 onMessage",
+      "visual": "spaghetti",
+      "ttsText": "痛点来了：一旦业务要算字数、查数据库、过滤敏感词，上层业务代码和底层死循环像一锅乱麻死死缠在一起，底座彻底不可复用。",
+      "subtitleText": "撞墙痛点 1：底层读取引擎与上层业务代码强耦合，改业务就要动底座循环",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-03-extract-fn",
+      "chapter": "第 3 章 · 推导 onMessage",
+      "visual": "extract-fn",
+      "ttsText": "第一次进化：把业务逻辑抽成独立函数 handleMessage。可新痛点又来了：客服部想调回复函数，财务部想调算税函数，难道复制粘贴两份底座吗？",
+      "subtitleText": "v0.2 抽取 handleMessage()：仍然写死函数名，多部门复用依然要复制底座",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-04-callable-var",
+      "chapter": "第 3 章 · 推导 onMessage",
+      "visual": "callable-var",
+      "ttsText": "苏格拉底破局：平时函数参数传数字传字符串，函数本身能不能也装进变量传进去？PHP 的闭包匿名函数和 Callable 正好能把函数当成积木！",
+      "subtitleText": "内功铺垫：函数也是值！$fn = function($msg) { ... }; 可作为变量自由传递",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-05-ioc-callback",
+      "chapter": "第 3 章 · 推导 onMessage",
+      "visual": "ioc-callback",
+      "ttsText": "于是 runServer 接收一个 callback 参数：发动机只管死循环读取数据，拿到就调传入的回调！从此底座一行不改，这就叫控制反转与回调解耦。",
+      "subtitleText": "v0.3 runServer($callback)：控制反转 (IoC) 诞生，底层与业务彻底解耦",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-06-param-explosion",
+      "chapter": "第 3 章 · 推导 onMessage",
+      "visual": "param-explosion",
+      "ttsText": "需求又膨胀了：除了收到消息，客服还要启动初始化、停止保存日志、出错告警。如果全用函数参数传回调，参数列表拉得像火车一样长，太丑陋了！",
+      "subtitleText": "撞墙痛点 3：多生命周期回调导致 runServer($onStart, $onMsg, $onStop...) 参数爆炸",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-07-worker-slots",
+      "chapter": "第 3 章 · 推导 onMessage",
+      "visual": "worker-slots",
+      "ttsText": "第三次进化：用 class Worker 把属性变成标准插座！身上装好 onWorkerStart 和 onMessage 两个插座，外部想插哪个就赋值哪个，最后调用 run。",
+      "subtitleText": "v0.4 class Worker：属性即插座！$worker->onMessage = function($msg) { ... };",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-08-defensive-guard",
+      "chapter": "第 3 章 · 推导 onMessage",
+      "visual": "defensive-guard",
+      "ttsText": "工业级防御不可少：如果用户忘记赋值，或者塞了个非函数进去，直接调用就会崩溃！所以框架必须用 is_callable 校验，并外包 try catch 兜底异常。",
+      "subtitleText": "工业级安全网：is_callable() 校验合法性 + try/catch(\\Throwable) 隔离业务崩溃",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-09-workerman-match",
+      "chapter": "第 3 章 · 推导 onMessage",
+      "visual": "workerman-match",
+      "ttsText": "翻开原版 Workerman 源码：Worker 类里的属性插座和 try catch 触发逻辑，竟然和你刚刚从四行死循环一步步逼出来的设计分毫不差！",
+      "subtitleText": "Workerman 源码印证：Worker.php 插座属性与异常隔离与推导结果 100% 吻合",
+      "fallbackDurationSec": 10.5
+    }
+  ]
+}

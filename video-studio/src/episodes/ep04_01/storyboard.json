@@ -1,0 +1,83 @@
+{
+  "id": "Episode04-01",
+  "title": "第 4 章：Socket 迎宾与双参数回调",
+  "outputFile": "../chapters/chapter04_network_socket/4.0_动画_Socket迎宾与双参数回调.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-socket-is-fd",
+      "chapter": "第 4 章 · 网络 Socket 入门",
+      "visual": "socket-is-fd",
+      "ttsText": "给千里之外的电脑发数据，一切皆文件还灵吗？照样灵！调用 stream_socket_server 绑定 tcp 零零零零八零八零端口，内核分配的依然是三号 FD！",
+      "subtitleText": "网络 Socket 也是 FD：stream_socket_server('tcp://0.0.0.0:8080') -> 3 -> socket:[...]",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-02-ss-listen",
+      "chapter": "第 4 章 · 网络 Socket 入门",
+      "visual": "ss-listen",
+      "ttsText": "终端运行 ss minus tlnp，能亲眼看见零点零点零点零冒号八零八零正处于 LISTEN 状态，后面清清楚楚挂着我们 PHP 进程的 PID。",
+      "subtitleText": "ss -tlnp 实测：看到 0.0.0.0:8080 处于 LISTEN 监听状态并绑定进程 PID",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-03-why-no-fread",
+      "chapter": "第 4 章 · 网络 Socket 入门",
+      "visual": "why-no-fread",
+      "ttsText": "既然 server 是三号文件，直接 fread 它读客人消息行不行？当场报错！因为三号文件是大门口的迎宾小姐，只管监听门铃，绝不能堵在门口喂饭！",
+      "subtitleText": "撞墙实验：对监听 Socket 直接 fread() 报错！迎宾员 FD 3 只负责接待，不能读数据",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-04-accept-waiter",
+      "chapter": "第 4 章 · 网络 Socket 入门",
+      "visual": "accept-waiter",
+      "ttsText": "调用 stream_socket_accept，有客人通过 nc 连上来时，内核瞬间新建一个四号 FD 专职服务员把客人领进包厢，三号迎宾员立刻继续守在大门口！",
+      "subtitleText": "accept 分身术：FD 3 (迎宾员) 留在门口，新生成 FD 4 (包厢服务员) 服务该客户端",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-05-duplex-rw",
+      "chapter": "第 4 章 · 网络 Socket 入门",
+      "visual": "duplex-rw",
+      "ttsText": "拿到了四号服务员，对它 fread 就是收客人消息，fwrite 就是回消息，挂断后 fclose 销毁四号 FD，而三号迎宾员依然稳稳站在门口。",
+      "subtitleText": "全双工读写：对 FD 4 调用 fread() 收信、fwrite() 回信，fclose() 后 FD 3 仍健在",
+      "fallbackDurationSec": 10.5
+    },
+    {
+      "id": "shot-06-worker-network",
+      "chapter": "第 4 章 · 网络 Socket 入门",
+      "visual": "worker-network",
+      "ttsText": "合体时刻到！把第三章 Worker 类里的 STDIN 替换成 Socket 和 accept，我们的代码瞬间长成了一台能用浏览器访问的真正网络服务器！",
+      "subtitleText": "Worker v0.6 合体：把 STDIN 换成 stream_socket_server + accept，秒变网络服务器",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-07-two-args",
+      "chapter": "第 4 章 · 网络 Socket 入门",
+      "visual": "two-args",
+      "ttsText": "但业务员立刻撞墙了：在 onMessage 闭包里我想给客人回一句在的，可手里只有 msg 没有 conn！所以触发回调时必须传两个参数：conn 和 msg！",
+      "subtitleText": "关键顿悟：不传 $conn 就没法回消息！推导出 ($this->onMessage)($conn, $msg) 双参数铁律",
+      "fallbackDurationSec": 11.5
+    },
+    {
+      "id": "shot-08-lifecycle-slots",
+      "chapter": "第 4 章 · 网络 Socket 入门",
+      "visual": "lifecycle-slots",
+      "ttsText": "依葫芦画瓢：客人刚 accept 进来触发 onConnect 送欢迎语，fread 读到空串代表断开触发 onClose 打扫包厢，全生命周期插座齐活了。",
+      "subtitleText": "生命周期三件套：accept -> onConnect($conn) | 收到消息 -> onMessage | 断开 -> onClose",
+      "fallbackDurationSec": 11.0
+    },
+    {
+      "id": "shot-09-reuseaddr",
+      "chapter": "第 4 章 · 网络 Socket 入门",
+      "visual": "reuseaddr",
+      "ttsText": "重启服务器却报错端口已占用？用 ss 一抓发现有连接处于 TIME_WAIT 守候状态。加上 so_reuseaddr 选项就能立刻抢回端口，Workerman 源码也是这么写的。",
+      "subtitleText": "Address already in use 破案：TIME_WAIT 幽灵占位 -> 配置 so_reuseaddr => 1",
+      "fallbackDurationSec": 11.5
+    }
+  ]
+}

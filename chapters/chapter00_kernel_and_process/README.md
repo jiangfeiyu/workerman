@@ -4,6 +4,13 @@
 >
 > 💡 **命令约定**：本章及全课程终端命令均默认在项目根目录（`d:\Workerman`，WSL 对应挂载路径内）下使用相对路径 `chapters/...` 执行，确保项目目录挪到任意位置命令都能直接跑通。
 
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲：第 0 章：用户态、内核态与系统调用</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter00_kernel_and_process/0.0_动画_用户态内核态与系统调用.mp4"></video>
+</div>
+
 ---
 
 ## 🟢 准备幕（关卡 0.1）：唤醒 WSL2 与校验 PHP 武器库

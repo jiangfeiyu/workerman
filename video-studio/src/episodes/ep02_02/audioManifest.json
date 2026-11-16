@@ -1,0 +1,102 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-daemon-detach": {
+      "id": "shot-01-daemon-detach",
+      "audioFile": "audio/ep02_02/shot-01-daemon-detach.mp3",
+      "durationSec": 19.94,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 19.399,
+          "text": "守护进程困境：终端关闭后 FD 1 失联，成千上万行 echo / var_dump 该往哪里流？"
+        }
+      ]
+    },
+    "shot-02-resetstd-magic": {
+      "id": "shot-02-resetstd-magic",
+      "audioFile": "audio/ep02_02/shot-02-resetstd-magic.mp3",
+      "durationSec": 19.196,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 18.653,
+          "text": "偷天换日 resetStd()：fclose(STDOUT/STDERR) -> fopen($stdoutFile, 'a') 自动抢占 FD 1！"
+        }
+      ]
+    },
+    "shot-03-static-gc-trap": {
+      "id": "shot-03-static-gc-trap",
+      "audioFile": "audio/ep02_02/shot-03-static-gc-trap.mp3",
+      "durationSec": 17.612,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 17.055,
+          "text": "源码深坑细节：static::$outputStream = $stdOutStream 必须持久持有引用，防止函数返回被 GC 关掉！"
+        }
+      ]
+    },
+    "shot-04-stdin-blocking": {
+      "id": "shot-04-stdin-blocking",
+      "audioFile": "audio/ep02_02/shot-04-stdin-blocking.mp3",
+      "durationSec": 20.54,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 19.987,
+          "text": "04b_stdin_blocking.php：fread(STDIN, 1024) 没数据时被内核挂起休眠，数据一到秒醒！"
+        }
+      ]
+    },
+    "shot-05-fd-leak-1024": {
+      "id": "shot-05-fd-leak-1024",
+      "audioFile": "audio/ep02_02/shot-05-fd-leak-1024.mp3",
+      "durationSec": 21.14,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 20.576,
+          "text": "05_fd_leak_limit.php：常驻进程只 fopen 不 fclose -> 触及 ulimit -n 上限全服拒绝新连接！"
+        }
+      ]
+    },
+    "shot-06-torn-write": {
+      "id": "shot-06-torn-write",
+      "audioFile": "audio/ep02_02/shot-06-torn-write.mp3",
+      "durationSec": 19.964,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 19.411,
+          "text": "并发写撕裂 (Torn Write)：多 Worker 时间片轮转同时 fwrite，日志行相互穿插错乱！"
+        }
+      ]
+    },
+    "shot-07-flock-ex-queue": {
+      "id": "shot-07-flock-ex-queue",
+      "audioFile": "audio/ep02_02/shot-07-flock-ex-queue.mp3",
+      "durationSec": 20.516,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 19.975,
+          "text": "06_flock_concurrency.php：flock($fp, LOCK_EX) 让多进程严格排队写日志，顺序 100% 完整"
+        }
+      ]
+    },
+    "shot-08-lock-nb-singleton": {
+      "id": "shot-08-lock-nb-singleton",
+      "audioFile": "audio/ep02_02/shot-08-lock-nb-singleton.mp3",
+      "durationSec": 25.34,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 24.795,
+          "text": "Workerman 源码：Worker::lock() 用 LOCK_EX|LOCK_NB 防重复启动，Worker::log() 用 LOCK_EX 防写穿插"
+        }
+      ]
+    }
+  }
+}

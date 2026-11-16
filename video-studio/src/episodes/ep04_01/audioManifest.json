@@ -1,0 +1,114 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-socket-is-fd": {
+      "id": "shot-01-socket-is-fd",
+      "audioFile": "audio/ep04_01/shot-01-socket-is-fd.mp3",
+      "durationSec": 15.62,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.06,
+          "text": "网络 Socket 也是 FD：stream_socket_server('tcp://0.0.0.0:8080') -> 3 -> socket:[...]"
+        }
+      ]
+    },
+    "shot-02-ss-listen": {
+      "id": "shot-02-ss-listen",
+      "audioFile": "audio/ep04_01/shot-02-ss-listen.mp3",
+      "durationSec": 13.244,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.692,
+          "text": "ss -tlnp 实测：看到 0.0.0.0:8080 处于 LISTEN 监听状态并绑定进程 PID"
+        }
+      ]
+    },
+    "shot-03-why-no-fread": {
+      "id": "shot-03-why-no-fread",
+      "audioFile": "audio/ep04_01/shot-03-why-no-fread.mp3",
+      "durationSec": 13.532,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 12.98,
+          "text": "撞墙实验：对监听 Socket 直接 fread() 报错！迎宾员 FD 3 只负责接待，不能读数据"
+        }
+      ]
+    },
+    "shot-04-accept-waiter": {
+      "id": "shot-04-accept-waiter",
+      "audioFile": "audio/ep04_01/shot-04-accept-waiter.mp3",
+      "durationSec": 15.068,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 14.531,
+          "text": "accept 分身术：FD 3 (迎宾员) 留在门口，新生成 FD 4 (包厢服务员) 服务该客户端"
+        }
+      ]
+    },
+    "shot-05-duplex-rw": {
+      "id": "shot-05-duplex-rw",
+      "audioFile": "audio/ep04_01/shot-05-duplex-rw.mp3",
+      "durationSec": 12.428,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 11.862,
+          "text": "全双工读写：对 FD 4 调用 fread() 收信、fwrite() 回信，fclose() 后 FD 3 仍健在"
+        }
+      ]
+    },
+    "shot-06-worker-network": {
+      "id": "shot-06-worker-network",
+      "audioFile": "audio/ep04_01/shot-06-worker-network.mp3",
+      "durationSec": 12.5,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 11.959,
+          "text": "Worker v0.6 合体：把 STDIN 换成 stream_socket_server + accept，秒变网络服务器"
+        }
+      ]
+    },
+    "shot-07-two-args": {
+      "id": "shot-07-two-args",
+      "audioFile": "audio/ep04_01/shot-07-two-args.mp3",
+      "durationSec": 13.7,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 13.137,
+          "text": "关键顿悟：不传 $conn 就没法回消息！推导出 ($this->onMessage)($conn, $msg) 双参数铁律"
+        }
+      ]
+    },
+    "shot-08-lifecycle-slots": {
+      "id": "shot-08-lifecycle-slots",
+      "audioFile": "audio/ep04_01/shot-08-lifecycle-slots.mp3",
+      "durationSec": 12.476,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 11.935,
+          "text": "生命周期三件套：accept -> onConnect($conn) | 收到消息 -> onMessage | 断开 -> onClose"
+        }
+      ]
+    },
+    "shot-09-reuseaddr": {
+      "id": "shot-09-reuseaddr",
+      "audioFile": "audio/ep04_01/shot-09-reuseaddr.mp3",
+      "durationSec": 16.364,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 15.805,
+          "text": "Address already in use 破案：TIME_WAIT 幽灵占位 -> 配置 so_reuseaddr => 1"
+        }
+      ]
+    }
+  }
+}

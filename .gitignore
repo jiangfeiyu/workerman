@@ -10,3 +10,20 @@ __pycache__/
 
 # 官方源码库作为参考，避免嵌套 git 冲突
 workerman-source/
+
+# macOS 系统元数据文件
+.DS_Store
+
+# 视频制作工坊依赖与本地调试输出
+video-studio/node_modules/
+video-studio/.venv/
+video-studio/.npm-cache/
+video-studio/public/audio/
+video-studio/out/
+
+# 108 短视频工坊：仅提交 out/*.mp4 成片视频，忽略源码与依赖
+108/*
+!108/out/
+108/out/*
+!108/out/*.mp4
+chapters/**/*.mp4

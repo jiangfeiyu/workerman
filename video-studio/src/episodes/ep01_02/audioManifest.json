@@ -1,0 +1,102 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-cwd-ebusy": {
+      "id": "shot-01-cwd-ebusy",
+      "audioFile": "audio/ep01_02/shot-01-cwd-ebusy.mp3",
+      "durationSec": 20.348,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 19.795,
+          "text": "CWD 锁死数据盘：task_struct->fs->pwd 持有挂载点引用计数，导致 umount /data 报错 EBUSY！"
+        }
+      ]
+    },
+    "shot-02-dangling-core": {
+      "id": "shot-02-dangling-core",
+      "audioFile": "audio/ep01_02/shot-02-dangling-core.mp3",
+      "durationSec": 17.9,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 17.355,
+          "text": "悬空目录惨案：启动目录被删除或无写权限，崩溃时 Core Dump 案发现场根本留不下！"
+        }
+      ]
+    },
+    "shot-03-apue-vs-workerman": {
+      "id": "shot-03-apue-vs-workerman",
+      "audioFile": "audio/ep01_02/shot-03-apue-vs-workerman.mp3",
+      "durationSec": 21.26,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 20.709,
+          "text": "APUE 规范 chdir('/') vs Workerman 源码：用 $_startFile 绝对路径与 __DIR__ 彻底防漂移"
+        }
+      ]
+    },
+    "shot-04-port80-dilemma": {
+      "id": "shot-04-port80-dilemma",
+      "audioFile": "audio/ep01_02/shot-04-port80-dilemma.mp3",
+      "durationSec": 17.252,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 16.706,
+          "text": "安全两难：监听 80/443 特权端口必须 root，但跑业务代码绝不能用 root 裸奔！"
+        }
+      ]
+    },
+    "shot-05-gid-before-uid": {
+      "id": "shot-05-gid-before-uid",
+      "audioFile": "audio/ep01_02/shot-05-gid-before-uid.mp3",
+      "durationSec": 23.612,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 23.052,
+          "text": "降权铁律：先 posix_setgid($gid) 再 posix_setuid($uid)！写反先降 UID 就永远改不了 GID！"
+        }
+      ]
+    },
+    "shot-06-setuser-source": {
+      "id": "shot-06-setuser-source",
+      "audioFile": "audio/ep01_02/shot-06-setuser-source.mp3",
+      "durationSec": 19.244,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 18.689,
+          "text": "Workerman 源码真迹：Worker::setUserAndGroup() 严格执行先 GID 后 UID 顺序"
+        }
+      ]
+    },
+    "shot-07-exit-code-137": {
+      "id": "shot-07-exit-code-137",
+      "audioFile": "audio/ep01_02/shot-07-exit-code-137.mp3",
+      "durationSec": 19.652,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 19.098,
+          "text": "退出码密码本：0=正常退出 | 1~125=业务异常 | 137 = 128 + 9 (被 kill -9 强杀)"
+        }
+      ]
+    },
+    "shot-08-shutdown-rescue": {
+      "id": "shot-08-shutdown-rescue",
+      "audioFile": "audio/ep01_02/shot-08-shutdown-rescue.mp3",
+      "durationSec": 22.94,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 22.391,
+          "text": "临终抢救：register_shutdown_function + error_get_last() 捕获 Fatal Error，Master 精准排障拉起"
+        }
+      ]
+    }
+  }
+}

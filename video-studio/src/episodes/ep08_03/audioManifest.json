@@ -1,0 +1,102 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "shots": {
+    "shot-01-poem-disaster": {
+      "id": "shot-01-poem-disaster",
+      "audioFile": "audio/ep08_03/shot-01-poem-disaster.mp3",
+      "durationSec": 21.356,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 20.793,
+          "text": "04_poem_truncation_disaster.php：正文含 \\n，定界符协议一刀把《静夜思》腰斩成 4 次触发！"
+        }
+      ]
+    },
+    "shot-02-string-len-fail": {
+      "id": "shot-02-string-len-fail",
+      "audioFile": "audio/ep08_03/shot-02-string-len-fail.mp3",
+      "durationSec": 19.94,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 19.399,
+          "text": "文本长度的悖论：'5' 占 1B 而 '100000' 占 6B，头长本身不固定导致死循环无法解析！"
+        }
+      ]
+    },
+    "shot-03-pack-n-magic": {
+      "id": "shot-03-pack-n-magic",
+      "audioFile": "audio/ep08_03/shot-03-pack-n-magic.mp3",
+      "durationSec": 22.46,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 21.911,
+          "text": "05_pack_unpack_microscope.php：pack('N', $len) 让 0~42 亿整数永远死死固定占【4 字节】！"
+        }
+      ]
+    },
+    "shot-04-big-endian": {
+      "id": "shot-04-big-endian",
+      "audioFile": "audio/ep08_03/shot-04-big-endian.mp3",
+      "durationSec": 22.028,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 21.478,
+          "text": "为什么选大写 N (Big-Endian)？高位在前低位在后，统一网络标准消除 x86 小端硬件差异"
+        }
+      ]
+    },
+    "shot-05-unpack-pitfall": {
+      "id": "shot-05-unpack-pitfall",
+      "audioFile": "audio/ep08_03/shot-05-unpack-pitfall.mp3",
+      "durationSec": 20.684,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 20.12,
+          "text": "unpack 经典坑：unpack('N', $b) 下标从 [1] 开始！务必命名 unpack('Ntotal_length', $buffer)"
+        }
+      ]
+    },
+    "shot-06-frame-input-3states": {
+      "id": "shot-06-frame-input-3states",
+      "audioFile": "audio/ep08_03/shot-06-frame-input-3states.mp3",
+      "durationSec": 22.58,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 22.031,
+          "text": "Frame::input($buffer) 嗅探三步：< 4B 返回 0 -> unpack 总长 -> 足够即返回 $total_length 切片"
+        }
+      ]
+    },
+    "shot-07-decode-encode-binary": {
+      "id": "shot-07-decode-encode-binary",
+      "audioFile": "audio/ep08_03/shot-07-decode-encode-binary.mp3",
+      "durationSec": 23.084,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 22.524,
+          "text": "encode: pack('N', 4 + strlen($data)) . $data  |  decode: substr($buffer, 4) -> 彻底免疫 \\n 与 \\x00"
+        }
+      ]
+    },
+    "shot-08-frame-source-match": {
+      "id": "shot-08-frame-source-match",
+      "audioFile": "audio/ep08_03/shot-08-frame-source-match.mp3",
+      "durationSec": 21.26,
+      "cues": [
+        {
+          "startSec": 0.1,
+          "endSec": 20.709,
+          "text": "06_frame_protocol_demo.php & Workerman/Protocols/Frame.php 源码完美对齐，全链路通关！"
+        }
+      ]
+    }
+  }
+}

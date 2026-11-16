@@ -5,6 +5,13 @@
 > 如果在事件循环中直接调用 `sleep(3)` 会发生什么？全服瞬间遭遇时间静止大车祸！
 > 本章我们将从这起血案出发，一步步榨干 `stream_select` 的时间参数，并从数组轮询性能危机中推导出算法级神器 —— **优先队列与最小堆（`SplPriorityQueue`）**，最终实现与 Workerman 原版分毫不差的毫秒级非阻塞定时器！
 
+<div class="video-card">
+  <div class="video-card-header">
+    <span>🎬 原理动画精讲：第 6 章：定时器、select 超时与最小堆</span>
+  </div>
+  <video controls preload="metadata" playsinline src="chapters/chapter06_timer_and_heap/6.0_动画_定时器与最小堆原理.mp4"></video>
+</div>
+
 ---
 
 ## 🟢 第一幕（关卡 6.1 ~ 6.3）：`sleep(3)` 引发的全服瘫痪血案与非阻塞闹钟诞生

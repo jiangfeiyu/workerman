@@ -1,0 +1,75 @@
+{
+  "id": "Episode02-02",
+  "title": "第 2 章（下）：resetStd 偷天换日、FD 泄漏与 flock 并发锁",
+  "outputFile": "../chapters/chapter02_everything_is_a_file/2.0_动画_resetStd与flock并发锁.mp4",
+  "voice": "zh-CN-XiaoxiaoNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-daemon-detach",
+      "chapter": "第 2 章（下）· FD 重定向与并发文件锁",
+      "visual": "daemon-detach",
+      "ttsText": "服务器加参数 dash d 进入守护进程后台运行时，原本连着的 XShell 黑窗口早已关掉了！此时原本的 1 号标准输出管子指向失效终端，业务里随便写一句 echo 或 var_dump，都会往断管子里吐字甚至报错崩溃！",
+      "subtitleText": "守护进程困境：终端关闭后 FD 1 失联，成千上万行 echo / var_dump 该往哪里流？",
+      "fallbackDurationSec": 13.5
+    },
+    {
+      "id": "shot-02-resetstd-magic",
+      "chapter": "第 2 章（下）· FD 重定向与并发文件锁",
+      "visual": "resetstd-magic",
+      "ttsText": "看 Workerman 的神来之笔 resetStd！第 1 步先调用 fclose 关闭 STDOUT 拔掉 1 号管子，第 2 步再关闭 STDERR 腾出 2 号位；紧接着执行 fopen 打开 workerman.log！靠最小可用编号原则，日志文件精准霸占了 1 号位置！",
+      "subtitleText": "偷天换日 resetStd()：fclose(STDOUT/STDERR) -> fopen($stdoutFile, 'a') 自动抢占 FD 1！",
+      "fallbackDurationSec": 14.5
+    },
+    {
+      "id": "shot-03-static-gc-trap",
+      "chapter": "第 2 章（下）· FD 重定向与并发文件锁",
+      "visual": "static-gc-trap",
+      "ttsText": "顺便看懂一行极其隐晦的源码：Worker 源码里把打开的日志文件流挂载到 static $outputStream 静态属性上！如果只是局部变量，函数一结束 PHP GC 立刻把文件关闭，1 号管子又会失联！",
+      "subtitleText": "源码深坑细节：static::$outputStream = $stdOutStream 必须持久持有引用，防止函数返回被 GC 关掉！",
+      "fallbackDurationSec": 13.0
+    },
+    {
+      "id": "shot-04-stdin-blocking",
+      "chapter": "第 2 章（下）· FD 重定向与并发文件锁",
+      "visual": "stdin-blocking",
+      "ttsText": "再看第 6 幕 0 号管子阻塞实验：管道上游延迟一秒才发出数据，PHP 调用 fread STDIN 一千零二十四 时进程瞬间停止！内核发现缓冲区没水，就把进程切入睡眠队列让出 CPU，一秒后数据到达才准时醒来。",
+      "subtitleText": "04b_stdin_blocking.php：fread(STDIN, 1024) 没数据时被内核挂起休眠，数据一到秒醒！",
+      "fallbackDurationSec": 13.5
+    },
+    {
+      "id": "shot-05-fd-leak-1024",
+      "chapter": "第 2 章（下）· FD 重定向与并发文件锁",
+      "visual": "fd-leak-1024",
+      "ttsText": "每个 Linux 进程的文件描述符表都有上限，默认 ulimit dash n 是 1024。如果在常驻内存的 Worker 循环里不断 fopen 文件或建连接却忘了 fclose 放行，几秒内号牌发到 1023，下一刻立刻报 Too many open files 彻底瘫痪！",
+      "subtitleText": "05_fd_leak_limit.php：常驻进程只 fopen 不 fclose -> 触及 ulimit -n 上限全服拒绝新连接！",
+      "fallbackDurationSec": 14.0
+    },
+    {
+      "id": "shot-06-torn-write",
+      "chapter": "第 2 章（下）· FD 重定向与并发文件锁",
+      "visual": "torn-write",
+      "ttsText": "接下来是多进程并发大坑：Master 启动了 4 个 Worker 子进程，大家同时往 workerman.log 里写日志。由于 CPU 时间片轮转，进程 A 刚写半句就被切走，进程 B 插进来写半句，日志文件当场变成乱序交叉撕裂！",
+      "subtitleText": "并发写撕裂 (Torn Write)：多 Worker 时间片轮转同时 fwrite，日志行相互穿插错乱！",
+      "fallbackDurationSec": 13.0
+    },
+    {
+      "id": "shot-07-flock-ex-queue",
+      "chapter": "第 2 章（下）· FD 重定向与并发文件锁",
+      "visual": "flock-ex-queue",
+      "ttsText": "救星是 Linux 内核文件锁 flock！用 LOCK_EX 排他锁给文件上把互斥锁：父进程持锁写入的 1 秒里，子进程调 flock 会被乖乖挂起在门外排队 0.9 秒；等父进程 LOCK_UN 开锁，子进程再安全接棒写入！",
+      "subtitleText": "06_flock_concurrency.php：flock($fp, LOCK_EX) 让多进程严格排队写日志，顺序 100% 完整",
+      "fallbackDurationSec": 14.0
+    },
+    {
+      "id": "shot-08-lock-nb-singleton",
+      "chapter": "第 2 章（下）· FD 重定向与并发文件锁",
+      "visual": "lock-nb-singleton",
+      "ttsText": "Workerman 源码把 flock 玩到了极致：除了写日志使用 FILE_APPEND 搭配 LOCK_EX，启动 Master 时还用 LOCK_EX 或非阻塞标记 LOCK_NB 锁住 pid.lock 文件！运维一旦手抖重敲一次 start，第二个 Master 立刻抢锁失败报错退出，完美守住单例启动！",
+      "subtitleText": "Workerman 源码：Worker::lock() 用 LOCK_EX|LOCK_NB 防重复启动，Worker::log() 用 LOCK_EX 防写穿插",
+      "fallbackDurationSec": 14.5
+    }
+  ]
+}
