@@ -124,6 +124,99 @@
       max-height: 540px;
       background: #f6f5f0;
     }
+
+    /* 108 讲视频课程选集播放器 */
+    .ep-player-card .video-card-header {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .ep-player-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-weight: 500;
+      font-size: 13px;
+    }
+    .ep-nav-btn, .ep-raw-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #dcdfe6;
+      background: #ffffff;
+      color: #2c3e50;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none !important;
+      transition: all 0.15s ease;
+    }
+    .ep-nav-btn:hover:not(:disabled), .ep-raw-link:hover {
+      border-color: var(--theme-color);
+      color: var(--theme-color);
+    }
+    .ep-nav-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .ep-autoplay-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #606266;
+      cursor: pointer;
+      user-select: none;
+    }
+    .ep-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 10px;
+      margin: 12px 0 24px 0;
+    }
+    .ep-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid #e4e7ed;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #2c3e50 !important;
+      text-decoration: none !important;
+      transition: all 0.15s ease;
+      line-height: 1.45;
+      font-size: 13.5px;
+    }
+    .ep-item:hover {
+      border-color: var(--theme-color);
+      background: #f5faff;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(16, 142, 233, 0.08);
+    }
+    .ep-item.active {
+      border-color: var(--theme-color);
+      background: #ecf6ff;
+      box-shadow: 0 3px 10px rgba(16, 142, 233, 0.14);
+    }
+    .ep-badge {
+      flex-shrink: 0;
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: #f0f2f5;
+      color: #4a5568;
+      font-family: var(--code-font-family);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .ep-item.active .ep-badge {
+      background: var(--theme-color);
+      color: #ffffff;
+    }
+    .ep-title {
+      flex: 1;
+      min-width: 0;
+      word-break: break-word;
+    }
   </style>
 </head>
 <body>
@@ -160,7 +253,109 @@
         nextText: '下一篇',
         crossChapter: true,
         crossChapterText: true
-      }
+      },
+
+      // 108 讲视频选集播放器插件
+      plugins: [
+        function (hook) {
+          hook.doneEach(function () {
+            var player = document.getElementById('ep-player');
+            if (!player) return;
+
+            var items = Array.prototype.slice.call(document.querySelectorAll('.ep-item[data-ep]'));
+            if (!items.length) return;
+
+            var titleEl = document.getElementById('ep-current-title');
+            var prevBtn = document.getElementById('ep-prev-btn');
+            var nextBtn = document.getElementById('ep-next-btn');
+            var downloadLink = document.getElementById('ep-download-link');
+            var autoplayBox = document.getElementById('ep-autoplay');
+            var playerCard = document.getElementById('ep-player-card');
+            var currentIndex = 0;
+
+            function getQueryEp() {
+              var match = location.hash.match(/[?&]ep=(EP\d+)/i);
+              return match ? match[1].toUpperCase() : '';
+            }
+
+            function updateHashEp(ep) {
+              var baseHash = location.hash.split('?')[0] || '#/videos_108';
+              var newHash = baseHash + '?ep=' + encodeURIComponent(ep);
+              if (location.hash !== newHash && window.history && window.history.replaceState) {
+                window.history.replaceState(null, '', newHash);
+              }
+            }
+
+            function selectEpisode(idx, shouldPlay, shouldScroll) {
+              if (idx < 0 || idx >= items.length) return;
+              currentIndex = idx;
+
+              items.forEach(function (el, i) {
+                el.classList.toggle('active', i === idx);
+              });
+
+              var item = items[idx];
+              var src = item.getAttribute('href');
+              var ep = item.getAttribute('data-ep') || '';
+              var title = item.getAttribute('data-title') || ep;
+
+              if (player.getAttribute('src') !== src) {
+                player.setAttribute('src', src);
+                player.load();
+              }
+              if (titleEl) titleEl.textContent = '🎬 ' + title;
+              if (downloadLink) downloadLink.setAttribute('href', src);
+              if (prevBtn) prevBtn.disabled = idx === 0;
+              if (nextBtn) nextBtn.disabled = idx === items.length - 1;
+
+              updateHashEp(ep);
+
+              if (shouldScroll && playerCard) {
+                playerCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+              if (shouldPlay) {
+                var p = player.play();
+                if (p && typeof p.catch === 'function') p.catch(function () {});
+              }
+            }
+
+            items.forEach(function (item, idx) {
+              item.addEventListener('click', function (e) {
+                e.preventDefault();
+                selectEpisode(idx, true, true);
+              });
+            });
+
+            if (prevBtn) {
+              prevBtn.onclick = function () {
+                selectEpisode(currentIndex - 1, true, false);
+              };
+            }
+            if (nextBtn) {
+              nextBtn.onclick = function () {
+                selectEpisode(currentIndex + 1, true, false);
+              };
+            }
+            player.onended = function () {
+              if (autoplayBox && autoplayBox.checked && currentIndex + 1 < items.length) {
+                selectEpisode(currentIndex + 1, true, false);
+              }
+            };
+
+            var initEp = getQueryEp();
+            var initIdx = 0;
+            if (initEp) {
+              for (var i = 0; i < items.length; i++) {
+                if ((items[i].getAttribute('data-ep') || '').toUpperCase() === initEp) {
+                  initIdx = i;
+                  break;
+                }
+              }
+            }
+            selectEpisode(initIdx, false, false);
+          });
+        }
+      ]
     };
   </script>
   
