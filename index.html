@@ -20,6 +20,10 @@
       --code-font-family: 'Fira Code', Consolas, Monaco, 'Courier New', Courier, monospace;
     }
     
+    html, body {
+      overflow-x: hidden;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -79,7 +83,7 @@
         justify-content: center;
       }
       .markdown-section {
-        padding: 20px 15px 50px 15px;
+        padding: 18px 14px 76px 14px;
         font-size: 15.5px;
       }
     }
@@ -106,6 +110,7 @@
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      touch-action: manipulation;
     }
     .video-card-header {
       display: flex;
@@ -118,17 +123,54 @@
       font-weight: 600;
       color: #2c3e50;
     }
+    .ep-video-stage {
+      position: relative;
+      width: 100%;
+      background: #0f172a;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
     .video-card video {
       display: block;
       width: 100%;
+      aspect-ratio: 16 / 9;
       max-height: 540px;
-      background: #f6f5f0;
+      background: #0f172a;
+      touch-action: manipulation;
+    }
+    .ep-gesture-toast {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(0.92);
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.78);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 4;
+      backdrop-filter: blur(4px);
+    }
+    .ep-gesture-toast.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
     }
 
     /* 108 讲视频课程选集播放器 */
     .ep-player-card .video-card-header {
       flex-wrap: wrap;
       gap: 10px;
+    }
+    #ep-current-title {
+      flex: 1 1 260px;
+      min-width: 0;
+      line-height: 1.45;
+      word-break: break-word;
     }
     .ep-player-actions {
       display: flex;
@@ -137,10 +179,13 @@
       gap: 8px;
       font-weight: 500;
       font-size: 13px;
+      touch-action: manipulation;
     }
     .ep-nav-btn, .ep-raw-link {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
+      min-height: 32px;
       padding: 4px 10px;
       border-radius: 6px;
       border: 1px solid #dcdfe6;
@@ -150,6 +195,19 @@
       cursor: pointer;
       text-decoration: none !important;
       transition: all 0.15s ease;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ep-play-btn {
+      background: var(--theme-color);
+      border-color: var(--theme-color);
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .ep-play-btn:hover {
+      background: #0b7ad1;
+      border-color: #0b7ad1;
+      color: #ffffff !important;
     }
     .ep-nav-btn:hover:not(:disabled), .ep-raw-link:hover {
       border-color: var(--theme-color);
@@ -162,10 +220,13 @@
     .ep-autoplay-label {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       color: #606266;
       cursor: pointer;
       user-select: none;
+      min-height: 32px;
+      padding: 0 4px;
+      touch-action: manipulation;
     }
     .ep-grid {
       list-style: none !important;
@@ -193,6 +254,8 @@
       transition: all 0.15s ease;
       line-height: 1.45;
       font-size: 13.5px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
     .ep-item:hover {
       border-color: var(--theme-color);
@@ -223,6 +286,49 @@
       flex: 1;
       min-width: 0;
       word-break: break-word;
+    }
+
+    @media screen and (max-width: 640px) {
+      .video-card {
+        margin: 12px -4px 18px -4px;
+        border-radius: 10px;
+      }
+      .video-card-header {
+        padding: 10px 12px;
+        font-size: 13.5px;
+      }
+      .video-card video {
+        max-height: 58vh;
+      }
+      #ep-current-title {
+        flex-basis: 100%;
+        font-size: 14px;
+      }
+      .ep-player-actions {
+        width: 100%;
+        gap: 6px;
+      }
+      .ep-nav-btn, .ep-raw-link {
+        flex: 1 1 auto;
+        min-height: 36px;
+        padding: 6px 8px;
+        font-size: 13px;
+      }
+      .ep-autoplay-label {
+        flex: 0 0 auto;
+        font-size: 12.5px;
+      }
+      .ep-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .ep-item {
+        padding: 12px 12px;
+        font-size: 14px;
+      }
+      .ep-item:hover {
+        transform: none;
+      }
     }
   </style>
 </head>
@@ -262,10 +368,105 @@
         crossChapterText: true
       },
 
-      // 108 讲视频选集播放器插件
+      // 108 讲视频选集播放器 & 移动端手势增强插件
       plugins: [
         function (hook) {
+          function setupMobileVideoGestures() {
+            var videos = Array.prototype.slice.call(document.querySelectorAll('.video-card video'));
+            videos.forEach(function (video) {
+              if (video.dataset.gestureBound === '1') return;
+              video.dataset.gestureBound = '1';
+
+              video.setAttribute('playsinline', '');
+              video.setAttribute('webkit-playsinline', '');
+              video.setAttribute('x5-playsinline', '');
+
+              var stage = video.parentElement;
+              if (!stage || !stage.classList.contains('ep-video-stage')) {
+                stage = document.createElement('div');
+                stage.className = 'ep-video-stage';
+                video.parentNode.insertBefore(stage, video);
+                stage.appendChild(video);
+              }
+
+              var toast = stage.querySelector('.ep-gesture-toast');
+              if (!toast) {
+                toast = document.createElement('div');
+                toast.className = 'ep-gesture-toast';
+                stage.appendChild(toast);
+              }
+
+              var toastTimer = null;
+              function showToast(text) {
+                toast.textContent = text;
+                toast.classList.add('show');
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(function () {
+                  toast.classList.remove('show');
+                }, 650);
+              }
+
+              var startX = 0;
+              var startY = 0;
+              var moved = false;
+              var lastTapTime = 0;
+              var lastTapX = 0;
+              var lastTapY = 0;
+
+              stage.addEventListener('touchstart', function (e) {
+                if (e.touches.length !== 1) {
+                  moved = true;
+                  return;
+                }
+                moved = false;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+              }, { passive: true });
+
+              stage.addEventListener('touchmove', function (e) {
+                if (e.touches.length !== 1) return;
+                var dx = Math.abs(e.touches[0].clientX - startX);
+                var dy = Math.abs(e.touches[0].clientY - startY);
+                if (dx > 14 || dy > 14) moved = true;
+              }, { passive: true });
+
+              stage.addEventListener('touchend', function (e) {
+                if (moved || e.changedTouches.length !== 1) return;
+                var touch = e.changedTouches[0];
+                var rect = video.getBoundingClientRect();
+                var relY = touch.clientY - rect.top;
+
+                // 避开底部原生控制条区域（进度条、全屏按钮等）
+                if (relY < 0 || rect.height - relY <= 54) {
+                  lastTapTime = 0;
+                  return;
+                }
+
+                var now = Date.now();
+                var dist = Math.hypot(touch.clientX - lastTapX, touch.clientY - lastTapY);
+                if (lastTapTime && (now - lastTapTime) <= 320 && dist <= 45) {
+                  e.preventDefault();
+                  lastTapTime = 0;
+                  if (video.paused) {
+                    var p = video.play();
+                    if (p && typeof p.catch === 'function') p.catch(function () {});
+                    showToast('▶ 继续播放');
+                  } else {
+                    video.pause();
+                    showToast('⏸ 已暂停');
+                  }
+                } else {
+                  lastTapTime = now;
+                  lastTapX = touch.clientX;
+                  lastTapY = touch.clientY;
+                }
+              }, { passive: false });
+            });
+          }
+
           hook.doneEach(function () {
+            setupMobileVideoGestures();
+
             var player = document.getElementById('ep-player');
             if (!player) return;
 
@@ -273,12 +474,21 @@
             if (!items.length) return;
 
             var titleEl = document.getElementById('ep-current-title');
+            var playBtn = document.getElementById('ep-play-btn');
+            var speedBtn = document.getElementById('ep-speed-btn');
             var prevBtn = document.getElementById('ep-prev-btn');
             var nextBtn = document.getElementById('ep-next-btn');
             var downloadLink = document.getElementById('ep-download-link');
             var autoplayBox = document.getElementById('ep-autoplay');
             var playerCard = document.getElementById('ep-player-card');
             var currentIndex = 0;
+            var speeds = [1, 1.25, 1.5, 2];
+            var speedIdx = 0;
+
+            function syncPlayBtn() {
+              if (!playBtn) return;
+              playBtn.textContent = player.paused ? '▶ 播放' : '⏸ 暂停';
+            }
 
             function getQueryEp() {
               var match = location.hash.match(/[?&]ep=(EP\d+)/i);
@@ -310,10 +520,12 @@
                 player.setAttribute('src', src);
                 player.load();
               }
+              player.playbackRate = speeds[speedIdx];
               if (titleEl) titleEl.textContent = '🎬 ' + title;
               if (downloadLink) downloadLink.setAttribute('href', src);
               if (prevBtn) prevBtn.disabled = idx === 0;
               if (nextBtn) nextBtn.disabled = idx === items.length - 1;
+              syncPlayBtn();
 
               updateHashEp(ep);
 
@@ -333,6 +545,23 @@
               });
             });
 
+            if (playBtn) {
+              playBtn.onclick = function () {
+                if (player.paused) {
+                  var p = player.play();
+                  if (p && typeof p.catch === 'function') p.catch(function () {});
+                } else {
+                  player.pause();
+                }
+              };
+            }
+            if (speedBtn) {
+              speedBtn.onclick = function () {
+                speedIdx = (speedIdx + 1) % speeds.length;
+                player.playbackRate = speeds[speedIdx];
+                speedBtn.textContent = speeds[speedIdx] + 'x';
+              };
+            }
             if (prevBtn) {
               prevBtn.onclick = function () {
                 selectEpisode(currentIndex - 1, true, false);
@@ -343,7 +572,10 @@
                 selectEpisode(currentIndex + 1, true, false);
               };
             }
+            player.onplay = syncPlayBtn;
+            player.onpause = syncPlayBtn;
             player.onended = function () {
+              syncPlayBtn();
               if (autoplayBox && autoplayBox.checked && currentIndex + 1 < items.length) {
                 selectEpisode(currentIndex + 1, true, false);
               }

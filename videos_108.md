@@ -1,18 +1,23 @@
 # 🎬 《24 小时奶茶店创业记：Workerman 源码 108 讲》
 
-> 当前已上线 **57 集**（`EP001` - `EP057`）。点击下方任意集数即可在顶部播放器中直接播放，支持**自动连播**与**新窗口/下载**。
+> 当前已上线 **57 集**（`EP001` - `EP057`）。点击下方任意集数即可在顶部播放器中直接播放；手机端支持**双击画面暂停/继续**、倍速调节与自动连播。
 
 <div class="video-card ep-player-card" id="ep-player-card">
   <div class="video-card-header">
     <span id="ep-current-title">🎬 EP001｜开篇：路边摊 vs 24 小时奶茶店</span>
     <div class="ep-player-actions">
-      <label class="ep-autoplay-label"><input type="checkbox" id="ep-autoplay" checked /> 自动连播</label>
+      <button type="button" class="ep-nav-btn ep-play-btn" id="ep-play-btn">▶ 播放</button>
+      <button type="button" class="ep-nav-btn" id="ep-speed-btn">1x</button>
       <button type="button" class="ep-nav-btn" id="ep-prev-btn">⬅ 上一集</button>
       <button type="button" class="ep-nav-btn" id="ep-next-btn">下一集 ➡</button>
+      <label class="ep-autoplay-label"><input type="checkbox" id="ep-autoplay" checked /> 连播</label>
       <a class="ep-raw-link" id="ep-download-link" href="108/out/EP001_开篇_路边摊vs24小时奶茶店.mp4" target="_blank" rel="noopener">新窗口/下载</a>
     </div>
   </div>
-  <video id="ep-player" controls preload="metadata" playsinline src="108/out/EP001_开篇_路边摊vs24小时奶茶店.mp4"></video>
+  <div class="ep-video-stage">
+    <video id="ep-player" controls preload="metadata" playsinline webkit-playsinline x5-playsinline src="108/out/EP001_开篇_路边摊vs24小时奶茶店.mp4"></video>
+    <div class="ep-gesture-toast" aria-hidden="true"></div>
+  </div>
 </div>
 
 ## 第 1 卷：前世今生与地基背景（EP01 - EP12）
