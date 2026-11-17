@@ -1,6 +1,6 @@
 # 🎬 《24 小时奶茶店创业记：Workerman 源码 108 讲》
 
-> 当前已上线 **57 集**（`EP001` - `EP057`）。点击下方任意集数即可在顶部播放器中直接播放；手机端支持**双击画面暂停/继续**、倍速调节与自动连播。
+> 当前已上线 **76 集**（`EP001` - `EP076`）。点击下方任意集数即可在顶部播放器中直接播放；手机端支持**双击画面暂停/继续**、倍速调节与自动连播。
 
 <div class="video-card ep-player-card" id="ep-player-card">
   <div class="video-card-header">
@@ -92,7 +92,7 @@
   <li><a class="ep-item" href="108/out/EP052_店员提前下班_Select_stop与Worker_stop.mp4" data-ep="EP052" data-title="EP052｜店员提前下班：Select::stop() 与 Worker::stop()"><span class="ep-badge">EP052</span> <span class="ep-title">店员提前下班：Select::stop() 与 Worker::stop()</span></a></li>
 </ul>
 
-## 第 5 卷：闹钟与分身魔法——Timer 与 Fiber 协程（连载更新中）
+## 第 5 卷：闹钟与分身魔法——Timer 与 Fiber 协程（EP53 - EP62）
 
 <ul class="ep-grid">
   <li><a class="ep-item" href="108/out/EP053_厨房需要两个闹钟_Timer的双模式设计.mp4" data-ep="EP053" data-title="EP053｜厨房需要两个闹钟：Timer 的双模式设计"><span class="ep-badge">EP053</span> <span class="ep-title">厨房需要两个闹钟：Timer 的双模式设计</span></a></li>
@@ -100,4 +100,28 @@
   <li><a class="ep-item" href="108/out/EP055_10万个闹钟谁先响_SplPriorityQueue最小堆.mp4" data-ep="EP055" data-title="EP055｜10 万个闹钟谁先响？SplPriorityQueue 最小堆排序"><span class="ep-badge">EP055</span> <span class="ep-title">10 万个闹钟谁先响？SplPriorityQueue 最小堆排序</span></a></li>
   <li><a class="ep-item" href="108/out/EP056_闹钟如何控制stream_select睡眠时间.mp4" data-ep="EP056" data-title="EP056｜闹钟是怎么控制 stream_select 睡眠时间的？"><span class="ep-badge">EP056</span> <span class="ep-title">闹钟是怎么控制 stream_select 睡眠时间的？</span></a></li>
   <li><a class="ep-item" href="108/out/EP057_一次性闹钟与循环闹钟delay_repeat与del.mp4" data-ep="EP057" data-title="EP057｜一次性闹钟 vs 循环闹钟：delay、repeat 与 del()"><span class="ep-badge">EP057</span> <span class="ep-title">一次性闹钟 vs 循环闹钟：delay、repeat 与 del()</span></a></li>
+  <li><a class="ep-item" href="108/out/EP058_为什么绝对不能在Workerman里写原生sleep.mp4" data-ep="EP058" data-title="EP058｜为什么绝对不能在 Workerman 里写 PHP 原生 sleep()？"><span class="ep-badge">EP058</span> <span class="ep-title">为什么绝对不能在 Workerman 里写 PHP 原生 sleep()？</span></a></li>
+  <li><a class="ep-item" href="108/out/EP059_PHP81带来的魔法_3分钟看懂Fiber纤程原理.mp4" data-ep="EP059" data-title="EP059｜PHP 8.1+ 带来的魔法：3 分钟看懂 Fiber 纤程原理"><span class="ep-badge">EP059</span> <span class="ep-title">PHP 8.1+ 带来的魔法：3 分钟看懂 Fiber 纤程原理</span></a></li>
+  <li><a class="ep-item" href="108/out/EP060_不卡死全店的休眠_Timer_sleep协程源码解剖.mp4" data-ep="EP060" data-title="EP060｜不卡死全店的休眠：Timer::sleep() 协程源码解剖"><span class="ep-badge">EP060</span> <span class="ep-title">不卡死全店的休眠：Timer::sleep() 协程源码解剖</span></a></li>
+  <li><a class="ep-item" href="108/out/EP061_Events_Fiber事件循环_Workerman5如何拥抱协程.mp4" data-ep="EP061" data-title="EP061｜Events\Fiber 事件循环：Workerman 5 如何拥抱协程"><span class="ep-badge">EP061</span> <span class="ep-title">Events\Fiber 事件循环：Workerman 5 如何拥抱协程</span></a></li>
+  <li><a class="ep-item" href="108/out/EP062_协程模式下的回调隔离_Coroutine_create.mp4" data-ep="EP062" data-title="EP062｜协程模式下的回调隔离：为什么每个请求都包了一层 Coroutine::create"><span class="ep-badge">EP062</span> <span class="ep-title">协程模式下的回调隔离：为什么每个请求都包了一层 Coroutine::create</span></a></li>
+</ul>
+
+## 第 6 卷：接客与餐桌——监听与 TcpConnection（EP63 - EP76）
+
+<ul class="ep-grid">
+  <li><a class="ep-item" href="108/out/EP063_解析店门地址_Worker_parseSocketAddress.mp4" data-ep="EP063" data-title="EP063｜解析店门地址：Worker::parseSocketAddress()"><span class="ep-badge">EP063</span> <span class="ep-title">解析店门地址：Worker::parseSocketAddress()</span></a></li>
+  <li><a class="ep-item" href="108/out/EP064_正式挂牌营业_Worker_listen创建服务端Socket.mp4" data-ep="EP064" data-title="EP064｜正式挂牌营业：Worker::listen() 创建服务端 Socket"><span class="ep-badge">EP064</span> <span class="ep-title">正式挂牌营业：Worker::listen() 创建服务端 Socket</span></a></li>
+  <li><a class="ep-item" href="108/out/EP065_多进程抢门怎么破_SO_REUSEPORT与惊群效应实战.mp4" data-ep="EP065" data-title="EP065｜多进程抢门怎么破？SO_REUSEPORT 与惊群效应实战"><span class="ep-badge">EP065</span> <span class="ep-title">多进程抢门怎么破？SO_REUSEPORT 与惊群效应实战</span></a></li>
+  <li><a class="ep-item" href="108/out/EP066_客人推门进来_Worker_acceptTcpConnection.mp4" data-ep="EP066" data-title="EP066｜客人推门进来：Worker::acceptTcpConnection()"><span class="ep-badge">EP066</span> <span class="ep-title">客人推门进来：Worker::acceptTcpConnection()</span></a></li>
+  <li><a class="ep-item" href="108/out/EP067_店里太忙先闭门谢客_pauseAccept与resumeAccept.mp4" data-ep="EP067" data-title="EP067｜店里太忙先闭门谢客：限流开关 pauseAccept() 与 resumeAccept()"><span class="ep-badge">EP067</span> <span class="ep-title">店里太忙先闭门谢客：限流开关 pauseAccept() 与 resumeAccept()</span></a></li>
+  <li><a class="ep-item" href="108/out/EP068_认识专属餐桌_TcpConnection构造与状态机.mp4" data-ep="EP068" data-title="EP068｜认识专属餐桌：TcpConnection 构造与状态机"><span class="ep-badge">EP068</span> <span class="ep-title">认识专属餐桌：TcpConnection 构造与状态机</span></a></li>
+  <li><a class="ep-item" href="108/out/EP69_客人开口说话了_TcpConnection_baseRead读取循环.mp4" data-ep="EP069" data-title="EP069｜客人开口说话了！TcpConnection::baseRead() 读取循环"><span class="ep-badge">EP069</span> <span class="ep-title">客人开口说话了！TcpConnection::baseRead() 读取循环</span></a></li>
+  <li><a class="ep-item" href="108/out/EP70_防恶意撑爆内存_接收缓冲区与maxPackageSize保护.mp4" data-ep="EP070" data-title="EP070｜防恶意撑爆内存：接收缓冲区与 $maxPackageSize 保护"><span class="ep-badge">EP070</span> <span class="ep-title">防恶意撑爆内存：接收缓冲区与 $maxPackageSize 保护</span></a></li>
+  <li><a class="ep-item" href="108/out/EP71_店员回复消息_TcpConnection_send到底做了什么.mp4" data-ep="EP071" data-title="EP071｜店员回复消息：TcpConnection::send() 到底做了什么"><span class="ep-badge">EP071</span> <span class="ep-title">店员回复消息：TcpConnection::send() 到底做了什么</span></a></li>
+  <li><a class="ep-item" href="108/out/EP72_可写事件为什么要按需注册写完就删.mp4" data-ep="EP072" data-title="EP072｜可写事件为什么要“按需注册、写完就删”？"><span class="ep-badge">EP072</span> <span class="ep-title">可写事件为什么要“按需注册、写完就删”？</span></a></li>
+  <li><a class="ep-item" href="108/out/EP073_背压保护Backpressure_onBufferFull与onBufferDrain.mp4" data-ep="EP073" data-title="EP073｜背压保护（Backpressure）：onBufferFull 与 onBufferDrain"><span class="ep-badge">EP073</span> <span class="ep-title">背压保护（Backpressure）：onBufferFull 与 onBufferDrain</span></a></li>
+  <li><a class="ep-item" href="108/out/EP74_流控神器_pauseRecv与pipe管道透传.mp4" data-ep="EP074" data-title="EP074｜流控神器：TcpConnection::pauseRecv() 与 pipe() 管道透传"><span class="ep-badge">EP074</span> <span class="ep-title">流控神器：TcpConnection::pauseRecv() 与 pipe() 管道透传</span></a></li>
+  <li><a class="ep-item" href="108/out/EP75_体面告别vs当场赶走_close与destroy.mp4" data-ep="EP075" data-title="EP075｜体面告别 vs 当场赶走：close() 与 destroy()"><span class="ep-badge">EP075</span> <span class="ep-title">体面告别 vs 当场赶走：close() 与 destroy()</span></a></li>
+  <li><a class="ep-item" href="108/out/EP76_给餐桌罩上加密玻璃_doSslHandshake异步SSL握手.mp4" data-ep="EP076" data-title="EP076｜给餐桌罩上加密玻璃：TcpConnection::doSslHandshake() 异步 SSL 握手"><span class="ep-badge">EP076</span> <span class="ep-title">给餐桌罩上加密玻璃：TcpConnection::doSslHandshake() 异步 SSL 握手</span></a></li>
 </ul>
