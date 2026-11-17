@@ -1,0 +1,8 @@
+{
+    "episode": "ep68_reload_trap",
+    "output": [
+        "[错误姿势: Master 提前 require] 磁盘已更新 v2.0，但 Worker 里 class_exists=true，版本仍卡死在 v1.0!",
+        "[反复 require 会直接 Fatal Error] Cannot declare class BizHandler, because the name is already in use",
+        "[正确解法: onWorkerStart 懒加载] Master 严禁加载业务代码 -> 每次 reload 新 Worker 从空白进程读出最新 v2.0!"
+    ]
+}

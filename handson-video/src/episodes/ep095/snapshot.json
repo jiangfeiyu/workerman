@@ -1,0 +1,7 @@
+{
+    "episode": "ep95",
+    "output": [
+        "[ChannelServer] 'broadcast' 频道已登记订阅者=2 个 Worker",
+        "[ChannelClient 投递] Worker#1 收到=全服红包来了! | Worker#2 收到=全服红包来了!"
+    ]
+}

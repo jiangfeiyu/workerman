@@ -1,0 +1,29 @@
+{
+  "id": "EP050",
+  "epTag": "050 / 112",
+  "title": "解析帧头第 1 字节：FIN 分片与 Opcode 帧类型",
+  "legoModule": "模块 3.3 · 手写 WebSocket 协议",
+  "outputFile": "out/EP050_解析帧头第1字节_FIN分片与Opcode帧类型.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-first-byte",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "byte1-parse",
+      "ttsText": "刚学的灯泡课立刻派上用场！WebSocket 任何数据帧的第 1 个字节 $first = ord($buffer[0])，里面藏着两层关键信息：最高位 ($first >> 7) & 1 是 FIN，等于 1 说明这就是整条消息的最后一片；最低 4 位 $first & 0x0F 就是 Opcode！",
+      "subtitleText": "【050/112】第 1 字节拆解：FIN = ($b0 >> 7) & 1，Opcode = $b0 & 0x0F！",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-opcode-table",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "opcode-table",
+      "ttsText": "记住最常用的 5 个 Opcode 编号：0x1 代表文本帧，0x2 是二进制帧，0x8 是挥手断开 Close 帧，0x9 和 0xA 则是心跳包 Ping 与 Pong！所以文本完整帧的第 1 字节 1000 0001 正好就是我们在代码里写的十六进制 0x81！",
+      "subtitleText": "Opcode 速查：0x1 文本 | 0x2 二进制 | 0x8 断开 | 0x9 Ping | 0xA Pong（文本终帧=0x81）！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

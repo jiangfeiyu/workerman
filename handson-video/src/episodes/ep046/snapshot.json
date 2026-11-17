@@ -1,0 +1,10 @@
+{
+    "episode": "ep41_46",
+    "output": [
+        "[POST 半包阶段] input() = 0 (继续等待剩下 6 字节)",
+        "[POST 收齐解码] method=POST path=\/api\/login from=web body=user=modern",
+        "[Keep-Alive 第1包] GET \/ping keepAlive=true",
+        "[Keep-Alive 第2包] GET \/bye keepAlive=false",
+        "[HTTP 响应头首行] HTTP\/1.1 200 OK"
+    ]
+}

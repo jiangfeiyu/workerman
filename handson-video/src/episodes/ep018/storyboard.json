@@ -1,0 +1,29 @@
+{
+  "id": "EP018",
+  "epTag": "018 / 112",
+  "title": "组装 Worker 类：封装监听与 SelectLoop",
+  "legoModule": "模块 1.4 · Worker v0.1",
+  "outputFile": "out/EP018_组装Worker类_封装监听与SelectLoop.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-wrap-worker",
+      "chapter": "第 1 篇 · 模块 1.4 Worker v0.1",
+      "visual": "wrap-worker",
+      "ttsText": "欢迎来到第 1 篇最后的合拢模块！前面我们造好了 SelectLoop 和 Timer，但每次写业务都要自己调 stream_socket_server、自己写 accept，太繁琐了。今天把这些脏活累活全部收进 WorkerV01 类里！",
+      "subtitleText": "【018/112】把 stream_socket_server、accept 与 SelectLoop 全部收进 WorkerV01 类",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-clean-entry",
+      "chapter": "第 1 篇 · 模块 1.4 Worker v0.1",
+      "visual": "clean-entry",
+      "ttsText": "看现在业务侧的启动脚本有多优雅：仅仅 4 行代码，new WorkerV01 传入监听地址，绑上 onMessage，最后一句 start() 启动！实测返回 WorkerV01 Echo，底层复杂细节彻底隐身！",
+      "subtitleText": "业务入口瘦身成 4 行！下集 EP019：补齐 onConnect / onMessage / onClose 三大生命周期钩子",
+      "fallbackDurationSec": 21.0
+    }
+  ]
+}

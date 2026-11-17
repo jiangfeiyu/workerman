@@ -1,0 +1,75 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-interface-swap": {
+      "id": "shot-01-interface-swap",
+      "audioFile": "audio/ep074/shot-01-interface-swap.mp3",
+      "durationSec": 26.95,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.335,
+          "text": "还记得第 1 篇 EP008 我们抽象出的 EventLoopInterface 吗？"
+        },
+        {
+          "startSec": 5.335,
+          "endSec": 10.023,
+          "text": "今天终于收到巨额回报！整个 Worker、TcpConnection"
+        },
+        {
+          "startSec": 10.023,
+          "endSec": 13.305,
+          "text": "HTTP 和 WebSocket 一行代码都不用改"
+        },
+        {
+          "startSec": 13.305,
+          "endSec": 17.579,
+          "text": "只需新写一个 EpollLoop 类同样实现 onReadable"
+        },
+        {
+          "startSec": 17.579,
+          "endSec": 22.405,
+          "text": "offReadable、onWritable、offWritable"
+        },
+        {
+          "startSec": 22.405,
+          "endSec": 26.35,
+          "text": "run 和 stop 六大契约方法，往里一插立刻换装核动力！"
+        }
+      ]
+    },
+    "shot-02-epoll-adapter": {
+      "id": "shot-02-epoll-adapter",
+      "audioFile": "audio/ep074/shot-02-epoll-adapter.mp3",
+      "durationSec": 21.262,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.773,
+          "text": "生产环境检测到 ext-event 扩展就自动启用 EpollLoop"
+        },
+        {
+          "startSec": 5.773,
+          "endSec": 9.471,
+          "text": "把 FD 托管给内核 epoll 或 kqueue"
+        },
+        {
+          "startSec": 9.471,
+          "endSec": 14.119,
+          "text": "开发机没装扩展时自动优雅降级回 SelectLoop！"
+        },
+        {
+          "startSec": 14.119,
+          "endSec": 17.342,
+          "text": "这就是 Workerman 既能开箱即用"
+        },
+        {
+          "startSec": 17.342,
+          "endSec": 20.662,
+          "text": "装上扩展又能飙到万级并发的架构秘密！"
+        }
+      ]
+    }
+  }
+}

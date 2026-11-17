@@ -1,0 +1,8 @@
+{
+    "episode": "ep50",
+    "output": [
+        "[0x81 (完整文本帧)] FIN=1, Opcode=0x1",
+        "[0x88 (Close 断开帧)] FIN=1, Opcode=0x8",
+        "[0x89 (Ping 心跳帧)] FIN=1, Opcode=0x9"
+    ]
+}

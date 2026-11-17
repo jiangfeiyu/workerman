@@ -1,0 +1,8 @@
+{
+    "episode": "ep22_24",
+    "output": [
+        "[连接创建] id=1, uid=10086, status=established, peer=127.0.0.1:58660",
+        "[onMessage id=1 uid=10086] 收到: login user 10086",
+        "[onClose id=1] status=closed (FD 与监听已清理)"
+    ]
+}

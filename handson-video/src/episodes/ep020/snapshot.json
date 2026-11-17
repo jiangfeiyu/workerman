@@ -1,0 +1,10 @@
+{
+    "episode": "ep20",
+    "stdout": [
+        "[Worker] 异常兜底服务器启动 tcp:\/\/127.0.0.1:19020"
+    ],
+    "stderr": [
+        "[Worker 捕获异常防崩溃] 业务代码故意抛出的异常！"
+    ],
+    "secondClientReply": "OK: still alive?"
+}

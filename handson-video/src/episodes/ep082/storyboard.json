@@ -1,0 +1,29 @@
+{
+  "id": "EP082",
+  "epTag": "082 / 112",
+  "title": "手写 AsyncTcpClient：事件驱动的异步上游客户端",
+  "legoModule": "模块 5.1 · Fiber 协程调度器",
+  "outputFile": "out/EP082_手写AsyncTcpClient异步客户端.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-async-client",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "async-client",
+      "ttsText": "把刚刚学到的异步建连和我们的 EventLoopInterface 拼起来，就是能向外面任何服务发请求的 AsyncTcpClient！它自己不 bind 端口，而是主动朝上游连过去，然后把同一个 FD 塞进我们自己的 EventLoop！",
+      "subtitleText": "【082/112】AsyncTcpClient = 异步建连 + EventLoopInterface 托管读写，绝不阻塞主循环！",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-onconnect",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "onconnect",
+      "ttsText": "状态机完全复用第 1 篇接口：先挂 onWritable 等握手完成，首次可写就绪立刻调用 offWritable 摘掉写监听防止空转，再触发 onConnect 发请求，同时挂上 onReadable 等回包！整个过程事件循环零卡顿！",
+      "subtitleText": "onWritable 握手 → offWritable 卸载 → onConnect 发包 → onReadable 等回包，零卡顿！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

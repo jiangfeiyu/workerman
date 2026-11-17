@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-pool-idea": {
+      "id": "shot-01-pool-idea",
+      "audioFile": "audio/ep035/shot-01-pool-idea.mp3",
+      "durationSec": 20.902,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.789,
+          "text": "先不急着设计抽象协议类"
+        },
+        {
+          "startSec": 2.789,
+          "endSec": 7.17,
+          "text": "今天用 15 行极简代码搞懂应用层蓄水池！"
+        },
+        {
+          "startSec": 7.17,
+          "endSec": 11.423,
+          "text": "看第 5 到 7 行模拟两次不规整的到达数据"
+        },
+        {
+          "startSec": 11.423,
+          "endSec": 15.89,
+          "text": "第 1 次来了 1 条完整消息外加第 2 条的半截"
+        },
+        {
+          "startSec": 15.89,
+          "endSec": 20.302,
+          "text": "第 2 次才补齐第 2 条的后半截外加第 3 条！"
+        }
+      ]
+    },
+    "shot-02-while-slice": {
+      "id": "shot-02-while-slice",
+      "audioFile": "audio/ep035/shot-02-while-slice.mp3",
+      "durationSec": 26.23,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.939,
+          "text": "核心动作只有三步！"
+        },
+        {
+          "startSec": 1.939,
+          "endSec": 7.38,
+          "text": "第 12 行把新到的 chunk 倒进 $recvBuffer 蓄水池"
+        },
+        {
+          "startSec": 7.38,
+          "endSec": 11.36,
+          "text": "第 16 行用 while 循环不断找换行符边界"
+        },
+        {
+          "startSec": 11.36,
+          "endSec": 16.07,
+          "text": "每找到一个就用 substr 切出一条完整包交给业务"
+        },
+        {
+          "startSec": 16.07,
+          "endSec": 20.233,
+          "text": "同时把蓄水池前段消费掉！注意：千万别用 if"
+        },
+        {
+          "startSec": 20.233,
+          "endSec": 25.63,
+          "text": "必须用 while，因为一次 fread 里可能粘了十条消息！"
+        }
+      ]
+    },
+    "shot-03-verify-pool": {
+      "id": "shot-03-verify-pool",
+      "audioFile": "audio/ep035/shot-03-verify-pool.mp3",
+      "durationSec": 24.91,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.66,
+          "text": "看实测输出：第 1 轮切出 id=1 后"
+        },
+        {
+          "startSec": 3.66,
+          "endSec": 8.703,
+          "text": "第 2 条那 10 字节半截安稳留在蓄水池里等下一波水"
+        },
+        {
+          "startSec": 8.703,
+          "endSec": 15.495,
+          "text": "第 2 轮水一到，立刻精准拼接还原出 id=2 和 id=3，蓄水池归零！"
+        },
+        {
+          "startSec": 15.495,
+          "endSec": 17.285,
+          "text": "下集 EP036"
+        },
+        {
+          "startSec": 17.285,
+          "endSec": 24.31,
+          "text": "我们把切包逻辑抽成万能协议插槽 ProtocolInterface！"
+        }
+      ]
+    }
+  }
+}

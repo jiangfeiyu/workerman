@@ -1,0 +1,8 @@
+{
+    "episode": "ep44",
+    "output": [
+        "[Method & Path] method=POST, path=\/api\/login",
+        "[Query & Body] from=web, body=user=modern",
+        "[Header 小写化] host=localhost"
+    ]
+}

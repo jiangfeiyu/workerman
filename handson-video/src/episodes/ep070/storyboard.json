@@ -1,0 +1,29 @@
+{
+  "id": "EP070",
+  "epTag": "070 / 112",
+  "title": "优雅停机 stop -g：先关大门再排空队列，0 丢包断电",
+  "legoModule": "模块 4.3 · 信号、热更新与看板",
+  "outputFile": "out/EP070_优雅停机stop_g_先关大门排空0丢包.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-stop-trap",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "stop-trap",
+      "ttsText": "如果生产发版直接 kill -9 强杀进程，正在下单扣款或发送中的消息半路直接腰斩！所以必须区分暴力 stop 和优雅 stop -g！当 Master 收到优雅停机信号 SIGTERM 时，第一时间把全局标记 $isStopping 置为 true，绝不再允许监工循环拉起新替补！",
+      "subtitleText": "【070/112】stop -g 第一步：Master 设 $isStopping=true 关闭自愈拉起，再通知全员停接新单！",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-drain-exit",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "drain-exit",
+      "ttsText": "Worker 端复用第 1、2 篇的接口执行三连动作：先调用 offReadable 摘掉监听大门停接新客；再把当前活跃连接调 close() 排空 $sendBuffer；等全部排空归零再调 $loop->stop() 安全收工，实现真正意义上的零丢包停机！",
+      "subtitleText": "三步排空：offReadable 摘门 → $conn->close() 吐光缓冲 → 归零调用 $loop->stop()！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

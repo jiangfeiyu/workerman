@@ -1,0 +1,37 @@
+{
+  "id": "EP026",
+  "epTag": "026 / 112",
+  "title": "【过渡】用全局 $pending + substr 跑通 10MB 零丢失",
+  "legoModule": "模块 2.2 · 异步发送缓冲",
+  "outputFile": "out/EP026_过渡_全局pending与substr跑通10MB零丢失.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-pending-idea",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "pending-idea",
+      "ttsText": "先不急着写进 TcpConnection 类，今天用最直白的全局变量 $pending 做一次过渡推导！既然内核缓冲只有三百多 KB，那我们在 PHP 内存里建一个蓄水池 $pending 存下完整 10MB，再把连接交给 SelectLoop 的 onWritable 监听！",
+      "subtitleText": "【026/112】过渡实验：在 PHP 应用层建蓄水池 $pending，交给 SelectLoop::onWritable 分批发送",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-substr-drain",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "substr-drain",
+      "ttsText": "看第 36 到 45 行！每次客户端收走一批数据、内核发送缓冲腾出空位，onWritable 就触发一次：调用 fwrite($s, $pending) 拿到实际写入字节数 $written，再用 substr($pending, $written) 把发完的头部切掉！一直切到 $pending 为空，立刻调 offWritable() 卸载！",
+      "subtitleText": "核心三板斧：fwrite 拿 $written → substr($pending, $written) 切片 → 排空后 offWritable",
+      "fallbackDurationSec": 27.0
+    },
+    {
+      "id": "shot-03-verify-zero-loss",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "verify-zero-loss",
+      "ttsText": "运行 demo.php 实测！总共经历了 6 轮 onWritable 接力续传，接收端一字节不差收齐了全部 10,485,760 字节！不过下集 EP027 我们先故意踩一个坑：如果排空后忘了调 offWritable() 会有多恐怖？",
+      "subtitleText": "实测 6 轮 onWritable 完整送达 10,485,760 bytes（0 丢失）｜下集 EP027：忘卸写监听惨案",
+      "fallbackDurationSec": 22.0
+    }
+  ]
+}

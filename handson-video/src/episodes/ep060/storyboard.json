@@ -1,0 +1,29 @@
+{
+  "id": "EP060",
+  "epTag": "060 / 112",
+  "title": "编写 Master 监工循环：Worker 挂了秒级拉起",
+  "legoModule": "模块 4.1 · 多进程与 Master 监工",
+  "outputFile": "out/EP060_Master监工循环_Worker崩溃秒级拉起.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-master-loop",
+      "chapter": "第 4 篇 · 模块 4.1 多进程与 Master 监工",
+      "visual": "master-loop",
+      "ttsText": "理解了收尸机制，Workerman 永不宕机的秘密就只剩这十几行 Master 监工循环！Master 自己从不处理用户请求，它的核心工作就是用一个数组记录所有 Worker 的 PID 槽位，然后死等在 pcntl_wait($status) 上当保姆！",
+      "subtitleText": "【060/112】Master 自己不接业务，只把 Worker PID 记入花名册并阻塞守在 pcntl_wait()！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-respawn",
+      "chapter": "第 4 篇 · 模块 4.1 多进程与 Master 监工",
+      "visual": "respawn",
+      "ttsText": "一旦某个 Worker 代码抛错崩溃退出，pcntl_wait() 瞬间返回死掉的 PID！Master 从花名册删掉旧 PID，只要发现不是正常停机，立刻调 forkOneWorker() 秒级拉起一个替补进程！实测 #1 号进程 code=9 崩溃后，Master 毫秒内补位拉起新进程 70559！",
+      "subtitleText": "实测 Worker #1 崩溃 code=9 → Master 秒级自动拉起替补 pid=70559 顶班！",
+      "fallbackDurationSec": 28.0
+    }
+  ]
+}

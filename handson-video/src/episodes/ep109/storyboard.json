@@ -1,0 +1,29 @@
+{
+  "id": "EP109",
+  "epTag": "109 / 112",
+  "title": "协程 Redis 异步落库：连接池限流与零串台入库",
+  "legoModule": "模块 7.1 · 高并发实时弹幕系统实战",
+  "outputFile": "out/EP109_弹幕协程Redis异步落库与连接池.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-async-save",
+      "chapter": "第 7 篇 · 模块 7.1 实时弹幕系统实战",
+      "visual": "async-save",
+      "ttsText": "热门主播开播时一秒钟飞过上千条弹幕，除了立刻屏幕广播，后台还得存历史回放！这时候绝不能在主线程直接同步写 MySQL，我们把第 5 篇写的协程 RedisClient 加 ConnectionPool 直接插进 BusinessWorker！",
+      "subtitleText": "【109/112】绝不同步写库卡主线程：用第 5 篇协程 RedisClient + ConnectionPool 入队！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-pool-guard",
+      "chapter": "第 7 篇 · 模块 7.1 实时弹幕系统实战",
+      "visual": "pool-guard",
+      "ttsText": "每条弹幕进 try-finally 借用独占连接执行 lPush 异步落库，用完必归还保证连接池永远不泄露、零串台！实测 1000 条弹幕流水无锁入队仅花 0.02 毫秒，弹幕大促期间丝般顺滑！",
+      "subtitleText": "try/finally 严防连接借出忘记归还，实测 1000 条弹幕流水入队仅 0.02ms！",
+      "fallbackDurationSec": 22.0
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-upgrade-req": {
+      "id": "shot-01-upgrade-req",
+      "audioFile": "audio/ep047/shot-01-upgrade-req.mp3",
+      "durationSec": 23.038,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.419,
+          "text": "进入模块 3.3！浏览器连 WebSocket 的第一帧并不是二进制"
+        },
+        {
+          "startSec": 5.419,
+          "endSec": 14.504,
+          "text": "而是带着 Upgrade: websocket 和随机 Sec-WebSocket-Key 的普通 HTTP GET 请求！"
+        },
+        {
+          "startSec": 14.504,
+          "endSec": 16.439,
+          "text": "这一步就像敲门对暗号"
+        },
+        {
+          "startSec": 16.439,
+          "endSec": 22.438,
+          "text": "防止老旧 HTTP 代理服务器把 WebSocket 误当成普通网页缓存起来！"
+        }
+      ]
+    },
+    "shot-02-sha1-101": {
+      "id": "shot-02-sha1-101",
+      "audioFile": "audio/ep047/shot-02-sha1-101.mp3",
+      "durationSec": 31.318,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.641,
+          "text": "对暗号算法 RFC 6455 定得死死的"
+        },
+        {
+          "startSec": 3.641,
+          "endSec": 7.051,
+          "text": "把客户端发来的 Key 去掉首尾空格"
+        },
+        {
+          "startSec": 7.051,
+          "endSec": 17.165,
+          "text": "拼上全球唯一的魔法常量 GUID 258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
+        },
+        {
+          "startSec": 17.165,
+          "endSec": 22.222,
+          "text": "取原始二进制 sha1 再做 base64_encode！"
+        },
+        {
+          "startSec": 22.222,
+          "endSec": 29.079,
+          "text": "最后回一个 HTTP/1.1 101 Switching Protocols"
+        },
+        {
+          "startSec": 29.079,
+          "endSec": 30.718,
+          "text": "通道当场升级！"
+        }
+      ]
+    }
+  }
+}

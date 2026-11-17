@@ -1,0 +1,37 @@
+{
+  "id": "EP008",
+  "epTag": "008 / 112",
+  "title": "定义发动机契约：EventLoopInterface",
+  "legoModule": "模块 1.2 · SelectLoop",
+  "outputFile": "out/EP008_定义发动机契约_EventLoopInterface.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-interface",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "why-interface",
+      "ttsText": "前面我们用 stream_select 驱动事件，但第 4 篇连接超过 1024 个时我们会换装 Epoll 发动机！如果 Worker 业务层直接绑定 Select，到时候全盘重写。所以第 8 集先立一个统一插槽契约 EventLoopInterface，换引擎时上层一行代码不用改！",
+      "subtitleText": "【008/112】面向接口设计：今天定义统一插槽，未来 SelectLoop 无缝切换 EpollLoop",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-methods",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "methods",
+      "ttsText": "整个核心接口极其克制，只有 6 个方法：关注与取消读事件 onReadable、offReadable；关注与取消写事件 onWritable、offWritable；再加上启动引擎 run 和熄火退出 stop！对比第 07 集的 watchRead，不过是换了个更标准的工程名字。",
+      "subtitleText": "6 大核心按钮：onReadable / offReadable / onWritable / offWritable / run / stop",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-03-next",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "next",
+      "ttsText": "反射校验 6 个方法全部就位！下一集 EP009，我们正式把 EP007 的过程式代码装进 SelectLoop 类里！",
+      "subtitleText": "下集 EP009：正式动手写出第一个事件循环实现类 SelectLoop（读监听篇）",
+      "fallbackDurationSec": 15.0
+    }
+  ]
+}

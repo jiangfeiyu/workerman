@@ -1,0 +1,29 @@
+{
+  "id": "EP107",
+  "epTag": "107 / 112",
+  "title": "实时弹幕系统骨架：WebSocket + Gateway + 路由分发",
+  "legoModule": "模块 7.1 · 高并发实时弹幕系统实战",
+  "outputFile": "out/EP107_实时弹幕系统骨架搭建.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-danmaku-arch",
+      "chapter": "第 7 篇 · 模块 7.1 实时弹幕系统实战",
+      "visual": "danmaku-arch",
+      "ttsText": "进入收官第 7 篇综合实战！我们要用从第 1 篇到第 6 篇亲手写的全套组件，组装一个生产级高并发实时直播弹幕系统！前排 Gateway 直接挂上第 3 篇手写的 WebsocketProtocol 加第 5 篇 TLS 加密支持 WSS！",
+      "subtitleText": "【107/112】实战拼装：Gateway 挂上 WebsocketProtocol + TLS，前端浏览器直连 WSS！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-msg-router",
+      "chapter": "第 7 篇 · 模块 7.1 实时弹幕系统实战",
+      "visual": "msg-router",
+      "ttsText": "后端 BusinessWorker 收到 JSON 报文，用 match 按 type 一键分发：join 进直播间、danmaku 发弹幕、ping 心跳保活！整套业务核心只有不到三十行，清清爽爽却站在十万并发分布式底座上！",
+      "subtitleText": "后端 match 分发 join / danmaku / ping 事件，站在分布式高性能底座上专注写业务！",
+      "fallbackDurationSec": 21.0
+    }
+  ]
+}

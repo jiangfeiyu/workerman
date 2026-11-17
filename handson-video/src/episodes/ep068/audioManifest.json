@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-master-require": {
+      "id": "shot-01-master-require",
+      "audioFile": "audio/ep068/shot-01-master-require.mp3",
+      "durationSec": 23.734,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.558,
+          "text": "写热更新 90% 的人会栽在加载时机上！"
+        },
+        {
+          "startSec": 3.558,
+          "endSec": 11.319,
+          "text": "你在启动脚本顶部顺手写了一句 require_once 'BizHandler.php'"
+        },
+        {
+          "startSec": 11.319,
+          "endSec": 13.277,
+          "text": "当时代码是 v1.0"
+        },
+        {
+          "startSec": 13.277,
+          "endSec": 18.318,
+          "text": "然后你开开心心把磁盘代码改成 v2.0 再跑 reload"
+        },
+        {
+          "startSec": 18.318,
+          "endSec": 23.134,
+          "text": "结果惊恐地发现新进程里跑的居然还是老代码 v1.0！"
+        }
+      ]
+    },
+    "shot-02-why-stuck": {
+      "id": "shot-02-why-stuck",
+      "audioFile": "audio/ep068/shot-02-why-stuck.mp3",
+      "durationSec": 23.998,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.777,
+          "text": "原因就是前面学过的 COW 内存继承！"
+        },
+        {
+          "startSec": 2.777,
+          "endSec": 9.145,
+          "text": "Master 进程在 fork 之前就已经把 v1.0 类表硬编码进了 PHP 引擎全局函数表里"
+        },
+        {
+          "startSec": 9.145,
+          "endSec": 12.388,
+          "text": "之后无论你把老 Worker 杀掉重开多少次"
+        },
+        {
+          "startSec": 12.388,
+          "endSec": 16.316,
+          "text": "新孩子一出生就带着 Master 的 v1.0 内存印记！"
+        },
+        {
+          "startSec": 16.316,
+          "endSec": 23.398,
+          "text": "如果你硬调 require 会直接炸出 Fatal error Cannot declare class！"
+        }
+      ]
+    },
+    "shot-03-onworkerstart": {
+      "id": "shot-03-onworkerstart",
+      "audioFile": "audio/ep068/shot-03-onworkerstart.mp3",
+      "durationSec": 22.87,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.477,
+          "text": "铁律只有一句话：Master 保持白纸一张"
+        },
+        {
+          "startSec": 3.477,
+          "endSec": 5.432,
+          "text": "严禁加载任何业务文件！"
+        },
+        {
+          "startSec": 5.432,
+          "endSec": 9.689,
+          "text": "所有业务 Controller 和 Handler 一律推迟到"
+        },
+        {
+          "startSec": 9.689,
+          "endSec": 14.955,
+          "text": "fork 之后的 onWorkerStart 回调里再 require！"
+        },
+        {
+          "startSec": 14.955,
+          "endSec": 19.496,
+          "text": "这样每次 reload 拉起新 Worker 都是全新空白容器"
+        },
+        {
+          "startSec": 19.496,
+          "endSec": 22.27,
+          "text": "百分百吃进磁盘最新 v2.0 代码！"
+        }
+      ]
+    }
+  }
+}

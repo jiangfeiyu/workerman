@@ -1,0 +1,29 @@
+{
+  "id": "EP047",
+  "epTag": "047 / 112",
+  "title": "WebSocket 101 握手暗号：GUID + SHA1 + Base64",
+  "legoModule": "模块 3.3 · 手写 WebSocket 协议",
+  "outputFile": "out/EP047_WebSocket_101握手暗号_GUID_SHA1_Base64.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-upgrade-req",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "ws-upgrade",
+      "ttsText": "进入模块 3.3！浏览器连 WebSocket 的第一帧并不是二进制，而是带着 Upgrade: websocket 和随机 Sec-WebSocket-Key 的普通 HTTP GET 请求！这一步就像敲门对暗号，防止老旧 HTTP 代理服务器把 WebSocket 误当成普通网页缓存起来！",
+      "subtitleText": "【047/112】WebSocket 第一帧是 HTTP GET + Upgrade: websocket + Sec-WebSocket-Key！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-sha1-101",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "ws-101",
+      "ttsText": "对暗号算法 RFC 6455 定得死死的：把客户端发来的 Key 去掉首尾空格，拼上全球唯一的魔法常量 GUID 258EAFA5-E914-47DA-95CA-C5AB0DC85B11，取原始二进制 sha1 再做 base64_encode！最后回一个 HTTP/1.1 101 Switching Protocols，通道当场升级！",
+      "subtitleText": "base64_encode(sha1(trim(Key) . GUID, true)) → 返回 101 Switching Protocols！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

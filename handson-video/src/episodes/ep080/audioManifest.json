@@ -1,0 +1,60 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-callback-hell": {
+      "id": "shot-01-callback-hell",
+      "audioFile": "audio/ep080/shot-01-callback-hell.mp3",
+      "durationSec": 15.286,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.253,
+          "text": "有了协程能力后"
+        },
+        {
+          "startSec": 1.253,
+          "endSec": 5.858,
+          "text": "还要业务程序员每次手动写 new Fiber(...)->start() 吗？"
+        },
+        {
+          "startSec": 5.858,
+          "endSec": 6.74,
+          "text": "当然不用！"
+        },
+        {
+          "startSec": 6.74,
+          "endSec": 14.686,
+          "text": "Workerman 只需在底层的 onMessage 派发入口把回调包进一句 Coroutine::spawn(...) 里！"
+        }
+      ]
+    },
+    "shot-02-sync-style": {
+      "id": "shot-02-sync-style",
+      "audioFile": "audio/ep080/shot-02-sync-style.mp3",
+      "durationSec": 20.494,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.123,
+          "text": "从此业务代码写起来就像传统 PHP-FPM 一样直白清爽"
+        },
+        {
+          "startSec": 6.123,
+          "endSec": 10.937,
+          "text": "第一行查缓存、第二行查数据库、第三行调接口"
+        },
+        {
+          "startSec": 10.937,
+          "endSec": 15.182,
+          "text": "第四行直接返回响应，零回调嵌套地狱！"
+        },
+        {
+          "startSec": 15.182,
+          "endSec": 19.894,
+          "text": "但底层引擎却以全异步非阻塞跑出上万并发！"
+        }
+      ]
+    }
+  }
+}

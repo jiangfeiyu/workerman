@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-setup-10mb": {
+      "id": "shot-01-setup-10mb",
+      "audioFile": "audio/ep025/shot-01-setup-10mb.mp3",
+      "durationSec": 19.342,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.7,
+          "text": "在传统阻塞模式里"
+        },
+        {
+          "startSec": 1.7,
+          "endSec": 6.343,
+          "text": "调用 fwrite 发送 10MB 数据会卡到全发完才返回"
+        },
+        {
+          "startSec": 6.343,
+          "endSec": 8.512,
+          "text": "但到了异步非阻塞服务器"
+        },
+        {
+          "startSec": 8.512,
+          "endSec": 14.239,
+          "text": "如果我们还天真地只写一句 fwrite($conn, $payload)"
+        },
+        {
+          "startSec": 14.239,
+          "endSec": 18.742,
+          "text": "会发生什么恐怖事故？今天用 20 行独立实验现场复现！"
+        }
+      ]
+    },
+    "shot-02-disaster-output": {
+      "id": "shot-02-disaster-output",
+      "audioFile": "audio/ep025/shot-02-disaster-output.mp3",
+      "durationSec": 26.254,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.864,
+          "text": "运行 demo.php，直接看终端真实输出！"
+        },
+        {
+          "startSec": 4.864,
+          "endSec": 8.697,
+          "text": "计划发送 10,485,760 字节"
+        },
+        {
+          "startSec": 8.697,
+          "endSec": 13.822,
+          "text": "fwrite 实际只写进去了 327,212 字节"
+        },
+        {
+          "startSec": 13.822,
+          "endSec": 17.483,
+          "text": "剩下整整 10,158,548 字节"
+        },
+        {
+          "startSec": 17.483,
+          "endSec": 22.092,
+          "text": "也就是 96.9% 的数据直接被丢进黑洞了！"
+        },
+        {
+          "startSec": 22.092,
+          "endSec": 25.654,
+          "text": "而且 PHP 既不报错也不抛异常！"
+        }
+      ]
+    },
+    "shot-03-kernel-sndbuf": {
+      "id": "shot-03-kernel-sndbuf",
+      "audioFile": "audio/ep025/shot-03-kernel-sndbuf.mp3",
+      "durationSec": 26.494,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.507,
+          "text": "看右下角内核视角破案！"
+        },
+        {
+          "startSec": 2.507,
+          "endSec": 9.749,
+          "text": "每个 Socket 在内核里都有一块容量有限的发送缓冲区 SO_SNDBUF"
+        },
+        {
+          "startSec": 9.749,
+          "endSec": 15.678,
+          "text": "非阻塞 fwrite 拼命往里塞了 327KB 后缓冲区瞬间塞满"
+        },
+        {
+          "startSec": 15.678,
+          "endSec": 20.413,
+          "text": "内核立刻打断返回写入字节数！下一集 EP026"
+        },
+        {
+          "startSec": 20.413,
+          "endSec": 25.894,
+          "text": "我们先用全局变量做过渡，把丢掉的 96.9% 全救回来！"
+        }
+      ]
+    }
+  }
+}

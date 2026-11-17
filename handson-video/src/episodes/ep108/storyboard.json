@@ -1,0 +1,29 @@
+{
+  "id": "EP108",
+  "epTag": "108 / 112",
+  "title": "弹幕房间群推与实时在线统计：joinGroup / sendToGroup",
+  "legoModule": "模块 7.1 · 高并发实时弹幕系统实战",
+  "outputFile": "out/EP108_弹幕房间群推与在线统计.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-room-group",
+      "chapter": "第 7 篇 · 模块 7.1 实时弹幕系统实战",
+      "visual": "room-group",
+      "ttsText": "直播平台同一时刻有上万个直播间，A 房间的弹幕绝不能飘进 B 房间！我们在 Gateway 侧维护房间群组哈希表 [roomId => clientIds]，观众进房调 joinGroup($cid, 'room:live-101')，断开连接自动退房防内存泄漏！",
+      "subtitleText": "【108/112】joinGroup($cid, 'room:live-101') 按直播间隔离广播，断连自动清理退群！",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-group-push",
+      "chapter": "第 7 篇 · 模块 7.1 实时弹幕系统实战",
+      "visual": "group-push",
+      "ttsText": "发弹幕时调用 sendToGroup('room:live-101', $payload)，只精准投递给本直播间里的 3 名观众，顺手用 array_sum 实时算出全服总在线 4 人！而且弹幕广播天然在 Gateway 内完成一次 WebSocket 编码即可复用写出，极省 CPU！",
+      "subtitleText": "实测推送“666太丝滑了!”精准触达本房 3 人，同场统计全服在线 4 人！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

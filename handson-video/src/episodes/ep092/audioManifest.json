@@ -1,0 +1,60 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-xff-spoof": {
+      "id": "shot-01-xff-spoof",
+      "audioFile": "audio/ep092/shot-01-xff-spoof.mp3",
+      "durationSec": 20.014,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.915,
+          "text": "很多开发者写限流时"
+        },
+        {
+          "startSec": 1.915,
+          "endSec": 8.062,
+          "text": "直接盲信 HTTP 头里的 X-Forwarded-For 当用户真实 IP！"
+        },
+        {
+          "startSec": 8.062,
+          "endSec": 15.841,
+          "text": "结果黑客直连端口并在请求头里随手伪造一句 X-Forwarded-For: 8.8.8.8"
+        },
+        {
+          "startSec": 15.841,
+          "endSec": 19.414,
+          "text": "当场就能把你的限流和封号系统绕成筛子！"
+        }
+      ]
+    },
+    "shot-02-trusted-proxy": {
+      "id": "shot-02-trusted-proxy",
+      "audioFile": "audio/ep092/shot-02-trusted-proxy.mp3",
+      "durationSec": 25.126,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.314,
+          "text": "安全解法是建立 $trustedProxies 受信任代理白名单！"
+        },
+        {
+          "startSec": 6.314,
+          "endSec": 16.064,
+          "text": "只有当底层 TCP 直连来源确实等于自家 Nginx IP 时才采信 XFF 透传出 203.0.113.88"
+        },
+        {
+          "startSec": 16.064,
+          "endSec": 18.422,
+          "text": "如果来路不在白名单里"
+        },
+        {
+          "startSec": 18.422,
+          "endSec": 24.526,
+          "text": "一律死锁返回真实的 TCP 对端 IP 198.51.100.7！"
+        }
+      ]
+    }
+  }
+}

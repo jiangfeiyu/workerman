@@ -1,0 +1,7 @@
+{
+    "episode": "ep27",
+    "output": [
+        "[onWritable] 数据已写完，故意忘记调用 offWritable()...",
+        "[CPU 100% 死循环实测] 缓冲区早已清空，onWritable 仍被狂刷 50,000 次！赶紧 offWritable()"
+    ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "EP031B",
+  "epTag": "031B · 加餐过渡",
+  "title": "加了 while 读 200KB，为什么活着的连接被误杀？",
+  "legoModule": "模块 2.3 · 优雅断连与合拢（过渡）",
+  "outputFile": "out/EP031B_加餐过渡_while循环读误杀活着客户端惨案.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-while-read",
+      "chapter": "第 2 篇 · 模块 2.3 优雅断连与合拢",
+      "visual": "why-while-read",
+      "ttsText": "看 EP032 完善 baseRead() 之前，我们先复现一个极隐蔽的读端大坑！第 22 集我们写的 baseRead 只调用一次 fread，遇到客户端发来 200KB 大包，一次读不完。于是很自然想加个 while (true) 循环把它一次读空！",
+      "subtitleText": "【031B/加餐过渡】为什么给 baseRead() 加上 while(true) 循环读，反而出了大事？",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-false-kill",
+      "chapter": "第 2 篇 · 模块 2.3 优雅断连与合拢",
+      "visual": "false-kill",
+      "ttsText": "看第 13 到 24 行的恐怖实测！客户端发了 200KB 但故意不断开连接。while 循环前 25 轮稳稳把 204,800 字节全读出来了；到了第 26 轮，缓冲区已经读空，非阻塞 fread 返回空串！如果沿用旧逻辑以为返回空串就是断开了，当场就会把还活着的客户端误杀关掉！",
+      "subtitleText": "惨案现场：第 26 轮读空返回 '' 被误判为断开！其实客户端还活着 (feof=false)！",
+      "fallbackDurationSec": 27.0
+    },
+    {
+      "id": "shot-03-need-feof",
+      "chapter": "第 2 篇 · 模块 2.3 优雅断连与合拢",
+      "visual": "need-feof",
+      "ttsText": "所以非阻塞 fread 返回空串有两副面孔：到底是“这次数据读干净了”，还是“对方真拔网线了”？下一集 EP032，我们用 feof($this->socket) 一招辨真伪！",
+      "subtitleText": "返回空串的两副面孔：读光了 vs 真断了！下集 EP032 用 feof() 精准判死",
+      "fallbackDurationSec": 19.0
+    }
+  ]
+}

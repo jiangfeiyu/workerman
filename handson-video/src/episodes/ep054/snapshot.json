@@ -1,0 +1,8 @@
+{
+    "episode": "ep54_ws_chat",
+    "output": [
+        "[Step 1 · 101 协议升级] HTTP\/1.1 101 Switching Protocols (HTTP 通道已热切换为 WebSocket!)",
+        "[Step 2 · 收到浏览器掩码帧] input=31B -> decode=\"大家好，我是 Alice!\"",
+        "[Step 3 · 全服广播推送 Bob] total=43B -> Bob 收到: \"[广播] Alice: 大家好，我是 Alice!\""
+    ]
+}

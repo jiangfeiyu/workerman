@@ -1,0 +1,37 @@
+{
+  "id": "EP051",
+  "epTag": "051 / 112",
+  "title": "阶梯长度编码：7-bit vs 126 (2B) vs 127 (8B)",
+  "legoModule": "模块 3.3 · 手写 WebSocket 协议",
+  "outputFile": "out/EP051_阶梯长度编码_7bit_126_127与input边界.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-tiered",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "tiered-intro",
+      "ttsText": "第 2 个字节 $second = ord($buffer[1]) 负责两件事：最高位 ($second >> 7) & 1 是掩码标志 MASK；剩下的低 7 位 $dataLen = $second & 0x7f 用来装包长！结合上集 EP050B 刚学的 pack('n') 和 'J'，今天看懂 RFC 6455 的三级阶梯长度！",
+      "subtitleText": "【051/112】承接 EP050B：MASK = ($b1 >> 7) & 1，低 7 位 $dataLen = $b1 & 0x7F！",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-three-tiers",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "three-tiers",
+      "ttsText": "看清三档规则：0 到 125 字节直接放进低 7 位；126 到 65535 字节填暗号 126，紧接着用 unpack('n', ...)[1] 读后续 2 字节；超过 64KB 填暗号 127，用 unpack('J', ...)[1] 读后续 8 字节！",
+      "subtitleText": "三档阶梯：≤125 直接放 7bit | ===126 读 2B unpack('n')[1] | ===127 读 8B unpack('J')[1]！",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-03-input-guards",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "input-guards",
+      "ttsText": "回到 WebsocketProtocol::input() 的半包防线：先检查够不够 2 字节；遇到 126 或 127 在 unpack 前必须先验扩展字节够不够！看三档实测：13B 总长 15B，300B 走 126 档总长 304B（喂 3B 半包拦截返回 0），70000B 走 127 档总长 70010B！",
+      "subtitleText": "三档实测全部命中：15B / 304B (3B半包=>0) / 70010B！",
+      "fallbackDurationSec": 27.0
+    }
+  ]
+}

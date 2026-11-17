@@ -1,0 +1,29 @@
+{
+  "id": "EP094",
+  "epTag": "094 / 112",
+  "title": "【踩坑】4 进程聊天室广播失灵：为什么一半人收不到消息？",
+  "legoModule": "模块 6.1 · Channel 跨进程内部邮局",
+  "outputFile": "out/EP094_踩坑_4进程聊天室广播失灵惨案.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-single-ok",
+      "chapter": "第 6 篇 · 模块 6.1 Channel 内部邮局",
+      "visual": "single-ok",
+      "ttsText": "第 6 篇正式突破单机极限，迈向分布式网关集群 ModernGateway！先看开篇第一个绝望现场：你在单进程版跑得好好的聊天室，为了吃满多核把 Worker 进程数从 1 改成了 4，结果一上线用户全在骂街：Alice 发消息，同房间的 Bob 根本收不到！",
+      "subtitleText": "【094/112】踩坑：把 Worker 从 1 进程改到 4 进程，聊天室广播瞬间一半人失灵收不到消息！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-isolated-fd",
+      "chapter": "第 6 篇 · 模块 6.1 Channel 内部邮局",
+      "visual": "isolated-fd",
+      "ttsText": "元凶正是第 4 篇学过的多进程内存与 FD 隔离！Alice 连进了 Worker #1 的 5 号 Socket，Bob 连进了 Worker #2 的 6 号 Socket！当 Worker #1 遍历自己本地的 $connections 数组广播时，只触达了自己屋里的 Alice，彻底漏掉了隔壁进程里的 Bob！",
+      "subtitleText": "Worker #1 内存里只有 Alice(fd=5)，遍历本地数组完全触达不到 Worker #2 的 Bob！",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

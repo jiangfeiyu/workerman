@@ -1,0 +1,191 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-diff-nonblocking": {
+      "id": "shot-01-diff-nonblocking",
+      "audioFile": "audio/ep002/shot-01-diff-nonblocking.mp3",
+      "durationSec": 25.798,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.76,
+          "text": "上集客人 A 发呆把客人 B 活活堵死。今天第 2 集"
+        },
+        {
+          "startSec": 3.76,
+          "endSec": 10.744,
+          "text": "我们在第 11 行加一句 stream_set_blocking($server, false)"
+        },
+        {
+          "startSec": 10.744,
+          "endSec": 14.236,
+          "text": "把接待门和每个客人连接都切成非阻塞模式！"
+        },
+        {
+          "startSec": 14.236,
+          "endSec": 17.467,
+          "text": "同时把所有客人存进 $clients 数组"
+        },
+        {
+          "startSec": 17.467,
+          "endSec": 21.84,
+          "text": "每一轮 while 循环用 fread 非阻塞地轮流扫一遍"
+        },
+        {
+          "startSec": 21.84,
+          "endSec": 25.198,
+          "text": "没数据就立刻返回 false，绝不死等！"
+        }
+      ]
+    },
+    "shot-02-concurrent-ok": {
+      "id": "shot-02-concurrent-ok",
+      "audioFile": "audio/ep002/shot-02-concurrent-ok.mp3",
+      "durationSec": 25.51,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.278,
+          "text": "先看喜报！看右上角双终端实测"
+        },
+        {
+          "startSec": 3.278,
+          "endSec": 7.459,
+          "text": "客人 A 和客人 B 同时连进 19002 端口"
+        },
+        {
+          "startSec": 7.459,
+          "endSec": 13.157,
+          "text": "客人 A 依然故意发呆不说话，客人 B 发送 msg from B"
+        },
+        {
+          "startSec": 13.157,
+          "endSec": 19.265,
+          "text": "终端立刻秒回 Echo: msg from B！之后客人 A 再说话"
+        },
+        {
+          "startSec": 19.265,
+          "endSec": 24.91,
+          "text": "同样立刻收到回音！并发卡死的问题，好像真的解决掉了？"
+        }
+      ]
+    },
+    "shot-03-cpu-disaster": {
+      "id": "shot-03-cpu-disaster",
+      "audioFile": "audio/ep002/shot-03-cpu-disaster.mp3",
+      "durationSec": 32.542,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.358,
+          "text": "别急着高兴！把目光移回终端一的服务器日志，直接看傻眼"
+        },
+        {
+          "startSec": 5.358,
+          "endSec": 11.174,
+          "text": "[CPU 警报] 0.5 秒空转了 73,293 次 while 循环！"
+        },
+        {
+          "startSec": 11.174,
+          "endSec": 16.225,
+          "text": "哪怕半个客人都没有，单核 CPU 也直接飙到百分之百！"
+        },
+        {
+          "startSec": 16.225,
+          "endSec": 21.161,
+          "text": "看右下角内核视角：每次调 accept 和 fread"
+        },
+        {
+          "startSec": 21.161,
+          "endSec": 25.332,
+          "text": "内核发现没数据就直接甩回一个 EAGAIN"
+        },
+        {
+          "startSec": 25.332,
+          "endSec": 30.689,
+          "text": "PHP 压根不睡觉，一秒十几万次疯狂敲门问“有人吗、没人"
+        },
+        {
+          "startSec": 30.689,
+          "endSec": 31.942,
+          "text": "有人吗”！"
+        }
+      ]
+    },
+    "shot-04-usleep-trap": {
+      "id": "shot-04-usleep-trap",
+      "audioFile": "audio/ep002/shot-04-usleep-trap.mp3",
+      "durationSec": 31.702,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.164,
+          "text": "很多同学第一反应是"
+        },
+        {
+          "startSec": 2.164,
+          "endSec": 10.502,
+          "text": "我在 while 循环末尾加一行 usleep(10000) 睡 10 毫秒不就省 CPU 了吗？"
+        },
+        {
+          "startSec": 10.502,
+          "endSec": 13.412,
+          "text": "大错特错！如果你睡 10 毫秒"
+        },
+        {
+          "startSec": 13.412,
+          "endSec": 16.519,
+          "text": "每秒最多只能处理 100 轮请求"
+        },
+        {
+          "startSec": 16.519,
+          "endSec": 21.789,
+          "text": "刚连上的客人得干等 10 毫秒延迟暴涨；如果只睡 1 微秒"
+        },
+        {
+          "startSec": 21.789,
+          "endSec": 26.863,
+          "text": "CPU 照样冒烟！真正完美的方案，是让进程安心睡眠"
+        },
+        {
+          "startSec": 26.863,
+          "endSec": 31.102,
+          "text": "等网卡收到数据的那一纳秒由内核主动叫醒！"
+        }
+      ]
+    },
+    "shot-05-recap-next": {
+      "id": "shot-05-recap-next",
+      "audioFile": "audio/ep002/shot-05-recap-next.mp3",
+      "durationSec": 21.742,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.087,
+          "text": "这就逼出了网络编程最重要的武器"
+        },
+        {
+          "startSec": 3.087,
+          "endSec": 6.786,
+          "text": "IO 多路复用 stream_select！"
+        },
+        {
+          "startSec": 6.786,
+          "endSec": 11.283,
+          "text": "不过直接往项目里塞很容易踩坑。下一集 EP003"
+        },
+        {
+          "startSec": 11.283,
+          "endSec": 14.511,
+          "text": "我们先花一集专门做个本地铺垫实验"
+        },
+        {
+          "startSec": 14.511,
+          "endSec": 21.142,
+          "text": "用 20 行代码亲眼抓出 stream_select 传引用修改数组的致命陷阱！"
+        }
+      ]
+    }
+  }
+}

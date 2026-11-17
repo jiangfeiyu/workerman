@@ -1,0 +1,37 @@
+{
+  "id": "EP036B",
+  "epTag": "036B · 加餐过渡",
+  "title": "为什么用静态方法？看懂 ($this->protocol)::input()",
+  "legoModule": "模块 3.1 · 粘包与协议插槽（过渡）",
+  "outputFile": "out/EP036B_加餐过渡_为什么协议用静态方法与动态类名调用.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-static",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "why-static",
+      "ttsText": "进入 EP037 之前，先解决两个一定会让人看懵的疑问！第一，为什么 ProtocolInterface 的三个方法全是 static 静态方法，而不是每个连接 new 一个协议对象？因为协议解析本身不存状态，如果同时连着十万个客户端，只存一个类名字符串，就能省掉十万个对象的内存！",
+      "subtitleText": "【036B/加餐过渡】为什么全用 static 静态方法？十万连接共享 1 个类名，省掉十万份对象内存！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-dynamic-call",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "dynamic-call",
+      "ttsText": "第二，看第 26 行的奇怪写法：($this->protocol)::input($this->recvBuffer)！在 PHP 里，只要变量里存着类名字符串比如 DemoLineProtocol::class，加上括号再写双冒号，就能像插拔显卡一样动态调用对应协议的静态方法！",
+      "subtitleText": "PHP 动态类调用：($this->protocol)::input(...)，换个类名字符串就热切换整套协议！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-03-connect-tcp",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "connect-tcp",
+      "ttsText": "顺便看看怎么接回第 2 篇的 TcpConnection：原来 baseRead 里是直接把数据丢给 onMessage；现在只要包上这 4 行 while 循环，把切出来的干净整包交给 decode 解码再回调！下一集 EP037，立刻写正式的 TextProtocol！",
+      "subtitleText": "对接第 2 篇：baseRead() 加上这 4 行 while 切包循环即可！下集 EP037：TextProtocol",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

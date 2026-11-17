@@ -1,0 +1,134 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-two-tables": {
+      "id": "shot-01-two-tables",
+      "audioFile": "audio/ep007/shot-01-two-tables.mp3",
+      "durationSec": 22.27,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.883,
+          "text": "今天用上集理清的平铺思维，不建类直接改造 EP005！"
+        },
+        {
+          "startSec": 4.883,
+          "endSec": 8.736,
+          "text": "先建两张同下标的表：readFds 存资源"
+        },
+        {
+          "startSec": 8.736,
+          "endSec": 13.296,
+          "text": "readCallbacks 存处理函数。为了不绕晕"
+        },
+        {
+          "startSec": 13.296,
+          "endSec": 19.624,
+          "text": "watchRead 和 unwatchRead 直接写成最普通的 PHP 函数"
+        },
+        {
+          "startSec": 19.624,
+          "endSec": 21.67,
+          "text": "再也不搞闭包套闭包！"
+        }
+      ]
+    },
+    "shot-02-register-handlers": {
+      "id": "shot-02-register-handlers",
+      "audioFile": "audio/ep007/shot-02-register-handlers.mp3",
+      "durationSec": 23.974,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.667,
+          "text": "看第 28 到 49 行的平铺写法！"
+        },
+        {
+          "startSec": 2.667,
+          "endSec": 7.41,
+          "text": "我们先在外面写好客人说话回调 onClientRead"
+        },
+        {
+          "startSec": 7.41,
+          "endSec": 10.788,
+          "text": "再单独写门卫迎客回调 onAccept"
+        },
+        {
+          "startSec": 10.788,
+          "endSec": 18.192,
+          "text": "迎到新客后只用一行 watchRead($conn, $onClientRead) 完成登记！"
+        },
+        {
+          "startSec": 18.192,
+          "endSec": 21.058,
+          "text": "最后第 49 行把门卫挂进 5 号抽屉"
+        },
+        {
+          "startSec": 21.058,
+          "endSec": 23.374,
+          "text": "此时两段代码都还没执行！"
+        }
+      ]
+    },
+    "shot-03-pure-loop": {
+      "id": "shot-03-pure-loop",
+      "audioFile": "audio/ep007/shot-03-pure-loop.mp3",
+      "durationSec": 20.95,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.872,
+          "text": "见证奇迹的时刻到了！看第 53 到 64 行"
+        },
+        {
+          "startSec": 3.872,
+          "endSec": 9.832,
+          "text": "原本几十行混杂着 accept 和 fread 的 while 主循环"
+        },
+        {
+          "startSec": 9.832,
+          "endSec": 14.631,
+          "text": "现在干干净净只剩 6 行纯调度！它不知道什么叫迎客"
+        },
+        {
+          "startSec": 14.631,
+          "endSec": 20.35,
+          "text": "也不关心怎么 Echo，只管在就绪时查表执行 $cb($fd)！"
+        }
+      ]
+    },
+    "shot-04-verify-next": {
+      "id": "shot-04-verify-next",
+      "audioFile": "audio/ep007/shot-04-verify-next.mp3",
+      "durationSec": 22.63,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.24,
+          "text": "运行测试，客户端连接 fd=6 发消息"
+        },
+        {
+          "startSec": 3.24,
+          "endSec": 9.028,
+          "text": "立刻拿到 Echo[cb]！现在回头看这组变量和函数：readFds"
+        },
+        {
+          "startSec": 9.028,
+          "endSec": 13.114,
+          "text": "readCallbacks、watchRead"
+        },
+        {
+          "startSec": 13.114,
+          "endSec": 17.846,
+          "text": "unwatchRead 和主循环——把它们装进一个盒子"
+        },
+        {
+          "startSec": 17.846,
+          "endSec": 22.03,
+          "text": "就是现成的 EventLoop 类！下集先立契约！"
+        }
+      ]
+    }
+  }
+}

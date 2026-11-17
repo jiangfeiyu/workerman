@@ -1,0 +1,37 @@
+{
+  "id": "EP089",
+  "epTag": "089 / 112",
+  "title": "【铺垫】stream_socket_enable_crypto() 非阻塞握手返回值陷阱",
+  "legoModule": "模块 5.3 · TLS 加密与总装",
+  "outputFile": "out/EP089_铺垫_enable_crypto非阻塞返回值陷阱.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-tls-half",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "tls-half",
+      "ttsText": "给高并发非阻塞服务器加 HTTPS，99% 的人会栽在 stream_socket_enable_crypto() 这个函数上！为什么？因为一次 TLS 握手要在网络上来回好几个 ClientHello、ServerHello 报文，是非阻塞分多次完成的！",
+      "subtitleText": "【089/112】铺垫：非阻塞 Socket 上的 TLS 握手需要来回多轮交互，绝对不能只调一次！",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-zero-vs-false",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "zero-vs-false",
+      "ttsText": "这个函数有三种完全不同的返回值：返回布尔 true 代表握手彻底成功；返回 false 代表协议报错握手失败；最坑的是返回整数 0！注意在 PHP 弱类型里 0 == false 是真，必须用全等 === 0 判断！",
+      "subtitleText": "三种返回值必须用全等区分：true 成功 | === 0 没握完继续等 | === false 彻底失败！",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-03-strict-zero",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "strict-zero",
+      "ttsText": "在本机 TLS 实测中我们真的抓到了两次 ret === 0！这绝不是报错，而是底层说还差对端密钥报文没收到！如果写成 if (!$ret) 就会把正常握手中途当成失败当场踢人！",
+      "subtitleText": "实测捕获两次 ret===0 后才转成 true！弱类型写成 if (!$ret) 必踢死正常用户！",
+      "fallbackDurationSec": 20.0
+    }
+  ]
+}

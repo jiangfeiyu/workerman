@@ -1,0 +1,9 @@
+{
+    "episode": "ep03",
+    "output": [
+        "[第1轮后] badPool 剩下的键: pipe1",
+        "[第2轮误用被改写的数组] 就绪数量 = 1 (pipe2 彻底失联！)",
+        "[第2轮拷贝新数组 $read = $allFds] 就绪数量 = 2, 键 = pipe1, pipe2",
+        "[读取 pipe2] hello-2"
+    ]
+}

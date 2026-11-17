@@ -1,0 +1,29 @@
+{
+  "id": "EP069",
+  "epTag": "069 / 112",
+  "title": "优雅热更新 reload：老员工干完活退，新员工加载新代码上",
+  "legoModule": "模块 4.3 · 信号、热更新与看板",
+  "outputFile": "out/EP069_优雅热更新reload_老退新上零断线.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-reload-signal",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "reload-sig",
+      "ttsText": "结合刚才的懒加载铁律，现在看清 Workerman 零宕机热更新怎么玩！管理员执行 reload 投递 SIGUSR1 给 Master，Master 并不暴毙，只是顺手把 SIGUSR1 转群发给所有正在干活的老 Worker！",
+      "subtitleText": "【069/112】热更新接力：CLI 给 Master 发 SIGUSR1 → Master 转群发给所有老 Worker！",
+      "fallbackDurationSec": 20.0
+    },
+    {
+      "id": "shot-02-graceful-swap",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "graceful-swap",
+      "ttsText": "老 Worker 收到信号后，立刻摘下监听牌子不再接新连接，把手里正在跑的请求全部处理完、发送队列彻底排空到 pending=0，才体面 exit(0)！此时守在 pcntl_wait() 旁的 Master 监工立刻检测到有人下班，当场 fork 出一个全新 Worker 在 onWorkerStart 里加载 v2.0 代码接棒上线！",
+      "subtitleText": "老 Worker 排空手头队列体面退出 → Master 秒拉新 Worker 加载 v2.0 接力上线！",
+      "fallbackDurationSec": 29.0
+    }
+  ]
+}

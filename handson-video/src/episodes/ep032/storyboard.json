@@ -1,0 +1,29 @@
+{
+  "id": "EP032",
+  "epTag": "032 / 112",
+  "title": "完善 baseRead()：循环读空与 feof() 精准判死",
+  "legoModule": "模块 2.3 · 优雅断连与合拢",
+  "outputFile": "out/EP032_完善baseRead_64KB循环读取与精准判死.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-read-loop",
+      "chapter": "第 2 篇 · 模块 2.3 优雅断连与合拢",
+      "visual": "read-loop",
+      "ttsText": "承接上集 EP031B！今天正式完善读端 baseRead()：第 98 行放进 while (true) 循环，每次最多读 65535 字节，一口气把内核接收缓冲区里的 200KB 全部抽干，延迟最低，也兼容未来第 4 篇 Epoll 的边缘触发模式！",
+      "subtitleText": "【032/112】承接 EP031B：while(true) 循环抽干内核接收缓冲，兼顾低延迟与 Epoll 边缘触发",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-feof-check",
+      "chapter": "第 2 篇 · 模块 2.3 优雅断连与合拢",
+      "visual": "feof-check",
+      "ttsText": "关键修复在第 101 行：读到空串时先用 feof($this->socket) 二次确认！看实测输出：客户端发完 200KB 没断开时，60 毫秒巡检显示连接依然稳稳存活；直到客户端真正 fclose() 触发 feof===true，才安全调用 destroy() 清理！",
+      "subtitleText": "实测修复误杀：200KB 读空后 feof=false 连接存活，直到客户端真断开才 destroy()！",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

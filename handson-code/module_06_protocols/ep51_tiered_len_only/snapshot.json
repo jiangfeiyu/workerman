@@ -1,0 +1,8 @@
+{
+    "episode": "ep51",
+    "output": [
+        "[1档 lenCode=13 (≤125)] input()=15B (2B头 + 13B)",
+        "[2档 lenCode=126 (+2B)] input()=304B (4B头 + 300B) | 半包3B=>0",
+        "[3档 lenCode=127 (+8B)] input()=70010B (10B头 + 70000B)"
+    ]
+}

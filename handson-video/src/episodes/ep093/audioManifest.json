@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-psr4-tree": {
+      "id": "shot-01-psr4-tree",
+      "audioFile": "audio/ep093/shot-01-psr4-tree.mp3",
+      "durationSec": 22.798,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.081,
+          "text": "第 5 篇总装验收！写完 90 多集组件后"
+        },
+        {
+          "startSec": 3.081,
+          "endSec": 5.798,
+          "text": "把零散的 require 全部清理"
+        },
+        {
+          "startSec": 5.798,
+          "endSec": 10.651,
+          "text": "按现代 PHP PSR-4 规范组织成清晰的目录树：Events"
+        },
+        {
+          "startSec": 10.651,
+          "endSec": 15.665,
+          "text": "Connection、Protocols、Coroutine"
+        },
+        {
+          "startSec": 15.665,
+          "endSec": 18.544,
+          "text": "Worker 五大命名空间各归其位"
+        },
+        {
+          "startSec": 18.544,
+          "endSec": 22.198,
+          "text": "用 composer.json 一键自动加载！"
+        }
+      ]
+    },
+    "shot-02-part5-recap": {
+      "id": "shot-02-part5-recap",
+      "audioFile": "audio/ep093/shot-02-part5-recap.mp3",
+      "durationSec": 22.846,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.713,
+          "text": "恭喜通关第 5 篇！"
+        },
+        {
+          "startSec": 1.713,
+          "endSec": 7.586,
+          "text": "至此你的 ModernWorker 单机内核已经集齐 Epoll 多进程"
+        },
+        {
+          "startSec": 7.586,
+          "endSec": 10.79,
+          "text": "PHP 8 Fiber 协程、安全连接池"
+        },
+        {
+          "startSec": 10.79,
+          "endSec": 14.67,
+          "text": "非阻塞 TLS 加密与防御体系！下一篇第 6 篇"
+        },
+        {
+          "startSec": 14.67,
+          "endSec": 16.984,
+          "text": "我们要把单机突破成跨机器"
+        },
+        {
+          "startSec": 16.984,
+          "endSec": 22.246,
+          "text": "不停服热更新的分布式网关集群 ModernGateway！"
+        }
+      ]
+    }
+  }
+}

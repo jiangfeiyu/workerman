@@ -1,0 +1,10 @@
+{
+    "episode": "ep66",
+    "output": [
+        "[读取 master.pid] 定位到后台 Master PID=90735",
+        "[CLI: start -d] => daemon=true",
+        "[CLI: stop -g] => posix_kill(90735, SIGTERM)",
+        "[CLI: reload ] => posix_kill(90735, SIGUSR1)",
+        "[CLI: status ] => posix_kill(90735, SIGUSR2)"
+    ]
+}

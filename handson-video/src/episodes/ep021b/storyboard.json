@@ -1,0 +1,37 @@
+{
+  "id": "EP021B",
+  "epTag": "021B · 加餐过渡",
+  "title": "为什么裸连接玩不转？先用最小包装盒收拢",
+  "legoModule": "模块 2.1 · 连接对象化（过渡）",
+  "outputFile": "out/EP021B_加餐过渡_为什么裸连接玩不转_最小包装盒.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-resource-trap",
+      "chapter": "第 2 篇 · 模块 2.1 TcpConnection 对象化",
+      "visual": "resource-trap",
+      "ttsText": "进入第 2 篇正式写 TcpConnection 之前，先亲手踩一次第 1 篇留下的坑！EP021 的聊天室里我们全程拿着裸 Socket Resource 到处传。可如果用户登录了，你想给连接挂个 uid 属性，像第 9 行这样直接写 $r->uid = 10086，PHP 当场报错：不允许给 resource 挂载属性！",
+      "subtitleText": "【021B/加餐过渡】亲测踩坑：给原生 Socket Resource 写 $r->uid = 10086 当场报错！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-scattered-arrays",
+      "chapter": "第 2 篇 · 模块 2.1 TcpConnection 对象化",
+      "visual": "scattered-arrays",
+      "ttsText": "你可能会说：那像第 16 行这样，用外部数组 $uids[(int)$r] 存不行吗？但如果还要存发送缓冲区、最后活跃时间、协议状态呢？每加一个功能就得新建一张全局数组，断开连接时只要漏掉一句 unset，内存就会默默泄漏！",
+      "subtitleText": "痛点升级：散装外部数组越建越多，连接断开时漏删一张就造成内存泄漏！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-03-conn-box",
+      "chapter": "第 2 篇 · 模块 2.1 TcpConnection 对象化",
+      "visual": "conn-box",
+      "ttsText": "最朴素的解法来了！看第 20 到 29 行，先不搞复杂机制，只建一个最简单的盒子类 ConnBox：把 $socket、$uid 和 $sendBuffer 装进同一个对象里！以后想记什么就写 $box->uid = 10086，销毁时一键清理！下一集 EP022，再把原本 Worker 替连接操心的读监听也收进盒子里，就是 TcpConnection！",
+      "subtitleText": "最小包装盒 ConnBox：把散装属性收进一个对象！下集 EP022 再把读监听收进去",
+      "fallbackDurationSec": 28.0
+    }
+  ]
+}

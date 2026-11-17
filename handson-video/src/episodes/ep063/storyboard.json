@@ -1,0 +1,37 @@
+{
+  "id": "EP063",
+  "epTag": "063 / 112",
+  "title": "两次 fork() + posix_setsid()：彻底脱离终端成为幽灵",
+  "legoModule": "模块 4.2 · 守护进程与 CLI 控制台",
+  "outputFile": "out/EP063_两次fork与posix_setsid彻底脱离终端.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-twice",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "first-fork",
+      "ttsText": "要想关掉终端服务照样长命百岁，必须练成 Unix 经典的两次 fork 守护化仪式！第 1 次 fork 后父进程立刻退出，让老二子进程脱离原进程组控制，这样才有资格调 posix_setsid()！",
+      "subtitleText": "【063/112】第 1 次 fork 后父进程立刻 exit，子进程调 posix_setsid() 另立山头！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-setsid-second-fork",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "second-fork",
+      "ttsText": "posix_setsid() 会新建一个完全没有控制终端的独立会话，把新会话 ID 从旧终端 70716 切成全新 70720！那为啥还要第 2 次 fork 呢？因为刚刚 setsid 的老二是新会话大队长，仍有权重新打开终端；再 fork 出孙子进程 70721 并杀掉老二，孙子连会话领头羊资格都没了，彻底断绝重新绑定终端的可能！",
+      "subtitleText": "第 2 次 fork 让孙子进程不再是会话首领，从内核机制上彻底杜绝重新关联终端！",
+      "fallbackDurationSec": 29.0
+    },
+    {
+      "id": "shot-03-umask-verify",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "umask-verify",
+      "ttsText": "最后别忘了加上 umask(0) 清空继承来的文件权限掩码，避免以后写日志或建 socket 文件权限莫名受限！至此真正的 Master 守护幽灵已经诞生，哪怕把终端砸了它也稳如泰山！",
+      "subtitleText": "顺手加上 umask(0) 防止继承权限掩码，真正的 Daemon 幽灵进程正式诞生！",
+      "fallbackDurationSec": 20.0
+    }
+  ]
+}

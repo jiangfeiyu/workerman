@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-sleep-trap": {
+      "id": "shot-01-sleep-trap",
+      "audioFile": "audio/ep079/shot-01-sleep-trap.mp3",
+      "durationSec": 19.678,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.479,
+          "text": "如果在 Workerman 的 onMessage 里写了原生 sleep(1)"
+        },
+        {
+          "startSec": 5.479,
+          "endSec": 9.47,
+          "text": "全进程一万个连接同时卡死一秒钟！怎么写出只睡当前请求"
+        },
+        {
+          "startSec": 9.47,
+          "endSec": 13.076,
+          "text": "绝不卡住别人家的 Coroutine::sleep()？"
+        },
+        {
+          "startSec": 13.076,
+          "endSec": 19.078,
+          "text": "只需要把第 1 篇写过的 EventLoop::delay() 和今天学的 Fiber 接在一起！"
+        }
+      ]
+    },
+    "shot-02-sleep-impl": {
+      "id": "shot-02-sleep-impl",
+      "audioFile": "audio/ep079/shot-02-sleep-impl.mp3",
+      "durationSec": 25.294,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.158,
+          "text": "核心代码只有三行！用 Fiber::getCurrent() 抓住自己"
+        },
+        {
+          "startSec": 5.158,
+          "endSec": 13.266,
+          "text": "调一句 $loop->delay($seconds, fn() => $fiber->resume()) 订个到点唤醒的闹钟"
+        },
+        {
+          "startSec": 13.266,
+          "endSec": 17.154,
+          "text": "然后立刻 Fiber::suspend() 让出控制权！"
+        },
+        {
+          "startSec": 17.154,
+          "endSec": 20.61,
+          "text": "实测请求 1 睡 60ms、请求 2 睡 20ms"
+        },
+        {
+          "startSec": 20.61,
+          "endSec": 24.694,
+          "text": "两根协程一共只花了 61.9ms，彻底并行叠加！"
+        }
+      ]
+    }
+  }
+}

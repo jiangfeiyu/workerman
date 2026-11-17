@@ -1,0 +1,29 @@
+{
+  "id": "EP092",
+  "epTag": "092 / 112",
+  "title": "反向代理真实 IP 透传：X-Forwarded-For 与信任白名单",
+  "legoModule": "模块 5.3 · TLS 加密与总装",
+  "outputFile": "out/EP092_反向代理真实IP透传与XFF防伪造.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-xff-spoof",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "xff-spoof",
+      "ttsText": "很多开发者写限流时，直接盲信 HTTP 头里的 X-Forwarded-For 当用户真实 IP！结果黑客直连端口并在请求头里随手伪造一句 X-Forwarded-For: 8.8.8.8，当场就能把你的限流和封号系统绕成筛子！",
+      "subtitleText": "【092/112】踩坑：直接盲信 X-Forwarded-For 极易被黑客随意伪造 HTTP 头绕过限流！",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-trusted-proxy",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "trusted-proxy",
+      "ttsText": "安全解法是建立 $trustedProxies 受信任代理白名单！只有当底层 TCP 直连来源确实等于自家 Nginx IP 时才采信 XFF 透传出 203.0.113.88；如果来路不在白名单里，一律死锁返回真实的 TCP 对端 IP 198.51.100.7！",
+      "subtitleText": "先校验 TCP 直连 IP 是否在白名单：Nginx 来才取 XFF，黑客直连伪造一律锁定底层 IP！",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

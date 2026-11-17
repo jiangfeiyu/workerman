@@ -1,0 +1,37 @@
+{
+  "id": "EP019",
+  "epTag": "019 / 112",
+  "title": "注入三大生命周期钩子：Connect / Message / Close",
+  "legoModule": "模块 1.4 · Worker v0.1",
+  "outputFile": "out/EP019_注入三大生命周期钩子_Connect_Message_Close.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-hooks-def",
+      "chapter": "第 1 篇 · 模块 1.4 Worker v0.1",
+      "visual": "hooks-def",
+      "ttsText": "一个完整的网络框架，绝不能只在收到消息时通知业务。比如聊天室需要在客人进门时发欢迎语、断线时清理在线人数！今天我们在 WorkerV01 上公开三个 Closure 钩子：onConnect、onMessage 和 onClose。",
+      "subtitleText": "【019/112】公开三大生命周期钩子：$onConnect / $onMessage / $onClose",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-trigger-points",
+      "chapter": "第 1 篇 · 模块 1.4 Worker v0.1",
+      "visual": "trigger-points",
+      "ttsText": "看触发时机：第 41 行 accept 到新连接并记入 $connections 连接池后，立刻触发 onConnect；第 51 行读到有效数据时触发 onMessage；第 48 行检测到客户端断开、摘掉监听并关闭 FD 后，触发 onClose！",
+      "subtitleText": "精准触发链：accept 入池 → onConnect → fread 收包 → onMessage → 断线清理 → onClose",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-03-verify-hooks",
+      "chapter": "第 1 篇 · 模块 1.4 Worker v0.1",
+      "visual": "verify-hooks",
+      "ttsText": "运行 verify.php 实测！日志精准按顺序打出：客人连入打印 Welcome fd=10，发包触发 Got: ping hooks，断开立刻触发 onClose 送别客人！下一集 EP020，我们解决一个上线必炸的大坑：万一业务回调里抛异常怎么办？",
+      "subtitleText": "实测三段生命周期严丝合缝！下集 EP020【踩坑】：业务回调抛异常导致全进程崩溃？",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

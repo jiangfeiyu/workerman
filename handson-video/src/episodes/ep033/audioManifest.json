@@ -1,0 +1,85 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-test-setup": {
+      "id": "shot-01-test-setup",
+      "audioFile": "audio/ep033/shot-01-test-setup.mp3",
+      "durationSec": 25.102,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.025,
+          "text": "第 2 篇总合拢检阅！"
+        },
+        {
+          "startSec": 2.025,
+          "endSec": 8.286,
+          "text": "今天拿我们在第 25 集丢掉 96.9% 的那个 10MB 地狱级测试用例"
+        },
+        {
+          "startSec": 8.286,
+          "endSec": 15.806,
+          "text": "直接丢给亲手写出来的 TcpConnection::close($payload)！"
+        },
+        {
+          "startSec": 15.806,
+          "endSec": 20.96,
+          "text": "并且把高水位线设成 512KB，检验水位报警、背压排空"
+        },
+        {
+          "startSec": 20.96,
+          "endSec": 24.502,
+          "text": "优雅断连三大机制能否同时完美协同！"
+        }
+      ]
+    },
+    "shot-02-verify-10mb": {
+      "id": "shot-02-verify-10mb",
+      "audioFile": "audio/ep033/shot-02-verify-10mb.mp3",
+      "durationSec": 29.686,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.193,
+          "text": "运行实测日志依次爆出"
+        },
+        {
+          "startSec": 2.193,
+          "endSec": 6.573,
+          "text": "onBufferFull 突破 512KB 触发背压"
+        },
+        {
+          "startSec": 6.573,
+          "endSec": 10.223,
+          "text": "onBufferDrain 全部排空恢复"
+        },
+        {
+          "startSec": 10.223,
+          "endSec": 14.201,
+          "text": "onClose 数据发完后自动优雅销毁连接"
+        },
+        {
+          "startSec": 14.201,
+          "endSec": 19.384,
+          "text": "客户端最终一字节不少完整收到 10,485,760 字节！"
+        },
+        {
+          "startSec": 19.384,
+          "endSec": 22.267,
+          "text": "第 2 篇正式毕业！下一篇第 3 篇"
+        },
+        {
+          "startSec": 22.267,
+          "endSec": 24.603,
+          "text": "我们直面 TCP 粘包惨案"
+        },
+        {
+          "startSec": 24.603,
+          "endSec": 29.086,
+          "text": "手写可插拔协议栈 HTTP 与 WebSocket！"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "EP006",
+  "epTag": "006 / 112",
+  "title": "【铺垫】把函数放进数组：callable 回调表",
+  "legoModule": "模块 1.2 · SelectLoop",
+  "outputFile": "out/EP006_铺垫_把函数放进数组_callable回调表.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-fn-array",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "why-fn-array",
+      "ttsText": "上集我们在 while 循环里用 if ($fd === $server) 硬编码区分门卫和客人。要想写出通用发动机 SelectLoop，绝对不能把业务逻辑写死在引擎里！今天花一分钟做个小铺垫：在 PHP 里，函数也能像整数一样放进数组！",
+      "subtitleText": "【006/112】铺垫：引擎不能写死 if-else，先用 6 行代码学会把函数存进数组按编号调用",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-table-dispatch",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "table-dispatch",
+      "ttsText": "看第 6 到 12 行，我们建一个空数组 $handlers，把 100 号和 200 号处理函数分别存进去。第 20 行事件到达时，直接查表 $handlers[$event['id']]，检查 is_callable 后括号一加就触发执行！全程零个 if 和 switch！",
+      "subtitleText": "按编号查表调用：$fn = $handlers[$id]; $fn($data); 完全消灭分支判断！",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-03-run-next",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "run-next",
+      "ttsText": "运行 demo.php，100 号和 200 号精准触发！下一集 EP007，我们依然先不建类，直接在过程式脚本里用这个回调表技巧，把 EP005 的主循环瘦身到 6 行！",
+      "subtitleText": "下集 EP007【过渡】：用回调表改造 EP005 服务器，把主循环瘦身到 6 行纯调度代码",
+      "fallbackDurationSec": 18.0
+    }
+  ]
+}

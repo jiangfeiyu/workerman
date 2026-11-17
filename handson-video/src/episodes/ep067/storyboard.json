@@ -1,0 +1,29 @@
+{
+  "id": "EP067",
+  "epTag": "067 / 112",
+  "title": "pcntl_async_signals(true)：异步信号与 EINTR 防护",
+  "legoModule": "模块 4.3 · 信号、热更新与看板",
+  "outputFile": "out/EP067_异步信号pcntl_async_signals与EINTR防护.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-async-signal",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "async-sig",
+      "ttsText": "模块 4.3 解锁生产级热更新与监控！以前写 PHP 信号必须在死循环里不断调 pcntl_signal_dispatch() 轮询，又耗 CPU 响应又慢！PHP 7.1 之后只需在开头写一句 pcntl_async_signals(true)，底层每跑完一条 opcode 瞬间响应 SIGUSR1，零轮询开销！",
+      "subtitleText": "【067/112】一句 pcntl_async_signals(true) 告别轮询 dispatch()，信号瞬间异步回调！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-eintr-guard",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "eintr-guard",
+      "ttsText": "还要防一个隐形暗坑：如果进程正在阻塞等 stream_select() 或 pcntl_wait() 时突然收到信号，系统调用会被立刻打断并报出 Interrupted system call 错误 EINTR！所以外层必须套上 @ 抑制并在 false 时 continue 继续循环，绝不能直接崩掉退出！",
+      "subtitleText": "信号打断阻塞系统调用时会触发 EINTR：外层 @ 静默处理并 continue 续跑循环！",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

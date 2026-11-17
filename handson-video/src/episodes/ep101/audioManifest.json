@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-gw-frame": {
+      "id": "shot-01-gw-frame",
+      "audioFile": "audio/ep101/shot-01-gw-frame.mp3",
+      "durationSec": 23.998,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.469,
+          "text": "有了地址编号，Gateway 和 BusinessWorker 内网通信用什么格式？"
+        },
+        {
+          "startSec": 6.469,
+          "endSec": 10.734,
+          "text": "当然复刻第 3 篇写过的 FrameProtocol 思想"
+        },
+        {
+          "startSec": 10.734,
+          "endSec": 14.617,
+          "text": "定义极速二进制 GatewayProtocol！"
+        },
+        {
+          "startSec": 14.617,
+          "endSec": 16.495,
+          "text": "固定包头由三部分组成"
+        },
+        {
+          "startSec": 16.495,
+          "endSec": 21.396,
+          "text": "4 字节总长度 + 1 字节指令号 cmd + 20 字节 client_id"
+        },
+        {
+          "startSec": 21.396,
+          "endSec": 23.398,
+          "text": "紧跟任意业务 Body！"
+        }
+      ]
+    },
+    "shot-02-gw-verify": {
+      "id": "shot-02-gw-verify",
+      "audioFile": "audio/ep101/shot-02-gw-verify.mp3",
+      "durationSec": 22.222,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 7.424,
+          "text": "实测调 encodePacket() 把指令 CMD_SEND_TO_ONE 和一条问候封成 39 字节二进制帧"
+        },
+        {
+          "startSec": 7.424,
+          "endSec": 14.682,
+          "text": "再调 decodePacket() 用 unpack('NtotalLen/Ccmd/a20cid')"
+        },
+        {
+          "startSec": 14.682,
+          "endSec": 18.689,
+          "text": "一刀解出指令号 2 与正文 Hello Gateway！"
+        },
+        {
+          "startSec": 18.689,
+          "endSec": 21.622,
+          "text": "内网零 JSON 冗余开销，快到飞起！"
+        }
+      ]
+    }
+  }
+}

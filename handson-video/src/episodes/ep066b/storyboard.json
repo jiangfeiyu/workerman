@@ -1,0 +1,29 @@
+{
+  "id": "EP066B",
+  "epTag": "066B · 加餐过渡",
+  "title": "信号怎么打断睡眠？async_signals 与 dispatch 对比",
+  "legoModule": "模块 4.3 · 信号、热更新与看板（过渡）",
+  "outputFile": "out/EP066B_加餐过渡_为什么需要pcntl_async_signals.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-without-async",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "without-async",
+      "ttsText": "看 EP067 信号处理之前，先用 10 行实验看清 PHP 信号的默认怪脾气！看第 6 到 11 行：我们用 pcntl_signal 绑好了 SIGUSR1，然后立刻给自己发信号。结果一查变量竟然是 false！因为在默认情况下，PHP 不会自己检查信号，必须等代码手动调用 pcntl_signal_dispatch() 才肯触发！",
+      "subtitleText": "【066B/加餐过渡】默认情况下 PHP 不会自动触发信号回调，必须手动调 dispatch() 轮询！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-enable-async",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "enable-async",
+      "ttsText": "而我们的 Worker 平时大多睡在 stream_select() 里，根本没空在每行代码里插 dispatch()！只要打开第 15 行这句 pcntl_async_signals(true)，PHP 虚拟机在每条指令间隙自动秒级派发信号！下一集 EP067，再看信号怎么把睡着的 select 惊醒！",
+      "subtitleText": "开启 pcntl_async_signals(true) 后零轮询秒级触发！下集 EP067：应对 EINTR 惊醒",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

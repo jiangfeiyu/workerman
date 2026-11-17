@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-single-ok": {
+      "id": "shot-01-single-ok",
+      "audioFile": "audio/ep094/shot-01-single-ok.mp3",
+      "durationSec": 24.166,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.446,
+          "text": "第 6 篇正式突破单机极限"
+        },
+        {
+          "startSec": 2.446,
+          "endSec": 7.032,
+          "text": "迈向分布式网关集群 ModernGateway！"
+        },
+        {
+          "startSec": 7.032,
+          "endSec": 12.258,
+          "text": "先看开篇第一个绝望现场：你在单进程版跑得好好的聊天室"
+        },
+        {
+          "startSec": 12.258,
+          "endSec": 16.732,
+          "text": "为了吃满多核把 Worker 进程数从 1 改成了 4"
+        },
+        {
+          "startSec": 16.732,
+          "endSec": 20.83,
+          "text": "结果一上线用户全在骂街：Alice 发消息"
+        },
+        {
+          "startSec": 20.83,
+          "endSec": 23.566,
+          "text": "同房间的 Bob 根本收不到！"
+        }
+      ]
+    },
+    "shot-02-isolated-fd": {
+      "id": "shot-02-isolated-fd",
+      "audioFile": "audio/ep094/shot-02-isolated-fd.mp3",
+      "durationSec": 23.014,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.6,
+          "text": "元凶正是第 4 篇学过的多进程内存与 FD 隔离！"
+        },
+        {
+          "startSec": 3.6,
+          "endSec": 7.859,
+          "text": "Alice 连进了 Worker #1 的 5 号 Socket"
+        },
+        {
+          "startSec": 7.859,
+          "endSec": 11.896,
+          "text": "Bob 连进了 Worker #2 的 6 号 Socket！"
+        },
+        {
+          "startSec": 11.896,
+          "endSec": 17.267,
+          "text": "当 Worker #1 遍历自己本地的 $connections 数组广播时"
+        },
+        {
+          "startSec": 17.267,
+          "endSec": 19.778,
+          "text": "只触达了自己屋里的 Alice"
+        },
+        {
+          "startSec": 19.778,
+          "endSec": 22.414,
+          "text": "彻底漏掉了隔壁进程里的 Bob！"
+        }
+      ]
+    }
+  }
+}

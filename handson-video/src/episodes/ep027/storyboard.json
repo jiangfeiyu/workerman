@@ -1,0 +1,37 @@
+{
+  "id": "EP027",
+  "epTag": "027 / 112",
+  "title": "【踩坑】忘卸 offWritable() 狂刷 5 万次 CPU 100%",
+  "legoModule": "模块 2.2 · 异步发送缓冲",
+  "outputFile": "out/EP027_踩坑_忘卸offWritable狂刷5万次CPU100%.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-forget-off",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "forget-off",
+      "ttsText": "上一集最后我们强调排空后必须调 offWritable()。很多同学不理解：缓冲区都空了，不调能怎样？今天用 20 行代码故意把这行删掉看看下场！看第 14 到 19 行，写完 Hello 后故意直接 return，不卸载写监听。",
+      "subtitleText": "【027/112】现场踩坑：发完数据后故意不调 offWritable()，观察事件循环会发生什么",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-50k-spin",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "50k-spin",
+      "ttsText": "运行实测直接炸裂！明明应用层缓冲区 $pending 早就空空如也，但只要内核缓冲区有空位，stream_select 每微秒都在尖叫着可写可写！短短一瞬间，onWritable 回调就被狂刷了 50,000 次，CPU 直接锁死百分百！",
+      "subtitleText": "惊悚实测：哪怕 $pending 为空，onWritable 瞬间空转狂刷 50,000 次！",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-03-golden-rule",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "golden-rule",
+      "ttsText": "记住这条铁律：只有 $sendBuffer 里还有积压数据时才挂载 onWritable；一旦排空，必须立刻 offWritable 摘掉！下一集 EP028，我们正式把这套机制封装进 TcpConnection::send()！",
+      "subtitleText": "铁律固化：有积压才挂 onWritable，一旦排空立刻 offWritable｜下集 EP028：TcpConnection::send()",
+      "fallbackDurationSec": 20.0
+    }
+  ]
+}

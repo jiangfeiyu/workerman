@@ -1,0 +1,55 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-channel-hub": {
+      "id": "shot-01-channel-hub",
+      "audioFile": "audio/ep095/shot-01-channel-hub.mp3",
+      "durationSec": 17.014,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.368,
+          "text": "怎么让 4 个孤岛一样的 Worker 互相喊话？"
+        },
+        {
+          "startSec": 3.368,
+          "endSec": 7.885,
+          "text": "自己搭一个轻量级 TCP 内部邮局 ChannelServer！"
+        },
+        {
+          "startSec": 7.885,
+          "endSec": 13.799,
+          "text": "每个 Worker 启动时用异步客户端 ChannelClient 连上这台内部邮局"
+        },
+        {
+          "startSec": 13.799,
+          "endSec": 16.414,
+          "text": "统一订阅 broadcast 频道！"
+        }
+      ]
+    },
+    "shot-02-pubsub-route": {
+      "id": "shot-02-pubsub-route",
+      "audioFile": "audio/ep095/shot-02-pubsub-route.mp3",
+      "durationSec": 18.07,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.218,
+          "text": "当 Worker #1 想发全服广播，不再傻傻只遍历自己"
+        },
+        {
+          "startSec": 4.218,
+          "endSec": 12.232,
+          "text": "而是调一句 ChannelClient::publish('broadcast', $msg) 把消息交给邮局！"
+        },
+        {
+          "startSec": 12.232,
+          "endSec": 17.47,
+          "text": "邮局收到后顺着表立刻群发给全机房每一个订阅该频道的 Worker！"
+        }
+      ]
+    }
+  }
+}

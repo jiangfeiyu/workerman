@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-tiered": {
+      "id": "shot-01-why-tiered",
+      "audioFile": "audio/ep051/shot-01-why-tiered.mp3",
+      "durationSec": 26.35,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.144,
+          "text": "第 2 个字节 $second = ord($buffer[1]) 负责两件事"
+        },
+        {
+          "startSec": 6.144,
+          "endSec": 10.984,
+          "text": "最高位 ($second >> 7) & 1 是掩码标志 MASK"
+        },
+        {
+          "startSec": 10.984,
+          "endSec": 17.016,
+          "text": "剩下的低 7 位 $dataLen = $second & 0x7f 用来装包长！"
+        },
+        {
+          "startSec": 17.016,
+          "endSec": 22.036,
+          "text": "结合上集 EP050B 刚学的 pack('n') 和 'J'"
+        },
+        {
+          "startSec": 22.036,
+          "endSec": 25.75,
+          "text": "今天看懂 RFC 6455 的三级阶梯长度！"
+        }
+      ]
+    },
+    "shot-02-three-tiers": {
+      "id": "shot-02-three-tiers",
+      "audioFile": "audio/ep051/shot-02-three-tiers.mp3",
+      "durationSec": 23.782,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.72,
+          "text": "看清三档规则：0 到 125 字节直接放进低 7 位"
+        },
+        {
+          "startSec": 4.72,
+          "endSec": 8.579,
+          "text": "126 到 65535 字节填暗号 126"
+        },
+        {
+          "startSec": 8.579,
+          "endSec": 14.696,
+          "text": "紧接着用 unpack('n', ...)[1] 读后续 2 字节"
+        },
+        {
+          "startSec": 14.696,
+          "endSec": 17.529,
+          "text": "超过 64KB 填暗号 127"
+        },
+        {
+          "startSec": 17.529,
+          "endSec": 23.182,
+          "text": "用 unpack('J', ...)[1] 读后续 8 字节！"
+        }
+      ]
+    },
+    "shot-03-input-guards": {
+      "id": "shot-03-input-guards",
+      "audioFile": "audio/ep051/shot-03-input-guards.mp3",
+      "durationSec": 27.79,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.093,
+          "text": "回到 WebsocketProtocol::input() 的半包防线"
+        },
+        {
+          "startSec": 6.093,
+          "endSec": 8.215,
+          "text": "先检查够不够 2 字节"
+        },
+        {
+          "startSec": 8.215,
+          "endSec": 14.189,
+          "text": "遇到 126 或 127 在 unpack 前必须先验扩展字节够不够！"
+        },
+        {
+          "startSec": 14.189,
+          "endSec": 17.294,
+          "text": "看三档实测：13B 总长 15B"
+        },
+        {
+          "startSec": 17.294,
+          "endSec": 22.954,
+          "text": "300B 走 126 档总长 304B（喂 3B 半包拦截返回 0）"
+        },
+        {
+          "startSec": 22.954,
+          "endSec": 27.19,
+          "text": "70000B 走 127 档总长 70010B！"
+        }
+      ]
+    }
+  }
+}

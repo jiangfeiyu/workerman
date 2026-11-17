@@ -1,0 +1,8 @@
+{
+    "episode": "ep36b",
+    "output": [
+        "[零对象开销] $protocol = \"DemoLineProtocol\" (仅存类名字符串)",
+        "[第1次 feed(\"hi\\nwo\")] 切出: [\"hi\"] (余 \"wo\" 留池)",
+        "[第2次 feed(\"rld\\n\")] 切出: [\"world\"] (池已排空!)"
+    ]
+}

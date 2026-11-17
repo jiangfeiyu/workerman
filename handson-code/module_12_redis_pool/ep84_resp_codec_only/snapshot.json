@@ -1,0 +1,7 @@
+{
+    "episode": "ep84",
+    "output": [
+        "[RESP 编码] SET user:1 Alice => *3\\r\\n$3\\r\\nSET\\r\\n$6\\r\\nuser:1\\r\\n$5\\r\\nAlice\\r\\n",
+        "[RESP 解码] +OK => OK | $5\\r\\nAlice => Alice"
+    ]
+}

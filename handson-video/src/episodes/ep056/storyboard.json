@@ -1,0 +1,29 @@
+{
+  "id": "EP056",
+  "epTag": "056 / 112",
+  "title": "写时复制 COW 内存隔离：为什么子进程改变量父进程看不见",
+  "legoModule": "模块 4.1 · 多进程与 Master 监工",
+  "outputFile": "out/EP056_COW写时复制内存隔离.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-cow-read",
+      "chapter": "第 4 篇 · 模块 4.1 多进程与 Master 监工",
+      "visual": "cow-read",
+      "ttsText": "很多人写多进程踩的第一个逻辑大坑就是以为变量能共享！刚 fork 完那一刻，父子进程确实只读共享同一份物理内存，叫 Copy-On-Write 写时复制，所以 fork 100 个 Worker 才极度省内存！",
+      "subtitleText": "【056/112】刚 fork 时父子只读共享同一物理内存页，叫 Copy-On-Write (写时复制)！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-cow-write",
+      "chapter": "第 4 篇 · 模块 4.1 多进程与 Master 监工",
+      "visual": "cow-write",
+      "ttsText": "但只要子进程写一句 $counter += 50，Linux 内核瞬间触发缺页中断，当场给子进程单独复制出一页全新物理内存再修改！所以实测子进程里 $counter 变成 150，父进程同步查看依然死死停在 100！记住：多进程内存彻底隔离，想互通数据必须走 IPC 通信！",
+      "subtitleText": "子进程写入瞬间拷贝独立内存页：$counter=150，但父进程仍为 100（彻底隔离）！",
+      "fallbackDurationSec": 27.0
+    }
+  ]
+}

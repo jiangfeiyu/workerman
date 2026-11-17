@@ -1,0 +1,112 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-chat-code": {
+      "id": "shot-01-chat-code",
+      "audioFile": "audio/ep021/shot-01-chat-code.mp3",
+      "durationSec": 23.47,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.601,
+          "text": "恭喜走完第 1 篇网络地基与事件发动机！"
+        },
+        {
+          "startSec": 3.601,
+          "endSec": 5.951,
+          "text": "今天是第 1 篇总合拢验收"
+        },
+        {
+          "startSec": 5.951,
+          "endSec": 9.953,
+          "text": "用我们自己从零敲出来的 WorkerV01"
+        },
+        {
+          "startSec": 9.953,
+          "endSec": 14.065,
+          "text": "看看写一个多端实时广播聊天室需要几行代码？"
+        },
+        {
+          "startSec": 14.065,
+          "endSec": 17.259,
+          "text": "第 7 到 15 行，仅仅 8 行业务代码！"
+        },
+        {
+          "startSec": 17.259,
+          "endSec": 22.87,
+          "text": "遍历 $worker->connections 排除自己后转发消息！"
+        }
+      ]
+    },
+    "shot-02-verify-chat": {
+      "id": "shot-02-verify-chat",
+      "audioFile": "audio/ep021/shot-02-verify-chat.mp3",
+      "durationSec": 21.238,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.048,
+          "text": "实机联调 Alice 和 Bob！Alice 发出 Hello Bob!，Bob 秒收"
+        },
+        {
+          "startSec": 6.048,
+          "endSec": 9.831,
+          "text": "Bob 回一句 Hi Alice!，Alice 秒收"
+        },
+        {
+          "startSec": 9.831,
+          "endSec": 12.756,
+          "text": "两人断开后 onClose 精准清理！"
+        },
+        {
+          "startSec": 12.756,
+          "endSec": 16.889,
+          "text": "底层已经自动运行在我们自己写的 SelectLoop"
+        },
+        {
+          "startSec": 16.889,
+          "endSec": 20.638,
+          "text": "最小堆定时器和 safeCall 异常防护之上！"
+        }
+      ]
+    },
+    "shot-03-part1-summary": {
+      "id": "shot-03-part1-summary",
+      "audioFile": "audio/ep021/shot-03-part1-summary.mp3",
+      "durationSec": 22.246,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.835,
+          "text": "第 1 篇正式毕业！"
+        },
+        {
+          "startSec": 1.835,
+          "endSec": 6.188,
+          "text": "但现在的 WorkerV01 还有两个致命短板"
+        },
+        {
+          "startSec": 6.188,
+          "endSec": 9.205,
+          "text": "发 10 兆大文件会直接丢掉 7 兆"
+        },
+        {
+          "startSec": 9.205,
+          "endSec": 13.367,
+          "text": "高频发包还会产生 TCP 粘包！下一篇第 2 篇"
+        },
+        {
+          "startSec": 13.367,
+          "endSec": 18.102,
+          "text": "我们手写全双工连接层 TcpConnection"
+        },
+        {
+          "startSec": 18.102,
+          "endSec": 21.646,
+          "text": "彻底攻克异步发送缓冲区与背压控制！"
+        }
+      ]
+    }
+  }
+}

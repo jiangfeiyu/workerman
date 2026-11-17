@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-reload-signal": {
+      "id": "shot-01-reload-signal",
+      "audioFile": "audio/ep069/shot-01-reload-signal.mp3",
+      "durationSec": 17.254,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.832,
+          "text": "结合刚才的懒加载铁律"
+        },
+        {
+          "startSec": 1.832,
+          "endSec": 5.538,
+          "text": "现在看清 Workerman 零宕机热更新怎么玩！"
+        },
+        {
+          "startSec": 5.538,
+          "endSec": 9.912,
+          "text": "管理员执行 reload 投递 SIGUSR1 给 Master"
+        },
+        {
+          "startSec": 9.912,
+          "endSec": 11.704,
+          "text": "Master 并不暴毙"
+        },
+        {
+          "startSec": 11.704,
+          "endSec": 16.654,
+          "text": "只是顺手把 SIGUSR1 转群发给所有正在干活的老 Worker！"
+        }
+      ]
+    },
+    "shot-02-graceful-swap": {
+      "id": "shot-02-graceful-swap",
+      "audioFile": "audio/ep069/shot-02-graceful-swap.mp3",
+      "durationSec": 26.854,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.893,
+          "text": "老 Worker 收到信号后，立刻摘下监听牌子不再接新连接"
+        },
+        {
+          "startSec": 4.893,
+          "endSec": 7.42,
+          "text": "把手里正在跑的请求全部处理完"
+        },
+        {
+          "startSec": 7.42,
+          "endSec": 12.711,
+          "text": "发送队列彻底排空到 pending=0，才体面 exit(0)！"
+        },
+        {
+          "startSec": 12.711,
+          "endSec": 18.406,
+          "text": "此时守在 pcntl_wait() 旁的 Master 监工立刻检测到有人下班"
+        },
+        {
+          "startSec": 18.406,
+          "endSec": 26.254,
+          "text": "当场 fork 出一个全新 Worker 在 onWorkerStart 里加载 v2.0 代码接棒上线！"
+        }
+      ]
+    }
+  }
+}

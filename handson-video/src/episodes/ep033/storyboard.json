@@ -1,0 +1,29 @@
+{
+  "id": "EP033",
+  "epTag": "033 / 112",
+  "title": "【第 2 篇合拢】10MB 背压与零丢包完整实测",
+  "legoModule": "模块 2.3 · 第 2 篇毕业合拢 🎉",
+  "outputFile": "out/EP033_第2篇合拢_10MB背压与零丢包完整实测.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-test-setup",
+      "chapter": "第 2 篇 · 模块 2.3 优雅断连与合拢",
+      "visual": "test-setup",
+      "ttsText": "第 2 篇总合拢检阅！今天拿我们在第 25 集丢掉 96.9% 的那个 10MB 地狱级测试用例，直接丢给亲手写出来的 TcpConnection::close($payload)！并且把高水位线设成 512KB，检验水位报警、背压排空、优雅断连三大机制能否同时完美协同！",
+      "subtitleText": "【033/112】第 2 篇总合拢：TcpConnection::close(10MB) + 512KB 高水位全链路实测",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-verify-10mb",
+      "chapter": "第 2 篇 · 模块 2.3 优雅断连与合拢",
+      "visual": "verify-10mb",
+      "ttsText": "运行实测日志依次爆出：onBufferFull 突破 512KB 触发背压、onBufferDrain 全部排空恢复、onClose 数据发完后自动优雅销毁连接，客户端最终一字节不少完整收到 10,485,760 字节！第 2 篇正式毕业！下一篇第 3 篇，我们直面 TCP 粘包惨案，手写可插拔协议栈 HTTP 与 WebSocket！",
+      "subtitleText": "🎉 第 2 篇毕业！10,485,760 bytes 零丢失送达｜下篇第 3 篇：终结粘包 + 手写 HTTP/WebSocket",
+      "fallbackDurationSec": 29.0
+    }
+  ]
+}

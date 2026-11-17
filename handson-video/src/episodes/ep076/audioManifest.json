@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-bench-setup": {
+      "id": "shot-01-bench-setup",
+      "audioFile": "audio/ep076/shot-01-bench-setup.mp3",
+      "durationSec": 20.086,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.732,
+          "text": "第 4 篇终极合拢测试！模拟高并发长连接最真实的场景"
+        },
+        {
+          "startSec": 5.732,
+          "endSec": 9.703,
+          "text": "500 条已建立连接里只有 1 条发消息"
+        },
+        {
+          "startSec": 9.703,
+          "endSec": 13.189,
+          "text": "其余 499 条挂着心跳空闲等待"
+        },
+        {
+          "startSec": 13.189,
+          "endSec": 19.486,
+          "text": "让两种调度引擎连跑 500 轮看耗费多少纯 CPU 调度时间！"
+        }
+      ]
+    },
+    "shot-02-bench-result": {
+      "id": "shot-02-bench-result",
+      "audioFile": "audio/ep076/shot-02-bench-result.mp3",
+      "durationSec": 22.27,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.997,
+          "text": "同一台电脑跑出的真实碾压数据"
+        },
+        {
+          "startSec": 2.997,
+          "endSec": 7.452,
+          "text": "SelectLoop 每轮拷贝遍历 500 个 FD"
+        },
+        {
+          "startSec": 7.452,
+          "endSec": 9.848,
+          "text": "跑完花了 10.98 毫秒"
+        },
+        {
+          "startSec": 9.848,
+          "endSec": 14.864,
+          "text": "而基于红黑树与就绪链表的 O(1) 调度只派发就绪事件"
+        },
+        {
+          "startSec": 14.864,
+          "endSec": 19.693,
+          "text": "仅用了 0.006 毫秒，调度层面直接提速一千七百倍"
+        },
+        {
+          "startSec": 19.693,
+          "endSec": 21.67,
+          "text": "连接再多也不卡顿！"
+        }
+      ]
+    },
+    "shot-03-part4-recap": {
+      "id": "shot-03-part4-recap",
+      "audioFile": "audio/ep076/shot-03-part4-recap.mp3",
+      "durationSec": 22.798,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.218,
+          "text": "第 4 篇 22 集圆满通关！"
+        },
+        {
+          "startSec": 2.218,
+          "endSec": 7.662,
+          "text": "至此你的 ModernWorker 已经集齐 Master 自愈监工"
+        },
+        {
+          "startSec": 7.662,
+          "endSec": 10.823,
+          "text": "两次 fork 守护化、PID 锁 CLI"
+        },
+        {
+          "startSec": 10.823,
+          "endSec": 15.459,
+          "text": "零停机热更新 reload 和 Epoll O(1) 引擎！"
+        },
+        {
+          "startSec": 15.459,
+          "endSec": 16.829,
+          "text": "下一篇第 5 篇"
+        },
+        {
+          "startSec": 16.829,
+          "endSec": 22.198,
+          "text": "我们用 PHP 8 Fiber 协程与 TLS 加密再造一次架构跃迁！"
+        }
+      ]
+    }
+  }
+}

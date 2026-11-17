@@ -1,0 +1,37 @@
+{
+  "id": "EP035",
+  "epTag": "035 / 112",
+  "title": "【铺垫】$recvBuffer 蓄水池与 while 循环切包",
+  "legoModule": "模块 3.1 · 粘包与协议插槽",
+  "outputFile": "out/EP035_铺垫_recvBuffer蓄水池与while循环切包.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-pool-idea",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "pool-idea",
+      "ttsText": "先不急着设计抽象协议类，今天用 15 行极简代码搞懂应用层蓄水池！看第 5 到 7 行模拟两次不规整的到达数据：第 1 次来了 1 条完整消息外加第 2 条的半截；第 2 次才补齐第 2 条的后半截外加第 3 条！",
+      "subtitleText": "【035/112】铺垫实验：模拟两次半包+粘包到达，如何还原成 3 条干净消息？",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-while-slice",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "while-slice",
+      "ttsText": "核心动作只有三步！第 12 行把新到的 chunk 倒进 $recvBuffer 蓄水池；第 16 行用 while 循环不断找换行符边界；每找到一个就用 substr 切出一条完整包交给业务，同时把蓄水池前段消费掉！注意：千万别用 if，必须用 while，因为一次 fread 里可能粘了十条消息！",
+      "subtitleText": "黄金三步：拼接 $recvBuffer → while 找边界切包 → substr 消费（绝不能用 if！）",
+      "fallbackDurationSec": 27.0
+    },
+    {
+      "id": "shot-03-verify-pool",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "verify-pool",
+      "ttsText": "看实测输出：第 1 轮切出 id=1 后，第 2 条那 10 字节半截安稳留在蓄水池里等下一波水；第 2 轮水一到，立刻精准拼接还原出 id=2 和 id=3，蓄水池归零！下集 EP036，我们把切包逻辑抽成万能协议插槽 ProtocolInterface！",
+      "subtitleText": "实测 10B 半包稳稳暂存，下波到达立刻拼完整！下集 EP036：ProtocolInterface 插槽",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

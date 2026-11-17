@@ -1,0 +1,102 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-static": {
+      "id": "shot-01-why-static",
+      "audioFile": "audio/ep036b/shot-01-why-static.mp3",
+      "durationSec": 24.814,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.246,
+          "text": "进入 EP037 之前，先解决两个一定会让人看懵的疑问！第一"
+        },
+        {
+          "startSec": 5.246,
+          "endSec": 12.024,
+          "text": "为什么 ProtocolInterface 的三个方法全是 static 静态方法"
+        },
+        {
+          "startSec": 12.024,
+          "endSec": 15.239,
+          "text": "而不是每个连接 new 一个协议对象？"
+        },
+        {
+          "startSec": 15.239,
+          "endSec": 19.921,
+          "text": "因为协议解析本身不存状态，如果同时连着十万个客户端"
+        },
+        {
+          "startSec": 19.921,
+          "endSec": 24.214,
+          "text": "只存一个类名字符串，就能省掉十万个对象的内存！"
+        }
+      ]
+    },
+    "shot-02-dynamic-call": {
+      "id": "shot-02-dynamic-call",
+      "audioFile": "audio/ep036b/shot-02-dynamic-call.mp3",
+      "durationSec": 18.526,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.079,
+          "text": "第二，看第 26 行的奇怪写法"
+        },
+        {
+          "startSec": 2.079,
+          "endSec": 7.976,
+          "text": "($this->protocol)::input($this->recvBuffer)！在 PHP 里"
+        },
+        {
+          "startSec": 7.976,
+          "endSec": 13.046,
+          "text": "只要变量里存着类名字符串比如 DemoLineProtocol::class"
+        },
+        {
+          "startSec": 13.046,
+          "endSec": 14.534,
+          "text": "加上括号再写双冒号"
+        },
+        {
+          "startSec": 14.534,
+          "endSec": 17.926,
+          "text": "就能像插拔显卡一样动态调用对应协议的静态方法！"
+        }
+      ]
+    },
+    "shot-03-connect-tcp": {
+      "id": "shot-03-connect-tcp",
+      "audioFile": "audio/ep036b/shot-03-connect-tcp.mp3",
+      "durationSec": 21.19,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.33,
+          "text": "顺便看看怎么接回第 2 篇的 TcpConnection"
+        },
+        {
+          "startSec": 4.33,
+          "endSec": 9.1,
+          "text": "原来 baseRead 里是直接把数据丢给 onMessage"
+        },
+        {
+          "startSec": 9.1,
+          "endSec": 11.949,
+          "text": "现在只要包上这 4 行 while 循环"
+        },
+        {
+          "startSec": 11.949,
+          "endSec": 15.855,
+          "text": "把切出来的干净整包交给 decode 解码再回调！"
+        },
+        {
+          "startSec": 15.855,
+          "endSec": 20.59,
+          "text": "下一集 EP037，立刻写正式的 TextProtocol！"
+        }
+      ]
+    }
+  }
+}

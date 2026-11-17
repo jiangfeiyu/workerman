@@ -1,0 +1,92 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-pool-borrow": {
+      "id": "shot-01-pool-borrow",
+      "audioFile": "audio/ep087/shot-01-pool-borrow.mp3",
+      "durationSec": 16.534,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.763,
+          "text": "根治串台必须写出协程安全 ConnectionPool！"
+        },
+        {
+          "startSec": 4.763,
+          "endSec": 7.889,
+          "text": "它内部维护两个 SplQueue 队列"
+        },
+        {
+          "startSec": 7.889,
+          "endSec": 11.348,
+          "text": "一个 $idle 存着闲置连接，只要池里有货"
+        },
+        {
+          "startSec": 11.348,
+          "endSec": 15.934,
+          "text": "调 borrow() 直接出队一条物理连接让你彻底独占使用！"
+        }
+      ]
+    },
+    "shot-02-waiters-suspend": {
+      "id": "shot-02-waiters-suspend",
+      "audioFile": "audio/ep087/shot-02-waiters-suspend.mp3",
+      "durationSec": 17.806,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.589,
+          "text": "万一并发飙高，池里所有连接全被借光了怎么办？"
+        },
+        {
+          "startSec": 3.589,
+          "endSec": 6.228,
+          "text": "千万别像传统连接池那样立刻报错！"
+        },
+        {
+          "startSec": 6.228,
+          "endSec": 12.112,
+          "text": "borrow() 把当前 Fiber::getCurrent() 塞进 $waiters 排队队列"
+        },
+        {
+          "startSec": 12.112,
+          "endSec": 17.206,
+          "text": "然后直接 return Fiber::suspend() 原地优雅睡觉等空位！"
+        }
+      ]
+    },
+    "shot-03-release-handoff": {
+      "id": "shot-03-release-handoff",
+      "audioFile": "audio/ep087/shot-03-release-handoff.mp3",
+      "durationSec": 19.534,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.932,
+          "text": "一旦上一位老哥用完调 release($conn)"
+        },
+        {
+          "startSec": 3.932,
+          "endSec": 6.569,
+          "text": "先看 $waiters 有没有人排队"
+        },
+        {
+          "startSec": 6.569,
+          "endSec": 11.183,
+          "text": "有的话不回闲池直接 resume($conn) 移交给下一位！"
+        },
+        {
+          "startSec": 11.183,
+          "endSec": 13.82,
+          "text": "实测容量设为 1 逼迫两根协程排队"
+        },
+        {
+          "startSec": 13.82,
+          "endSec": 18.934,
+          "text": "Fiber1 用完交棒 Fiber2，真正做到 100% 独占零串台！"
+        }
+      ]
+    }
+  }
+}

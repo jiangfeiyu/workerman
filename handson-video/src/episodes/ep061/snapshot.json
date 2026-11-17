@@ -1,0 +1,7 @@
+{
+    "episode": "ep61",
+    "output": [
+        "[安全降权] 当前运行 uid=501 (生产环境 root 绑低端口后立即 posix_setuid 降权为 www-data)",
+        "[SO_REUSEPORT] 独立监听 127.0.0.1:50031 => ENABLED (内核哈希分发，告别惊群!)"
+    ]
+}

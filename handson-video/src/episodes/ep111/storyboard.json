@@ -1,0 +1,29 @@
+{
+  "id": "EP111",
+  "epTag": "111 / 112",
+  "title": "压测读数指南：QPS、P99 尾延迟与“假高并发”识破",
+  "legoModule": "模块 7.2 · 上线部署与万级并发横评",
+  "outputFile": "out/EP111_压测读数指南_QPS与P99尾延迟.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-p99-tail",
+      "chapter": "第 7 篇 · 模块 7.2 上线部署与压测",
+      "visual": "p99-tail",
+      "ttsText": "写完系统去压测怎么看真实功力？别只看平均延迟被平均值骗了！如果 99% 请求只要 1 毫秒，但那 1% 最倒霉的 P99 尾延迟飙到了 800 毫秒，线上就会有成千上万用户觉得卡成幻灯片！P99 才是服务器扛压成色的试金石！",
+      "subtitleText": "【111/112】警惕平均值欺骗：必须盯紧 P99 尾延迟、报错率 Non-2xx 与 TCP 重传率！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-fake-high-qps",
+      "chapter": "第 7 篇 · 模块 7.2 上线部署与压测",
+      "visual": "fake-qps",
+      "ttsText": "还要识破三大假高并发陷阱：第一压测机连上立刻 404/500 报错，跑出十万 QPS 全是失败包；第二没调大 sysctl 与 ulimit -n 导致卡死在 1024 报错 Too many open files；第三单开 1 进程忘了设 Worker 数量白瞎 15 核 CPU！",
+      "subtitleText": "识破假高并发：先查 Socket Errors=0、ulimit -n≥10万、以及多核 CPU 是否均匀吃满！",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

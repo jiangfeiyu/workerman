@@ -1,0 +1,7 @@
+{
+    "episode": "ep78b",
+    "output": [
+        "[主线程调用 Fiber::getCurrent()] => null (不在任何协程内)",
+        "[Coroutine::spawn 内部] Fiber::getCurrent() 精准抓到自身对象 id=2 (与返回值同对象=true)"
+    ]
+}

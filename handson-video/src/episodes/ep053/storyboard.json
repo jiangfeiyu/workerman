@@ -1,0 +1,29 @@
+{
+  "id": "EP053",
+  "epTag": "053 / 112",
+  "title": "服务端推送 encode：什么时候不加 Mask",
+  "legoModule": "模块 3.3 · 手写 WebSocket 协议",
+  "outputFile": "out/EP053_服务端推送encode_什么时候不加Mask.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-server-nomask",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "server-nomask",
+      "ttsText": "写 WebsocketProtocol::encode() 前先记死一条铁律：浏览器发服务端必须加 Mask，而服务端推给浏览器绝对不能加 Mask！第 2 字节最高位必须保持 0！如果服务端手滑加上了掩码，Chrome 和 Firefox 收到后会直接报错并当场断开连接！",
+      "subtitleText": "【053/112】RFC 6455 铁律：Client→Server 必加 Mask；Server→Client 绝对不加 Mask (MASK=0)！",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-encode-impl",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "encode-impl",
+      "ttsText": "所以 encode() 写法比 decode() 更清爽！第 1 字节固定 chr(0x81) 表示完整文本帧；接着按 $payload 长度走三档分支：125 以内直接拼 chr($len)，65535 以内拼 chr(126) . pack('n', $len)，超大包拼 chr(127) . pack('J', $len)，最后原封不动拼接正文直接推送！",
+      "subtitleText": "encode() = chr(0x81) . 阶梯长度(≤125 / 126+pack('n') / 127+pack('J')) . 原文 $payload！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

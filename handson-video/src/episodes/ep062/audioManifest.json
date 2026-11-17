@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-ssh-close": {
+      "id": "shot-01-ssh-close",
+      "audioFile": "audio/ep062/shot-01-ssh-close.mp3",
+      "durationSec": 18.838,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.592,
+          "text": "模块 4.2 解决生产部署第一痛点！"
+        },
+        {
+          "startSec": 3.592,
+          "endSec": 10.9,
+          "text": "很多人兴冲冲登录服务器跑一句 php server.php & 以为后台稳了"
+        },
+        {
+          "startSec": 10.9,
+          "endSec": 15.881,
+          "text": "结果笔记本一合、SSH 终端一关，服务当场蒸发！"
+        },
+        {
+          "startSec": 15.881,
+          "endSec": 18.238,
+          "text": "后台挂着为啥还会死？"
+        }
+      ]
+    },
+    "shot-02-sighup-kill": {
+      "id": "shot-02-sighup-kill",
+      "audioFile": "audio/ep062/shot-02-sighup-kill.mp3",
+      "durationSec": 25.51,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.686,
+          "text": "真凶叫控制终端会话连坐！"
+        },
+        {
+          "startSec": 2.686,
+          "endSec": 7.78,
+          "text": "凡是从某个 SSH 会话里启动的进程，不管有没有加 &"
+        },
+        {
+          "startSec": 7.78,
+          "endSec": 12.282,
+          "text": "全挂在同一个会话领头羊下面！SSH 断开瞬间"
+        },
+        {
+          "startSec": 12.282,
+          "endSec": 17.297,
+          "text": "操作系统直接给整组进程发送 SIGHUP 挂断信号！"
+        },
+        {
+          "startSec": 17.297,
+          "endSec": 24.91,
+          "text": "实测收到 SIGHUP(1) 后子进程 signaled=true 当场全军覆没！"
+        }
+      ]
+    }
+  }
+}

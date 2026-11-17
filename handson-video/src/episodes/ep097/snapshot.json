@@ -1,0 +1,7 @@
+{
+    "episode": "ep97",
+    "output": [
+        "[单层 Worker reload] 100,000 连接日发版 3 次 => 累计掉线重连风暴=300,000 次",
+        "[双层分离架构] Gateway 保活不变 + BusinessWorker 热重启 => 客户断线数=0 (雪崩归零!)"
+    ]
+}

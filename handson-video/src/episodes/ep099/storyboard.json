@@ -1,0 +1,29 @@
+{
+  "id": "EP099",
+  "epTag": "099 / 112",
+  "title": "业务热更新零断线实测：杀掉 BusinessWorker 用户纹丝不动！",
+  "legoModule": "模块 6.2 · 分布式 ModernGateway 集群",
+  "outputFile": "out/EP099_业务热更新零断线实测.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-kill-biz",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "kill-biz",
+      "ttsText": "把刚才的双进程模型拉出来做一次残酷实测！用户客户端跟 Gateway 已经连好长连接并保持住，现在我们直接把后端 BusinessWorker v1 杀掉重启升级成 v2.0 代码！",
+      "subtitleText": "【099/112】零断线实测：用户稳稳连在 Gateway 上，当场杀掉重构 BusinessWorker v1→v2！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-zero-drop",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "zero-drop",
+      "ttsText": "看终端实测输出：BusinessWorker 从 v1 重启为 v2 并连回 Gateway 之后，用户端的 TCP 连接断开次数等于 0，连接状态 alive=true！紧接着新业务直接推送欢迎消息，用户当场收到，实现了真正意义上的发版零断线！",
+      "subtitleText": "实测输出：断开次数=0 (alive=true)，v2 新业务代码重启后毫秒级恢复精准推送！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

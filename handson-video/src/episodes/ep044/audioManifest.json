@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-readonly-req": {
+      "id": "shot-01-readonly-req",
+      "audioFile": "audio/ep044/shot-01-readonly-req.mp3",
+      "durationSec": 21.454,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.169,
+          "text": "现在来写 HttpProtocol::decode() 与 Request 对象！"
+        },
+        {
+          "startSec": 5.169,
+          "endSec": 9.91,
+          "text": "用 PHP 8.2 的 readonly class 定义 Request"
+        },
+        {
+          "startSec": 9.91,
+          "endSec": 15.277,
+          "text": "保证请求到达业务层后不可被篡改：包含 method、path、query"
+        },
+        {
+          "startSec": 15.277,
+          "endSec": 17.335,
+          "text": "headers 和 body"
+        },
+        {
+          "startSec": 17.335,
+          "endSec": 20.854,
+          "text": "并把所有 Header 键名统一转小写方便读取！"
+        }
+      ]
+    },
+    "shot-02-decode-parse": {
+      "id": "shot-02-decode-parse",
+      "audioFile": "audio/ep044/shot-02-decode-parse.mp3",
+      "durationSec": 24.046,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.009,
+          "text": "decode() 只需按 \\r\\n\\r\\n 一刀切开头部和 Body"
+        },
+        {
+          "startSec": 5.009,
+          "endSec": 8.144,
+          "text": "首行用空格拆出 Method 和 URI"
+        },
+        {
+          "startSec": 8.144,
+          "endSec": 13.613,
+          "text": "再用 parse_url 和 parse_str 拆出路径与 Query 参数"
+        },
+        {
+          "startSec": 13.613,
+          "endSec": 17.515,
+          "text": "循环遍历剩余行按冒号拆进 headers 数组！"
+        },
+        {
+          "startSec": 17.515,
+          "endSec": 23.446,
+          "text": "实测 POST /api/login?from=web 全部字段精准拆出！"
+        }
+      ]
+    }
+  }
+}

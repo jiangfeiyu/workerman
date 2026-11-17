@@ -1,0 +1,7 @@
+{
+    "episode": "ep18",
+    "serverOutput": [
+        "[WorkerV01] 最小封装启动 tcp:\/\/127.0.0.1:19018"
+    ],
+    "reply": "WorkerV01 Echo: hello worker"
+}

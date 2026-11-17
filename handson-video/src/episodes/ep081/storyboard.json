@@ -1,0 +1,29 @@
+{
+  "id": "EP081",
+  "epTag": "081 / 112",
+  "title": "【铺垫】STREAM_CLIENT_ASYNC_CONNECT：非阻塞异步建连",
+  "legoModule": "模块 5.1 · Fiber 协程调度器",
+  "outputFile": "out/EP081_铺垫_STREAM_CLIENT_ASYNC_CONNECT异步建连.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-sync-connect-block",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "sync-block",
+      "ttsText": "事件循环里连上游 Redis 或 MySQL 最怕什么？默认的 stream_socket_client() 是阻塞发起 TCP 三次握手的！万一上游网络抖动卡一两秒，整个进程就原地卡死了！",
+      "subtitleText": "【081/112】铺垫：普通 stream_socket_client 会阻塞等三次握手，网络抖动即卡死整条进程！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-async-connect-flag",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "async-flag",
+      "ttsText": "救星是在 flags 参数加上 STREAM_CLIENT_ASYNC_CONNECT！一毫秒发出 SYN 包立刻返回非阻塞句柄！那怎么知道三次握手到底成功没？只需用事件循环监听这个 Socket 的【可写事件】，一变为可写立刻校验对端地址拿到 127.0.0.1:62191，完美连上！",
+      "subtitleText": "加上 STREAM_CLIENT_ASYNC_CONNECT 立刻返回，监听可写事件即代表握手完成！",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

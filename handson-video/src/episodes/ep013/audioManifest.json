@@ -1,0 +1,124 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-heap": {
+      "id": "shot-01-why-heap",
+      "audioFile": "audio/ep013/shot-01-why-heap.mp3",
+      "durationSec": 23.83,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.585,
+          "text": "如果系统里有十万个定时器"
+        },
+        {
+          "startSec": 2.585,
+          "endSec": 7.269,
+          "text": "每次循环都拿数组从头到尾找最小值，性能直接崩溃"
+        },
+        {
+          "startSec": 7.269,
+          "endSec": 10.367,
+          "text": "我们需要一种叫最小堆的数据结构"
+        },
+        {
+          "startSec": 10.367,
+          "endSec": 13.575,
+          "text": "永远把最快到期的闹钟顶在最上面！"
+        },
+        {
+          "startSec": 13.575,
+          "endSec": 18.332,
+          "text": "PHP 标准库自带 SplPriorityQueue"
+        },
+        {
+          "startSec": 18.332,
+          "endSec": 23.23,
+          "text": "不用自己手搓二叉树，但新手直接用一定会踩一个大坑！"
+        }
+      ]
+    },
+    "shot-02-max-heap-trap": {
+      "id": "shot-02-max-heap-trap",
+      "audioFile": "audio/ep013/shot-02-max-heap-trap.mp3",
+      "durationSec": 20.302,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.112,
+          "text": "看第 5 到第 9 行！我们依次插入 0.5 秒"
+        },
+        {
+          "startSec": 4.112,
+          "endSec": 10.07,
+          "text": "0.1 秒和 1.0 秒后响的闹钟。结果打印队头 top() 一看"
+        },
+        {
+          "startSec": 10.07,
+          "endSec": 13.585,
+          "text": "1.0 秒后响的竟然排在最前面！"
+        },
+        {
+          "startSec": 13.585,
+          "endSec": 19.702,
+          "text": "因为 PHP 的优先队列默认是大顶堆，数字越大优先级越高！"
+        }
+      ]
+    },
+    "shot-03-negate-trick": {
+      "id": "shot-03-negate-trick",
+      "audioFile": "audio/ep013/shot-03-negate-trick.mp3",
+      "durationSec": 22.318,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.402,
+          "text": "破解方法绝妙无比，只需加一个负号！看第 12 到 15 行"
+        },
+        {
+          "startSec": 5.402,
+          "endSec": 10.684,
+          "text": "插入权重时统一传入负的时间戳 -$triggerAt！"
+        },
+        {
+          "startSec": 10.684,
+          "endSec": 15.646,
+          "text": "在负数世界里，负 0.1 大于负 0.5 大于负 1.0"
+        },
+        {
+          "startSec": 15.646,
+          "endSec": 20.008,
+          "text": "所以最早到期的 0.1 秒瞬间翻身变成最大值"
+        },
+        {
+          "startSec": 20.008,
+          "endSec": 21.718,
+          "text": "稳稳坐上堆顶！"
+        }
+      ]
+    },
+    "shot-04-verify-order": {
+      "id": "shot-04-verify-order",
+      "audioFile": "audio/ep013/shot-04-verify-order.mp3",
+      "durationSec": 16.87,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.101,
+          "text": "看终端输出，出队顺序变成了完美的 0.1 秒、0.5 秒、1.0 秒！"
+        },
+        {
+          "startSec": 6.101,
+          "endSec": 9.805,
+          "text": "下一集 EP014，我们先做一道过渡题"
+        },
+        {
+          "startSec": 9.805,
+          "endSec": 16.27,
+          "text": "用简单的数组闹钟推导出 stream_select 的精确睡眠时间公式！"
+        }
+      ]
+    }
+  }
+}

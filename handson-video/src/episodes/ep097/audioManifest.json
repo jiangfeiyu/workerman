@@ -1,0 +1,92 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-monolith-pain": {
+      "id": "shot-01-monolith-pain",
+      "audioFile": "audio/ep097/shot-01-monolith-pain.mp3",
+      "durationSec": 16.846,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.736,
+          "text": "进入第 6 篇重头戏 ModernGateway！"
+        },
+        {
+          "startSec": 3.736,
+          "endSec": 8.128,
+          "text": "前 5 篇我们写的单机 Worker 虽然能优雅 reload"
+        },
+        {
+          "startSec": 8.128,
+          "endSec": 9.518,
+          "text": "但有个架构死结"
+        },
+        {
+          "startSec": 9.518,
+          "endSec": 16.246,
+          "text": "客户端十万条 WebSocket 长连接和业务逻辑代码全混在同一个 Worker 进程里！"
+        }
+      ]
+    },
+    "shot-02-reconnect-storm": {
+      "id": "shot-02-reconnect-storm",
+      "audioFile": "audio/ep097/shot-02-reconnect-storm.mp3",
+      "durationSec": 19.75,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.8,
+          "text": "只要运营一天改三次活动接口执行三次 reload"
+        },
+        {
+          "startSec": 4.8,
+          "endSec": 9.484,
+          "text": "这十万个老 Worker 进程就必须轮番退出重启！"
+        },
+        {
+          "startSec": 9.484,
+          "endSec": 12.939,
+          "text": "海量手机用户在同一秒钟集体掉线重连"
+        },
+        {
+          "startSec": 12.939,
+          "endSec": 15.588,
+          "text": "同时打爆登录鉴权和数据库"
+        },
+        {
+          "startSec": 15.588,
+          "endSec": 19.15,
+          "text": "这就是大厂闻风丧胆的断线重连雪崩！"
+        }
+      ]
+    },
+    "shot-03-split-cure": {
+      "id": "shot-03-split-cure",
+      "audioFile": "audio/ep097/shot-03-split-cure.mp3",
+      "durationSec": 19.654,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.399,
+          "text": "解法就是把一层拆成两层"
+        },
+        {
+          "startSec": 2.399,
+          "endSec": 7.928,
+          "text": "前排 Gateway 接入层只做极简 Socket 收发永远不升级"
+        },
+        {
+          "startSec": 7.928,
+          "endSec": 14.158,
+          "text": "一年不重启；后排 BusinessWorker 业务层纯无状态跑业务"
+        },
+        {
+          "startSec": 14.158,
+          "endSec": 19.054,
+          "text": "随时随地杀掉热重启，前排客户长连接连一根都不会断！"
+        }
+      ]
+    }
+  }
+}

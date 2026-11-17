@@ -1,0 +1,37 @@
+{
+  "id": "EP009B",
+  "epTag": "009B · 加餐过渡",
+  "title": "10行代码塞爆写缓冲区！看懂发件柜",
+  "legoModule": "模块 1.2 · SelectLoop（过渡）",
+  "outputFile": "out/EP009B_加餐过渡_10行代码塞满内核写缓冲区.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-inbox-vs-outbox",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "inbox-vs-outbox",
+      "ttsText": "看 EP010 的 onWritable 之前，先用 1 分钟彻底搞懂什么叫内核写缓冲区！把每个 Socket 想象成两个柜子：读缓冲是“收件箱”，平时空的，对面寄包裹来才响铃；而写缓冲是你本地的“发件暂存柜”，fwrite 只是把包裹塞进这个柜子，再由网卡慢慢往外运！",
+      "subtitleText": "【009B/加餐过渡】读缓冲=收件箱（平时空），写缓冲=发件暂存柜（平时一直有空位！）",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-fill-buffer",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "fill-buffer",
+      "ttsText": "眼见为实！看第 5 到 20 行：我们建一对无阻塞管道，故意不让收件端 $r 取包裹，拿发件端 $w 循环每次 fwrite 塞 4KB！运行结果出来了：前两次一共塞进 8192 字节，第 3 次 fwrite 直接返回 0——发件柜被彻底塞满了！",
+      "subtitleText": "实测：不读走数据，连写两次共 8192 字节后发件柜爆满，第 3 次 fwrite 返回 0！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-03-drain-and-why",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "drain-and-why",
+      "ttsText": "看第 23 行！只要收件端读走 8KB 腾出空位，再次 fwrite 立刻成功塞入 4096 字节！现在你就彻底明白 EP010 的两个秘密了：第一，只有发件柜塞满卡住时，才需要挂 onWritable 等空位通知；第二，因为平时发件柜几乎永远有空位，只要你挂着监听不摘掉，它就会不停疯狂响铃！",
+      "subtitleText": "腾出空位立刻恢复写入！理解“发件柜有空位=可写”，下一集 EP010 秒懂死循环陷阱！",
+      "fallbackDurationSec": 29.0
+    }
+  ]
+}

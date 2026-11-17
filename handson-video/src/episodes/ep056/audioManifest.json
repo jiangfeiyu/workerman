@@ -1,0 +1,75 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-cow-read": {
+      "id": "shot-01-cow-read",
+      "audioFile": "audio/ep056/shot-01-cow-read.mp3",
+      "durationSec": 17.398,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.569,
+          "text": "很多人写多进程踩的第一个逻辑大坑就是以为变量能共享！"
+        },
+        {
+          "startSec": 4.569,
+          "endSec": 6.354,
+          "text": "刚 fork 完那一刻"
+        },
+        {
+          "startSec": 6.354,
+          "endSec": 9.462,
+          "text": "父子进程确实只读共享同一份物理内存"
+        },
+        {
+          "startSec": 9.462,
+          "endSec": 12.735,
+          "text": "叫 Copy-On-Write 写时复制"
+        },
+        {
+          "startSec": 12.735,
+          "endSec": 16.798,
+          "text": "所以 fork 100 个 Worker 才极度省内存！"
+        }
+      ]
+    },
+    "shot-02-cow-write": {
+      "id": "shot-02-cow-write",
+      "audioFile": "audio/ep056/shot-02-cow-write.mp3",
+      "durationSec": 27.142,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.445,
+          "text": "但只要子进程写一句 $counter += 50"
+        },
+        {
+          "startSec": 4.445,
+          "endSec": 7.84,
+          "text": "Linux 内核瞬间触发缺页中断"
+        },
+        {
+          "startSec": 7.84,
+          "endSec": 12.771,
+          "text": "当场给子进程单独复制出一页全新物理内存再修改！"
+        },
+        {
+          "startSec": 12.771,
+          "endSec": 17.176,
+          "text": "所以实测子进程里 $counter 变成 150"
+        },
+        {
+          "startSec": 17.176,
+          "endSec": 21.379,
+          "text": "父进程同步查看依然死死停在 100！记住"
+        },
+        {
+          "startSec": 21.379,
+          "endSec": 26.542,
+          "text": "多进程内存彻底隔离，想互通数据必须走 IPC 通信！"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "episode": "ep82",
+    "output": [
+        "[onConnect] 可写就绪 → 摘掉 onWritable 并发送 PING",
+        "[onMessage] 收到上游回包 => PONG:hello-async"
+    ]
+}

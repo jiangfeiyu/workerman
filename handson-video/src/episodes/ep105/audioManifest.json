@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-uid": {
+      "id": "shot-01-why-uid",
+      "audioFile": "audio/ep105/shot-01-why-uid.mp3",
+      "durationSec": 21.886,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.822,
+          "text": "业务开发最想要什么 API？"
+        },
+        {
+          "startSec": 2.822,
+          "endSec": 7.421,
+          "text": "不是每次去记二十位十六进制的 client_id"
+        },
+        {
+          "startSec": 7.421,
+          "endSec": 12.909,
+          "text": "而是直接按自己的数据库用户主键比如 uid_888 发消息！"
+        },
+        {
+          "startSec": 12.909,
+          "endSec": 18.474,
+          "text": "而且手机用户切 4G Wi-Fi 重连后 client_id 会变"
+        },
+        {
+          "startSec": 18.474,
+          "endSec": 21.286,
+          "text": "但他的用户 UID 永远不变！"
+        }
+      ]
+    },
+    "shot-02-bind-send": {
+      "id": "shot-02-bind-send",
+      "audioFile": "audio/ep105/shot-02-bind-send.mp3",
+      "durationSec": 25.534,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.799,
+          "text": "登录鉴权通过后立刻调 Gateway::bindUid($cid, 'uid_888')"
+        },
+        {
+          "startSec": 6.799,
+          "endSec": 13.66,
+          "text": "Gateway 本地或共享存储立刻把 uid 映射到所有在线设备的 client_id！"
+        },
+        {
+          "startSec": 13.66,
+          "endSec": 21.269,
+          "text": "以后任何地方发通知只需一行 Gateway::sendToUid('uid_888', $msg)"
+        },
+        {
+          "startSec": 21.269,
+          "endSec": 24.934,
+          "text": "哪怕用户手机电脑多端在线也全部同秒收到！"
+        }
+      ]
+    }
+  }
+}

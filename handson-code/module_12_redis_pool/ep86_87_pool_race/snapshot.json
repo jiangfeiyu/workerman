@@ -1,0 +1,7 @@
+{
+    "episode": "ep86_87_pool",
+    "output": [
+        "[EP086 · 共用单连接串台灾难] Fiber B 要查 B，结果错拿成 Fiber A 的响应: RES_FOR_A (线上数据大乱套!)",
+        "[EP087 · ConnectionPool 隔离实测] Fiber1 独占 Conn#1 -> Fiber2 接力独占 Conn#1 (0 串台!)"
+    ]
+}

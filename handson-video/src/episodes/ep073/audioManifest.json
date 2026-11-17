@@ -1,0 +1,92 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-rbtree": {
+      "id": "shot-01-rbtree",
+      "audioFile": "audio/ep073/shot-01-rbtree.mp3",
+      "durationSec": 27.502,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 10.193,
+          "text": "为什么 Linux epoll 和 macOS kqueue 面对一万甚至十万条并发连接还能稳如泰山 O(1)？"
+        },
+        {
+          "startSec": 10.193,
+          "endSec": 14.584,
+          "text": "靠的是内核里两件神器配合！第一件叫红黑树"
+        },
+        {
+          "startSec": 14.584,
+          "endSec": 18.573,
+          "text": "新连接刚连上时调一次 epoll_ctl"
+        },
+        {
+          "startSec": 18.573,
+          "endSec": 23.972,
+          "text": "把 FD 注册进内核红黑树里常驻！之后哪怕循环跑十万轮"
+        },
+        {
+          "startSec": 23.972,
+          "endSec": 26.902,
+          "text": "也不用再重复拷贝连接列表！"
+        }
+      ]
+    },
+    "shot-02-rdlist": {
+      "id": "shot-02-rdlist",
+      "audioFile": "audio/ep073/shot-02-rdlist.mp3",
+      "durationSec": 15.118,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.156,
+          "text": "第二件神器叫双向就绪链表 rdlist！"
+        },
+        {
+          "startSec": 4.156,
+          "endSec": 9.362,
+          "text": "当网卡收到某 1 个客户端发来的数据包触发硬件中断时"
+        },
+        {
+          "startSec": 9.362,
+          "endSec": 14.518,
+          "text": "内核驱动顺手把那个活跃的 FD 精准放进就绪链表里！"
+        }
+      ]
+    },
+    "shot-03-o1-wait": {
+      "id": "shot-03-o1-wait",
+      "audioFile": "audio/ep073/shot-03-o1-wait.mp3",
+      "durationSec": 19.774,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.589,
+          "text": "所以你调 epoll_wait() 等事件时"
+        },
+        {
+          "startSec": 3.589,
+          "endSec": 7.516,
+          "text": "内核压根不用扫描那一万条睡着的空闲连接"
+        },
+        {
+          "startSec": 7.516,
+          "endSec": 12.5,
+          "text": "直接把就绪链表里那几个热乎乎的活跃事件端出来给你！"
+        },
+        {
+          "startSec": 12.5,
+          "endSec": 17.182,
+          "text": "复杂度只跟活跃连接数有关，和总连接数 N 完全无关"
+        },
+        {
+          "startSec": 17.182,
+          "endSec": 19.174,
+          "text": "这就是真 O(1)！"
+        }
+      ]
+    }
+  }
+}

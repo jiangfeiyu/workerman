@@ -1,0 +1,9 @@
+{
+    "episode": "ep16",
+    "output": [
+        "[repeat 第1次] +65ms",
+        "[repeat 第2次] +130ms",
+        "[repeat 第3次] +194ms",
+        "[cancelRepeat] 达到 3 次，停止续订！"
+    ]
+}

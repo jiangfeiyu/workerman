@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-room-group": {
+      "id": "shot-01-room-group",
+      "audioFile": "audio/ep108/shot-01-room-group.mp3",
+      "durationSec": 21.238,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.757,
+          "text": "直播平台同一时刻有上万个直播间"
+        },
+        {
+          "startSec": 2.757,
+          "endSec": 5.409,
+          "text": "A 房间的弹幕绝不能飘进 B 房间！"
+        },
+        {
+          "startSec": 5.409,
+          "endSec": 12.168,
+          "text": "我们在 Gateway 侧维护房间群组哈希表 [roomId => clientIds]"
+        },
+        {
+          "startSec": 12.168,
+          "endSec": 18.118,
+          "text": "观众进房调 joinGroup($cid, 'room:live-101')"
+        },
+        {
+          "startSec": 18.118,
+          "endSec": 20.638,
+          "text": "断开连接自动退房防内存泄漏！"
+        }
+      ]
+    },
+    "shot-02-group-push": {
+      "id": "shot-02-group-push",
+      "audioFile": "audio/ep108/shot-02-group-push.mp3",
+      "durationSec": 21.238,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.803,
+          "text": "发弹幕时调用 sendToGroup('room:live-101', $payload)"
+        },
+        {
+          "startSec": 6.803,
+          "endSec": 9.552,
+          "text": "只精准投递给本直播间里的 3 名观众"
+        },
+        {
+          "startSec": 9.552,
+          "endSec": 13.32,
+          "text": "顺手用 array_sum 实时算出全服总在线 4 人！"
+        },
+        {
+          "startSec": 13.32,
+          "endSec": 19.466,
+          "text": "而且弹幕广播天然在 Gateway 内完成一次 WebSocket 编码即可复用写出"
+        },
+        {
+          "startSec": 19.466,
+          "endSec": 20.638,
+          "text": "极省 CPU！"
+        }
+      ]
+    }
+  }
+}

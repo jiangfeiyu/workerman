@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-setuid": {
+      "id": "shot-01-setuid",
+      "audioFile": "audio/ep061/shot-01-setuid.mp3",
+      "durationSec": 26.494,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.969,
+          "text": "模块 4.1 最后两块安全与性能拼图！第一块是安全降权"
+        },
+        {
+          "startSec": 4.969,
+          "endSec": 10.266,
+          "text": "Worker 监听 80 或 443 端口时往往需要 root 启动"
+        },
+        {
+          "startSec": 10.266,
+          "endSec": 14.754,
+          "text": "但真用 root 跑业务代码一旦被注入就全盘沦陷！"
+        },
+        {
+          "startSec": 14.754,
+          "endSec": 17.329,
+          "text": "所以 Master 绑定端口后"
+        },
+        {
+          "startSec": 17.329,
+          "endSec": 25.894,
+          "text": "fork 出 Worker 立刻调 posix_setuid() 把子进程降权成普通用户 www-data！"
+        }
+      ]
+    },
+    "shot-02-reuseport": {
+      "id": "shot-02-reuseport",
+      "audioFile": "audio/ep061/shot-02-reuseport.mp3",
+      "durationSec": 23.278,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.388,
+          "text": "第二块是治惊群的 SO_REUSEPORT！开启这个内核选项后"
+        },
+        {
+          "startSec": 5.388,
+          "endSec": 8.826,
+          "text": "每个 Worker 都能独立监听同一端口"
+        },
+        {
+          "startSec": 8.826,
+          "endSec": 15.737,
+          "text": "Linux 内核直接在底层按四元组哈希把新连接精准投递给其中某 1 个 Worker"
+        },
+        {
+          "startSec": 15.737,
+          "endSec": 17.89,
+          "text": "再也不会全员惊醒抢单！"
+        },
+        {
+          "startSec": 17.89,
+          "endSec": 22.678,
+          "text": "实测 macOS 和 Linux 均原生支持 ENABLED！"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-slowloris": {
+      "id": "shot-01-slowloris",
+      "audioFile": "audio/ep091/shot-01-slowloris.mp3",
+      "durationSec": 20.71,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.489,
+          "text": "上线公网必须防一种极阴险的零成本 DDoS"
+        },
+        {
+          "startSec": 4.489,
+          "endSec": 7.836,
+          "text": "Slowloris 慢连接攻击！"
+        },
+        {
+          "startSec": 7.836,
+          "endSec": 12.489,
+          "text": "黑客连上来每隔 10 秒只发 1 个字节 HTTP 头"
+        },
+        {
+          "startSec": 12.489,
+          "endSec": 15.101,
+          "text": "永远不发结束的双换行符"
+        },
+        {
+          "startSec": 15.101,
+          "endSec": 20.11,
+          "text": "用几千个廉价连接把你的服务文件描述符活活耗尽！"
+        }
+      ]
+    },
+    "shot-02-header-timeout": {
+      "id": "shot-02-header-timeout",
+      "audioFile": "audio/ep091/shot-02-header-timeout.mp3",
+      "durationSec": 18.094,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.173,
+          "text": "防御代码只需给连接加上建连时间戳与包头超时 Timer！"
+        },
+        {
+          "startSec": 5.173,
+          "endSec": 9.294,
+          "text": "设定 $headerTimeout = 5.0 秒"
+        },
+        {
+          "startSec": 9.294,
+          "endSec": 13.957,
+          "text": "一旦超时检查发现既没完成首包解析、又超过 5 秒上限"
+        },
+        {
+          "startSec": 13.957,
+          "endSec": 17.494,
+          "text": "直接 destroy() 强踢释放 FD 资源！"
+        }
+      ]
+    }
+  }
+}

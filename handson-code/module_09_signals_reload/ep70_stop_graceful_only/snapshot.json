@@ -1,0 +1,7 @@
+{
+    "episode": "ep70",
+    "output": [
+        "[Master\/Worker 收到 stop -g] $isStopping=true (锁死自愈开关) + offReadable 停止接新客",
+        "[Worker] 待发队列已排空 (pending=0) → 调用 $loop->stop() 安全退场!"
+    ]
+}

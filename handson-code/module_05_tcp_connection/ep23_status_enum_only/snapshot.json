@@ -1,0 +1,10 @@
+{
+    "episode": "ep23",
+    "output": [
+        "[状态初始化] 异步拨号阶段: connecting",
+        "[握手完成] 进入可收发状态: established",
+        "[进入 Closing] 尝试 send() 被状态守卫拦截: allowed=false",
+        "[执行销毁] 状态切换为 closed (第 1 次清理)",
+        "[幂等拦截] 当前已是 closed，忽略重复 destroy()"
+    ]
+}

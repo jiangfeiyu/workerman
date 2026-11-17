@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-cluster-flow": {
+      "id": "shot-01-cluster-flow",
+      "audioFile": "audio/ep106/shot-01-cluster-flow.mp3",
+      "durationSec": 24.718,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.831,
+          "text": "第 6 篇终极合拢检验！三层架构一次跑通"
+        },
+        {
+          "startSec": 3.831,
+          "endSec": 11.451,
+          "text": "Register 注册中心登记内网网关 gw-1 (127.0.0.1:2901)"
+        },
+        {
+          "startSec": 11.451,
+          "endSec": 15.625,
+          "text": "用户 TCP 接入 Gateway 拿到全局坐标"
+        },
+        {
+          "startSec": 15.625,
+          "endSec": 21.522,
+          "text": "后端 BusinessWorker 经历 v1 到 v2 杀进程热更新"
+        },
+        {
+          "startSec": 21.522,
+          "endSec": 24.118,
+          "text": "前端断线次数依然等于 0！"
+        }
+      ]
+    },
+    "shot-02-part6-recap": {
+      "id": "shot-02-part6-recap",
+      "audioFile": "audio/ep106/shot-02-part6-recap.mp3",
+      "durationSec": 26.182,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.427,
+          "text": "最终通过 sendToUid('uid_888') 精确路由"
+        },
+        {
+          "startSec": 5.427,
+          "endSec": 11.973,
+          "text": "用户屏幕瞬间弹出 v2.0 热更新后推送: Welcome uid_888! 至此"
+        },
+        {
+          "startSec": 11.973,
+          "endSec": 18.407,
+          "text": "ModernGateway 集群引擎已经具备支撑百万在线的横扩能力！"
+        },
+        {
+          "startSec": 18.407,
+          "endSec": 20.988,
+          "text": "下一篇也是最后一篇第 7 篇"
+        },
+        {
+          "startSec": 20.988,
+          "endSec": 25.582,
+          "text": "我们拿这套全栈亲手撸出一个高并发实时弹幕系统！"
+        }
+      ]
+    }
+  }
+}

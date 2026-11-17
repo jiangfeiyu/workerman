@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-server-nomask": {
+      "id": "shot-01-server-nomask",
+      "audioFile": "audio/ep053/shot-01-server-nomask.mp3",
+      "durationSec": 21.79,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.608,
+          "text": "写 WebsocketProtocol::encode() 前先记死一条铁律"
+        },
+        {
+          "startSec": 5.608,
+          "endSec": 8.211,
+          "text": "浏览器发服务端必须加 Mask"
+        },
+        {
+          "startSec": 8.211,
+          "endSec": 11.572,
+          "text": "而服务端推给浏览器绝对不能加 Mask！"
+        },
+        {
+          "startSec": 11.572,
+          "endSec": 15.987,
+          "text": "第 2 字节最高位必须保持 0！如果服务端手滑加上了掩码"
+        },
+        {
+          "startSec": 15.987,
+          "endSec": 21.19,
+          "text": "Chrome 和 Firefox 收到后会直接报错并当场断开连接！"
+        }
+      ]
+    },
+    "shot-02-encode-impl": {
+      "id": "shot-02-encode-impl",
+      "audioFile": "audio/ep053/shot-02-encode-impl.mp3",
+      "durationSec": 32.398,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.515,
+          "text": "所以 encode() 写法比 decode() 更清爽！"
+        },
+        {
+          "startSec": 4.515,
+          "endSec": 9.27,
+          "text": "第 1 字节固定 chr(0x81) 表示完整文本帧"
+        },
+        {
+          "startSec": 9.27,
+          "endSec": 13.026,
+          "text": "接着按 $payload 长度走三档分支"
+        },
+        {
+          "startSec": 13.026,
+          "endSec": 16.582,
+          "text": "125 以内直接拼 chr($len)"
+        },
+        {
+          "startSec": 16.582,
+          "endSec": 22.936,
+          "text": "65535 以内拼 chr(126) . pack('n', $len)"
+        },
+        {
+          "startSec": 22.936,
+          "endSec": 28.49,
+          "text": "超大包拼 chr(127) . pack('J', $len)"
+        },
+        {
+          "startSec": 28.49,
+          "endSec": 31.798,
+          "text": "最后原封不动拼接正文直接推送！"
+        }
+      ]
+    }
+  }
+}

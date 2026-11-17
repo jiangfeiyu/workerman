@@ -1,0 +1,7 @@
+{
+    "episode": "ep109",
+    "output": [
+        "[Fiber + ConnectionPool RESP LPUSH] 成功落库 50 条弹幕 | 耗时=2.71ms | 串台=0",
+        "[try-finally 归还校验] 池状态 idle=2, inUse=0 (零连接泄漏!)"
+    ]
+}

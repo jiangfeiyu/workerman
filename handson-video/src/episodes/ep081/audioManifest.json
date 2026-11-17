@@ -1,0 +1,60 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-sync-connect-block": {
+      "id": "shot-01-sync-connect-block",
+      "audioFile": "audio/ep081/shot-01-sync-connect-block.mp3",
+      "durationSec": 15.718,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.423,
+          "text": "事件循环里连上游 Redis 或 MySQL 最怕什么？"
+        },
+        {
+          "startSec": 4.423,
+          "endSec": 10.705,
+          "text": "默认的 stream_socket_client() 是阻塞发起 TCP 三次握手的！"
+        },
+        {
+          "startSec": 10.705,
+          "endSec": 15.118,
+          "text": "万一上游网络抖动卡一两秒，整个进程就原地卡死了！"
+        }
+      ]
+    },
+    "shot-02-async-connect-flag": {
+      "id": "shot-02-async-connect-flag",
+      "audioFile": "audio/ep081/shot-02-async-connect-flag.mp3",
+      "durationSec": 25.846,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 7.156,
+          "text": "救星是在 flags 参数加上 STREAM_CLIENT_ASYNC_CONNECT！"
+        },
+        {
+          "startSec": 7.156,
+          "endSec": 10.84,
+          "text": "一毫秒发出 SYN 包立刻返回非阻塞句柄！"
+        },
+        {
+          "startSec": 10.84,
+          "endSec": 13.802,
+          "text": "那怎么知道三次握手到底成功没？"
+        },
+        {
+          "startSec": 13.802,
+          "endSec": 18.462,
+          "text": "只需用事件循环监听这个 Socket 的【可写事件】"
+        },
+        {
+          "startSec": 18.462,
+          "endSec": 25.246,
+          "text": "一变为可写立刻校验对端地址拿到 127.0.0.1:62191，完美连上！"
+        }
+      ]
+    }
+  }
+}

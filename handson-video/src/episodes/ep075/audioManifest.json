@@ -1,0 +1,92 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-gc-bug": {
+      "id": "shot-01-gc-bug",
+      "audioFile": "audio/ep075/shot-01-gc-bug.mp3",
+      "durationSec": 18.838,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.427,
+          "text": "写 EpollLoop 或基于 ext-event 编程时"
+        },
+        {
+          "startSec": 4.427,
+          "endSec": 7.439,
+          "text": "连资深老手都会被坑哭的诡异 Bug！"
+        },
+        {
+          "startSec": 7.439,
+          "endSec": 14.543,
+          "text": "你在 add() 函数里写了 $ev = new Event(...); $ev->add(); 然后函数返回了！"
+        },
+        {
+          "startSec": 14.543,
+          "endSec": 18.238,
+          "text": "程序一跑起来死活收不到回调，也没报任何错！"
+        }
+      ]
+    },
+    "shot-02-refcount-zero": {
+      "id": "shot-02-refcount-zero",
+      "audioFile": "audio/ep075/shot-02-refcount-zero.mp3",
+      "durationSec": 19.342,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.774,
+          "text": "实测给你抓现行！"
+        },
+        {
+          "startSec": 1.774,
+          "endSec": 6.35,
+          "text": "局部变量 $ev 离开 addUnsafe() 花括号的瞬间"
+        },
+        {
+          "startSec": 6.35,
+          "endSec": 10.372,
+          "text": "PHP 引用计数 refcount 当场跌成 0"
+        },
+        {
+          "startSec": 10.372,
+          "endSec": 16.424,
+          "text": "立刻触发对象析构函数 __destruct 销毁底层 C 扩展事件句柄"
+        },
+        {
+          "startSec": 16.424,
+          "endSec": 18.742,
+          "text": "你的回调直接人间蒸发！"
+        }
+      ]
+    },
+    "shot-03-allevents-fix": {
+      "id": "shot-03-allevents-fix",
+      "audioFile": "audio/ep075/shot-03-allevents-fix.mp3",
+      "durationSec": 22.294,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 8.264,
+          "text": "解药必须把事件对象强引用存进类的属性数组 $this->allEvents[$fd] = $ev 里保活！"
+        },
+        {
+          "startSec": 8.264,
+          "endSec": 13.83,
+          "text": "一直等到连接断开调 del($fd) 时才主动 unset 精准释放！"
+        },
+        {
+          "startSec": 13.83,
+          "endSec": 18.58,
+          "text": "实测存入后 destroyedDelta=0 稳如泰山"
+        },
+        {
+          "startSec": 18.58,
+          "endSec": 21.694,
+          "text": "del 之后才彻底回收零内存泄漏！"
+        }
+      ]
+    }
+  }
+}

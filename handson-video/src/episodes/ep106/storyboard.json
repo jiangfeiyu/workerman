@@ -1,0 +1,29 @@
+{
+  "id": "EP106",
+  "epTag": "106 / 112",
+  "title": "【合拢】多节点分布网关集群验收：第 6 篇完美收官",
+  "legoModule": "模块 6.2 · 分布式 ModernGateway 集群",
+  "outputFile": "out/EP106_合拢_分布式网关集群验收及第6篇收官.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-cluster-flow",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "cluster-flow",
+      "ttsText": "第 6 篇终极合拢检验！三层架构一次跑通：Register 注册中心登记内网网关 gw-1 (127.0.0.1:2901)，用户 TCP 接入 Gateway 拿到全局坐标，后端 BusinessWorker 经历 v1 到 v2 杀进程热更新，前端断线次数依然等于 0！",
+      "subtitleText": "【106/112】三剑客闭环验收：Register 服务发现 + Gateway 保活 + BusinessWorker 0 断线重启！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-part6-recap",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "part6-recap",
+      "ttsText": "最终通过 sendToUid('uid_888') 精确路由，用户屏幕瞬间弹出 v2.0 热更新后推送: Welcome uid_888! 至此 ModernGateway 集群引擎已经具备支撑百万在线的横扩能力！下一篇也是最后一篇第 7 篇，我们拿这套全栈亲手撸出一个高并发实时弹幕系统！",
+      "subtitleText": "第 6 篇完结 🎉：ModernGateway 分布式集群就位，最后冲刺第 7 篇实时弹幕实战！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "EP083",
+  "epTag": "083 / 112",
+  "title": "把 AsyncTcpClient 包装成协程 await() API",
+  "legoModule": "模块 5.1 · Fiber 协程调度器",
+  "outputFile": "out/EP083_把AsyncTcpClient包装成协程await.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-wrap-await",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "wrap-await",
+      "ttsText": "模块 5.1 最后一步封装：把异步回调版 AsyncTcpClient 包装成丝滑的协程 awaitRequest()！在里面先用 Fiber::getCurrent() 留好当前协程句柄，发完请求立刻 Fiber::suspend() 挂起自己让出 CPU！",
+      "subtitleText": "【083/112】awaitRequest() 发包后立刻 Fiber::suspend()，把控制权交回事件循环！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-resume-reply",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "resume-reply",
+      "ttsText": "一旦上游数据包沿着事件循环回来触发 onMessage，回调里只需调一句 $fiber->resume($reply)！实测上层代码就像写同步函数一样拿到回包 PONG:hello-fiber！异步客户端从此变成优雅协程基建！",
+      "subtitleText": "onMessage 收到回包立刻 $fiber->resume($reply)，上层直接同步拿到 PONG:hello-fiber！",
+      "fallbackDurationSec": 22.0
+    }
+  ]
+}

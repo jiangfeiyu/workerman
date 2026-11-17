@@ -1,0 +1,29 @@
+{
+  "id": "EP036",
+  "epTag": "036 / 112",
+  "title": "定义万能协议插槽：ProtocolInterface 三大契约",
+  "legoModule": "模块 3.1 · 粘包与协议插槽",
+  "outputFile": "out/EP036_定义万能协议插槽_ProtocolInterface三大契约.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-three-methods",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "three-methods",
+      "ttsText": "如果把换行符写死在 TcpConnection 里，明天换二进制、HTTP 或 WebSocket 协议怎么办？Workerman 的神级设计就在这 3 个静态方法构成的 ProtocolInterface：input() 测包长、decode() 拆包、encode() 封包！",
+      "subtitleText": "【036/112】ProtocolInterface 三大静态契约：input 测长度 / decode 解码 / encode 编码",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-input-contract",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "input-contract",
+      "ttsText": "重点看 input(string $buffer): int 的返回值约定！返回 0 代表还是半包、数据不够继续等；返回大于 0 的整数，就精确告诉连接层“从头截取多少字节正好是一完整包”！下集我们立刻实现第 1 个 TextProtocol 插进缓冲管道！",
+      "subtitleText": "input() 铁律：0 = 半包继续等，>0 = 完整包字节数｜下集 EP037：实现 TextProtocol",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

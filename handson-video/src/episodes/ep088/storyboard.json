@@ -1,0 +1,29 @@
+{
+  "id": "EP088",
+  "epTag": "088 / 112",
+  "title": "TLS 自签名证书与 stream_context_create SSL 上下文",
+  "legoModule": "模块 5.3 · TLS 加密与总装",
+  "outputFile": "out/EP088_TLS自签名证书与SSL上下文配置.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-cert-gen",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "cert-gen",
+      "ttsText": "模块 5.3 给服务器穿上防弹衣：HTTPS 与 WSS 加密！第一步开发测试用 OpenSSL 直接生成一份 2048 位 RSA 私钥和 X.509 自签名证书打包成 PEM 文件，零成本开启加密实验！",
+      "subtitleText": "【088/112】用 OpenSSL 生成 2048-bit RSA 私钥与自签名证书合成 PEM！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-ssl-context",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "ssl-context",
+      "ttsText": "第二步把证书路径塞进 stream_context_create(['ssl' => ['local_cert' => $certFile]]) 上下文里，再传给 stream_socket_server()！最神奇的是：无论是 HTTP/1.1 还是 WebSocket，业务层与协议层一行加密逻辑都不用改！",
+      "subtitleText": "给 stream_socket_server 挂上 SSL context，HTTP 与 WS 业务代码一行都不用改！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

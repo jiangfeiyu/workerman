@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-leader-fail": {
+      "id": "shot-01-leader-fail",
+      "audioFile": "audio/ep062b/shot-01-leader-fail.mp3",
+      "durationSec": 26.59,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.155,
+          "text": "进入 EP063 两次 fork 之前"
+        },
+        {
+          "startSec": 3.155,
+          "endSec": 7.382,
+          "text": "先看清一个 Linux 内核硬规定！很多同学想"
+        },
+        {
+          "startSec": 7.382,
+          "endSec": 11.053,
+          "text": "既然 posix_setsid() 能脱离终端"
+        },
+        {
+          "startSec": 11.053,
+          "endSec": 14.65,
+          "text": "那我在脚本第一行直接调用不就行了吗？"
+        },
+        {
+          "startSec": 14.65,
+          "endSec": 16.838,
+          "text": "看第 10 到 14 行实测"
+        },
+        {
+          "startSec": 16.838,
+          "endSec": 21.807,
+          "text": "终端启动的脚本本身就是进程组长，pid 等于 pgid"
+        },
+        {
+          "startSec": 21.807,
+          "endSec": 25.99,
+          "text": "直接调 setsid 当场返回负一被内核拒绝！"
+        }
+      ]
+    },
+    "shot-02-fork-unlock": {
+      "id": "shot-02-fork-unlock",
+      "audioFile": "audio/ep062b/shot-02-fork-unlock.mp3",
+      "durationSec": 24.214,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.625,
+          "text": "怎么破？只要先 fork 一次！新出生的小孩 pid 是新的"
+        },
+        {
+          "startSec": 5.625,
+          "endSec": 11.33,
+          "text": "但进程组编号 pgid 继承自老爹，所以小孩一定不是组长！"
+        },
+        {
+          "startSec": 11.33,
+          "endSec": 15.107,
+          "text": "此时小孩再调 posix_setsid()"
+        },
+        {
+          "startSec": 15.107,
+          "endSec": 19.486,
+          "text": "一举成功新建无终端会话！下一集 EP063"
+        },
+        {
+          "startSec": 19.486,
+          "endSec": 23.614,
+          "text": "再加上第 2 次 fork 甩掉会话首领资格！"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "EP086",
+  "epTag": "086 / 112",
+  "title": "【踩坑】多协程共用 1 条 Redis 连接，为什么会张冠李戴串台！",
+  "legoModule": "模块 5.2 · 协程 Redis 与连接池",
+  "outputFile": "out/EP086_踩坑_多协程共用1条连接张冠李戴串台.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-shared-trap",
+      "chapter": "第 5 篇 · 模块 5.2 协程 Redis 与连接池",
+      "visual": "shared-trap",
+      "ttsText": "协程化上线第一天最可怕的线上事故！你在 onWorkerStart 里建了一个全局单例 $redis，所有用户请求都调同一个 $redis！开发测试单用户好好的，一上生产并发当场出现 A 用户查出 B 用户余额的恐怖串台！",
+      "subtitleText": "【086/112】致命踩坑：全局单例 $redis 让多个并发协程同时往同一条 TCP 读写！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-interleave",
+      "chapter": "第 5 篇 · 模块 5.2 协程 Redis 与连接池",
+      "visual": "interleave",
+      "ttsText": "顺着时间轴慢放案发现场：协程 A 刚刚往这条 TCP 发了 GET keyA，调 Fiber::suspend() 挂起等回包；就在这几毫秒空档里，协程 B 杀进来往同一条 Socket 塞入请求并调用 fread 读取！",
+      "subtitleText": "交错时间线：Fiber A 发完请求挂起等 I/O → Fiber B 插队在同一连接上读取响应！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-03-wrong-packet",
+      "chapter": "第 5 篇 · 模块 5.2 协程 Redis 与连接池",
+      "visual": "wrong-packet",
+      "ttsText": "实测跑出来触目惊心：Fiber B 明明要查自己的数据，结果一把顺走了先回来的 RES_FOR_A！同一条有序 TCP 管子里同时飞着多根协程的包裹，回包顺序一交错必串台！必须上协程连接池！",
+      "subtitleText": "实测抓包：Fiber B 错把 RES_FOR_A 当成自己的结果！单连接绝不可多协程共享！",
+      "fallbackDurationSec": 21.0
+    }
+  ]
+}

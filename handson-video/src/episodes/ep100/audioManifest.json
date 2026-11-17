@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-cid": {
+      "id": "shot-01-why-cid",
+      "audioFile": "audio/ep100/shot-01-why-cid.mp3",
+      "durationSec": 23.95,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.56,
+          "text": "恭喜跨过第 100 集大关！"
+        },
+        {
+          "startSec": 2.56,
+          "endSec": 5.719,
+          "text": "进入集群架构后遇到一个灵魂问题"
+        },
+        {
+          "startSec": 5.719,
+          "endSec": 9.442,
+          "text": "多台机器上跑着十个 Gateway 进程"
+        },
+        {
+          "startSec": 9.442,
+          "endSec": 11.774,
+          "text": "每个进程都有 5 号 FD！"
+        },
+        {
+          "startSec": 11.774,
+          "endSec": 20.048,
+          "text": "后端 BusinessWorker 怎么靠一个字符串瞬间精准定位到“10.0.0.8 这台机器"
+        },
+        {
+          "startSec": 20.048,
+          "endSec": 23.35,
+          "text": "8282 进程里的第 42 号连接”？"
+        }
+      ]
+    },
+    "shot-02-cid-pack": {
+      "id": "shot-02-cid-pack",
+      "audioFile": "audio/ep100/shot-02-cid-pack.mp3",
+      "durationSec": 30.646,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.12,
+          "text": "Workerman 的绝妙设计是把网关内网 IP"
+        },
+        {
+          "startSec": 4.12,
+          "endSec": 9.157,
+          "text": "端口和局部 connId 直接打包成全局 client_id！"
+        },
+        {
+          "startSec": 9.157,
+          "endSec": 17.316,
+          "text": "调用 bin2hex(pack('NnN', ip2long($ip), $port, $connId))"
+        },
+        {
+          "startSec": 17.316,
+          "endSec": 23.595,
+          "text": "生成固定 20 位十六进制坐标 0a000008205a0000002a！"
+        },
+        {
+          "startSec": 23.595,
+          "endSec": 26.043,
+          "text": "不需要查 Redis 路由表"
+        },
+        {
+          "startSec": 26.043,
+          "endSec": 30.046,
+          "text": "unpack 瞬间逆向秒级定位目标机器直投！"
+        }
+      ]
+    }
+  }
+}

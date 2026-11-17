@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-std-trap": {
+      "id": "shot-01-std-trap",
+      "audioFile": "audio/ep064/shot-01-std-trap.mp3",
+      "durationSec": 23.734,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.748,
+          "text": "变成后台幽灵还差一步！"
+        },
+        {
+          "startSec": 2.748,
+          "endSec": 8.427,
+          "text": "子进程还继承着终端打开的 0 号标准输入、1 号标准输出"
+        },
+        {
+          "startSec": 8.427,
+          "endSec": 13.844,
+          "text": "2 号标准错误！万一业务代码不小心 echo 了一句"
+        },
+        {
+          "startSec": 13.844,
+          "endSec": 19.304,
+          "text": "或者终端已经关闭，直接读写无效描述符轻则报错退出"
+        },
+        {
+          "startSec": 19.304,
+          "endSec": 23.134,
+          "text": "重则占着终端无法真正断开 SSH！"
+        }
+      ]
+    },
+    "shot-02-redirect-null": {
+      "id": "shot-02-redirect-null",
+      "audioFile": "audio/ep064/shot-02-redirect-null.mp3",
+      "durationSec": 24.598,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.449,
+          "text": "标准手法极其工整：依次 fclose 掉全局的 STDIN、STDOUT"
+        },
+        {
+          "startSec": 5.449,
+          "endSec": 12.099,
+          "text": "STDERR，然后按顺序 fopen('/dev/null', 'r') 抢回 0 号坑位"
+        },
+        {
+          "startSec": 12.099,
+          "endSec": 16.617,
+          "text": "再 fopen(logFile, 'a') 抢回 1 号和 2 号！"
+        },
+        {
+          "startSec": 16.617,
+          "endSec": 19.608,
+          "text": "因为 Linux 总是分配最小空闲 FD"
+        },
+        {
+          "startSec": 19.608,
+          "endSec": 23.998,
+          "text": "今后全系统所有 echo 和异常栈都会自动落进日志文件！"
+        }
+      ]
+    }
+  }
+}

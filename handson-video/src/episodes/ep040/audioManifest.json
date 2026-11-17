@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-attack-risk": {
+      "id": "shot-01-attack-risk",
+      "audioFile": "audio/ep040/shot-01-attack-risk.mp3",
+      "durationSec": 15.07,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.817,
+          "text": "看似完美的 FrameProtocol 藏着一个安全死穴"
+        },
+        {
+          "startSec": 4.817,
+          "endSec": 7.36,
+          "text": "如果黑客连上后只发 4 个字节"
+        },
+        {
+          "startSec": 7.36,
+          "endSec": 9.56,
+          "text": "声称这包总长是 2 个 GB"
+        },
+        {
+          "startSec": 9.56,
+          "endSec": 14.47,
+          "text": "框架傻傻一直往 $recvBuffer 里攒到爆内存怎么办？"
+        }
+      ]
+    },
+    "shot-02-fuse-protect": {
+      "id": "shot-02-fuse-protect",
+      "audioFile": "audio/ep040/shot-02-fuse-protect.mp3",
+      "durationSec": 24.286,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.511,
+          "text": "看第 15 到 17 行熔断防线！"
+        },
+        {
+          "startSec": 2.511,
+          "endSec": 5.566,
+          "text": "解出 $totalLen 之后立刻校验"
+        },
+        {
+          "startSec": 5.566,
+          "endSec": 10.509,
+          "text": "小于 4 或者超过 10MB 上限 MAX_PACKAGE_SIZE"
+        },
+        {
+          "startSec": 10.509,
+          "endSec": 16.585,
+          "text": "直接抛 LengthException 让连接层当场 destroy 踢掉！"
+        },
+        {
+          "startSec": 16.585,
+          "endSec": 21.013,
+          "text": "实测伪造近百兆非法包瞬间拦截！模块 3.1 正式毕业"
+        },
+        {
+          "startSec": 21.013,
+          "endSec": 23.686,
+          "text": "下一集手写 HTTP/1.1！"
+        }
+      ]
+    }
+  }
+}

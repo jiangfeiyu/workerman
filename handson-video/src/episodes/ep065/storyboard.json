@@ -1,0 +1,29 @@
+{
+  "id": "EP065",
+  "epTag": "065 / 112",
+  "title": "master.pid 文件锁防重启动：flock + 存活探测",
+  "legoModule": "模块 4.2 · 守护进程与 CLI 控制台",
+  "outputFile": "out/EP065_master_pid文件锁防重启动.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-dup-start",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "dup-start",
+      "ttsText": "服务已经跑在后台了，万一运维同事忘掉直接又敲了一遍 php server.php start 怎么办？绝不能出现两套 Master 互抢端口！而且 stop 和 reload 命令也必须知道去给哪个 PID 发信号！",
+      "subtitleText": "【065/112】痛点：怎么防止重复 start？stop / reload 又去哪找正在跑的 Master PID？",
+      "fallbackDurationSec": 20.0
+    },
+    {
+      "id": "shot-02-flock-pid",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "flock-pid",
+      "ttsText": "一石二鸟的方案就是 master.pid 加排他非阻塞锁！启动时 fopen('master.pid', 'c+') 再调用 flock($fp, LOCK_EX | LOCK_NB)：首次启动抢锁成功并把 getmypid() 写入文件；如果有人误操作第二次启动，flock 立刻返回 false 直接拦截退出！就算进程异常断电崩溃，内核也会自动释放文件锁，绝不留下死锁！",
+      "subtitleText": "实测 flock(LOCK_EX | LOCK_NB) 秒拦第二次启动；进程崩溃时内核自动释放锁零残留！",
+      "fallbackDurationSec": 28.0
+    }
+  ]
+}

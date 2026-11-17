@@ -1,0 +1,206 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-prep": {
+      "id": "shot-01-why-prep",
+      "audioFile": "audio/ep003/shot-01-why-prep.mp3",
+      "durationSec": 25.822,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.657,
+          "text": "很多同学第一次手写 stream_select 服务器时"
+        },
+        {
+          "startSec": 4.657,
+          "endSec": 8.585,
+          "text": "都会遇到一个灵异 Bug：明明连着两个客户端"
+        },
+        {
+          "startSec": 8.585,
+          "endSec": 13.478,
+          "text": "第一轮还正常，第二轮开始某个客户端就彻底收不到消息了！"
+        },
+        {
+          "startSec": 13.478,
+          "endSec": 17.234,
+          "text": "今天这集铺垫课，我们先不碰复杂的网络代码"
+        },
+        {
+          "startSec": 17.234,
+          "endSec": 20.645,
+          "text": "只用 20 行纯本地管道 demo.php"
+        },
+        {
+          "startSec": 20.645,
+          "endSec": 25.222,
+          "text": "把 stream_select 最反直觉的机制彻底扒光！"
+        }
+      ]
+    },
+    "shot-02-pair-setup": {
+      "id": "shot-02-pair-setup",
+      "audioFile": "audio/ep003/shot-02-pair-setup.mp3",
+      "durationSec": 25.582,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.471,
+          "text": "看第 5 到第 9 行"
+        },
+        {
+          "startSec": 1.471,
+          "endSec": 6.154,
+          "text": "我们用 stream_socket_pair 造出两根内存管道"
+        },
+        {
+          "startSec": 6.154,
+          "endSec": 9.048,
+          "text": "分别起名叫 pipe1 和 pipe2"
+        },
+        {
+          "startSec": 9.048,
+          "endSec": 12.04,
+          "text": "统一放进总档案数组 $allFds 里"
+        },
+        {
+          "startSec": 12.04,
+          "endSec": 16.561,
+          "text": "接着第 9 行故意只往 pipe1 里塞入一句 hello-1"
+        },
+        {
+          "startSec": 16.561,
+          "endSec": 18.903,
+          "text": "pipe2 保持安静不说话"
+        },
+        {
+          "startSec": 18.903,
+          "endSec": 22.936,
+          "text": "现在我们要让 stream_select 帮我们点名"
+        },
+        {
+          "startSec": 22.936,
+          "endSec": 24.982,
+          "text": "看哪根管道有数据可读"
+        }
+      ]
+    },
+    "shot-03-trap-mutation": {
+      "id": "shot-03-trap-mutation",
+      "audioFile": "audio/ep003/shot-03-trap-mutation.mp3",
+      "durationSec": 29.614,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.068,
+          "text": "致命操作来了！看第 12 到 14 行"
+        },
+        {
+          "startSec": 3.068,
+          "endSec": 9.628,
+          "text": "我们把数组 $badPool 直接传进 stream_select 的第一个参数"
+        },
+        {
+          "startSec": 9.628,
+          "endSec": 14.638,
+          "text": "注意 PHP 函数签名里的 & 引用符号！看右下角 X-Ray"
+        },
+        {
+          "startSec": 14.638,
+          "endSec": 17.846,
+          "text": "内核检查后发现只有 pipe1 就绪"
+        },
+        {
+          "startSec": 17.846,
+          "endSec": 23.325,
+          "text": "于是当场把没说话的 pipe2 从 $badPool 里直接抹掉了！"
+        },
+        {
+          "startSec": 23.325,
+          "endSec": 29.014,
+          "text": "终端真实输出：第 1 轮后 badPool 剩下的键只剩 pipe1！"
+        }
+      ]
+    },
+    "shot-04-pipe2-lost": {
+      "id": "shot-04-pipe2-lost",
+      "audioFile": "audio/ep003/shot-04-pipe2-lost.mp3",
+      "durationSec": 26.518,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.569,
+          "text": "现在灾难在第 17 行爆发了！"
+        },
+        {
+          "startSec": 2.569,
+          "endSec": 6.573,
+          "text": "第二轮我们往 pipe2 写入了 hello-2"
+        },
+        {
+          "startSec": 6.573,
+          "endSec": 12.789,
+          "text": "然后习惯性地拿同一个 $badPool 再次调用 stream_select"
+        },
+        {
+          "startSec": 12.789,
+          "endSec": 17.6,
+          "text": "看终端输出结果：就绪数量等于 1，pipe2 彻底失联！"
+        },
+        {
+          "startSec": 17.6,
+          "endSec": 21.428,
+          "text": "因为上一轮内核已经把 pipe2 踢出数组了"
+        },
+        {
+          "startSec": 21.428,
+          "endSec": 25.918,
+          "text": "以后不管 pipe2 喊破喉咙，循环也永远听不见它！"
+        }
+      ]
+    },
+    "shot-05-copy-rule": {
+      "id": "shot-05-copy-rule",
+      "audioFile": "audio/ep003/shot-05-copy-rule.mp3",
+      "durationSec": 30.694,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.839,
+          "text": "解决办法极其简单，但必须刻进肌肉记忆！看第 22 行"
+        },
+        {
+          "startSec": 4.839,
+          "endSec": 8.522,
+          "text": "永远保留一份只读总花名册 $allFds"
+        },
+        {
+          "startSec": 8.522,
+          "endSec": 15.368,
+          "text": "每次进 stream_select 前先赋值拷贝一份 $read = $allFds"
+        },
+        {
+          "startSec": 15.368,
+          "endSec": 19.163,
+          "text": "让内核随便去删改那份临时数组 $read！"
+        },
+        {
+          "startSec": 19.163,
+          "endSec": 23.59,
+          "text": "实测第 2 轮立刻同时抓到 pipe1 和 pipe2"
+        },
+        {
+          "startSec": 23.59,
+          "endSec": 26.083,
+          "text": "成功读出 hello-2！"
+        },
+        {
+          "startSec": 26.083,
+          "endSec": 30.094,
+          "text": "下集我们立刻把这条铁律装回 TCP 服务器！"
+        }
+      ]
+    }
+  }
+}

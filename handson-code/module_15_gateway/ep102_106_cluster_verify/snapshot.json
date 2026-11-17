@@ -1,0 +1,8 @@
+{
+    "episode": "ep102_106_cluster",
+    "output": [
+        "[EP102 · Register 服务发现] Gateway gw-1 注册成功 -> BusinessWorker 订阅拿到内网列表 [127.0.0.1:2901]",
+        "[EP099 · 业务重启零断线] BusinessWorker 从 v1 杀掉重启为 v2 -> 用户 TCP 连接断开次数=0 (alive=true)",
+        "[EP105-106 · bindUid\/sendToUid 集群闭环] 精准路由 7f0000010b5500000007 -> 用户端收到: \"v2.0 热更新后推送: Welcome uid_888!\""
+    ]
+}

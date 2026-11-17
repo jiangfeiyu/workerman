@@ -1,0 +1,45 @@
+{
+  "id": "EP009",
+  "epTag": "009 / 112",
+  "title": "封装 SelectLoop 读监听与 EINTR 容错",
+  "legoModule": "模块 1.2 · SelectLoop",
+  "outputFile": "out/EP009_封装SelectLoop读监听与EINTR容错.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-class-skeleton",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "class-skeleton",
+      "ttsText": "新建 SelectLoop 类实现 EventLoopInterface。把上一集过渡脚本里的全局数组 $readFds 和 $readCallbacks 直接变成私有成员属性！写好 onReadable 和 offReadable 两个方法，统一使用 (int)$stream 作为数组下标。",
+      "subtitleText": "【009/112】把 EP007 的全局表直接搬进 SelectLoop 私有属性，封装 onReadable / offReadable",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-run-eintr",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "run-eintr",
+      "ttsText": "重点看第 34 到 49 行的 run 方法！当进程正睡在 stream_select 里时，如果 Linux 信号突然打断了睡眠，内核会抛出 EINTR 中断警告。所以 Workerman 源码里在 stream_select 前加了 @ 抑制符，并在 $count === false 时直接 continue 回到下一轮继续等，而不是让整个服务器崩溃！",
+      "subtitleText": "工业级细节：@stream_select 抑制信号中断警告，遇到 $count === false 安全 continue",
+      "fallbackDurationSec": 29.0
+    },
+    {
+      "id": "shot-03-use-in-server",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "use-in-server",
+      "ttsText": "现在看看 server.php 有多清爽！new 一个 SelectLoop，调用两次 $loop->onReadable 绑好门卫和客人逻辑，最后一句 $loop->run()！运行 verify 测试，客户端 ping select loop 瞬间收到 Echo[SelectLoop]！",
+      "subtitleText": "业务代码瞬间清爽：new SelectLoop() → onReadable() → $loop->run()，实测通过！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-04-next",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "next",
+      "ttsText": "读事件已经优雅闭环了！下一集 EP010，我们补全写监听 onWritable 和 offWritable，并亲手复现一个让无数新手 CPU 飙满的“可写事件死循环”大坑！",
+      "subtitleText": "下集 EP010：补全 onWritable 写监听，直面“可写事件不停触发”经典死循环陷阱",
+      "fallbackDurationSec": 18.0
+    }
+  ]
+}

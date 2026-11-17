@@ -1,0 +1,112 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-eight-bulbs": {
+      "id": "shot-01-eight-bulbs",
+      "audioFile": "audio/ep049/shot-01-eight-bulbs.mp3",
+      "durationSec": 27.838,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.73,
+          "text": "写二进制 WebSocket 帧头前，用 1 分钟打通位运算！"
+        },
+        {
+          "startSec": 5.73,
+          "endSec": 10.218,
+          "text": "为什么不能用 JSON 传帧头？太浪费流量了！"
+        },
+        {
+          "startSec": 10.218,
+          "endSec": 15.587,
+          "text": "WebSocket 直接把 1 个字节当成 8 盏小灯泡开关"
+        },
+        {
+          "startSec": 15.587,
+          "endSec": 19.754,
+          "text": "像 0x81 在内存里就是 1000 0001"
+        },
+        {
+          "startSec": 19.754,
+          "endSec": 23.12,
+          "text": "第 1 盏亮着代表结束帧 FIN=1"
+        },
+        {
+          "startSec": 23.12,
+          "endSec": 27.238,
+          "text": "最后 4 盏代表文本类型 Opcode=1！"
+        }
+      ]
+    },
+    "shot-02-shift-and-mask": {
+      "id": "shot-02-shift-and-mask",
+      "audioFile": "audio/ep049/shot-02-shift-and-mask.mp3",
+      "durationSec": 25.558,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.994,
+          "text": "怎么单独读取某几盏灯？只有两个动作！第一招右移 >> 7"
+        },
+        {
+          "startSec": 5.994,
+          "endSec": 9.806,
+          "text": "把最左边第 7 位一脚踢到最右边个位"
+        },
+        {
+          "startSec": 9.806,
+          "endSec": 13.961,
+          "text": "再和 1 做按位与 & 1，立刻得到 0 或 1！"
+        },
+        {
+          "startSec": 13.961,
+          "endSec": 20.344,
+          "text": "第二招用掩码过滤，比如字节 & 0x0F 就是 0000 1111"
+        },
+        {
+          "startSec": 20.344,
+          "endSec": 24.958,
+          "text": "高 4 位清零、只留下低 4 位的 Opcode！"
+        }
+      ]
+    },
+    "shot-03-xor-magic": {
+      "id": "shot-03-xor-magic",
+      "audioFile": "audio/ep049/shot-03-xor-magic.mp3",
+      "durationSec": 27.286,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.6,
+          "text": "第三招更神奇，异或运算符 ^ ！相同为 0、不同为 1"
+        },
+        {
+          "startSec": 5.6,
+          "endSec": 8.183,
+          "text": "它有个宇宙级对称性质"
+        },
+        {
+          "startSec": 8.183,
+          "endSec": 12.955,
+          "text": "任意数据拿同一把密钥异或一次变成乱码密文"
+        },
+        {
+          "startSec": 12.955,
+          "endSec": 18.077,
+          "text": "再拿同一把密钥异或第二次，百分之百变回原样！"
+        },
+        {
+          "startSec": 18.077,
+          "endSec": 23.505,
+          "text": "实测 Hello 异或加密变成 524e502175"
+        },
+        {
+          "startSec": 23.505,
+          "endSec": 26.686,
+          "text": "再异或一秒还原 Hello！"
+        }
+      ]
+    }
+  }
+}

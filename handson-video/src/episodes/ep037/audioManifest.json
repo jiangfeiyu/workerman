@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-text-impl": {
+      "id": "shot-01-text-impl",
+      "audioFile": "audio/ep037/shot-01-text-impl.mp3",
+      "durationSec": 16.822,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.163,
+          "text": "不到 15 行写出第一个协议实现类 TextProtocol"
+        },
+        {
+          "startSec": 5.163,
+          "endSec": 9.752,
+          "text": "input() 查找换行符返回 $pos + 1，找不到返回 0"
+        },
+        {
+          "startSec": 9.752,
+          "endSec": 12.563,
+          "text": "decode() 去掉末尾回车换行"
+        },
+        {
+          "startSec": 12.563,
+          "endSec": 16.222,
+          "text": "encode() 在发包末尾自动补上换行符！"
+        }
+      ]
+    },
+    "shot-02-pipeline": {
+      "id": "shot-02-pipeline",
+      "audioFile": "audio/ep037/shot-02-pipeline.mp3",
+      "durationSec": 20.902,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.743,
+          "text": "看怎么插进读取管道！收到字节追加进 $recvBuffer 后"
+        },
+        {
+          "startSec": 4.743,
+          "endSec": 9.446,
+          "text": "while 循环询问 ($this->protocol)::input()"
+        },
+        {
+          "startSec": 9.446,
+          "endSec": 14.559,
+          "text": "大于 0 就切出整包交给 decode() 再触发业务 onMessage！"
+        },
+        {
+          "startSec": 14.559,
+          "endSec": 17.842,
+          "text": "实测故意只喂前 8 字节，先切出 alpha"
+        },
+        {
+          "startSec": 17.842,
+          "endSec": 20.302,
+          "text": "beta 半截稳稳等齐后吐出！"
+        }
+      ]
+    }
+  }
+}

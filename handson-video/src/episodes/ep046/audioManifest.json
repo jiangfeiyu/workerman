@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-keepalive": {
+      "id": "shot-01-keepalive",
+      "audioFile": "audio/ep046/shot-01-keepalive.mp3",
+      "durationSec": 19.702,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.777,
+          "text": "HTTP/1.1 默认开启 Keep-Alive"
+        },
+        {
+          "startSec": 3.777,
+          "endSec": 8.142,
+          "text": "浏览器连上后可能连续发几十个请求复用同一条 TCP 隧道"
+        },
+        {
+          "startSec": 8.142,
+          "endSec": 10.246,
+          "text": "省掉反复三次握手的开销！"
+        },
+        {
+          "startSec": 10.246,
+          "endSec": 16.025,
+          "text": "我们在 Request::isKeepAlive() 里检查 Connection 头"
+        },
+        {
+          "startSec": 16.025,
+          "endSec": 19.102,
+          "text": "只要不是 close 就保留连接不关闭！"
+        }
+      ]
+    },
+    "shot-02-verify-http": {
+      "id": "shot-02-verify-http",
+      "audioFile": "audio/ep046/shot-02-verify-http.mp3",
+      "durationSec": 24.214,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.961,
+          "text": "看合拢实测：同一条管道里连续喂入两个 Pipelined GET 请求"
+        },
+        {
+          "startSec": 5.961,
+          "endSec": 14.615,
+          "text": "while 循环精准切出第一包 keepAlive=true 与第二包 keepAlive=false！"
+        },
+        {
+          "startSec": 14.615,
+          "endSec": 19.66,
+          "text": "模块 3.2 手写 HTTP/1.1 正式毕业！下集 EP047"
+        },
+        {
+          "startSec": 19.66,
+          "endSec": 23.614,
+          "text": "进军模块 3.3 手写 WebSocket 协议！"
+        }
+      ]
+    }
+  }
+}

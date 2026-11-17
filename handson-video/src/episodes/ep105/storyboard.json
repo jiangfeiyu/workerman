@@ -1,0 +1,29 @@
+{
+  "id": "EP105",
+  "epTag": "105 / 112",
+  "title": "会话持久化 $_SESSION 与 uid 绑定：Gateway::bindUid / sendToUid",
+  "legoModule": "模块 6.2 · 分布式 ModernGateway 集群",
+  "outputFile": "out/EP105_会话持久化与bindUid精准推送.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-uid",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "why-uid",
+      "ttsText": "业务开发最想要什么 API？不是每次去记二十位十六进制的 client_id，而是直接按自己的数据库用户主键比如 uid_888 发消息！而且手机用户切 4G Wi-Fi 重连后 client_id 会变，但他的用户 UID 永远不变！",
+      "subtitleText": "【105/112】client_id 随重连变化，业务开发必须绑定长期不变的 user_id (bindUid)！",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-bind-send",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "bind-send",
+      "ttsText": "登录鉴权通过后立刻调 Gateway::bindUid($cid, 'uid_888')，Gateway 本地或共享存储立刻把 uid 映射到所有在线设备的 client_id！以后任何地方发通知只需一行 Gateway::sendToUid('uid_888', $msg)，哪怕用户手机电脑多端在线也全部同秒收到！",
+      "subtitleText": "bindUid 建立 uid_888 → client_id 映射，一行 sendToUid() 自动触达同一账号多端设备！",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

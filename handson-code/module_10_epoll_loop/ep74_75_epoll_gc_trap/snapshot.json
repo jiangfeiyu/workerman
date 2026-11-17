@@ -1,0 +1,8 @@
+{
+    "episode": "ep74_75_epoll",
+    "output": [
+        "[忘记存 $allEvents] 函数一返回 refcount=0 -> __destruct 触发次数=1 (回调直接蒸发!)",
+        "[存入 $this->allEvents[102]] activeEvents=1, destroyedDelta=0 (稳如泰山!)",
+        "[del(102) unset 释放] activeEvents=0, destroyedTotal=2 (零内存泄漏!)"
+    ]
+}

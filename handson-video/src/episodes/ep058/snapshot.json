@@ -1,0 +1,7 @@
+{
+    "episode": "ep58_shared_fd",
+    "output": [
+        "[Worker #1 pid=70553] 共享监听 127.0.0.1:60711 -> 抢到连接: Client-B",
+        "[Worker #2 pid=70554] 共享监听 127.0.0.1:60711 -> 抢到连接: Client-A"
+    ]
+}

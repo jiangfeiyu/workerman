@@ -1,0 +1,10 @@
+{
+    "episode": "ep09",
+    "port": "19009",
+    "serverOutput": [
+        "[SelectLoop] 读监听引擎启动 tcp:\/\/127.0.0.1:19009",
+        "[SelectLoop] 迎入新客人 fd=8",
+        "[SelectLoop] 客人离开 fd=8"
+    ],
+    "reply": "Echo[SelectLoop]: ping select loop"
+}

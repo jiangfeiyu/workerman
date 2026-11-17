@@ -1,0 +1,37 @@
+{
+  "id": "EP006B",
+  "epTag": "006B · 加餐过渡",
+  "title": "看懂回调：登记时刻 vs 触发时刻",
+  "legoModule": "模块 1.2 · SelectLoop（过渡）",
+  "outputFile": "out/EP006B_加餐过渡_看懂回调登记与触发时机.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-separate-functions",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "separate-functions",
+      "ttsText": "进入 EP007 之前，先花一分钟把回调函数的嵌套看透！很多同学容易被闭包套闭包绕晕，今天我们完全不嵌套，直接平铺写出两个普通函数：第 8 行的 onGateRing 负责迎客，第 14 行的 onGuestSpeak 负责回消息，各写各的，清清爽爽！",
+      "subtitleText": "【006B/加餐过渡】先不套娃！平铺写两个普通函数 onGateRing 和 onGuestSpeak，各干各的",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-register-vs-run",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "register-vs-run",
+      "ttsText": "最关键的区别来了！看第 21 行，我们把函数名字符串放进 5 号抽屉。注意：这一行跑完的时候，onGateRing 里面的代码一行都没有执行！“登记”只是在抽屉里留一张待办便条，真正加括号触发要等事件到来以后！",
+      "subtitleText": "核心心法：登记时刻只是“把便条放进抽屉”，函数体一行都没跑！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-03-dispatch-chain",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "dispatch-chain",
+      "ttsText": "看第 24 和 27 行的真实执行顺序：当 5 号门响了，查表取出函数加括号一触发，onGateRing 才真正运行，并且顺手把 onGuestSpeak 放进 6 号抽屉；接着 6 号客人说话时，再从 6 号抽屉拿出来触发！下一集 EP007，我们就用这种平铺写法彻底看懂！",
+      "subtitleText": "5号触发 → 顺手登记6号 → 6号触发！理清“登记”与“触发”两步，EP007 一秒看懂！",
+      "fallbackDurationSec": 27.0
+    }
+  ]
+}

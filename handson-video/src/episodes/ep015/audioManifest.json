@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-delay-method": {
+      "id": "shot-01-delay-method",
+      "audioFile": "audio/ep015/shot-01-delay-method.mp3",
+      "durationSec": 20.206,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.781,
+          "text": "正式把前两集的铺垫拼进 SelectLoop！"
+        },
+        {
+          "startSec": 3.781,
+          "endSec": 8.065,
+          "text": "第 18 到 25 行写出 delay() 方法：生成递增编号 $id"
+        },
+        {
+          "startSec": 8.065,
+          "endSec": 10.911,
+          "text": "算出到期时间戳 $triggerAt"
+        },
+        {
+          "startSec": 10.911,
+          "endSec": 15.835,
+          "text": "登记进存活账本 $activeTimers[$id] = true"
+        },
+        {
+          "startSec": 15.835,
+          "endSec": 19.606,
+          "text": "再以负时间戳 -$triggerAt 塞进最小堆！"
+        }
+      ]
+    },
+    "shot-02-lazy-delete": {
+      "id": "shot-02-lazy-delete",
+      "audioFile": "audio/ep015/shot-02-lazy-delete.mp3",
+      "durationSec": 29.662,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.447,
+          "text": "难点来了！如果业务想半路取消定时器"
+        },
+        {
+          "startSec": 3.447,
+          "endSec": 7.687,
+          "text": "在最小堆中间硬挖掉一个元素复杂度很高怎么办？"
+        },
+        {
+          "startSec": 7.687,
+          "endSec": 11.746,
+          "text": "看第 26 到 29 行的工业级绝招——懒惰删除！"
+        },
+        {
+          "startSec": 11.746,
+          "endSec": 19.248,
+          "text": "delTimer() 只需 O(1) 时间从 $activeTimers 里 unset 删掉 ID！"
+        },
+        {
+          "startSec": 19.248,
+          "endSec": 22.473,
+          "text": "等到以后它自己浮到堆顶准备触发时"
+        },
+        {
+          "startSec": 22.473,
+          "endSec": 26.604,
+          "text": "tickTimers 检查账本发现它已被取消"
+        },
+        {
+          "startSec": 26.604,
+          "endSec": 29.062,
+          "text": "当场 extract 丢弃！"
+        }
+      ]
+    },
+    "shot-03-tick-timers": {
+      "id": "shot-03-tick-timers",
+      "audioFile": "audio/ep015/shot-03-tick-timers.mp3",
+      "durationSec": 19.942,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.374,
+          "text": "运行 verify.php 实测！timer#1 在 80 毫秒前被取消"
+        },
+        {
+          "startSec": 6.374,
+          "endSec": 9.811,
+          "text": "50 毫秒和 150 毫秒按时精准触发"
+        },
+        {
+          "startSec": 9.811,
+          "endSec": 14.407,
+          "text": "被取消的幽灵定时器彻底消失！下一集 EP016"
+        },
+        {
+          "startSec": 14.407,
+          "endSec": 19.342,
+          "text": "我们用 delay() 套娃实现循环定时器 repeat()！"
+        }
+      ]
+    }
+  }
+}

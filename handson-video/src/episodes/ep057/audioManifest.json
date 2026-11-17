@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-loop-bug": {
+      "id": "shot-01-loop-bug",
+      "audioFile": "audio/ep057/shot-01-loop-bug.mp3",
+      "durationSec": 19.102,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.066,
+          "text": "新手写多进程 99% 会中招的核弹级惨案！"
+        },
+        {
+          "startSec": 4.066,
+          "endSec": 6.592,
+          "text": "你想开 4 个 Worker"
+        },
+        {
+          "startSec": 6.592,
+          "endSec": 14.052,
+          "text": "顺手写了个 for ($i = 0; $i < 4; $i++) 里面直接调 pcntl_fork()"
+        },
+        {
+          "startSec": 14.052,
+          "endSec": 18.502,
+          "text": "没做任何判断！一运行傻眼了，电脑瞬间卡爆！"
+        }
+      ]
+    },
+    "shot-02-binary-tree": {
+      "id": "shot-02-binary-tree",
+      "audioFile": "audio/ep057/shot-02-binary-tree.mp3",
+      "durationSec": 24.43,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.458,
+          "text": "为什么 4 次循环能变成 16 个？用二叉树一推就透！"
+        },
+        {
+          "startSec": 5.458,
+          "endSec": 7.19,
+          "text": "第 1 轮 1 变 2"
+        },
+        {
+          "startSec": 7.19,
+          "endSec": 12.519,
+          "text": "第 2 轮子进程也带着 $i=1 继续跑循环，于是 2 变 4"
+        },
+        {
+          "startSec": 12.519,
+          "endSec": 14.073,
+          "text": "第 3 轮 4 变 8"
+        },
+        {
+          "startSec": 14.073,
+          "endSec": 19.491,
+          "text": "第 4 轮直接指数爆炸成 2 的 4 次方整整 16 个进程！"
+        },
+        {
+          "startSec": 19.491,
+          "endSec": 23.83,
+          "text": "写到 20 次就是一百万个进程当场死机！"
+        }
+      ]
+    },
+    "shot-03-exit-fix": {
+      "id": "shot-03-exit-fix",
+      "audioFile": "audio/ep057/shot-03-exit-fix.mp3",
+      "durationSec": 22.726,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.491,
+          "text": "解药只有生死攸关的一行！"
+        },
+        {
+          "startSec": 2.491,
+          "endSec": 5.746,
+          "text": "在循环体里一旦发现 $pid === 0"
+        },
+        {
+          "startSec": 5.746,
+          "endSec": 11.489,
+          "text": "子进程干完自己的活必须立刻 exit(0) 或者 break 跳出！"
+        },
+        {
+          "startSec": 11.489,
+          "endSec": 14.744,
+          "text": "实测错误写法真的生出了 16 个进程"
+        },
+        {
+          "startSec": 14.744,
+          "endSec": 19.097,
+          "text": "加上 exit(0) 后只由 Master 单独繁殖"
+        },
+        {
+          "startSec": 19.097,
+          "endSec": 22.126,
+          "text": "稳稳诞生刚好 4 个 Worker！"
+        }
+      ]
+    }
+  }
+}

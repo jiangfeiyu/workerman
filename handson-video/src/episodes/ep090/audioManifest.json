@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-ssl-fsm": {
+      "id": "shot-01-ssl-fsm",
+      "audioFile": "audio/ep090/shot-01-ssl-fsm.mp3",
+      "durationSec": 21.814,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.578,
+          "text": "把刚才的非阻塞返回值逻辑塞进 TcpConnection"
+        },
+        {
+          "startSec": 4.578,
+          "endSec": 8.895,
+          "text": "就成了优雅的 doSslHandshake() 异步状态机！"
+        },
+        {
+          "startSec": 8.895,
+          "endSec": 14.851,
+          "text": "新连接连上时先把 $sslHandshakeCompleted 设为 false"
+        },
+        {
+          "startSec": 14.851,
+          "endSec": 17.34,
+          "text": "每次触发可读事件先走握手分支"
+        },
+        {
+          "startSec": 17.34,
+          "endSec": 21.214,
+          "text": "拿到 === 0 直接 return 等下一波报文到达！"
+        }
+      ]
+    },
+    "shot-02-https-wss": {
+      "id": "shot-02-https-wss",
+      "audioFile": "audio/ep090/shot-02-https-wss.mp3",
+      "durationSec": 22.678,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.967,
+          "text": "一旦某一次拿到 === true"
+        },
+        {
+          "startSec": 2.967,
+          "endSec": 8.969,
+          "text": "立刻把状态位翻成 true 并换回普通 baseRead 读解密明文！"
+        },
+        {
+          "startSec": 8.969,
+          "endSec": 15.342,
+          "text": "实测加密通道内直接读出了明文 GET /tls-ok HTTP/1.1！"
+        },
+        {
+          "startSec": 15.342,
+          "endSec": 17.898,
+          "text": "配合不同 Protocol"
+        },
+        {
+          "startSec": 17.898,
+          "endSec": 22.078,
+          "text": "一句配置就能秒变 HTTPS 和 WSS 服务器！"
+        }
+      ]
+    }
+  }
+}

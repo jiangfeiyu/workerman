@@ -1,0 +1,7 @@
+{
+    "episode": "ep104",
+    "output": [
+        "[sendToClient 定向专线] 解析 cid=0a0000090b550000000f -> 精准命中专线 10.0.0.9:2901 队列(+1帧)",
+        "[sendToAll 全集群群发] 已沿 2 条 Gateway 专线同步下发广播"
+    ]
+}

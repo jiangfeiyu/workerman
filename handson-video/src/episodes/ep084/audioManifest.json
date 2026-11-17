@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-resp-format": {
+      "id": "shot-01-resp-format",
+      "audioFile": "audio/ep084/shot-01-resp-format.mp3",
+      "durationSec": 23.23,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.806,
+          "text": "进入模块 5.2，亲手造一个纯协程版 Redis 客户端！"
+        },
+        {
+          "startSec": 5.806,
+          "endSec": 9.973,
+          "text": "Redis 通信协议 RESP 简单到离谱"
+        },
+        {
+          "startSec": 9.973,
+          "endSec": 15.403,
+          "text": "总共只有几个前缀字符：星号 * 开头表示数组参数个数"
+        },
+        {
+          "startSec": 15.403,
+          "endSec": 19.57,
+          "text": "美元符 $ 开头表示后面跟着多长的字符串"
+        },
+        {
+          "startSec": 19.57,
+          "endSec": 22.63,
+          "text": "加号 + 代表状态成功 +OK！"
+        }
+      ]
+    },
+    "shot-02-resp-codec": {
+      "id": "shot-02-resp-codec",
+      "audioFile": "audio/ep084/shot-02-resp-codec.mp3",
+      "durationSec": 35.326,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.175,
+          "text": "用 15 行写好 RespCodec"
+        },
+        {
+          "startSec": 4.175,
+          "endSec": 10.821,
+          "text": "把 ['SET', 'user:1', 'Alice'] 编成"
+        },
+        {
+          "startSec": 10.821,
+          "endSec": 23.571,
+          "text": "*3\\r\\n$3\\r\\nSET\\r\\n$6\\r\\nuser:1\\r\\n$5\\r\\nAlice\\r\\n"
+        },
+        {
+          "startSec": 23.571,
+          "endSec": 32.137,
+          "text": "解码器读第 1 个字符就能瞬间拆出 +OK 或精准截取 $5 长度的 Alice"
+        },
+        {
+          "startSec": 32.137,
+          "endSec": 34.726,
+          "text": "二进制安全又省心！"
+        }
+      ]
+    }
+  }
+}

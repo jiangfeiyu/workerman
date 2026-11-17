@@ -1,0 +1,7 @@
+{
+    "episode": "ep48",
+    "output": [
+        "[状态 false -> true] 收到 HTTP 头，回发 101 Switching Protocols 原地升级!",
+        "[状态检查] 当前 $wsHandshake = true (后续所有字节全走 WebsocketProtocol)"
+    ]
+}

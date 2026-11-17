@@ -1,0 +1,37 @@
+{
+  "id": "EP004",
+  "epTag": "004 / 112",
+  "title": "用 stream_select 守护接待门",
+  "legoModule": "模块 1.1 · Socket 破冰",
+  "outputFile": "out/EP004_用stream_select守护接待门.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-code-select",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "code-select",
+      "ttsText": "搞懂了传引用规则，今天这集非常轻快！我们把 EP002 空转七万次的服务器拿来动两刀：每轮循环先拷贝 $read = [$server]，然后调用 @stream_select($read, $write, $except, null)。注意第 4 个参数传 null，意思是没客人时无限期安心睡眠，CPU 占用直接归零！",
+      "subtitleText": "【004/112】每轮拷贝 $read = [$server] 交给 stream_select，没客人时 0% CPU 休眠等待",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-wake-up",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "wake-up",
+      "ttsText": "跑起来看看终端一！启动后没有任何刷屏空转日志，进程静静躺在内核等待队列里。一旦客人 1 和客人 2 敲门，stream_select 立刻从睡眠中毫秒级醒来，$ready 大于 0，迎入客人并回显 Welcome！",
+      "subtitleText": "实测效果：空闲时 CPU 0% 不再空转，新连接到达时内核毫秒级唤醒 accept()",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-03-next-gap",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "next-gap",
+      "ttsText": "不过现在只把接待门 $server 放进了监控数组，迎客后立刻就关掉了，还没做到长连接并发。下一集 EP005 模块合拢课，我们把迎入的每一个客人 $conn 也装进 $allFds 总花名册，彻底实现单进程并发伺候上千个长连接！",
+      "subtitleText": "下集 EP005【合拢】：把 $clients 也加入 $allFds，真正实现单进程多客户端长连接并发！",
+      "fallbackDurationSec": 22.0
+    }
+  ]
+}

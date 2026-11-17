@@ -1,0 +1,37 @@
+{
+  "id": "EP034",
+  "epTag": "034 / 112",
+  "title": "【踩坑】粘包与半包双惨案：TCP 是一条自来水管",
+  "legoModule": "模块 3.1 · 粘包与协议插槽",
+  "outputFile": "out/EP034_踩坑_粘包与半包双惨案.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-sticky-demo",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "sticky-demo",
+      "ttsText": "欢迎来到第 3 篇！很多新手以为：客户端调用两次 send() 发两条 JSON，服务端就会触发两次 onMessage 各收一条。大错特错！看第 6 到 15 行实验：发送端连续发送 20 条短 JSON，接收端调用 fread(128) 每次只读 128 字节，结果直接翻车！",
+      "subtitleText": "【034/112】破除幻觉：连续发 20 条 JSON，接收端 fread(128) 会读出什么？",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-disaster-log",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "disaster-log",
+      "ttsText": "看右上角真实输出！第一次 fread(128) 一次性抓到了第 1 到第 5 条完整 JSON——这叫粘包！更致命的是第 6 条，读到 {\"id\":6,\"msg\" 时刚好凑够 128 字节被一刀腰斩——这叫半包！紧接着第二次 fread 开头吐出半截残片 :\"hello\"}，拿去 json_decode 当场报错！",
+      "subtitleText": "粘包+半包双惨案：第 1~5 条黏成一团，第 6 条被一刀腰斩成残片！",
+      "fallbackDurationSec": 28.0
+    },
+    {
+      "id": "shot-03-waterpipe",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "waterpipe",
+      "ttsText": "牢记底层真相：TCP 根本没有“一条消息”的概念，它就是一根连续流水的自来水管！至于你什么时候用瓢去舀水、一次舀出半杯还是三杯，全靠内核缓冲和网卡 MTU 心情！下集 EP035 先用 15 行代码铺垫出切包蓄水池！",
+      "subtitleText": "TCP 本质是无边界字节流！下集 EP035【铺垫】：$recvBuffer 蓄水池 + while 切包",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

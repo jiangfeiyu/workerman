@@ -1,0 +1,29 @@
+{
+  "id": "EP024",
+  "epTag": "024 / 112",
+  "title": "实现 getRemoteAddress 与零泄漏 destroy()",
+  "legoModule": "模块 2.1 · 连接对象化",
+  "outputFile": "out/EP024_实现getRemoteAddress与零泄漏destroy.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-peer-and-destroy",
+      "chapter": "第 2 篇 · 模块 2.1 TcpConnection 对象化",
+      "visual": "peer-and-destroy",
+      "ttsText": "完善连接对象的两项基础能力：第 34 行用 stream_socket_get_name($this->socket, true) 拿到客人真实 IP 和端口。第 48 行写出 destroy() 零泄漏销毁：先改状态为 Closed，再同时从 EventLoop 摘掉可读和可写监听，关闭 Socket，最后触发 onClose 通知业务层！",
+      "subtitleText": "【024/112】destroy() 标准四步：改状态 Closed → offReadable & offWritable → fclose → onClose",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-verify-lifecycle",
+      "chapter": "第 2 篇 · 模块 2.1 TcpConnection 对象化",
+      "visual": "verify-lifecycle",
+      "ttsText": "跑一遍实测：连入拿到 id=1、绑定 uid=10086、收到消息后客户端断开，destroy() 干净清理 FD 并把状态切到 closed！不过下一集 EP025，我们就要亲手引爆连接层最大的一颗核弹：发送 10MB 数据凭空消失 96.9%！",
+      "subtitleText": "实测 id=1 / uid=10086 完整流转！下集 EP025【踩坑】：10MB 大文件裸写丢失 96.9% 惨案",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

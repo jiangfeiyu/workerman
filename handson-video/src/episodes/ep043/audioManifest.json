@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-content-length": {
+      "id": "shot-01-content-length",
+      "audioFile": "audio/ep043/shot-01-content-length.mp3",
+      "durationSec": 22.222,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.324,
+          "text": "遇到 POST 提交表单或 JSON 时"
+        },
+        {
+          "startSec": 3.324,
+          "endSec": 8.823,
+          "text": "空行 \\r\\n\\r\\n 后面还跟着 Body！看第 21 到 26 行"
+        },
+        {
+          "startSec": 8.823,
+          "endSec": 15.798,
+          "text": "在头部块里用正则提取 Content-Length 数值 $contentLen"
+        },
+        {
+          "startSec": 15.798,
+          "endSec": 21.622,
+          "text": "整包总长度就是 $headerEnd + 4 + $contentLen！"
+        }
+      ]
+    },
+    "shot-02-post-half": {
+      "id": "shot-02-post-half",
+      "audioFile": "audio/ep043/shot-02-post-half.mp3",
+      "durationSec": 20.446,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.135,
+          "text": "最后第 26 行一锤定音"
+        },
+        {
+          "startSec": 2.135,
+          "endSec": 7.07,
+          "text": "如果 strlen($buffer) 小于 $totalLen"
+        },
+        {
+          "startSec": 7.07,
+          "endSec": 10.762,
+          "text": "说明请求头虽然到了，但 Body 还在路上"
+        },
+        {
+          "startSec": 10.762,
+          "endSec": 13.922,
+          "text": "return 0 继续等！看实测输出"
+        },
+        {
+          "startSec": 13.922,
+          "endSec": 17.97,
+          "text": "POST 正文缺 6 字节时 input() 精准返回 0"
+        },
+        {
+          "startSec": 17.97,
+          "endSec": 19.846,
+          "text": "收齐后才放行解码！"
+        }
+      ]
+    }
+  }
+}

@@ -1,6 +1,7 @@
 * 🚀 **快速导航**
   * [🏠 课程首页](README.md)
   * [🎬 108 讲视频课程（EP01-EP57）](videos_108.md)
+  * [🛠️ 从0到1手写 Workerman（112集全）](videos_handson.md)
   * [📜 学习铁律与规范](COURSE_RULES.md)
   * [🗺️ 180 关通关总路线图](roadmap.md)
   * [🗂️ Anki 记忆题库说明](anki/README.md)

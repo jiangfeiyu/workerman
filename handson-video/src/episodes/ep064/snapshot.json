@@ -1,0 +1,8 @@
+{
+    "episode": "ep64",
+    "output": [
+        "[关闭原 0\/1\/2 后依次重开] FD#0=\/dev\/null | FD#1=log | FD#2=log",
+        "[STDOUT 重定向] echo 不会报错也不会卡 SSH，已自动落入日志!",
+        "[STDERR 重定向] php:\/\/stderr 同样稳稳落入日志!"
+    ]
+}

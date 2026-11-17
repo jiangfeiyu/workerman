@@ -1,0 +1,8 @@
+{
+    "episode": "ep106",
+    "output": [
+        "[1. Register 服务发现] gw-1 注册成功 -> BusinessWorker 拿到内网地址 [127.0.0.1:2901]",
+        "[2. 业务热重启零断线] BusinessWorker v1->v2 切换 -> 用户 TCP 断线=0 (alive=true)",
+        "[3. sendToUid 集群闭环] 精准路由 7f0000010b5500000007 -> 用户收到: \"v2.0 热更新后推送: Welcome uid_888!\""
+    ]
+}

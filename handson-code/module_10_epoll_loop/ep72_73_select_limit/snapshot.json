@@ -1,0 +1,9 @@
+{
+    "episode": "ep72_73_select",
+    "output": [
+        "[FD=50  实测 300 轮] stream_select O(N) 耗时 = 0.56 ms",
+        "[FD=250 实测 300 轮] stream_select O(N) 耗时 = 3.02 ms (线性膨胀)",
+        "[FD=500 实测 300 轮] stream_select O(N) 耗时 = 6.33 ms | 硬上限 FD_SETSIZE=1024 超限即崩!",
+        "[epoll \/ kqueue 破局] 红黑树存注册 FD + 双向就绪链表只吐活跃事件 => 万级连接稳定 O(1)!"
+    ]
+}

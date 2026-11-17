@@ -1,0 +1,7 @@
+{
+    "episode": "ep81",
+    "output": [
+        "[0ms 返回] stream_socket_client(ASYNC_CONNECT) 立即返回非阻塞句柄",
+        "[可写就绪] 握手成功！stream_socket_get_name(peer) = 127.0.0.1:19812"
+    ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "EP098",
+  "epTag": "098 / 112",
+  "title": "硬编码双进程极简网关原型：Gateway 与 Business 首次握手",
+  "legoModule": "模块 6.2 · 分布式 ModernGateway 集群",
+  "outputFile": "out/EP098_硬编码双进程极简网关原型.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-two-roles",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "two-roles",
+      "ttsText": "在写完整集群之前，先用十行硬编码原型看懂数据怎么在两层之间穿针引线！Gateway 进程只干两件蠢事：对外开公网 8282 端口接用户，对内开 2901 端口等后端业务来连！",
+      "subtitleText": "【098/112】极简双进程原型：Gateway 暴露外网 8282 接客户，内网 2901 接业务！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-forward-loop",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "forward-loop",
+      "ttsText": "一旦用户从 8282 发来一句聊天消息，Gateway 立刻原封转发给内网的 BusinessWorker；BusinessWorker 算完回包后再发回 Gateway，由 Gateway 找到对应用户的 FD 写回去，两层正式完成物理分工！",
+      "subtitleText": "Gateway 收公网报文 → 转内网给 BusinessWorker → 收回包按 FD 原路写出公网！",
+      "fallbackDurationSec": 22.0
+    }
+  ]
+}

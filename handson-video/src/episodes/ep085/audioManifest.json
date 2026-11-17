@@ -1,0 +1,55 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-redis-await": {
+      "id": "shot-01-redis-await",
+      "audioFile": "audio/ep085/shot-01-redis-await.mp3",
+      "durationSec": 13.774,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.9,
+          "text": "把 RespCodec 插进刚才写的协程 AsyncTcpClient::await() 里"
+        },
+        {
+          "startSec": 5.9,
+          "endSec": 8.521,
+          "text": "不需要引入 phpredis C 扩展"
+        },
+        {
+          "startSec": 8.521,
+          "endSec": 13.174,
+          "text": "纯 PHP 二十行就组装出一个全异步协程 RedisClient！"
+        }
+      ]
+    },
+    "shot-02-redis-bench": {
+      "id": "shot-02-redis-bench",
+      "audioFile": "audio/ep085/shot-02-redis-bench.mp3",
+      "durationSec": 19.774,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 7.789,
+          "text": "本地起一个原生 RESP Server 连跑 100 组 SET 加 100 组 GET 共 200 次命令！"
+        },
+        {
+          "startSec": 7.789,
+          "endSec": 11.86,
+          "text": "校验结果 100 组全部精准命中 100/100"
+        },
+        {
+          "startSec": 11.86,
+          "endSec": 14.431,
+          "text": "总耗时仅仅 15.24 毫秒！"
+        },
+        {
+          "startSec": 14.431,
+          "endSec": 19.174,
+          "text": "业务写起来全是同步的 $redis->get('k1')！"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-gw-dual": {
+      "id": "shot-01-gw-dual",
+      "audioFile": "audio/ep103/shot-01-gw-dual.mp3",
+      "durationSec": 18.454,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.742,
+          "text": "现在来组装三剑客里的前排盾牌 Gateway！"
+        },
+        {
+          "startSec": 3.742,
+          "endSec": 5.609,
+          "text": "它内部同时开两个端口"
+        },
+        {
+          "startSec": 5.609,
+          "endSec": 10.799,
+          "text": "公网端口跑 WebSocket 或 Frame 协议收发客户心跳与数据"
+        },
+        {
+          "startSec": 10.799,
+          "endSec": 17.854,
+          "text": "内网端口跑 GatewayProtocol 连向后端群组里的 BusinessWorker！"
+        }
+      ]
+    },
+    "shot-02-gw-route": {
+      "id": "shot-02-gw-route",
+      "audioFile": "audio/ep103/shot-02-gw-route.mp3",
+      "durationSec": 20.494,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.494,
+          "text": "用户发上行消息时"
+        },
+        {
+          "startSec": 1.494,
+          "endSec": 7.548,
+          "text": "Gateway 按 connId 取模挑一个健康的 BusinessWorker 发过去"
+        },
+        {
+          "startSec": 7.548,
+          "endSec": 11.08,
+          "text": "当后端回发一个指定 client_id 的数据包时"
+        },
+        {
+          "startSec": 11.08,
+          "endSec": 18.618,
+          "text": "Gateway 拆出末尾的 connId 在本地哈希表 O(1) 找到对应 TcpConnection 原路写出"
+        },
+        {
+          "startSec": 18.618,
+          "endSec": 19.894,
+          "text": "绝不拖泥带水！"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-async-signal": {
+      "id": "shot-01-async-signal",
+      "audioFile": "audio/ep067/shot-01-async-signal.mp3",
+      "durationSec": 26.062,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.289,
+          "text": "模块 4.3 解锁生产级热更新与监控！"
+        },
+        {
+          "startSec": 3.289,
+          "endSec": 10.493,
+          "text": "以前写 PHP 信号必须在死循环里不断调 pcntl_signal_dispatch() 轮询"
+        },
+        {
+          "startSec": 10.493,
+          "endSec": 12.506,
+          "text": "又耗 CPU 响应又慢！"
+        },
+        {
+          "startSec": 12.506,
+          "endSec": 19.71,
+          "text": "PHP 7.1 之后只需在开头写一句 pcntl_async_signals(true)"
+        },
+        {
+          "startSec": 19.71,
+          "endSec": 25.462,
+          "text": "底层每跑完一条 opcode 瞬间响应 SIGUSR1，零轮询开销！"
+        }
+      ]
+    },
+    "shot-02-eintr-guard": {
+      "id": "shot-02-eintr-guard",
+      "audioFile": "audio/ep067/shot-02-eintr-guard.mp3",
+      "durationSec": 22.918,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.766,
+          "text": "还要防一个隐形暗坑"
+        },
+        {
+          "startSec": 1.766,
+          "endSec": 8.127,
+          "text": "如果进程正在阻塞等 stream_select() 或 pcntl_wait() 时突然收到信号"
+        },
+        {
+          "startSec": 8.127,
+          "endSec": 15.064,
+          "text": "系统调用会被立刻打断并报出 Interrupted system call 错误 EINTR！"
+        },
+        {
+          "startSec": 15.064,
+          "endSec": 20.466,
+          "text": "所以外层必须套上 @ 抑制并在 false 时 continue 继续循环"
+        },
+        {
+          "startSec": 20.466,
+          "endSec": 22.318,
+          "text": "绝不能直接崩掉退出！"
+        }
+      ]
+    }
+  }
+}

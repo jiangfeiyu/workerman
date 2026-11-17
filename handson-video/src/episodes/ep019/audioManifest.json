@@ -1,0 +1,112 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-hooks-def": {
+      "id": "shot-01-hooks-def",
+      "audioFile": "audio/ep019/shot-01-hooks-def.mp3",
+      "durationSec": 19.678,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.434,
+          "text": "一个完整的网络框架，绝不能只在收到消息时通知业务"
+        },
+        {
+          "startSec": 4.434,
+          "endSec": 7.43,
+          "text": "比如聊天室需要在客人进门时发欢迎语"
+        },
+        {
+          "startSec": 7.43,
+          "endSec": 9.327,
+          "text": "断线时清理在线人数！"
+        },
+        {
+          "startSec": 9.327,
+          "endSec": 15.818,
+          "text": "今天我们在 WorkerV01 上公开三个 Closure 钩子：onConnect"
+        },
+        {
+          "startSec": 15.818,
+          "endSec": 19.078,
+          "text": "onMessage 和 onClose"
+        }
+      ]
+    },
+    "shot-02-trigger-points": {
+      "id": "shot-02-trigger-points",
+      "audioFile": "audio/ep019/shot-02-trigger-points.mp3",
+      "durationSec": 20.806,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.227,
+          "text": "看触发时机"
+        },
+        {
+          "startSec": 1.227,
+          "endSec": 7.125,
+          "text": "第 41 行 accept 到新连接并记入 $connections 连接池后"
+        },
+        {
+          "startSec": 7.125,
+          "endSec": 9.707,
+          "text": "立刻触发 onConnect"
+        },
+        {
+          "startSec": 9.707,
+          "endSec": 13.86,
+          "text": "第 51 行读到有效数据时触发 onMessage"
+        },
+        {
+          "startSec": 13.86,
+          "endSec": 18.187,
+          "text": "第 48 行检测到客户端断开、摘掉监听并关闭 FD 后"
+        },
+        {
+          "startSec": 18.187,
+          "endSec": 20.206,
+          "text": "触发 onClose！"
+        }
+      ]
+    },
+    "shot-03-verify-hooks": {
+      "id": "shot-03-verify-hooks",
+      "audioFile": "audio/ep019/shot-03-verify-hooks.mp3",
+      "durationSec": 23.11,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.77,
+          "text": "运行 verify.php 实测！日志精准按顺序打出"
+        },
+        {
+          "startSec": 4.77,
+          "endSec": 8.4,
+          "text": "客人连入打印 Welcome fd=10"
+        },
+        {
+          "startSec": 8.4,
+          "endSec": 11.847,
+          "text": "发包触发 Got: ping hooks"
+        },
+        {
+          "startSec": 11.847,
+          "endSec": 16.944,
+          "text": "断开立刻触发 onClose 送别客人！下一集 EP020"
+        },
+        {
+          "startSec": 16.944,
+          "endSec": 19.657,
+          "text": "我们解决一个上线必炸的大坑"
+        },
+        {
+          "startSec": 19.657,
+          "endSec": 22.51,
+          "text": "万一业务回调里抛异常怎么办？"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+    "episode": "ep10",
+    "output": [
+        "[第1次 onWritable] 写入数据完毕 (暂不卸载，看看下一轮会怎样)",
+        "[onReadable] 收到: async-write-chunk",
+        "[第2次 onWritable] 警告！没数据要写但内核还是立刻触发了可写事件！赶紧 offWritable"
+    ]
+}

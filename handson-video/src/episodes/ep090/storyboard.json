@@ -1,0 +1,29 @@
+{
+  "id": "EP090",
+  "epTag": "090 / 112",
+  "title": "实现 doSslHandshake() 状态机：一键启用 HTTPS / WSS",
+  "legoModule": "模块 5.3 · TLS 加密与总装",
+  "outputFile": "out/EP090_实现doSslHandshake异步状态机_HTTPS与WSS.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-ssl-fsm",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "ssl-fsm",
+      "ttsText": "把刚才的非阻塞返回值逻辑塞进 TcpConnection，就成了优雅的 doSslHandshake() 异步状态机！新连接连上时先把 $sslHandshakeCompleted 设为 false，每次触发可读事件先走握手分支，拿到 === 0 直接 return 等下一波报文到达！",
+      "subtitleText": "【090/112】doSslHandshake() 收到 === 0 直接 return 让出，不卡死事件循环等下次可读！",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-https-wss",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "https-wss",
+      "ttsText": "一旦某一次拿到 === true，立刻把状态位翻成 true 并换回普通 baseRead 读解密明文！实测加密通道内直接读出了明文 GET /tls-ok HTTP/1.1！配合不同 Protocol，一句配置就能秒变 HTTPS 和 WSS 服务器！",
+      "subtitleText": "握手翻 true 后 fread 自动吐出解密明文 GET /tls-ok HTTP/1.1！一句配置切换 HTTPS/WSS！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

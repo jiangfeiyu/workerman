@@ -1,0 +1,92 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-interface": {
+      "id": "shot-01-why-interface",
+      "audioFile": "audio/ep008/shot-01-why-interface.mp3",
+      "durationSec": 23.086,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.86,
+          "text": "前面我们用 stream_select 驱动事件"
+        },
+        {
+          "startSec": 3.86,
+          "endSec": 8.785,
+          "text": "但第 4 篇连接超过 1024 个时我们会换装 Epoll 发动机！"
+        },
+        {
+          "startSec": 8.785,
+          "endSec": 14.046,
+          "text": "如果 Worker 业务层直接绑定 Select，到时候全盘重写"
+        },
+        {
+          "startSec": 14.046,
+          "endSec": 19.876,
+          "text": "所以第 8 集先立一个统一插槽契约 EventLoopInterface"
+        },
+        {
+          "startSec": 19.876,
+          "endSec": 22.486,
+          "text": "换引擎时上层一行代码不用改！"
+        }
+      ]
+    },
+    "shot-02-methods": {
+      "id": "shot-02-methods",
+      "audioFile": "audio/ep008/shot-02-methods.mp3",
+      "durationSec": 22.366,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.996,
+          "text": "整个核心接口极其克制，只有 6 个方法"
+        },
+        {
+          "startSec": 2.996,
+          "endSec": 7.996,
+          "text": "关注与取消读事件 onReadable、offReadable"
+        },
+        {
+          "startSec": 7.996,
+          "endSec": 12.996,
+          "text": "关注与取消写事件 onWritable、offWritable"
+        },
+        {
+          "startSec": 12.996,
+          "endSec": 16.36,
+          "text": "再加上启动引擎 run 和熄火退出 stop！"
+        },
+        {
+          "startSec": 16.36,
+          "endSec": 19.158,
+          "text": "对比第 07 集的 watchRead"
+        },
+        {
+          "startSec": 19.158,
+          "endSec": 21.766,
+          "text": "不过是换了个更标准的工程名字"
+        }
+      ]
+    },
+    "shot-03-next": {
+      "id": "shot-03-next",
+      "audioFile": "audio/ep008/shot-03-next.mp3",
+      "durationSec": 10.486,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.094,
+          "text": "反射校验 6 个方法全部就位！下一集 EP009"
+        },
+        {
+          "startSec": 4.094,
+          "endSec": 9.886,
+          "text": "我们正式把 EP007 的过程式代码装进 SelectLoop 类里！"
+        }
+      ]
+    }
+  }
+}

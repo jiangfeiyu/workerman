@@ -1,0 +1,37 @@
+{
+  "id": "EP068",
+  "epTag": "068 / 112",
+  "title": "【踩坑】Master 提前 require 业务类：reload 失效与类重定义",
+  "legoModule": "模块 4.3 · 信号、热更新与看板",
+  "outputFile": "out/EP068_踩坑_Master提前require业务类导致热更新失效.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-master-require",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "master-require",
+      "ttsText": "写热更新 90% 的人会栽在加载时机上！你在启动脚本顶部顺手写了一句 require_once 'BizHandler.php'，当时代码是 v1.0，然后你开开心心把磁盘代码改成 v2.0 再跑 reload，结果惊恐地发现新进程里跑的居然还是老代码 v1.0！",
+      "subtitleText": "【068/112】踩坑：在 fork 之前 require 业务类，磁盘改成 v2.0 再 reload 居然完全不生效！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-why-stuck",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "why-stuck",
+      "ttsText": "原因就是前面学过的 COW 内存继承！Master 进程在 fork 之前就已经把 v1.0 类表硬编码进了 PHP 引擎全局函数表里；之后无论你把老 Worker 杀掉重开多少次，新孩子一出生就带着 Master 的 v1.0 内存印记！如果你硬调 require 会直接炸出 Fatal error Cannot declare class！",
+      "subtitleText": "fork 后子进程继承了 Master 全局类表！硬 require 会直接报 Cannot declare class！",
+      "fallbackDurationSec": 27.0
+    },
+    {
+      "id": "shot-03-onworkerstart",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "onworkerstart",
+      "ttsText": "铁律只有一句话：Master 保持白纸一张，严禁加载任何业务文件！所有业务 Controller 和 Handler 一律推迟到 fork 之后的 onWorkerStart 回调里再 require！这样每次 reload 拉起新 Worker 都是全新空白容器，百分百吃进磁盘最新 v2.0 代码！",
+      "subtitleText": "黄金铁律：Master 绝不碰业务文件，全部放到 fork 后的 onWorkerStart() 里懒加载！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

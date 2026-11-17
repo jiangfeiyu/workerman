@@ -1,0 +1,60 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-register": {
+      "id": "shot-01-why-register",
+      "audioFile": "audio/ep102/shot-01-why-register.mp3",
+      "durationSec": 18.934,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.212,
+          "text": "线上扩容多加了 3 台 Gateway 机器"
+        },
+        {
+          "startSec": 3.212,
+          "endSec": 6.801,
+          "text": "总不能每次都手改配置去重启全集群业务机吧？"
+        },
+        {
+          "startSec": 6.801,
+          "endSec": 11.031,
+          "text": "这就需要第 3 个轻巧角色：Register 注册中心！"
+        },
+        {
+          "startSec": 11.031,
+          "endSec": 18.334,
+          "text": "所有 Gateway 和 BusinessWorker 上线第一件事都是去 Register 报到！"
+        }
+      ]
+    },
+    "shot-02-broadcast-nodes": {
+      "id": "shot-02-broadcast-nodes",
+      "audioFile": "audio/ep102/shot-02-broadcast-nodes.mp3",
+      "durationSec": 19.054,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.401,
+          "text": "只要任何一台 Gateway 新增上线、或心跳超时宕机下线"
+        },
+        {
+          "startSec": 4.401,
+          "endSec": 12.185,
+          "text": "Register 瞬间把最新的在线 Gateway 内网地址列表广播推给全部 BusinessWorker！"
+        },
+        {
+          "startSec": 12.185,
+          "endSec": 16.546,
+          "text": "BusinessWorker 动态连上新节点或断开死节点"
+        },
+        {
+          "startSec": 16.546,
+          "endSec": 18.454,
+          "text": "全程自动化零人工干预！"
+        }
+      ]
+    }
+  }
+}

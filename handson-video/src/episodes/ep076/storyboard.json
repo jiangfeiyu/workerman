@@ -1,0 +1,37 @@
+{
+  "id": "EP076",
+  "epTag": "076 / 112",
+  "title": "【合拢】Select vs Epoll 万级并发横评：第 4 篇完美收官",
+  "legoModule": "模块 4.4 · Epoll 万级并发核动力",
+  "outputFile": "out/EP076_合拢_Select与Epoll性能横评及第4篇收官.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-bench-setup",
+      "chapter": "第 4 篇 · 模块 4.4 Epoll 万级并发核动力",
+      "visual": "bench-setup",
+      "ttsText": "第 4 篇终极合拢测试！模拟高并发长连接最真实的场景：500 条已建立连接里只有 1 条发消息、其余 499 条挂着心跳空闲等待，让两种调度引擎连跑 500 轮看耗费多少纯 CPU 调度时间！",
+      "subtitleText": "【076/112】实测场景：1 条活跃连接 + 499 条空闲长连接，连续调度 500 轮对比耗时！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-bench-result",
+      "chapter": "第 4 篇 · 模块 4.4 Epoll 万级并发核动力",
+      "visual": "bench-result",
+      "ttsText": "同一台电脑跑出的真实碾压数据：SelectLoop 每轮拷贝遍历 500 个 FD，跑完花了 10.98 毫秒；而基于红黑树与就绪链表的 O(1) 调度只派发就绪事件，仅用了 0.006 毫秒，调度层面直接提速一千七百倍，连接再多也不卡顿！",
+      "subtitleText": "本机实测：SelectLoop O(N) 耗时 10.98ms vs ReadyList O(1) 仅 0.006ms（调度提速 1700x）！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-03-part4-recap",
+      "chapter": "第 4 篇 · 模块 4.4 Epoll 万级并发核动力",
+      "visual": "part4-recap",
+      "ttsText": "第 4 篇 22 集圆满通关！至此你的 ModernWorker 已经集齐 Master 自愈监工、两次 fork 守护化、PID 锁 CLI、零停机热更新 reload 和 Epoll O(1) 引擎！下一篇第 5 篇，我们用 PHP 8 Fiber 协程与 TLS 加密再造一次架构跃迁！",
+      "subtitleText": "第 4 篇收官 🎉：Master 自愈 + 守护化 + CLI + 热更新 + Epoll 核动力全线打通！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

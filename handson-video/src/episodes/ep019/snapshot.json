@@ -1,0 +1,11 @@
+{
+    "episode": "ep19",
+    "serverOutput": [
+        "[WorkerV01] 三大生命周期钩子就位 tcp:\/\/127.0.0.1:19019",
+        "[onConnect] 欢迎客人 fd=10",
+        "[onMessage] fd=10 说: ping hooks",
+        "[onClose] 送别客人 fd=10"
+    ],
+    "welcome": "Welcome fd=10",
+    "reply": "Got: ping hooks"
+}

@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-code-select": {
+      "id": "shot-01-code-select",
+      "audioFile": "audio/ep004/shot-01-code-select.mp3",
+      "durationSec": 25.846,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.327,
+          "text": "搞懂了传引用规则，今天这集非常轻快！"
+        },
+        {
+          "startSec": 3.327,
+          "endSec": 7.359,
+          "text": "我们把 EP002 空转七万次的服务器拿来动两刀"
+        },
+        {
+          "startSec": 7.359,
+          "endSec": 11.222,
+          "text": "每轮循环先拷贝 $read = [$server]"
+        },
+        {
+          "startSec": 11.222,
+          "endSec": 18.405,
+          "text": "然后调用 @stream_select($read, $write, $except, null)"
+        },
+        {
+          "startSec": 18.405,
+          "endSec": 20.743,
+          "text": "注意第 4 个参数传 null"
+        },
+        {
+          "startSec": 20.743,
+          "endSec": 25.246,
+          "text": "意思是没客人时无限期安心睡眠，CPU 占用直接归零！"
+        }
+      ]
+    },
+    "shot-02-wake-up": {
+      "id": "shot-02-wake-up",
+      "audioFile": "audio/ep004/shot-02-wake-up.mp3",
+      "durationSec": 19.198,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.355,
+          "text": "跑起来看看终端一！启动后没有任何刷屏空转日志"
+        },
+        {
+          "startSec": 4.355,
+          "endSec": 7.147,
+          "text": "进程静静躺在内核等待队列里"
+        },
+        {
+          "startSec": 7.147,
+          "endSec": 9.468,
+          "text": "一旦客人 1 和客人 2 敲门"
+        },
+        {
+          "startSec": 9.468,
+          "endSec": 13.964,
+          "text": "stream_select 立刻从睡眠中毫秒级醒来"
+        },
+        {
+          "startSec": 13.964,
+          "endSec": 18.598,
+          "text": "$ready 大于 0，迎入客人并回显 Welcome！"
+        }
+      ]
+    },
+    "shot-03-next-gap": {
+      "id": "shot-03-next-gap",
+      "audioFile": "audio/ep004/shot-03-next-gap.mp3",
+      "durationSec": 20.854,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.439,
+          "text": "不过现在只把接待门 $server 放进了监控数组"
+        },
+        {
+          "startSec": 4.439,
+          "endSec": 8.394,
+          "text": "迎客后立刻就关掉了，还没做到长连接并发"
+        },
+        {
+          "startSec": 8.394,
+          "endSec": 11.13,
+          "text": "下一集 EP005 模块合拢课"
+        },
+        {
+          "startSec": 11.13,
+          "endSec": 16.638,
+          "text": "我们把迎入的每一个客人 $conn 也装进 $allFds 总花名册"
+        },
+        {
+          "startSec": 16.638,
+          "endSec": 20.254,
+          "text": "彻底实现单进程并发伺候上千个长连接！"
+        }
+      ]
+    }
+  }
+}

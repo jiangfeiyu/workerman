@@ -1,0 +1,7 @@
+{
+    "episode": "ep88",
+    "output": [
+        "[OpenSSL 生成] 2048-bit RSA 私钥 + X.509 自签名证书 PEM 就绪",
+        "[SSL Context 挂载] stream_socket_server('tcp:\/\/127.0.0.1:58883', $ctx) 启动成功 (业务代码 0 改动!)"
+    ]
+}

@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-wrap-worker": {
+      "id": "shot-01-wrap-worker",
+      "audioFile": "audio/ep018/shot-01-wrap-worker.mp3",
+      "durationSec": 18.118,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.55,
+          "text": "欢迎来到第 1 篇最后的合拢模块！"
+        },
+        {
+          "startSec": 2.55,
+          "endSec": 6.346,
+          "text": "前面我们造好了 SelectLoop 和 Timer"
+        },
+        {
+          "startSec": 6.346,
+          "endSec": 10.938,
+          "text": "但每次写业务都要自己调 stream_socket_server"
+        },
+        {
+          "startSec": 10.938,
+          "endSec": 13.448,
+          "text": "自己写 accept，太繁琐了"
+        },
+        {
+          "startSec": 13.448,
+          "endSec": 17.518,
+          "text": "今天把这些脏活累活全部收进 WorkerV01 类里！"
+        }
+      ]
+    },
+    "shot-02-clean-entry": {
+      "id": "shot-02-clean-entry",
+      "audioFile": "audio/ep018/shot-02-clean-entry.mp3",
+      "durationSec": 17.806,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.168,
+          "text": "看现在业务侧的启动脚本有多优雅：仅仅 4 行代码"
+        },
+        {
+          "startSec": 4.168,
+          "endSec": 9.683,
+          "text": "new WorkerV01 传入监听地址，绑上 onMessage"
+        },
+        {
+          "startSec": 9.683,
+          "endSec": 15.025,
+          "text": "最后一句 start() 启动！实测返回 WorkerV01 Echo"
+        },
+        {
+          "startSec": 15.025,
+          "endSec": 17.206,
+          "text": "底层复杂细节彻底隐身！"
+        }
+      ]
+    }
+  }
+}

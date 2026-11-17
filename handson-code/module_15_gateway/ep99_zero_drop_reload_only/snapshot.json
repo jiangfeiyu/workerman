@@ -1,0 +1,7 @@
+{
+    "episode": "ep99",
+    "output": [
+        "[业务热重启] BusinessWorker 从 v1 杀掉重启为 v2 -> 用户 TCP 断开次数=0 (alive=true)",
+        "[v2 无缝下发] Gateway 按 connId=8 原路写回 -> 用户端收到=\"v2.0 热更新后推送: Welcome!\""
+    ]
+}

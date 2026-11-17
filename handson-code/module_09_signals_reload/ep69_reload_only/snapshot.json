@@ -1,0 +1,8 @@
+{
+    "episode": "ep69",
+    "output": [
+        "[Master 收到 reload] 向老 Worker pid=90738 转发 SIGUSR1",
+        "[老 Worker 90738] 排空缓冲后体面 exit(0)",
+        "[Master pcntl_wait] 秒拉新 Worker pid=90739 加载新代码 (v2.0)!"
+    ]
+}

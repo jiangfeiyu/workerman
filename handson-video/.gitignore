@@ -1,0 +1,9 @@
+.env
+node_modules
+node_modules/
+.venv
+.venv/
+.npm-cache/
+public/audio/
+out/qa/
+.DS_Store

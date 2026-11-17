@@ -1,0 +1,92 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-shared-trap": {
+      "id": "shot-01-shared-trap",
+      "audioFile": "audio/ep086/shot-01-shared-trap.mp3",
+      "durationSec": 19.75,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.371,
+          "text": "协程化上线第一天最可怕的线上事故！"
+        },
+        {
+          "startSec": 3.371,
+          "endSec": 8.947,
+          "text": "你在 onWorkerStart 里建了一个全局单例 $redis"
+        },
+        {
+          "startSec": 8.947,
+          "endSec": 14.161,
+          "text": "所有用户请求都调同一个 $redis！开发测试单用户好好的"
+        },
+        {
+          "startSec": 14.161,
+          "endSec": 19.15,
+          "text": "一上生产并发当场出现 A 用户查出 B 用户余额的恐怖串台！"
+        }
+      ]
+    },
+    "shot-02-interleave": {
+      "id": "shot-02-interleave",
+      "audioFile": "audio/ep086/shot-02-interleave.mp3",
+      "durationSec": 17.854,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.294,
+          "text": "顺着时间轴慢放案发现场"
+        },
+        {
+          "startSec": 2.294,
+          "endSec": 6.132,
+          "text": "协程 A 刚刚往这条 TCP 发了 GET keyA"
+        },
+        {
+          "startSec": 6.132,
+          "endSec": 9.618,
+          "text": "调 Fiber::suspend() 挂起等回包"
+        },
+        {
+          "startSec": 9.618,
+          "endSec": 11.52,
+          "text": "就在这几毫秒空档里"
+        },
+        {
+          "startSec": 11.52,
+          "endSec": 17.254,
+          "text": "协程 B 杀进来往同一条 Socket 塞入请求并调用 fread 读取！"
+        }
+      ]
+    },
+    "shot-03-wrong-packet": {
+      "id": "shot-03-wrong-packet",
+      "audioFile": "audio/ep086/shot-03-wrong-packet.mp3",
+      "durationSec": 20.254,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.72,
+          "text": "实测跑出来触目惊心：Fiber B 明明要查自己的数据"
+        },
+        {
+          "startSec": 5.72,
+          "endSec": 10.044,
+          "text": "结果一把顺走了先回来的 RES_FOR_A！"
+        },
+        {
+          "startSec": 10.044,
+          "endSec": 15.088,
+          "text": "同一条有序 TCP 管子里同时飞着多根协程的包裹"
+        },
+        {
+          "startSec": 15.088,
+          "endSec": 19.654,
+          "text": "回包顺序一交错必串台！必须上协程连接池！"
+        }
+      ]
+    }
+  }
+}

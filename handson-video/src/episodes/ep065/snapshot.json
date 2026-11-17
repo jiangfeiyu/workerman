@@ -1,0 +1,9 @@
+{
+    "episode": "ep65_66_cli",
+    "output": [
+        "[第1次启动 flock] 抢占 master.pid 排他锁 => ACQUIRED (pid=70716)",
+        "[第2次误重复启动] flock(LOCK_EX|LOCK_NB) => BLOCKED! (已拒绝重复启动)",
+        "[CLI 解析] `start -d` => cmd=start, daemon=true",
+        "[CLI 解析] `stop -g`  => cmd=stop, graceful=true"
+    ]
+}

@@ -1,0 +1,75 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-fiber": {
+      "id": "shot-01-why-fiber",
+      "audioFile": "audio/ep077/shot-01-why-fiber.mp3",
+      "durationSec": 24.166,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.197,
+          "text": "第 5 篇正式解锁 PHP 8 协程与加密安全防线！"
+        },
+        {
+          "startSec": 4.197,
+          "endSec": 8.911,
+          "text": "很多人问 PHP 以前不是早有 yield 生成器了吗？"
+        },
+        {
+          "startSec": 8.911,
+          "endSec": 11.658,
+          "text": "痛点在于 yield 是无栈的"
+        },
+        {
+          "startSec": 11.658,
+          "endSec": 14.59,
+          "text": "你把数据库查询封装进三层函数"
+        },
+        {
+          "startSec": 14.59,
+          "endSec": 18.822,
+          "text": "深层子函数根本没法直接 yield 交出控制权"
+        },
+        {
+          "startSec": 18.822,
+          "endSec": 23.566,
+          "text": "调用链上每一层全得改写成 yield from 地狱！"
+        }
+      ]
+    },
+    "shot-02-deep-suspend": {
+      "id": "shot-02-deep-suspend",
+      "audioFile": "audio/ep077/shot-02-deep-suspend.mp3",
+      "durationSec": 21.646,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.124,
+          "text": "而 PHP 8.1 原生 Fiber 是全栈有栈协程！"
+        },
+        {
+          "startSec": 4.124,
+          "endSec": 10.371,
+          "text": "你看代码里从入口调进 serviceLayer 再调进 deepQuery"
+        },
+        {
+          "startSec": 10.371,
+          "endSec": 12.43,
+          "text": "足足套了 3 层普通函数"
+        },
+        {
+          "startSec": 12.43,
+          "endSec": 18.328,
+          "text": "最底层一句 Fiber::suspend() 当场把整条调用栈打包冻结在半空"
+        },
+        {
+          "startSec": 18.328,
+          "endSec": 21.046,
+          "text": "把控制权干净地交回事件循环！"
+        }
+      ]
+    }
+  }
+}

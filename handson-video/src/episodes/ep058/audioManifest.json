@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-shared-fd": {
+      "id": "shot-01-shared-fd",
+      "audioFile": "audio/ep058/shot-01-shared-fd.mp3",
+      "durationSec": 23.398,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.185,
+          "text": "既然每个子进程内存独立"
+        },
+        {
+          "startSec": 2.185,
+          "endSec": 6.778,
+          "text": "那 4 个 Worker 怎么同时监听同一个 8080 端口呢？"
+        },
+        {
+          "startSec": 6.778,
+          "endSec": 9.359,
+          "text": "奥秘就在 fork 的继承机制！"
+        },
+        {
+          "startSec": 9.359,
+          "endSec": 16.868,
+          "text": "Master 在 fork 之前先调 stream_socket_server() 打开监听 Socket"
+        },
+        {
+          "startSec": 16.868,
+          "endSec": 18.511,
+          "text": "所有子进程一出生"
+        },
+        {
+          "startSec": 18.511,
+          "endSec": 22.798,
+          "text": "文件描述符表里全指向内核里那同一个 3 号监听端口！"
+        }
+      ]
+    },
+    "shot-02-thundering": {
+      "id": "shot-02-thundering",
+      "audioFile": "audio/ep058/shot-02-thundering.mp3",
+      "durationSec": 24.958,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.868,
+          "text": "实测两个 Worker 同时在同端口 accept"
+        },
+        {
+          "startSec": 3.868,
+          "endSec": 8.822,
+          "text": "客户端 A 和 B 连上来时，Worker #1 抢到 Client-B"
+        },
+        {
+          "startSec": 8.822,
+          "endSec": 12.103,
+          "text": "Worker #2 抢到 Client-A！"
+        },
+        {
+          "startSec": 12.103,
+          "endSec": 16.092,
+          "text": "不过如果上百个 Worker 睡在同一把监听 FD 上"
+        },
+        {
+          "startSec": 16.092,
+          "endSec": 19.598,
+          "text": "一个新连接来了全员被同时吵醒只一个人抢到"
+        },
+        {
+          "startSec": 19.598,
+          "endSec": 24.358,
+          "text": "这就叫惊群效应，待会儿我们用 SO_REUSEPORT 治它！"
+        }
+      ]
+    }
+  }
+}

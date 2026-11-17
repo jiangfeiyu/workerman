@@ -1,0 +1,7 @@
+{
+    "episode": "ep80",
+    "output": [
+        "[REQ_B 协程返回] 同步拿到 OK:REQ_B",
+        "[REQ_A 协程返回] 同步拿到 OK:REQ_A"
+    ]
+}

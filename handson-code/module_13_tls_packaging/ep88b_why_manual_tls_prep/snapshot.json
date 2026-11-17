@@ -1,0 +1,7 @@
+{
+    "episode": "ep88b",
+    "output": [
+        "[错误方案 ssl:\/\/] stream_socket_accept() 内部同步阻塞等 TLS 握手 → 1 个慢客户端卡死全服 10,000 人!",
+        "[正确方案 tcp:\/\/ + 非阻塞握手] 先 0ms accept 拿到明文 TCP 句柄，再自己异步驱动 stream_socket_enable_crypto()!"
+    ]
+}

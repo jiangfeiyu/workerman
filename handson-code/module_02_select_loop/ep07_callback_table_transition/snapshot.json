@@ -1,0 +1,10 @@
+{
+    "episode": "ep07",
+    "port": "19007",
+    "serverOutput": [
+        "[Server] 回调表驱动服务器已启动 tcp:\/\/127.0.0.1:19007",
+        "[Server] 新客入座 fd=6",
+        "[Server] 客人离开 fd=6"
+    ],
+    "reply": "Echo[cb]: hello callback table"
+}

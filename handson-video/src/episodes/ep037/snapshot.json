@@ -1,0 +1,8 @@
+{
+    "episode": "ep37",
+    "output": [
+        "[onMessage 收到完整文本] alpha",
+        "[第1次喂入8字节] 切出 alpha，beta 半截留在缓冲里",
+        "[onMessage 收到完整文本] beta"
+    ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "EP091",
+  "epTag": "091 / 112",
+  "title": "慢连接攻击 Slowloris 防御：包头超时踢人机制",
+  "legoModule": "模块 5.3 · TLS 加密与总装",
+  "outputFile": "out/EP091_慢连接攻击Slowloris与包头超时防御.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-slowloris",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "slowloris",
+      "ttsText": "上线公网必须防一种极阴险的零成本 DDoS：Slowloris 慢连接攻击！黑客连上来每隔 10 秒只发 1 个字节 HTTP 头，永远不发结束的双换行符，用几千个廉价连接把你的服务文件描述符活活耗尽！",
+      "subtitleText": "【091/112】Slowloris 攻击：黑客连上后只发半截 HTTP 头占着茅坑不拉屎，耗光连接槽位！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-header-timeout",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "header-timeout",
+      "ttsText": "防御代码只需给连接加上建连时间戳与包头超时 Timer！设定 $headerTimeout = 5.0 秒，一旦超时检查发现既没完成首包解析、又超过 5 秒上限，直接 destroy() 强踢释放 FD 资源！",
+      "subtitleText": "定时器扫到超时且首包仍未收齐 (6.2s > 5s)，立刻 destroy() 强踢释放句柄！",
+      "fallbackDurationSec": 22.0
+    }
+  ]
+}

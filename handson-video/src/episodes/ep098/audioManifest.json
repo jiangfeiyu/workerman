@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-two-roles": {
+      "id": "shot-01-two-roles",
+      "audioFile": "audio/ep098/shot-01-two-roles.mp3",
+      "durationSec": 18.862,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.085,
+          "text": "在写完整集群之前"
+        },
+        {
+          "startSec": 2.085,
+          "endSec": 7.593,
+          "text": "先用十行硬编码原型看懂数据怎么在两层之间穿针引线！"
+        },
+        {
+          "startSec": 7.593,
+          "endSec": 11.098,
+          "text": "Gateway 进程只干两件蠢事"
+        },
+        {
+          "startSec": 11.098,
+          "endSec": 14.394,
+          "text": "对外开公网 8282 端口接用户"
+        },
+        {
+          "startSec": 14.394,
+          "endSec": 18.262,
+          "text": "对内开 2901 端口等后端业务来连！"
+        }
+      ]
+    },
+    "shot-02-forward-loop": {
+      "id": "shot-02-forward-loop",
+      "audioFile": "audio/ep098/shot-02-forward-loop.mp3",
+      "durationSec": 18.238,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.873,
+          "text": "一旦用户从 8282 发来一句聊天消息"
+        },
+        {
+          "startSec": 2.873,
+          "endSec": 7.815,
+          "text": "Gateway 立刻原封转发给内网的 BusinessWorker"
+        },
+        {
+          "startSec": 7.815,
+          "endSec": 12.456,
+          "text": "BusinessWorker 算完回包后再发回 Gateway"
+        },
+        {
+          "startSec": 12.456,
+          "endSec": 15.741,
+          "text": "由 Gateway 找到对应用户的 FD 写回去"
+        },
+        {
+          "startSec": 15.741,
+          "endSec": 17.638,
+          "text": "两层正式完成物理分工！"
+        }
+      ]
+    }
+  }
+}

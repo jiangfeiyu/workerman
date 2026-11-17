@@ -1,0 +1,8 @@
+{
+    "episode": "ep97_101_gwproto",
+    "output": [
+        "[EP100 · 全局 client_id 编码] (10.0.0.8, 8282, conn=42) => 0a000008205a0000002a (20字符全球唯一!)",
+        "[EP100 · 逆向秒级定位] decodeClientId => 10.0.0.8:8282 fd#42",
+        "[EP101 · GatewayProtocol 封包] totalBytes=39B | cmd=2 | body=\"Hello Gateway!\""
+    ]
+}

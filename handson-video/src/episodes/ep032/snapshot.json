@@ -1,0 +1,7 @@
+{
+    "episode": "ep32",
+    "output": [
+        "[60ms 巡检] 200KB 已读完 (204800 B)，feof=false 连接依然稳稳存活！",
+        "[onClose] 客户端真断开了 (feof===true)，累计读完 204800 B (分 25 块)"
+    ]
+}

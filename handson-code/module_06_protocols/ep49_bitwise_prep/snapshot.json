@@ -1,0 +1,8 @@
+{
+    "episode": "ep49_bitwise",
+    "output": [
+        "[第1字节 0x81 = 10000001] FIN=1, Opcode=1 (文本帧)",
+        "[第2字节 0x85 = 10000101] MASK=1, PayloadLen=5",
+        "[XOR 两次还原] 原文=Hello -> 密文HEX=524e502175 -> 再异或=Hello"
+    ]
+}

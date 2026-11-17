@@ -1,0 +1,8 @@
+{
+    "episode": "ep50b",
+    "output": [
+        "[pack('n', 300) 2字节] 字节数=2 | unpack('n')[1] = 300",
+        "[pack('J', 70000) 8字节] 字节数=8 | unpack('J')[1] = 70000",
+        "[帧头顺序] [B0][B1] → [ExtLen: 0\/2\/8B] → [MaskKey: 0\/4B] → [Payload]"
+    ]
+}

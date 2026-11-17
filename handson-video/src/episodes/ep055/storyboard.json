@@ -1,0 +1,29 @@
+{
+  "id": "EP055",
+  "epTag": "055 / 112",
+  "title": "fork() 返回两次：一次拿子 PID，一次拿 0",
+  "legoModule": "模块 4.1 · 多进程与 Master 监工",
+  "outputFile": "out/EP055_fork返回两次_一次拿子PID一次拿0.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-fork-split",
+      "chapter": "第 4 篇 · 模块 4.1 多进程与 Master 监工",
+      "visual": "fork-split",
+      "ttsText": "第 4 篇正式进入多进程与高并发核动力！普通 PHP 函数调一次返回一次，但 pcntl_fork() 是宇宙级分身术：调用一次，会在父进程和子进程里各自返回一次！父进程拿到新出生孩子的真实 PID，而子进程拿到的返回值永远是 0！",
+      "subtitleText": "【055/112】pcntl_fork() 调用一次返回两次：父进程拿子 PID (>0)，子进程拿 0！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-fork-verify",
+      "chapter": "第 4 篇 · 模块 4.1 多进程与 Master 监工",
+      "visual": "fork-verify",
+      "ttsText": "跑一遍 demo.php 看真格的！终端同时打出了两个视角的日志：父进程 myPid=70531 拿到孩子 PID=70533；子进程拿到的 fork 返回值等于 0，它的 ppid 正好指向父进程 70531！靠这句 if ($pid === 0)，两兄弟就能在同份代码里走上完全不同的人生分支！",
+      "subtitleText": "父进程 myPid=70531 收到子PID=70533；子进程收到 0 且 posix_getppid()=70531！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

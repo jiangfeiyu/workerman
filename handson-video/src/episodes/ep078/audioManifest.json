@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-suspend-out": {
+      "id": "shot-01-suspend-out",
+      "audioFile": "audio/ep078/shot-01-suspend-out.mp3",
+      "durationSec": 20.374,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.551,
+          "text": "把协程冻结还不够"
+        },
+        {
+          "startSec": 1.551,
+          "endSec": 5.467,
+          "text": "怎么把异步查到的结果无缝塞回刚才暂停的那一行呢？"
+        },
+        {
+          "startSec": 5.467,
+          "endSec": 9.383,
+          "text": "答案就在 suspend 与 resume 的双向接力！"
+        },
+        {
+          "startSec": 9.383,
+          "endSec": 11.819,
+          "text": "外层调 $fiber->start() 后"
+        },
+        {
+          "startSec": 11.819,
+          "endSec": 19.774,
+          "text": "内层一句 Fiber::suspend('WAIT_DB_ROW') 会把请求信号作为 start() 的返回值传出来！"
+        }
+      ]
+    },
+    "shot-02-resume-in": {
+      "id": "shot-02-resume-in",
+      "audioFile": "audio/ep078/shot-02-resume-in.mp3",
+      "durationSec": 25.414,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.511,
+          "text": "等事件循环拿到数据库结果后"
+        },
+        {
+          "startSec": 2.511,
+          "endSec": 7.42,
+          "text": "只需调一句 $fiber->resume('user#42')！"
+        },
+        {
+          "startSec": 7.42,
+          "endSec": 9.056,
+          "text": "奇妙的一幕发生了"
+        },
+        {
+          "startSec": 9.056,
+          "endSec": 16.703,
+          "text": "字符串 'user#42' 直接穿透三层函数栈变成 Fiber::suspend() 的返回值赋给 $row"
+        },
+        {
+          "startSec": 16.703,
+          "endSec": 24.814,
+          "text": "deepQuery 像什么都没发生过一样继续往下算完拿到 FINAL => GOT: user#42！"
+        }
+      ]
+    }
+  }
+}

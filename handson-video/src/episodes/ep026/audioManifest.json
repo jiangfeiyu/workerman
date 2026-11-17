@@ -1,0 +1,102 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-pending-idea": {
+      "id": "shot-01-pending-idea",
+      "audioFile": "audio/ep026/shot-01-pending-idea.mp3",
+      "durationSec": 20.014,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.329,
+          "text": "先不急着写进 TcpConnection 类"
+        },
+        {
+          "startSec": 3.329,
+          "endSec": 7.463,
+          "text": "今天用最直白的全局变量 $pending 做一次过渡推导！"
+        },
+        {
+          "startSec": 7.463,
+          "endSec": 9.696,
+          "text": "既然内核缓冲只有三百多 KB"
+        },
+        {
+          "startSec": 9.696,
+          "endSec": 14.645,
+          "text": "那我们在 PHP 内存里建一个蓄水池 $pending 存下完整 10MB"
+        },
+        {
+          "startSec": 14.645,
+          "endSec": 19.414,
+          "text": "再把连接交给 SelectLoop 的 onWritable 监听！"
+        }
+      ]
+    },
+    "shot-02-substr-drain": {
+      "id": "shot-02-substr-drain",
+      "audioFile": "audio/ep026/shot-02-substr-drain.mp3",
+      "durationSec": 23.854,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.214,
+          "text": "看第 36 到 45 行！每次客户端收走一批数据"
+        },
+        {
+          "startSec": 3.214,
+          "endSec": 7.416,
+          "text": "内核发送缓冲腾出空位，onWritable 就触发一次"
+        },
+        {
+          "startSec": 7.416,
+          "endSec": 12.978,
+          "text": "调用 fwrite($s, $pending) 拿到实际写入字节数 $written"
+        },
+        {
+          "startSec": 12.978,
+          "endSec": 18.328,
+          "text": "再用 substr($pending, $written) 把发完的头部切掉！"
+        },
+        {
+          "startSec": 18.328,
+          "endSec": 23.254,
+          "text": "一直切到 $pending 为空，立刻调 offWritable() 卸载！"
+        }
+      ]
+    },
+    "shot-03-verify-zero-loss": {
+      "id": "shot-03-verify-zero-loss",
+      "audioFile": "audio/ep026/shot-03-verify-zero-loss.mp3",
+      "durationSec": 21.67,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.769,
+          "text": "运行 demo.php 实测！"
+        },
+        {
+          "startSec": 2.769,
+          "endSec": 7.09,
+          "text": "总共经历了 6 轮 onWritable 接力续传"
+        },
+        {
+          "startSec": 7.09,
+          "endSec": 12.283,
+          "text": "接收端一字节不差收齐了全部 10,485,760 字节！"
+        },
+        {
+          "startSec": 12.283,
+          "endSec": 16.036,
+          "text": "不过下集 EP027 我们先故意踩一个坑"
+        },
+        {
+          "startSec": 16.036,
+          "endSec": 21.07,
+          "text": "如果排空后忘了调 offWritable() 会有多恐怖？"
+        }
+      ]
+    }
+  }
+}

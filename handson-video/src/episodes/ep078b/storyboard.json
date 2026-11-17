@@ -1,0 +1,29 @@
+{
+  "id": "EP078B",
+  "epTag": "078B · 加餐过渡",
+  "title": "Fiber::getCurrent() 与 Coroutine::spawn()",
+  "legoModule": "模块 5.1 · Fiber 协程调度器（过渡）",
+  "outputFile": "out/EP078B_加餐过渡_Fiber_getCurrent与spawn原理.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-get-current",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "get-current",
+      "ttsText": "进入 EP079 手写 Coroutine::sleep() 之前，先补齐一个关键机制：前面我们手写了 $fiber = new Fiber(...)，可如果在很深的函数里面，手里根本没有 $fiber 变量，怎么把自己挂到定时器上等会再唤醒呢？答案就是 PHP 内置的静态方法 Fiber::getCurrent()！",
+      "subtitleText": "【078B/加餐过渡】在深层函数手里没有 $fiber 变量？用 Fiber::getCurrent() 抓住当前正在跑的自己！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-spawn-wrap",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "spawn-wrap",
+      "ttsText": "看实测结果！在普通主线程里调用 Fiber::getCurrent() 会返回 null；而只要把业务函数用 Coroutine::spawn() 包进 Fiber 启动，里面无论嵌套十层函数，随时都能一把抓出正在执行的自身对象！下一集 EP079，我们就把它和第 1 篇的 delay() 接在一起！",
+      "subtitleText": "主线程返回 null；Coroutine::spawn() 内随时抓到当前 Fiber 对象！下集 EP079 对接 delay()",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

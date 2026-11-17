@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-plain-function": {
+      "id": "shot-01-plain-function",
+      "audioFile": "audio/ep015b/shot-01-plain-function.mp3",
+      "durationSec": 22.174,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.478,
+          "text": "直接看循环定时器容易被多层回调绕晕"
+        },
+        {
+          "startSec": 3.478,
+          "endSec": 8.927,
+          "text": "今天先用 EP015 的单次闹钟 delay() 走半步！看第 11 行"
+        },
+        {
+          "startSec": 8.927,
+          "endSec": 14.559,
+          "text": "我们只写一个普通函数 heartbeat：每次响铃打印第几次"
+        },
+        {
+          "startSec": 14.559,
+          "endSec": 16.168,
+          "text": "如果还没满 3 次"
+        },
+        {
+          "startSec": 16.168,
+          "endSec": 21.574,
+          "text": "就再调一次 delay() 预约 60 毫秒后的下一次，就这么简单！"
+        }
+      ]
+    },
+    "shot-02-stack-truth": {
+      "id": "shot-02-stack-truth",
+      "audioFile": "audio/ep015b/shot-02-stack-truth.mp3",
+      "durationSec": 25.318,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.909,
+          "text": "可能有同学担心：在 heartbeat 里又调用自己"
+        },
+        {
+          "startSec": 4.909,
+          "endSec": 8.57,
+          "text": "不会函数栈溢出吗？看右侧内存原理图！"
+        },
+        {
+          "startSec": 8.57,
+          "endSec": 12.496,
+          "text": "调用 delay() 只是往最小堆里放一条数据"
+        },
+        {
+          "startSec": 12.496,
+          "endSec": 16.724,
+          "text": "函数当场就 return 结束、调用栈清零了！"
+        },
+        {
+          "startSec": 16.724,
+          "endSec": 20.65,
+          "text": "60 毫秒后是由主循环重新把它拎出来跑的"
+        },
+        {
+          "startSec": 20.65,
+          "endSec": 24.718,
+          "text": "每次栈深度永远是 1，就像接力棒一样传递！"
+        }
+      ]
+    },
+    "shot-03-run-next": {
+      "id": "shot-03-run-next",
+      "audioFile": "audio/ep015b/shot-03-run-next.mp3",
+      "durationSec": 20.35,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.728,
+          "text": "运行 demo.php，62 毫秒、123 毫秒"
+        },
+        {
+          "startSec": 3.728,
+          "endSec": 6.812,
+          "text": "188 毫秒精准滴答 3 次后自动停止！"
+        },
+        {
+          "startSec": 6.812,
+          "endSec": 9.461,
+          "text": "有了这个“接力棒续订”的画面"
+        },
+        {
+          "startSec": 9.461,
+          "endSec": 15.295,
+          "text": "下一集 EP016 把它装进 SelectLoopWithRepeat 类"
+        },
+        {
+          "startSec": 15.295,
+          "endSec": 19.75,
+          "text": "我们也不用绕口的自引用闭包，轻松写出 repeat()！"
+        }
+      ]
+    }
+  }
+}

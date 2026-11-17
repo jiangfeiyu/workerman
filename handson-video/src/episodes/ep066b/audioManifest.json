@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-without-async": {
+      "id": "shot-01-without-async",
+      "audioFile": "audio/ep066b/shot-01-without-async.mp3",
+      "durationSec": 28.966,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.569,
+          "text": "看 EP067 信号处理之前"
+        },
+        {
+          "startSec": 2.569,
+          "endSec": 6.674,
+          "text": "先用 10 行实验看清 PHP 信号的默认怪脾气！"
+        },
+        {
+          "startSec": 6.674,
+          "endSec": 8.287,
+          "text": "看第 6 到 11 行"
+        },
+        {
+          "startSec": 8.287,
+          "endSec": 13.015,
+          "text": "我们用 pcntl_signal 绑好了 SIGUSR1"
+        },
+        {
+          "startSec": 13.015,
+          "endSec": 18.036,
+          "text": "然后立刻给自己发信号。结果一查变量竟然是 false！"
+        },
+        {
+          "startSec": 18.036,
+          "endSec": 22.031,
+          "text": "因为在默认情况下，PHP 不会自己检查信号"
+        },
+        {
+          "startSec": 22.031,
+          "endSec": 28.366,
+          "text": "必须等代码手动调用 pcntl_signal_dispatch() 才肯触发！"
+        }
+      ]
+    },
+    "shot-02-enable-async": {
+      "id": "shot-02-enable-async",
+      "audioFile": "audio/ep066b/shot-02-enable-async.mp3",
+      "durationSec": 23.182,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.0,
+          "text": "而我们的 Worker 平时大多睡在 stream_select() 里"
+        },
+        {
+          "startSec": 5.0,
+          "endSec": 8.446,
+          "text": "根本没空在每行代码里插 dispatch()！"
+        },
+        {
+          "startSec": 8.446,
+          "endSec": 14.05,
+          "text": "只要打开第 15 行这句 pcntl_async_signals(true)"
+        },
+        {
+          "startSec": 14.05,
+          "endSec": 17.818,
+          "text": "PHP 虚拟机在每条指令间隙自动秒级派发信号！"
+        },
+        {
+          "startSec": 17.818,
+          "endSec": 22.582,
+          "text": "下一集 EP067，再看信号怎么把睡着的 select 惊醒！"
+        }
+      ]
+    }
+  }
+}

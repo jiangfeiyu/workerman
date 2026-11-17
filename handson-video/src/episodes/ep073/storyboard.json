@@ -1,0 +1,37 @@
+{
+  "id": "EP073",
+  "epTag": "073 / 112",
+  "title": "红黑树 + 就绪链表：为什么 Epoll 万级连接依然 O(1)？",
+  "legoModule": "模块 4.4 · Epoll 万级并发核动力",
+  "outputFile": "out/EP073_红黑树与就绪链表_为什么Epoll万级连接O1.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-rbtree",
+      "chapter": "第 4 篇 · 模块 4.4 Epoll 万级并发核动力",
+      "visual": "rbtree",
+      "ttsText": "为什么 Linux epoll 和 macOS kqueue 面对一万甚至十万条并发连接还能稳如泰山 O(1)？靠的是内核里两件神器配合！第一件叫红黑树：新连接刚连上时调一次 epoll_ctl，把 FD 注册进内核红黑树里常驻！之后哪怕循环跑十万轮，也不用再重复拷贝连接列表！",
+      "subtitleText": "【073/112】神器 1（红黑树）：连接只在建连/断连时注册删改一次，不用每轮重复拷贝！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-rdlist",
+      "chapter": "第 4 篇 · 模块 4.4 Epoll 万级并发核动力",
+      "visual": "rdlist",
+      "ttsText": "第二件神器叫双向就绪链表 rdlist！当网卡收到某 1 个客户端发来的数据包触发硬件中断时，内核驱动顺手把那个活跃的 FD 精准放进就绪链表里！",
+      "subtitleText": "神器 2（双向就绪链表）：网卡中断时，内核只把真正收到数据的活跃 FD 挂入就绪链表！",
+      "fallbackDurationSec": 20.0
+    },
+    {
+      "id": "shot-03-o1-wait",
+      "chapter": "第 4 篇 · 模块 4.4 Epoll 万级并发核动力",
+      "visual": "o1-wait",
+      "ttsText": "所以你调 epoll_wait() 等事件时，内核压根不用扫描那一万条睡着的空闲连接，直接把就绪链表里那几个热乎乎的活跃事件端出来给你！复杂度只跟活跃连接数有关，和总连接数 N 完全无关，这就是真 O(1)！",
+      "subtitleText": "epoll_wait() 只取就绪链表里的活跃事件，复杂度彻底与总在线数无关！",
+      "fallbackDurationSec": 22.0
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-wrap-await": {
+      "id": "shot-01-wrap-await",
+      "audioFile": "audio/ep083/shot-01-wrap-await.mp3",
+      "durationSec": 18.814,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.07,
+          "text": "模块 5.1 最后一步封装"
+        },
+        {
+          "startSec": 2.07,
+          "endSec": 8.795,
+          "text": "把异步回调版 AsyncTcpClient 包装成丝滑的协程 awaitRequest()！"
+        },
+        {
+          "startSec": 8.795,
+          "endSec": 13.521,
+          "text": "在里面先用 Fiber::getCurrent() 留好当前协程句柄"
+        },
+        {
+          "startSec": 13.521,
+          "endSec": 18.214,
+          "text": "发完请求立刻 Fiber::suspend() 挂起自己让出 CPU！"
+        }
+      ]
+    },
+    "shot-02-resume-reply": {
+      "id": "shot-02-resume-reply",
+      "audioFile": "audio/ep083/shot-02-resume-reply.mp3",
+      "durationSec": 18.934,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.614,
+          "text": "一旦上游数据包沿着事件循环回来触发 onMessage"
+        },
+        {
+          "startSec": 4.614,
+          "endSec": 9.287,
+          "text": "回调里只需调一句 $fiber->resume($reply)！"
+        },
+        {
+          "startSec": 9.287,
+          "endSec": 15.441,
+          "text": "实测上层代码就像写同步函数一样拿到回包 PONG:hello-fiber！"
+        },
+        {
+          "startSec": 15.441,
+          "endSec": 18.334,
+          "text": "异步客户端从此变成优雅协程基建！"
+        }
+      ]
+    }
+  }
+}

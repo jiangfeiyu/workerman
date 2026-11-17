@@ -1,0 +1,8 @@
+{
+    "episode": "ep45",
+    "output": [
+        "[状态行] HTTP\/1.1 200 OK",
+        "[自动补齐头] Content-Type: application\/json; charset=utf-8 | Content-Length: 30",
+        "[响应 Body] {\"ok\":true,\"msg\":\"hello http\"}"
+    ]
+}

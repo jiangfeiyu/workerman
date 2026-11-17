@@ -1,0 +1,53 @@
+{
+  "id": "EP005",
+  "epTag": "005 / 112",
+  "title": "【合拢】单进程多路复用服务器诞生",
+  "legoModule": "模块 1.1 · Socket 破冰（合拢验收）",
+  "outputFile": "out/EP005_合拢_单进程多路复用服务器诞生.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-hook",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "hook-pool",
+      "ttsText": "欢迎来到模块 1.1 的合拢验收集！前四集我们踩了阻塞卡死、CPU 空转和引用改写三个大坑。今天这集把它们全部拼在一起：建一个总花名册 $allFds，不管接待门 $server 还是客人 $conn，全都以整数 (int)$fd 为键放进去，交给同一个 stream_select 统一看管！",
+      "subtitleText": "【005/112】模块 1.1 合拢：用 $allFds[(int)$fd] 总花名册把门卫与客人交给同一个 stream_select",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-branch-accept",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "branch-accept",
+      "ttsText": "看第 19 到 27 行的核心分发！当 stream_select 唤醒后，遍历就绪数组 $read。如果就绪的是 $server，说明门外有新客人！立刻调 accept 迎进来，设为非阻塞，然后关键一行：$allFds[(int)$conn] = $conn！把它的 FD 编号登记进花名册，下一轮内核就会顺带帮我们盯着它说话！",
+      "subtitleText": "分支 1（$fd === $server）：accept 迎入新客，并把 (int)$conn 登记进 $allFds 总花名册",
+      "fallbackDurationSec": 27.0
+    },
+    {
+      "id": "shot-03-branch-read",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "branch-read",
+      "ttsText": "再看第 28 到 38 行的老客人分支！如果就绪的不是 $server，说明某个客人说话了，或者断开了！用 fread 读出数据。特别注意第 30 行：如果读到空字符串或者 false，说明客户端已经挂断！必须立刻 unset 踢出 $allFds 并 fclose 归还文件描述符，否则下轮 select 会永远认为它就绪而陷入死循环！",
+      "subtitleText": "分支 2（老客人消息）：fread 读数据；遇到空包/false 必须 unset + fclose 防止泄漏与死循环",
+      "fallbackDurationSec": 30.0
+    },
+    {
+      "id": "shot-04-verify-concurrent",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "verify-concurrent",
+      "ttsText": "双客户端合拢压测走起！看右上角真实执行日志：客人 A 拿到 fd=6 连上后继续发呆；客人 B 拿到 fd=7 连上后连发两条消息 B says 1 和 B says 2，服务器毫秒级秒回！最后客人 A 终于开口说话，同样稳稳收到 Echo[fd=6]！全程空闲 CPU 为零，零阻塞、零丢包！",
+      "subtitleText": "合拢真机实测：fd=6 发呆期间，fd=7 连发消息毫秒级响应；fd=6 开口后照样秒回！",
+      "fallbackDurationSec": 27.0
+    },
+    {
+      "id": "shot-05-milestone",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "milestone",
+      "ttsText": "恭喜！模块 1.1 乐高正式拼装完成！短短 38 行代码，我们已经有了真正的单进程高并发心脏。不过仔细看第 19 行：现在业务逻辑和 if ($fd === $server) 全揉死在 while 循环里。下一篇模块 1.2，我们用“回调数组查表”做过渡，亲手抽象出第一个核心发动机 SelectLoop！",
+      "subtitleText": "🎉 模块 1.1 毕业！38 行实现 0% 空闲 CPU 并发服务器｜下集 EP006：用回调表抽象 SelectLoop",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

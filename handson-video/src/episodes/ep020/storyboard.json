@@ -1,0 +1,37 @@
+{
+  "id": "EP020",
+  "epTag": "020 / 112",
+  "title": "【踩坑】回调抛异常防崩溃：safeCall 安全兜底",
+  "legoModule": "模块 1.4 · Worker v0.1",
+  "outputFile": "out/EP020_踩坑_回调抛异常防崩溃_safeCall安全兜底.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-crash-risk",
+      "chapter": "第 1 篇 · 模块 1.4 Worker v0.1",
+      "visual": "crash-risk",
+      "ttsText": "传统 PHP-FPM 里一个请求抛了未捕获异常，只会死掉这 1 个请求。但在常驻内存的 Worker 里，成千上万个客人共享同一个事件循环！只要一个恶意包在 onMessage 里触发 RuntimeException，整个进程当场暴毙，所有在线用户瞬间断网！",
+      "subtitleText": "【020/112】常驻内存最大隐患：1 个请求抛未捕获异常 = 整台服务器当场阵亡！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-safe-call",
+      "chapter": "第 1 篇 · 模块 1.4 Worker v0.1",
+      "visual": "safe-call",
+      "ttsText": "解决办法是在框架调度层加上防弹衣！看第 57 到 70 行，我们封装一个私有方法 safeCall：所有外部回调统一放进 try catch (Throwable) 里执行！如果业务代码炸了，捕获异常交给 onError 或打印到标准错误流，绝对不让异常穿透到事件循环！",
+      "subtitleText": "框架防弹衣 safeCall()：用 try...catch (Throwable) 隔离单个请求错误，保护事件循环不死",
+      "fallbackDurationSec": 27.0
+    },
+    {
+      "id": "shot-03-verify-alive",
+      "chapter": "第 1 篇 · 模块 1.4 Worker v0.1",
+      "visual": "verify-alive",
+      "ttsText": "看实测结果！第一个客户端发送 boom 故意引爆异常，标准错误流安全记录了报错；紧接着第二个客户端问 still alive?，服务器依然秒回 OK: still alive? 稳如泰山！下一集 EP021，迎来第 1 篇大结局合拢实战！",
+      "subtitleText": "实测第一个请求炸出异常后，第二个请求照样秒回 OK！下集 EP021：第 1 篇毕业合拢实战",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

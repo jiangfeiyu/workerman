@@ -1,0 +1,8 @@
+{
+    "episode": "ep87",
+    "output": [
+        "[Fiber #1] 借走独占 Conn#1",
+        "[Fiber #1] 用完归还 Conn#1 → 唤醒排队者",
+        "[Fiber #2] 接力拿到独占 Conn#1 (0 串台!)"
+    ]
+}

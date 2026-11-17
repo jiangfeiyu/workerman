@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-first-byte": {
+      "id": "shot-01-first-byte",
+      "audioFile": "audio/ep050/shot-01-first-byte.mp3",
+      "durationSec": 23.254,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.485,
+          "text": "刚学的灯泡课立刻派上用场！"
+        },
+        {
+          "startSec": 2.485,
+          "endSec": 9.753,
+          "text": "WebSocket 任何数据帧的第 1 个字节 $first = ord($buffer[0])"
+        },
+        {
+          "startSec": 9.753,
+          "endSec": 11.757,
+          "text": "里面藏着两层关键信息"
+        },
+        {
+          "startSec": 11.757,
+          "endSec": 15.289,
+          "text": "最高位 ($first >> 7) & 1 是 FIN"
+        },
+        {
+          "startSec": 15.289,
+          "endSec": 18.481,
+          "text": "等于 1 说明这就是整条消息的最后一片"
+        },
+        {
+          "startSec": 18.481,
+          "endSec": 22.654,
+          "text": "最低 4 位 $first & 0x0F 就是 Opcode！"
+        }
+      ]
+    },
+    "shot-02-opcode-table": {
+      "id": "shot-02-opcode-table",
+      "audioFile": "audio/ep050/shot-02-opcode-table.mp3",
+      "durationSec": 24.814,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.552,
+          "text": "记住最常用的 5 个 Opcode 编号：0x1 代表文本帧"
+        },
+        {
+          "startSec": 5.552,
+          "endSec": 10.652,
+          "text": "0x2 是二进制帧，0x8 是挥手断开 Close 帧"
+        },
+        {
+          "startSec": 10.652,
+          "endSec": 15.464,
+          "text": "0x9 和 0xA 则是心跳包 Ping 与 Pong！"
+        },
+        {
+          "startSec": 15.464,
+          "endSec": 24.214,
+          "text": "所以文本完整帧的第 1 字节 1000 0001 正好就是我们在代码里写的十六进制 0x81！"
+        }
+      ]
+    }
+  }
+}

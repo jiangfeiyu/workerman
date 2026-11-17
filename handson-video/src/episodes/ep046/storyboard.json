@@ -1,0 +1,29 @@
+{
+  "id": "EP046",
+  "epTag": "046 / 112",
+  "title": "【合拢】支持 HTTP Keep-Alive 长连接复用",
+  "legoModule": "模块 3.2 · 手写 HTTP/1.1（合拢）",
+  "outputFile": "out/EP046_合拢_支持HTTP_KeepAlive长连接复用.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-keepalive",
+      "chapter": "第 3 篇 · 模块 3.2 手写 HTTP/1.1 协议",
+      "visual": "keepalive",
+      "ttsText": "HTTP/1.1 默认开启 Keep-Alive：浏览器连上后可能连续发几十个请求复用同一条 TCP 隧道，省掉反复三次握手的开销！我们在 Request::isKeepAlive() 里检查 Connection 头，只要不是 close 就保留连接不关闭！",
+      "subtitleText": "【046/112】HTTP/1.1 默认 Keep-Alive：复用同一条 TCP 连接处理连续请求",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-verify-http",
+      "chapter": "第 3 篇 · 模块 3.2 手写 HTTP/1.1 协议",
+      "visual": "verify-http",
+      "ttsText": "看合拢实测：同一条管道里连续喂入两个 Pipelined GET 请求，while 循环精准切出第一包 keepAlive=true 与第二包 keepAlive=false！模块 3.2 手写 HTTP/1.1 正式毕业！下集 EP047，进军模块 3.3 手写 WebSocket 协议！",
+      "subtitleText": "🎉 模块 3.2 毕业！Pipelined 连续请求精准切分｜下集 EP047：手写 WebSocket 协议",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

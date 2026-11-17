@@ -1,0 +1,9 @@
+{
+    "episode": "ep33",
+    "output": [
+        "[onBufferFull] 发送缓冲突破 512KB 高水位，触发背压限流！",
+        "[onBufferDrain] 发送缓冲全部排空，恢复正常发送！",
+        "[onClose] 数据发完后自动优雅销毁连接",
+        "[EP33 合拢验收] TcpConnection::close(10MB) 完整送达 10,485,760 bytes (0 字节丢失!)"
+    ]
+}

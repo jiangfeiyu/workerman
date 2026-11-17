@@ -1,0 +1,7 @@
+{
+    "episode": "ep62_sighup",
+    "output": [
+        "[模拟 SSH 窗口关闭] 终端销毁 -> 内核投递 SIGHUP(1) 给前台进程组 pid=70718",
+        "[未做守护化惨状] signaled=true | termSig=1 (SIGHUP 当场杀全家!)"
+    ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "EP030",
+  "epTag": "030 / 112",
+  "title": "防内存爆炸水位线：onBufferFull 与 onBufferDrain",
+  "legoModule": "模块 2.2 · 异步发送缓冲",
+  "outputFile": "out/EP030_防内存爆炸水位线_onBufferFull与onBufferDrain.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-oom-risk",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "oom-risk",
+      "ttsText": "有了上集 EP029B 的红绿灯刹车思路，今天把这组水位线正式装进 TcpConnection！先在类里新增 $maxSendBufferSize 默认 1MB 上限、$onBufferFull、$onBufferDrain，还有最关键的防重复报警布尔锁 $bufferFullTriggered！",
+      "subtitleText": "【030/112】承接 EP029B：为 TcpConnection 加上高水位阈值、红绿灯钩子与防重布尔锁",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-high-watermark",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "high-watermark",
+      "ttsText": "看第 60 到 66 行！每次追加 $sendBuffer 后检查长度是否超过上限；加上布尔锁判断，保证连发 3 个 400KB 大包突破 512KB 时，只触发 1 次 onBufferFull 通知上游踩刹车，绝不重复刷屏报警！",
+      "subtitleText": "高水位报警：布尔锁确保连发多个大包突破上限时，只触发 1 次 onBufferFull！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-03-drain-resume",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "drain-resume",
+      "ttsText": "等 baseWrite() 把积压全部排空，第 69 行检测到 $bufferFullTriggered 为 true，立刻复位并触发绿灯 onBufferDrain！实测连发 1.2MB 精准只报 1 次红灯、排空后触发 1 次绿灯！",
+      "subtitleText": "实测通过：连发 1.2MB 仅触发 1 次红灯，排空后精准发出绿灯 onBufferDrain！",
+      "fallbackDurationSec": 22.0
+    }
+  ]
+}

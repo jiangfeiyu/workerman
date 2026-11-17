@@ -1,0 +1,75 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-dup-start": {
+      "id": "shot-01-dup-start",
+      "audioFile": "audio/ep065/shot-01-dup-start.mp3",
+      "durationSec": 17.782,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.87,
+          "text": "服务已经跑在后台了"
+        },
+        {
+          "startSec": 1.87,
+          "endSec": 8.376,
+          "text": "万一运维同事忘掉直接又敲了一遍 php server.php start 怎么办？"
+        },
+        {
+          "startSec": 8.376,
+          "endSec": 11.663,
+          "text": "绝不能出现两套 Master 互抢端口！"
+        },
+        {
+          "startSec": 11.663,
+          "endSec": 17.182,
+          "text": "而且 stop 和 reload 命令也必须知道去给哪个 PID 发信号！"
+        }
+      ]
+    },
+    "shot-02-flock-pid": {
+      "id": "shot-02-flock-pid",
+      "audioFile": "audio/ep065/shot-02-flock-pid.mp3",
+      "durationSec": 30.598,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.886,
+          "text": "一石二鸟的方案就是 master.pid 加排他非阻塞锁！"
+        },
+        {
+          "startSec": 4.886,
+          "endSec": 14.236,
+          "text": "启动时 fopen('master.pid', 'c+') 再调用 flock($fp, LOCK_EX | LOCK_NB)"
+        },
+        {
+          "startSec": 14.236,
+          "endSec": 18.297,
+          "text": "首次启动抢锁成功并把 getmypid() 写入文件"
+        },
+        {
+          "startSec": 18.297,
+          "endSec": 20.652,
+          "text": "如果有人误操作第二次启动"
+        },
+        {
+          "startSec": 20.652,
+          "endSec": 24.474,
+          "text": "flock 立刻返回 false 直接拦截退出！"
+        },
+        {
+          "startSec": 24.474,
+          "endSec": 28.535,
+          "text": "就算进程异常断电崩溃，内核也会自动释放文件锁"
+        },
+        {
+          "startSec": 28.535,
+          "endSec": 29.998,
+          "text": "绝不留下死锁！"
+        }
+      ]
+    }
+  }
+}

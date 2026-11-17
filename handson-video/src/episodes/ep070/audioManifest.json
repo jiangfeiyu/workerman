@@ -1,0 +1,75 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-stop-trap": {
+      "id": "shot-01-stop-trap",
+      "audioFile": "audio/ep070/shot-01-stop-trap.mp3",
+      "durationSec": 23.374,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.43,
+          "text": "如果生产发版直接 kill -9 强杀进程"
+        },
+        {
+          "startSec": 3.43,
+          "endSec": 7.094,
+          "text": "正在下单扣款或发送中的消息半路直接腰斩！"
+        },
+        {
+          "startSec": 7.094,
+          "endSec": 11.101,
+          "text": "所以必须区分暴力 stop 和优雅 stop -g！"
+        },
+        {
+          "startSec": 11.101,
+          "endSec": 15.347,
+          "text": "当 Master 收到优雅停机信号 SIGTERM 时"
+        },
+        {
+          "startSec": 15.347,
+          "endSec": 19.936,
+          "text": "第一时间把全局标记 $isStopping 置为 true"
+        },
+        {
+          "startSec": 19.936,
+          "endSec": 22.774,
+          "text": "绝不再允许监工循环拉起新替补！"
+        }
+      ]
+    },
+    "shot-02-drain-exit": {
+      "id": "shot-02-drain-exit",
+      "audioFile": "audio/ep070/shot-02-drain-exit.mp3",
+      "durationSec": 21.022,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.369,
+          "text": "Worker 端复用第 1、2 篇的接口执行三连动作"
+        },
+        {
+          "startSec": 4.369,
+          "endSec": 8.872,
+          "text": "先调用 offReadable 摘掉监听大门停接新客"
+        },
+        {
+          "startSec": 8.872,
+          "endSec": 13.724,
+          "text": "再把当前活跃连接调 close() 排空 $sendBuffer"
+        },
+        {
+          "startSec": 13.724,
+          "endSec": 17.704,
+          "text": "等全部排空归零再调 $loop->stop() 安全收工"
+        },
+        {
+          "startSec": 17.704,
+          "endSec": 20.422,
+          "text": "实现真正意义上的零丢包停机！"
+        }
+      ]
+    }
+  }
+}

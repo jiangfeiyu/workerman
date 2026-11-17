@@ -1,0 +1,60 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-response-class": {
+      "id": "shot-01-response-class",
+      "audioFile": "audio/ep045/shot-01-response-class.mp3",
+      "durationSec": 16.726,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.473,
+          "text": "浏览器能发请求了，怎么给浏览器回消息？"
+        },
+        {
+          "startSec": 3.473,
+          "endSec": 8.657,
+          "text": "新建 Response 类封装状态码、Headers 和 Body"
+        },
+        {
+          "startSec": 8.657,
+          "endSec": 12.663,
+          "text": "顺手提供一个静态工厂 Response::json()"
+        },
+        {
+          "startSec": 12.663,
+          "endSec": 16.126,
+          "text": "直接把数组编成 UTF-8 JSON 响应！"
+        }
+      ]
+    },
+    "shot-02-encode-http": {
+      "id": "shot-02-encode-http",
+      "audioFile": "audio/ep045/shot-02-encode-http.mp3",
+      "durationSec": 16.534,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.117,
+          "text": "看 HttpProtocol::encode() 的关键细节"
+        },
+        {
+          "startSec": 4.117,
+          "endSec": 9.236,
+          "text": "必须自动补齐 Content-Length 告诉浏览器正文有多长！"
+        },
+        {
+          "startSec": 9.236,
+          "endSec": 13.155,
+          "text": "如果不写 Content-Length 又不关连接"
+        },
+        {
+          "startSec": 13.155,
+          "endSec": 15.934,
+          "text": "浏览器转圈圈一直以为响应没发完！"
+        }
+      ]
+    }
+  }
+}

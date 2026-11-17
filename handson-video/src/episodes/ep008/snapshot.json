@@ -1,0 +1,12 @@
+{
+    "episode": "ep08",
+    "interface": "EventLoopInterface",
+    "methods": [
+        "onReadable($stream, $callback)",
+        "offReadable($stream)",
+        "onWritable($stream, $callback)",
+        "offWritable($stream)",
+        "run()",
+        "stop()"
+    ]
+}

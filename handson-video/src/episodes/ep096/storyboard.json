@@ -1,0 +1,29 @@
+{
+  "id": "EP096",
+  "epTag": "096 / 112",
+  "title": "【合拢】用 Channel 打破单进程壁垒：全服跨进程精准广播",
+  "legoModule": "模块 6.1 · Channel 跨进程内部邮局",
+  "outputFile": "out/EP096_合拢_Channel打破单进程壁垒全服广播.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-channel-verify",
+      "chapter": "第 6 篇 · 模块 6.1 Channel 内部邮局",
+      "visual": "channel-verify",
+      "ttsText": "模块 6.1 实测合拢！两个隔离的 Worker 客户端同时连入本地 ChannelServer 订阅广播频道，Worker #1 刚发出一条全服红包来了，双方立刻同步收到推送，全服 100% 触达！",
+      "subtitleText": "【096/112】实测 Worker#1 发布“全服红包来了!”，Worker#1 和 Worker#2 同步 100% 收到！",
+      "fallbackDurationSec": 20.0
+    },
+    {
+      "id": "shot-02-why-gateway",
+      "chapter": "第 6 篇 · 模块 6.1 Channel 内部邮局",
+      "visual": "why-gateway",
+      "ttsText": "而且因为 Channel 走的是标准 TCP Socket，不仅同一台机器上 4 个进程能互通，把邮局部署在内网另一台主机上照样能跨机器喊话！不过遇到十万长连接频繁发版怎么办？下集开启核心架构升级 ModernGateway！",
+      "subtitleText": "Channel 走 TCP 天然支持跨机互通！下集解锁更大规模的 ModernGateway 读写分离！",
+      "fallbackDurationSec": 22.0
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "EP064",
+  "epTag": "064 / 112",
+  "title": "重定向 0/1/2 标准流：STDIN / STDOUT / STDERR 归宿",
+  "legoModule": "模块 4.2 · 守护进程与 CLI 控制台",
+  "outputFile": "out/EP064_重定向012标准流到黑洞与日志.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-std-trap",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "std-trap",
+      "ttsText": "变成后台幽灵还差一步！子进程还继承着终端打开的 0 号标准输入、1 号标准输出、2 号标准错误！万一业务代码不小心 echo 了一句，或者终端已经关闭，直接读写无效描述符轻则报错退出、重则占着终端无法真正断开 SSH！",
+      "subtitleText": "【064/112】未关闭 0/1/2 标准流会导致 echo 报错，甚至卡住 SSH 退出！",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-redirect-null",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "redirect-null",
+      "ttsText": "标准手法极其工整：依次 fclose 掉全局的 STDIN、STDOUT、STDERR，然后按顺序 fopen('/dev/null', 'r') 抢回 0 号坑位，再 fopen(logFile, 'a') 抢回 1 号和 2 号！因为 Linux 总是分配最小空闲 FD，今后全系统所有 echo 和异常栈都会自动落进日志文件！",
+      "subtitleText": "关闭 STDIN/STDOUT/STDERR 后依次打开 /dev/null 与日志文件，完美接管 0/1/2 号坑位！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "EP084",
+  "epTag": "084 / 112",
+  "title": "手写 Redis RESP 协议解析器：+OK / $len / *N",
+  "legoModule": "模块 5.2 · 协程 Redis 与连接池",
+  "outputFile": "out/EP084_手写Redis_RESP协议编解码器.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-resp-format",
+      "chapter": "第 5 篇 · 模块 5.2 协程 Redis 与连接池",
+      "visual": "resp-format",
+      "ttsText": "进入模块 5.2，亲手造一个纯协程版 Redis 客户端！Redis 通信协议 RESP 简单到离谱，总共只有几个前缀字符：星号 * 开头表示数组参数个数，美元符 $ 开头表示后面跟着多长的字符串，加号 + 代表状态成功 +OK！",
+      "subtitleText": "【084/112】Redis RESP 协议极简符号：*N 数组长度 | $len 字节串长度 | +OK 成功状态！",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-resp-codec",
+      "chapter": "第 5 篇 · 模块 5.2 协程 Redis 与连接池",
+      "visual": "resp-codec",
+      "ttsText": "用 15 行写好 RespCodec：把 ['SET', 'user:1', 'Alice'] 编成 *3\\r\\n$3\\r\\nSET\\r\\n$6\\r\\nuser:1\\r\\n$5\\r\\nAlice\\r\\n；解码器读第 1 个字符就能瞬间拆出 +OK 或精准截取 $5 长度的 Alice，二进制安全又省心！",
+      "subtitleText": "15 行 RespCodec 实测：精准把 SET user:1 Alice 编码为标准 RESP 并无损解码！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

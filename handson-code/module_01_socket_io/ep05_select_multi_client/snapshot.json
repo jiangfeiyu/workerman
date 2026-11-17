@@ -1,0 +1,19 @@
+{
+    "episode": "ep05",
+    "port": "19005",
+    "serverOutput": [
+        "[Server] 单进程多路复用服务器就绪 tcp:\/\/127.0.0.1:19005",
+        "[Server] 新客入座 fd=6",
+        "[Server] 新客入座 fd=7",
+        "[Server] 收到 fd=7: B says 1",
+        "[Server] 收到 fd=6: A finally speaks",
+        "[Server] 收到 fd=7: B says 2",
+        "[Server] 客人离开 fd=6",
+        "[Server] 客人离开 fd=7"
+    ],
+    "clientBReplies": [
+        "Echo[fd=7]: B says 1",
+        "Echo[fd=7]: B says 2"
+    ],
+    "clientAReply": "Echo[fd=6]: A finally speaks"
+}

@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-get-current": {
+      "id": "shot-01-get-current",
+      "audioFile": "audio/ep078b/shot-01-get-current.mp3",
+      "durationSec": 22.87,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.172,
+          "text": "进入 EP079 手写 Coroutine::sleep() 之前"
+        },
+        {
+          "startSec": 4.172,
+          "endSec": 5.837,
+          "text": "先补齐一个关键机制"
+        },
+        {
+          "startSec": 5.837,
+          "endSec": 10.277,
+          "text": "前面我们手写了 $fiber = new Fiber(...)"
+        },
+        {
+          "startSec": 10.277,
+          "endSec": 14.409,
+          "text": "可如果在很深的函数里面，手里根本没有 $fiber 变量"
+        },
+        {
+          "startSec": 14.409,
+          "endSec": 17.4,
+          "text": "怎么把自己挂到定时器上等会再唤醒呢？"
+        },
+        {
+          "startSec": 17.4,
+          "endSec": 22.27,
+          "text": "答案就是 PHP 内置的静态方法 Fiber::getCurrent()！"
+        }
+      ]
+    },
+    "shot-02-spawn-wrap": {
+      "id": "shot-02-spawn-wrap",
+      "audioFile": "audio/ep078b/shot-02-spawn-wrap.mp3",
+      "durationSec": 22.846,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.256,
+          "text": "看实测结果！"
+        },
+        {
+          "startSec": 1.256,
+          "endSec": 6.644,
+          "text": "在普通主线程里调用 Fiber::getCurrent() 会返回 null"
+        },
+        {
+          "startSec": 6.644,
+          "endSec": 12.196,
+          "text": "而只要把业务函数用 Coroutine::spawn() 包进 Fiber 启动"
+        },
+        {
+          "startSec": 12.196,
+          "endSec": 14.134,
+          "text": "里面无论嵌套十层函数"
+        },
+        {
+          "startSec": 14.134,
+          "endSec": 18.701,
+          "text": "随时都能一把抓出正在执行的自身对象！下一集 EP079"
+        },
+        {
+          "startSec": 18.701,
+          "endSec": 22.246,
+          "text": "我们就把它和第 1 篇的 delay() 接在一起！"
+        }
+      ]
+    }
+  }
+}

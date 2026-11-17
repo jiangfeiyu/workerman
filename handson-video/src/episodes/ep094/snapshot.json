@@ -1,0 +1,7 @@
+{
+    "episode": "ep94",
+    "output": [
+        "[Worker#1 本地广播] 遍历自家 $connections 仅触达: Alice(fd=5), Charlie(fd=8)",
+        "[跨进程孤岛失灵] Worker#2 里的 2 位同房在线用户 (Bob(fd=6), David(fd=9)) 彻底漏发!"
+    ]
+}

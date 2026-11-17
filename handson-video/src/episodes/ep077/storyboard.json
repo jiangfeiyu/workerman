@@ -1,0 +1,29 @@
+{
+  "id": "EP077",
+  "epTag": "077 / 112",
+  "title": "Fiber 冻结魔法：比生成器 yield 强在哪？",
+  "legoModule": "模块 5.1 · Fiber 协程调度器",
+  "outputFile": "out/EP077_Fiber冻结魔法_独立调用栈.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-fiber",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "why-fiber",
+      "ttsText": "第 5 篇正式解锁 PHP 8 协程与加密安全防线！很多人问 PHP 以前不是早有 yield 生成器了吗？痛点在于 yield 是无栈的，你把数据库查询封装进三层函数，深层子函数根本没法直接 yield 交出控制权，调用链上每一层全得改写成 yield from 地狱！",
+      "subtitleText": "【077/112】yield 是无栈生成器，深层函数无法直接暂停；PHP 8.1 Fiber 拥有独立完整调用栈！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-deep-suspend",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "deep-suspend",
+      "ttsText": "而 PHP 8.1 原生 Fiber 是全栈有栈协程！你看代码里从入口调进 serviceLayer 再调进 deepQuery，足足套了 3 层普通函数，最底层一句 Fiber::suspend() 当场把整条调用栈打包冻结在半空，把控制权干净地交回事件循环！",
+      "subtitleText": "实测在 3 层普通函数深处调 Fiber::suspend('WAIT_DB_ROW')，整条调用栈原样冻结！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

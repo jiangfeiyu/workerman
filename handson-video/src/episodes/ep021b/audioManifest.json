@@ -1,0 +1,117 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-resource-trap": {
+      "id": "shot-01-resource-trap",
+      "audioFile": "audio/ep021b/shot-01-resource-trap.mp3",
+      "durationSec": 27.166,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.492,
+          "text": "进入第 2 篇正式写 TcpConnection 之前"
+        },
+        {
+          "startSec": 4.492,
+          "endSec": 7.256,
+          "text": "先亲手踩一次第 1 篇留下的坑！"
+        },
+        {
+          "startSec": 7.256,
+          "endSec": 13.79,
+          "text": "EP021 的聊天室里我们全程拿着裸 Socket Resource 到处传"
+        },
+        {
+          "startSec": 13.79,
+          "endSec": 17.883,
+          "text": "可如果用户登录了，你想给连接挂个 uid 属性"
+        },
+        {
+          "startSec": 17.883,
+          "endSec": 23.232,
+          "text": "像第 9 行这样直接写 $r->uid = 10086，PHP 当场报错"
+        },
+        {
+          "startSec": 23.232,
+          "endSec": 26.566,
+          "text": "不允许给 resource 挂载属性！"
+        }
+      ]
+    },
+    "shot-02-scattered-arrays": {
+      "id": "shot-02-scattered-arrays",
+      "audioFile": "audio/ep021b/shot-02-scattered-arrays.mp3",
+      "durationSec": 21.454,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.086,
+          "text": "你可能会说：那像第 16 行这样"
+        },
+        {
+          "startSec": 3.086,
+          "endSec": 7.019,
+          "text": "用外部数组 $uids[(int)$r] 存不行吗？"
+        },
+        {
+          "startSec": 7.019,
+          "endSec": 12.109,
+          "text": "但如果还要存发送缓冲区、最后活跃时间、协议状态呢？"
+        },
+        {
+          "startSec": 12.109,
+          "endSec": 15.541,
+          "text": "每加一个功能就得新建一张全局数组"
+        },
+        {
+          "startSec": 15.541,
+          "endSec": 20.854,
+          "text": "断开连接时只要漏掉一句 unset，内存就会默默泄漏！"
+        }
+      ]
+    },
+    "shot-03-conn-box": {
+      "id": "shot-03-conn-box",
+      "audioFile": "audio/ep021b/shot-03-conn-box.mp3",
+      "durationSec": 29.758,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.823,
+          "text": "最朴素的解法来了！看第 20 到 29 行，先不搞复杂机制"
+        },
+        {
+          "startSec": 4.823,
+          "endSec": 9.641,
+          "text": "只建一个最简单的盒子类 ConnBox：把 $socket"
+        },
+        {
+          "startSec": 9.641,
+          "endSec": 13.995,
+          "text": "$uid 和 $sendBuffer 装进同一个对象里！"
+        },
+        {
+          "startSec": 13.995,
+          "endSec": 18.064,
+          "text": "以后想记什么就写 $box->uid = 10086"
+        },
+        {
+          "startSec": 18.064,
+          "endSec": 21.24,
+          "text": "销毁时一键清理！下一集 EP022"
+        },
+        {
+          "startSec": 21.24,
+          "endSec": 26.023,
+          "text": "再把原本 Worker 替连接操心的读监听也收进盒子里"
+        },
+        {
+          "startSec": 26.023,
+          "endSec": 29.158,
+          "text": "就是 TcpConnection！"
+        }
+      ]
+    }
+  }
+}

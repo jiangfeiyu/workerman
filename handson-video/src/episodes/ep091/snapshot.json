@@ -1,0 +1,7 @@
+{
+    "episode": "ep91",
+    "output": [
+        "[Recv 半截请求] GET \/ HTTP\/1.1\\r\\n (黑客故意不发结尾 \\r\\n\\r\\n)",
+        "[Slowloris 定时器触发] 超过阈值仍未收齐完整 HTTP 头 (firstPkgDone=false) → 立刻 destroy() 强踢释放 FD!"
+    ]
+}

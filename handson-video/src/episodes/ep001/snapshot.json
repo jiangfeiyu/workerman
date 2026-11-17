@@ -1,0 +1,26 @@
+{
+    "episode": "ep01",
+    "port": "19001",
+    "serverOutput": [
+        "[Server] 监听 tcp:\/\/127.0.0.1:19001 成功，等待客人上门...",
+        "[Server] 接待新客人: 127.0.0.1:64277",
+        "[Server] 收到 127.0.0.1:64277 消息: hi from A",
+        "[Server] 已送走 127.0.0.1:64277",
+        "[Server] 接待新客人: 127.0.0.1:64278",
+        "[Server] 收到 127.0.0.1:64278 消息: hello from B",
+        "[Server] 已送走 127.0.0.1:64278"
+    ],
+    "clientA": {
+        "connect": "Connected to 127.0.0.1:19001",
+        "idleAction": "(连上后发呆 1.2s 不发数据)",
+        "send": "hi from A",
+        "reply": "Echo: hi from A"
+    },
+    "clientB": {
+        "connect": "Connected to 127.0.0.1:19001",
+        "send": "hello from B",
+        "timedOutWhileAIdle": true,
+        "blockedWaitMs": 1201,
+        "delayedReplyAfterAFinished": "Echo: hello from B"
+    }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "EP079",
+  "epTag": "079 / 112",
+  "title": "手写 Coroutine::sleep()：复用 delay() 实现非阻塞睡眠",
+  "legoModule": "模块 5.1 · Fiber 协程调度器",
+  "outputFile": "out/EP079_手写Coroutine_sleep不卡死事件循环.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-sleep-trap",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "sleep-trap",
+      "ttsText": "如果在 Workerman 的 onMessage 里写了原生 sleep(1)，全进程一万个连接同时卡死一秒钟！怎么写出只睡当前请求、绝不卡住别人家的 Coroutine::sleep()？只需要把第 1 篇写过的 EventLoop::delay() 和今天学的 Fiber 接在一起！",
+      "subtitleText": "【079/112】原生 sleep() 阻塞整条进程；结合第 1 篇 delay() + Fiber 让睡眠只挂起当前协程！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-sleep-impl",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "sleep-impl",
+      "ttsText": "核心代码只有三行！用 Fiber::getCurrent() 抓住自己，调一句 $loop->delay($seconds, fn() => $fiber->resume()) 订个到点唤醒的闹钟，然后立刻 Fiber::suspend() 让出控制权！实测请求 1 睡 60ms、请求 2 睡 20ms，两根协程一共只花了 61.9ms，彻底并行叠加！",
+      "subtitleText": "3 行打通：$loop->delay($s, fn () => $fiber->resume()) + Fiber::suspend()，总耗时仅 61.9ms！",
+      "fallbackDurationSec": 28.0
+    }
+  ]
+}

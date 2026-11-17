@@ -1,0 +1,29 @@
+{
+  "id": "EP059",
+  "epTag": "059 / 112",
+  "title": "孤儿进程 vs 僵尸进程：pcntl_wait 替孩子收尸",
+  "legoModule": "模块 4.1 · 多进程与 Master 监工",
+  "outputFile": "out/EP059_孤儿与僵尸进程_pcntl_wait收尸.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-orphan-zombie",
+      "chapter": "第 4 篇 · 模块 4.1 多进程与 Master 监工",
+      "visual": "orphan-zombie",
+      "ttsText": "多进程运维最常听到的两个鬼故事：孤儿和僵尸！父进程先死了、孩子还活着叫孤儿，它无害，系统 1 号进程会自动领养；真正要命的是僵尸进程：子进程 exit 退出了，但父进程一直不给它收尸，它的 PID 坑位就会永远占着内存表直到系统无法创建新进程！",
+      "subtitleText": "【059/112】孤儿无害(1号领养)；僵尸(Z)致命——子死父不 wait，PID 坑位永远泄漏！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-waitpid",
+      "chapter": "第 4 篇 · 模块 4.1 多进程与 Master 监工",
+      "visual": "waitpid",
+      "ttsText": "解决办法就是 Master 调 pcntl_waitpid() 或 pcntl_wait()！实测子进程带着 exitCode=42 提前退出，Master 调一遍 pcntl_waitpid($pid, $status) 立刻读出 normalExit=true 与 exitCode=42，同时把内核里那具僵尸表项彻底注销！",
+      "subtitleText": "Master 调用 pcntl_waitpid($pid, $status) 读出退出码 42，彻底清理僵尸进程！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

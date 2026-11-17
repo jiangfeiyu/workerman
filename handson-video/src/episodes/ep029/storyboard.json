@@ -1,0 +1,29 @@
+{
+  "id": "EP029",
+  "epTag": "029 / 112",
+  "title": "实现 baseWrite() 排空缓冲区并卸载写监听",
+  "legoModule": "模块 2.2 · 异步发送缓冲",
+  "outputFile": "out/EP029_实现baseWrite排空缓冲区并卸载写监听.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-drain-loop",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "drain-loop",
+      "ttsText": "上集 send() 把写不完的数据存进了 $this->sendBuffer 并挂载了 onWritable 指向 baseWrite()。今天我们就来写这个最纯粹的 baseWrite()：当内核发件柜腾出空位唤醒我们时，把 $this->sendBuffer 喂给 fwrite，拿回实际写入字节数 $written，再用 substr 切掉已经送出去的前半段！",
+      "subtitleText": "【029/112】纯粹版 baseWrite()：内核可写唤醒 → fwrite($sendBuffer) → substr 切片",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-off-writable",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "off-writable",
+      "ttsText": "最关键的一步在第 123 行：一旦 $this->sendBuffer 彻底变空，立刻调用 $this->loop->offWritable($this->socket)，干脆利落摘掉写监听，彻底杜绝第 27 集那种 CPU 100% 空转惨案！实测 2MB 数据经 8 轮 baseWrite 精准排空并卸载！",
+      "subtitleText": "实测 2MB 经 8 轮 baseWrite() 排空后立即 offWritable()，零空转！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

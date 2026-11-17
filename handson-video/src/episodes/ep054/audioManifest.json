@@ -1,0 +1,112 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-live-chat": {
+      "id": "shot-01-live-chat",
+      "audioFile": "audio/ep054/shot-01-live-chat.mp3",
+      "durationSec": 24.286,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.91,
+          "text": "第 3 篇终极合拢验收！"
+        },
+        {
+          "startSec": 1.91,
+          "endSec": 7.617,
+          "text": "我们用真实 TCP Socket 跑通端到端原生 WebSocket 聊天室"
+        },
+        {
+          "startSec": 7.617,
+          "endSec": 11.684,
+          "text": "第一步 Alice 发起 HTTP Upgrade 握手"
+        },
+        {
+          "startSec": 11.684,
+          "endSec": 17.719,
+          "text": "服务端回发 101 Switching Protocols 当场完成协议热切换"
+        },
+        {
+          "startSec": 17.719,
+          "endSec": 20.802,
+          "text": "第二步 Alice 发来 31 字节掩码帧"
+        },
+        {
+          "startSec": 20.802,
+          "endSec": 23.686,
+          "text": "被 decode 完美解出中文问候！"
+        }
+      ]
+    },
+    "shot-02-broadcast-bob": {
+      "id": "shot-02-broadcast-bob",
+      "audioFile": "audio/ep054/shot-02-broadcast-bob.mp3",
+      "durationSec": 22.51,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 7.91,
+          "text": "第三步服务端直接调 WebsocketProtocol::encode() 把消息包装成 43 字节无掩码推送帧"
+        },
+        {
+          "startSec": 7.91,
+          "endSec": 10.502,
+          "text": "广播写进 Bob 的 Socket！"
+        },
+        {
+          "startSec": 10.502,
+          "endSec": 14.737,
+          "text": "Bob 收到后按相同 input 和 decode 流程解包"
+        },
+        {
+          "startSec": 14.737,
+          "endSec": 19.604,
+          "text": "屏幕精准弹出：[广播] Alice: 大家好，我是 Alice!"
+        },
+        {
+          "startSec": 19.604,
+          "endSec": 21.91,
+          "text": "零第三方库依赖全链路闭环！"
+        }
+      ]
+    },
+    "shot-03-part3-recap": {
+      "id": "shot-03-part3-recap",
+      "audioFile": "audio/ep054/shot-03-part3-recap.mp3",
+      "durationSec": 26.83,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.626,
+          "text": "恭喜通关第 3 篇可插拔协议层！"
+        },
+        {
+          "startSec": 2.626,
+          "endSec": 5.447,
+          "text": "21 集里我们从粘包半包惨案出发"
+        },
+        {
+          "startSec": 5.447,
+          "endSec": 8.268,
+          "text": "建起 recvBuffer 蓄水池"
+        },
+        {
+          "startSec": 8.268,
+          "endSec": 15.824,
+          "text": "定下 ProtocolInterface 三大契约，把 Text、Frame、HTTP/1.1"
+        },
+        {
+          "startSec": 15.824,
+          "endSec": 20.928,
+          "text": "WebSocket 四大工业协议全变成了可随时插拔的乐高块！"
+        },
+        {
+          "startSec": 20.928,
+          "endSec": 26.23,
+          "text": "下一篇第 4 篇，向多进程 Master 和 Epoll 万级并发进军！"
+        }
+      ]
+    }
+  }
+}

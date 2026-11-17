@@ -1,0 +1,8 @@
+{
+    "episode": "ep66b",
+    "output": [
+        "[未开 async_signals] 发信号后立刻检查 => hit=false (必须手调 dispatch 才触发!)",
+        "[手调 dispatch() 后] hit=true",
+        "[开启 async_signals(true)] 发 SIGUSR2 后无需轮询，当场触发 hit=true!"
+    ]
+}

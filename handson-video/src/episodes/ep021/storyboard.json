@@ -1,0 +1,37 @@
+{
+  "id": "EP021",
+  "epTag": "021 / 112",
+  "title": "【第 1 篇合拢】8 行代码写高并发广播聊天室",
+  "legoModule": "模块 1.4 · 第 1 篇毕业合拢 🎉",
+  "outputFile": "out/EP021_第1篇合拢_8行代码写高并发广播聊天室.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-chat-code",
+      "chapter": "第 1 篇 · 模块 1.4 Worker v0.1",
+      "visual": "chat-code",
+      "ttsText": "恭喜走完第 1 篇网络地基与事件发动机！今天是第 1 篇总合拢验收：用我们自己从零敲出来的 WorkerV01，看看写一个多端实时广播聊天室需要几行代码？第 7 到 15 行，仅仅 8 行业务代码！遍历 $worker->connections 排除自己后转发消息！",
+      "subtitleText": "【021/112】第 1 篇总合拢：基于亲手写的 WorkerV01，仅 8 行业务代码实现实时广播聊天室",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-verify-chat",
+      "chapter": "第 1 篇 · 模块 1.4 Worker v0.1",
+      "visual": "verify-chat",
+      "ttsText": "实机联调 Alice 和 Bob！Alice 发出 Hello Bob!，Bob 秒收；Bob 回一句 Hi Alice!，Alice 秒收；两人断开后 onClose 精准清理！底层已经自动运行在我们自己写的 SelectLoop、最小堆定时器和 safeCall 异常防护之上！",
+      "subtitleText": "Alice 与 Bob 实时互通实测成功！底层全跑在自研 SelectLoop + 最小堆 + safeCall 上",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-03-part1-summary",
+      "chapter": "第 1 篇 · 模块 1.4 Worker v0.1",
+      "visual": "part1-summary",
+      "ttsText": "第 1 篇正式毕业！但现在的 WorkerV01 还有两个致命短板：发 10 兆大文件会直接丢掉 7 兆，高频发包还会产生 TCP 粘包！下一篇第 2 篇，我们手写全双工连接层 TcpConnection，彻底攻克异步发送缓冲区与背压控制！",
+      "subtitleText": "🎉 第 1 篇毕业！下篇第 2 篇预告：10MB 大文件丢包惨案与 TcpConnection 异步发送缓冲",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

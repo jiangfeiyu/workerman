@@ -1,0 +1,102 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-fn-array": {
+      "id": "shot-01-why-fn-array",
+      "audioFile": "audio/ep006/shot-01-why-fn-array.mp3",
+      "durationSec": 21.598,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 7.654,
+          "text": "上集我们在 while 循环里用 if ($fd === $server) 硬编码区分门卫和客人"
+        },
+        {
+          "startSec": 7.654,
+          "endSec": 11.479,
+          "text": "要想写出通用发动机 SelectLoop"
+        },
+        {
+          "startSec": 11.479,
+          "endSec": 14.679,
+          "text": "绝对不能把业务逻辑写死在引擎里！"
+        },
+        {
+          "startSec": 14.679,
+          "endSec": 18.136,
+          "text": "今天花一分钟做个小铺垫：在 PHP 里"
+        },
+        {
+          "startSec": 18.136,
+          "endSec": 20.998,
+          "text": "函数也能像整数一样放进数组！"
+        }
+      ]
+    },
+    "shot-02-table-dispatch": {
+      "id": "shot-02-table-dispatch",
+      "audioFile": "audio/ep006/shot-02-table-dispatch.mp3",
+      "durationSec": 19.942,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.031,
+          "text": "看第 6 到 12 行，我们建一个空数组 $handlers"
+        },
+        {
+          "startSec": 4.031,
+          "endSec": 7.341,
+          "text": "把 100 号和 200 号处理函数分别存进去"
+        },
+        {
+          "startSec": 7.341,
+          "endSec": 9.011,
+          "text": "第 20 行事件到达时"
+        },
+        {
+          "startSec": 9.011,
+          "endSec": 13.156,
+          "text": "直接查表 $handlers[$event['id']]"
+        },
+        {
+          "startSec": 13.156,
+          "endSec": 16.93,
+          "text": "检查 is_callable 后括号一加就触发执行！"
+        },
+        {
+          "startSec": 16.93,
+          "endSec": 19.342,
+          "text": "全程零个 if 和 switch！"
+        }
+      ]
+    },
+    "shot-03-run-next": {
+      "id": "shot-03-run-next",
+      "audioFile": "audio/ep006/shot-03-run-next.mp3",
+      "durationSec": 16.198,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.076,
+          "text": "运行 demo.php，100 号和 200 号精准触发！"
+        },
+        {
+          "startSec": 5.076,
+          "endSec": 8.662,
+          "text": "下一集 EP007，我们依然先不建类"
+        },
+        {
+          "startSec": 8.662,
+          "endSec": 12.248,
+          "text": "直接在过程式脚本里用这个回调表技巧"
+        },
+        {
+          "startSec": 12.248,
+          "endSec": 15.598,
+          "text": "把 EP005 的主循环瘦身到 6 行！"
+        }
+      ]
+    }
+  }
+}

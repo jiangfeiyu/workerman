@@ -1,0 +1,13 @@
+{
+    "episode": "ep02",
+    "port": "19002",
+    "serverOutput": [
+        "[Server] 非阻塞监听 tcp:\/\/127.0.0.1:19002 已开启",
+        "[CPU 警报] 0.5 秒空转了 73,293 次 while 循环！",
+        "[Server] 新客人进入: 127.0.0.1:64282",
+        "[Server] 新客人进入: 127.0.0.1:64283",
+        "[CPU 警报] 0.5 秒空转了 60,698 次 while 循环！"
+    ],
+    "clientBReplyWhileAIdle": "Echo: msg from B",
+    "clientAReply": "Echo: msg from A"
+}

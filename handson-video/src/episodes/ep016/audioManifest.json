@@ -1,0 +1,85 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-self-schedule": {
+      "id": "shot-01-self-schedule",
+      "audioFile": "audio/ep016/shot-01-self-schedule.mp3",
+      "durationSec": 27.766,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.003,
+          "text": "有了上集 EP015B 的接力棒思路"
+        },
+        {
+          "startSec": 3.003,
+          "endSec": 7.131,
+          "text": "今天封装 repeat() 非常清爽！看第 11 到 29 行"
+        },
+        {
+          "startSec": 7.131,
+          "endSec": 9.428,
+          "text": "我们不用绕口的自引用闭包"
+        },
+        {
+          "startSec": 9.428,
+          "endSec": 15.32,
+          "text": "而是把“预约下一单”拆成一个普通的私有方法 scheduleNext！"
+        },
+        {
+          "startSec": 15.32,
+          "endSec": 20.113,
+          "text": "repeat() 先登记 ID 并调一次 scheduleNext"
+        },
+        {
+          "startSec": 20.113,
+          "endSec": 23.242,
+          "text": "每次 delay() 到点执行完用户回调后"
+        },
+        {
+          "startSec": 23.242,
+          "endSec": 27.166,
+          "text": "再调一次 scheduleNext 接力下一单！"
+        }
+      ]
+    },
+    "shot-02-cancel-inside": {
+      "id": "shot-02-cancel-inside",
+      "audioFile": "audio/ep016/shot-02-cancel-inside.mp3",
+      "durationSec": 25.102,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.337,
+          "text": "而且支持在回调函数内部调用 cancelRepeat() 随时停掉续订！"
+        },
+        {
+          "startSec": 6.337,
+          "endSec": 9.693,
+          "text": "只要第 24 行检查账本发现已被移除"
+        },
+        {
+          "startSec": 9.693,
+          "endSec": 13.35,
+          "text": "就不再调用 scheduleNext！"
+        },
+        {
+          "startSec": 13.35,
+          "endSec": 17.837,
+          "text": "运行 verify.php 实测每 60 毫秒跑一次"
+        },
+        {
+          "startSec": 17.837,
+          "endSec": 21.57,
+          "text": "第 3 次触发后立刻停止！下集 EP017"
+        },
+        {
+          "startSec": 21.57,
+          "endSec": 24.502,
+          "text": "我们用它写出心跳踢人服务器！"
+        }
+      ]
+    }
+  }
+}

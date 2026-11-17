@@ -1,0 +1,37 @@
+{
+  "id": "EP025",
+  "epTag": "025 / 112",
+  "title": "【踩坑】10MB 发包丢 96.9% 惨案：非阻塞 fwrite 真相",
+  "legoModule": "模块 2.2 · 异步发送缓冲",
+  "outputFile": "out/EP025_踩坑_10MB发包丢96_9惨案_非阻塞fwrite真相.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-setup-10mb",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "setup-10mb",
+      "ttsText": "在传统阻塞模式里，调用 fwrite 发送 10MB 数据会卡到全发完才返回。但到了异步非阻塞服务器，如果我们还天真地只写一句 fwrite($conn, $payload)，会发生什么恐怖事故？今天用 20 行独立实验现场复现！",
+      "subtitleText": "【025/112】非阻塞模式下直接调用 fwrite() 发 10MB 大数据，会发生什么？",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-disaster-output",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "disaster-output",
+      "ttsText": "运行 demo.php，直接看终端真实输出！计划发送 10,485,760 字节，fwrite 实际只写进去了 327,212 字节，剩下整整 10,158,548 字节、也就是 96.9% 的数据直接被丢进黑洞了！而且 PHP 既不报错也不抛异常！",
+      "subtitleText": "真实实测：计划发 10.48MB，fwrite 仅写入 327KB，96.9% 数据静默丢失且不报错！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-03-kernel-sndbuf",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "kernel-sndbuf",
+      "ttsText": "看右下角内核视角破案！每个 Socket 在内核里都有一块容量有限的发送缓冲区 SO_SNDBUF。非阻塞 fwrite 拼命往里塞了 327KB 后缓冲区瞬间塞满，内核立刻打断返回写入字节数！下一集 EP026，我们先用全局变量做过渡，把丢掉的 96.9% 全救回来！",
+      "subtitleText": "真相大白：内核发送缓冲区塞满后非阻塞 fwrite 立刻截断返回｜下集 EP026【过渡】：应用层续传",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

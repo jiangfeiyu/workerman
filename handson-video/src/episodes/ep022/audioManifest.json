@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-object": {
+      "id": "shot-01-why-object",
+      "audioFile": "audio/ep022/shot-01-why-object.mp3",
+      "durationSec": 28.15,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.867,
+          "text": "上集 EP021B 我们用 ConnBox 把零散属性装进了一个盒子"
+        },
+        {
+          "startSec": 5.867,
+          "endSec": 11.514,
+          "text": "今天更进一步，把它升级为正式的 TcpConnection 类！"
+        },
+        {
+          "startSec": 11.514,
+          "endSec": 14.931,
+          "text": "除了用静态计数器给连接发唯一编号 id"
+        },
+        {
+          "startSec": 14.931,
+          "endSec": 18.312,
+          "text": "公开 uid 属性之外，最核心的变化是"
+        },
+        {
+          "startSec": 18.312,
+          "endSec": 24.93,
+          "text": "把原本第 1 篇 WorkerV01 替每个连接干的 onReadable 读监听"
+        },
+        {
+          "startSec": 24.93,
+          "endSec": 27.55,
+          "text": "直接收进连接对象自己来管！"
+        }
+      ]
+    },
+    "shot-02-id-uid": {
+      "id": "shot-02-id-uid",
+      "audioFile": "audio/ep022/shot-02-id-uid.mp3",
+      "durationSec": 26.47,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.807,
+          "text": "看第 17 到 36 行的完整实现"
+        },
+        {
+          "startSec": 2.807,
+          "endSec": 6.322,
+          "text": "构造函数收到 socket 和 loop"
+        },
+        {
+          "startSec": 6.322,
+          "endSec": 11.519,
+          "text": "设为非阻塞后直接调用 onReadable 把自己挂上去"
+        },
+        {
+          "startSec": 11.519,
+          "endSec": 18.885,
+          "text": "数据到来时触发内部的 baseRead() 读取并回调给业务层的 onMessage！"
+        },
+        {
+          "startSec": 18.885,
+          "endSec": 24.269,
+          "text": "运行验证：连接创建拿到 id=1、绑定 uid=10086"
+        },
+        {
+          "startSec": 24.269,
+          "endSec": 25.87,
+          "text": "成功收到消息！"
+        }
+      ]
+    }
+  }
+}

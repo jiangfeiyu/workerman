@@ -1,0 +1,7 @@
+{
+    "episode": "ep36",
+    "output": [
+        "[接口契约校验] ProtocolInterface 方法: input (static) | decode (static) | encode (static)",
+        "[返回值约定] input() => 0(半包继续等) | >0(完整包字节数)"
+    ]
+}

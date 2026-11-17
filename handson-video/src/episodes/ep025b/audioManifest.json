@@ -1,0 +1,112 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-while-idea": {
+      "id": "shot-01-while-idea",
+      "audioFile": "audio/ep025b/shot-01-while-idea.mp3",
+      "durationSec": 20.806,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.379,
+          "text": "上一集 EP025 看到 fwrite 发 10MB 只写进去 327KB"
+        },
+        {
+          "startSec": 5.379,
+          "endSec": 7.488,
+          "text": "很多同学第一反应一定是"
+        },
+        {
+          "startSec": 7.488,
+          "endSec": 10.586,
+          "text": "那我直接在代码里写个 while 循环"
+        },
+        {
+          "startSec": 10.586,
+          "endSec": 14.442,
+          "text": "把没发完的 substr 切片接着塞不就行了吗？"
+        },
+        {
+          "startSec": 14.442,
+          "endSec": 17.474,
+          "text": "干嘛非要麻烦 SelectLoop？"
+        },
+        {
+          "startSec": 17.474,
+          "endSec": 20.206,
+          "text": "今天我们就用 10 行代码试一次！"
+        }
+      ]
+    },
+    "shot-02-spin-freeze": {
+      "id": "shot-02-spin-freeze",
+      "audioFile": "audio/ep025b/shot-02-spin-freeze.mp3",
+      "durationSec": 25.654,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.95,
+          "text": "看第 13 到 24 行的运行结果！"
+        },
+        {
+          "startSec": 2.95,
+          "endSec": 7.826,
+          "text": "面对一个不怎么读数据的慢客户端，前 3 轮塞满内核后"
+        },
+        {
+          "startSec": 7.826,
+          "endSec": 9.791,
+          "text": "内核再也没空位了！"
+        },
+        {
+          "startSec": 9.791,
+          "endSec": 14.78,
+          "text": "while 循环疯狂空转一万次 fwrite 全返回 0！"
+        },
+        {
+          "startSec": 14.78,
+          "endSec": 20.034,
+          "text": "在单进程事件循环里，只要这一条连接进入 while 死磕"
+        },
+        {
+          "startSec": 20.034,
+          "endSec": 25.054,
+          "text": "整台服务器就彻底卡死，其他一万个正常客人全被饿死！"
+        }
+      ]
+    },
+    "shot-03-hand-to-loop": {
+      "id": "shot-03-hand-to-loop",
+      "audioFile": "audio/ep025b/shot-03-hand-to-loop.mp3",
+      "durationSec": 22.126,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.406,
+          "text": "所以异步服务器的唯一正途是：今天写不完"
+        },
+        {
+          "startSec": 3.406,
+          "endSec": 5.801,
+          "text": "立刻把剩下的存进应用层缓冲"
+        },
+        {
+          "startSec": 5.801,
+          "endSec": 10.947,
+          "text": "交给 EventLoop::onWritable 去等内核有空位通知"
+        },
+        {
+          "startSec": 10.947,
+          "endSec": 15.445,
+          "text": "自己马上 return 去服务别的客人！下一集 EP026"
+        },
+        {
+          "startSec": 15.445,
+          "endSec": 21.526,
+          "text": "我们就用全局变量 $pending + onWritable 跑通 10MB 零丢包！"
+        }
+      ]
+    }
+  }
+}

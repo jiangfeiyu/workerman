@@ -1,0 +1,8 @@
+{
+    "episode": "ep63_64_daemon",
+    "output": [
+        "[第1次 fork + posix_setsid()] 原终端 SID=70716 -> 新独立会话 SID=70720 (成功脱离 SSH!)",
+        "[第2次 fork 孙子守护进程] daemonPid=70721 | newPPID=70720 (非会话首领，永不再连回终端)",
+        "[0\/1\/2 流重定向检验] [daemon stdout\/log] pid=70721 摆脱终端，安全写日志!"
+    ]
+}

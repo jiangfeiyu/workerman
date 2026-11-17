@@ -1,0 +1,7 @@
+{
+    "episode": "ep06",
+    "output": [
+        "[100号回调被触发] 收到: hello worker",
+        "[200号回调被触发] 转大写: SELECT LOOP"
+    ]
+}

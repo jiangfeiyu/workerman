@@ -1,0 +1,92 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-tls-half": {
+      "id": "shot-01-tls-half",
+      "audioFile": "audio/ep089/shot-01-tls-half.mp3",
+      "durationSec": 20.206,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.972,
+          "text": "给高并发非阻塞服务器加 HTTPS"
+        },
+        {
+          "startSec": 2.972,
+          "endSec": 9.462,
+          "text": "99% 的人会栽在 stream_socket_enable_crypto() 这个函数上！"
+        },
+        {
+          "startSec": 9.462,
+          "endSec": 15.227,
+          "text": "为什么？因为一次 TLS 握手要在网络上来回好几个 ClientHello"
+        },
+        {
+          "startSec": 15.227,
+          "endSec": 19.606,
+          "text": "ServerHello 报文，是非阻塞分多次完成的！"
+        }
+      ]
+    },
+    "shot-02-zero-vs-false": {
+      "id": "shot-02-zero-vs-false",
+      "audioFile": "audio/ep089/shot-02-zero-vs-false.mp3",
+      "durationSec": 21.334,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.512,
+          "text": "这个函数有三种完全不同的返回值"
+        },
+        {
+          "startSec": 3.512,
+          "endSec": 7.19,
+          "text": "返回布尔 true 代表握手彻底成功"
+        },
+        {
+          "startSec": 7.19,
+          "endSec": 11.075,
+          "text": "返回 false 代表协议报错握手失败"
+        },
+        {
+          "startSec": 11.075,
+          "endSec": 13.431,
+          "text": "最坑的是返回整数 0！"
+        },
+        {
+          "startSec": 13.431,
+          "endSec": 17.936,
+          "text": "注意在 PHP 弱类型里 0 == false 是真"
+        },
+        {
+          "startSec": 17.936,
+          "endSec": 20.734,
+          "text": "必须用全等 === 0 判断！"
+        }
+      ]
+    },
+    "shot-03-strict-zero": {
+      "id": "shot-03-strict-zero",
+      "audioFile": "audio/ep089/shot-03-strict-zero.mp3",
+      "durationSec": 17.83,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.624,
+          "text": "在本机 TLS 实测中我们真的抓到了两次 ret === 0！"
+        },
+        {
+          "startSec": 5.624,
+          "endSec": 10.801,
+          "text": "这绝不是报错，而是底层说还差对端密钥报文没收到！"
+        },
+        {
+          "startSec": 10.801,
+          "endSec": 17.23,
+          "text": "如果写成 if (!$ret) 就会把正常握手中途当成失败当场踢人！"
+        }
+      ]
+    }
+  }
+}

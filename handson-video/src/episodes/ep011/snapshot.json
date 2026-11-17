@@ -1,0 +1,8 @@
+{
+    "episode": "ep11",
+    "output": [
+        "[onWritable] 管道可写并完成写入，立刻 offWritable 防止空转",
+        "[onReadable] 收到: write event ready! -> 调用 loop->stop() 安全退出",
+        "[run() 返回] SelectLoop 已优雅退出"
+    ]
+}

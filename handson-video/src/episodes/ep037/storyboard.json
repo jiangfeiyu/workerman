@@ -1,0 +1,29 @@
+{
+  "id": "EP037",
+  "epTag": "037 / 112",
+  "title": "实现 TextProtocol 并接入连接蓄水池管道",
+  "legoModule": "模块 3.1 · 粘包与协议插槽",
+  "outputFile": "out/EP037_实现TextProtocol并接入连接蓄水池管道.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-text-impl",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "text-impl",
+      "ttsText": "不到 15 行写出第一个协议实现类 TextProtocol：input() 查找换行符返回 $pos + 1，找不到返回 0；decode() 去掉末尾回车换行；encode() 在发包末尾自动补上换行符！",
+      "subtitleText": "【037/112】15 行实现 TextProtocol：input 找 \\n，decode 去 \\r\\n，encode 补 \\n",
+      "fallbackDurationSec": 19.0
+    },
+    {
+      "id": "shot-02-pipeline",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "pipeline",
+      "ttsText": "看怎么插进读取管道！收到字节追加进 $recvBuffer 后，while 循环询问 ($this->protocol)::input()，大于 0 就切出整包交给 decode() 再触发业务 onMessage！实测故意只喂前 8 字节，先切出 alpha，beta 半截稳稳等齐后吐出！",
+      "subtitleText": "实测接入蓄水池管道：先喂 8B 切出 alpha，补全后吐出 beta！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

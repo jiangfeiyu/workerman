@@ -1,0 +1,29 @@
+{
+  "id": "EP062",
+  "epTag": "062 / 112",
+  "title": "【踩坑】为什么关掉 SSH 窗口，服务当场跟着灭门？",
+  "legoModule": "模块 4.2 · 守护进程与 CLI 控制台",
+  "outputFile": "out/EP062_踩坑_关掉SSH窗口服务跟着灭门_SIGHUP.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-ssh-close",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "ssh-close",
+      "ttsText": "模块 4.2 解决生产部署第一痛点！很多人兴冲冲登录服务器跑一句 php server.php & 以为后台稳了，结果笔记本一合、SSH 终端一关，服务当场蒸发！后台挂着为啥还会死？",
+      "subtitleText": "【062/112】踩坑：php server.php & 加了后台符，关掉 SSH 终端依然当场死亡！",
+      "fallbackDurationSec": 20.0
+    },
+    {
+      "id": "shot-02-sighup-kill",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "sighup-kill",
+      "ttsText": "真凶叫控制终端会话连坐！凡是从某个 SSH 会话里启动的进程，不管有没有加 &，全挂在同一个会话领头羊下面！SSH 断开瞬间，操作系统直接给整组进程发送 SIGHUP 挂断信号！实测收到 SIGHUP(1) 后子进程 signaled=true 当场全军覆没！",
+      "subtitleText": "SSH 断开时内核向原会话组群发 SIGHUP(1)，所有未脱钩的子进程被一锅端！",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

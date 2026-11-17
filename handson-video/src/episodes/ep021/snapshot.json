@@ -1,0 +1,12 @@
+{
+    "episode": "ep21",
+    "serverOutput": [
+        "[聊天室] 第 1 篇合拢验收启动 tcp:\/\/127.0.0.1:19021",
+        "[聊天室] 上线 fd=10",
+        "[聊天室] 上线 fd=11",
+        "[聊天室] 下线 fd=10",
+        "[聊天室] 下线 fd=11"
+    ],
+    "bobReceived": "[来自 fd=10] Hello Bob!",
+    "aliceReceived": "[来自 fd=11] Hi Alice!"
+}

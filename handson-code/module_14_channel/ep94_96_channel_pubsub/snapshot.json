@@ -1,0 +1,7 @@
+{
+    "episode": "ep94_96_channel",
+    "output": [
+        "[EP094 · 多进程孤岛广播失灵] Worker#1 遍历自己数组仅触达: Alice(fd=5) (漏掉 Bob!)",
+        "[EP095-096 · Channel 内部邮局投递] Worker#1 收到=全服红包来了! | Worker#2 收到=全服红包来了! (全服 100% 触达!)"
+    ]
+}

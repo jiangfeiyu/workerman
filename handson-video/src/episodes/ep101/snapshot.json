@@ -1,0 +1,7 @@
+{
+    "episode": "ep101",
+    "output": [
+        "[二进制封包] header=25B (4B len + 1B cmd + 20B cid) | totalBytes=39B",
+        "[二进制解包] cmd=2 | cid=0a000008205a0000002a | body=\"Hello Gateway!\""
+    ]
+}

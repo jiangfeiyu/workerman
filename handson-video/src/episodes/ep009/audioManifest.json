@@ -1,0 +1,129 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-class-skeleton": {
+      "id": "shot-01-class-skeleton",
+      "audioFile": "audio/ep009/shot-01-class-skeleton.mp3",
+      "durationSec": 18.694,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.837,
+          "text": "新建 SelectLoop 类实现 EventLoopInterface"
+        },
+        {
+          "startSec": 4.837,
+          "endSec": 11.261,
+          "text": "把上一集过渡脚本里的全局数组 $readFds 和 $readCallbacks 直接变成私有成员属性！"
+        },
+        {
+          "startSec": 11.261,
+          "endSec": 15.299,
+          "text": "写好 onReadable 和 offReadable 两个方法"
+        },
+        {
+          "startSec": 15.299,
+          "endSec": 18.094,
+          "text": "统一使用 (int)$stream 作为数组下标"
+        }
+      ]
+    },
+    "shot-02-run-eintr": {
+      "id": "shot-02-run-eintr",
+      "audioFile": "audio/ep009/shot-02-run-eintr.mp3",
+      "durationSec": 26.278,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.978,
+          "text": "重点看第 34 到 49 行的 run 方法！"
+        },
+        {
+          "startSec": 2.978,
+          "endSec": 6.458,
+          "text": "当进程正睡在 stream_select 里时"
+        },
+        {
+          "startSec": 6.458,
+          "endSec": 9.3,
+          "text": "如果 Linux 信号突然打断了睡眠"
+        },
+        {
+          "startSec": 9.3,
+          "endSec": 11.918,
+          "text": "内核会抛出 EINTR 中断警告"
+        },
+        {
+          "startSec": 11.918,
+          "endSec": 17.793,
+          "text": "所以 Workerman 源码里在 stream_select 前加了 @ 抑制符"
+        },
+        {
+          "startSec": 17.793,
+          "endSec": 23.509,
+          "text": "并在 $count === false 时直接 continue 回到下一轮继续等"
+        },
+        {
+          "startSec": 23.509,
+          "endSec": 25.678,
+          "text": "而不是让整个服务器崩溃！"
+        }
+      ]
+    },
+    "shot-03-use-in-server": {
+      "id": "shot-03-use-in-server",
+      "audioFile": "audio/ep009/shot-03-use-in-server.mp3",
+      "durationSec": 14.878,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.283,
+          "text": "现在看看 server.php 有多清爽！"
+        },
+        {
+          "startSec": 2.283,
+          "endSec": 4.13,
+          "text": "new 一个 SelectLoop"
+        },
+        {
+          "startSec": 4.13,
+          "endSec": 7.297,
+          "text": "调用两次 $loop->onReadable 绑好门卫和客人逻辑"
+        },
+        {
+          "startSec": 7.297,
+          "endSec": 9.914,
+          "text": "最后一句 $loop->run()！运行 verify 测试"
+        },
+        {
+          "startSec": 9.914,
+          "endSec": 14.278,
+          "text": "客户端 ping select loop 瞬间收到 Echo[SelectLoop]！"
+        }
+      ]
+    },
+    "shot-04-next": {
+      "id": "shot-04-next",
+      "audioFile": "audio/ep009/shot-04-next.mp3",
+      "durationSec": 14.542,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.516,
+          "text": "读事件已经优雅闭环了！下一集 EP010"
+        },
+        {
+          "startSec": 3.516,
+          "endSec": 8.664,
+          "text": "我们补全写监听 onWritable 和 offWritable"
+        },
+        {
+          "startSec": 8.664,
+          "endSec": 13.942,
+          "text": "并亲手复现一个让无数新手 CPU 飙满的“可写事件死循环”大坑！"
+        }
+      ]
+    }
+  }
+}

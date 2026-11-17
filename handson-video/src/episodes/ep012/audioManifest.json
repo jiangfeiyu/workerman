@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-timeout-param": {
+      "id": "shot-01-timeout-param",
+      "audioFile": "audio/ep012/shot-01-timeout-param.mp3",
+      "durationSec": 19.99,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.44,
+          "text": "上集 SelectLoop 加上 stop 之后，还有最后一个遗憾"
+        },
+        {
+          "startSec": 5.44,
+          "endSec": 9.437,
+          "text": "如果第 4 个参数传 null，万一没有客人上门"
+        },
+        {
+          "startSec": 9.437,
+          "endSec": 13.013,
+          "text": "进程就无限睡死，定时任务根本没法触发！"
+        },
+        {
+          "startSec": 13.013,
+          "endSec": 16.66,
+          "text": "今天用 15 行小实验解锁第 4 和第 5 个参数"
+        },
+        {
+          "startSec": 16.66,
+          "endSec": 19.39,
+          "text": "0 秒外加 200,000 微秒！"
+        }
+      ]
+    },
+    "shot-02-verify-sleep": {
+      "id": "shot-02-verify-sleep",
+      "audioFile": "audio/ep012/shot-02-verify-sleep.mp3",
+      "durationSec": 22.126,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.324,
+          "text": "运行 demo.php，管道里一个字节都没发"
+        },
+        {
+          "startSec": 4.324,
+          "endSec": 10.411,
+          "text": "但整整 205 毫秒后 stream_select 准时返回 0 醒了过来！"
+        },
+        {
+          "startSec": 10.411,
+          "endSec": 13.943,
+          "text": "期间 CPU 占用为零！下集 EP013"
+        },
+        {
+          "startSec": 13.943,
+          "endSec": 18.79,
+          "text": "我们解决另一个核心问题：如果同时挂了 10 万个闹钟"
+        },
+        {
+          "startSec": 18.79,
+          "endSec": 21.526,
+          "text": "怎么一瞬间知道哪个最早响？"
+        }
+      ]
+    }
+  }
+}

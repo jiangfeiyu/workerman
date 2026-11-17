@@ -1,0 +1,75 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-master-loop": {
+      "id": "shot-01-master-loop",
+      "audioFile": "audio/ep060/shot-01-master-loop.mp3",
+      "durationSec": 20.998,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.516,
+          "text": "理解了收尸机制"
+        },
+        {
+          "startSec": 1.516,
+          "endSec": 7.453,
+          "text": "Workerman 永不宕机的秘密就只剩这十几行 Master 监工循环！"
+        },
+        {
+          "startSec": 7.453,
+          "endSec": 10.438,
+          "text": "Master 自己从不处理用户请求"
+        },
+        {
+          "startSec": 10.438,
+          "endSec": 15.604,
+          "text": "它的核心工作就是用一个数组记录所有 Worker 的 PID 槽位"
+        },
+        {
+          "startSec": 15.604,
+          "endSec": 20.398,
+          "text": "然后死等在 pcntl_wait($status) 上当保姆！"
+        }
+      ]
+    },
+    "shot-02-respawn": {
+      "id": "shot-02-respawn",
+      "audioFile": "audio/ep060/shot-02-respawn.mp3",
+      "durationSec": 26.206,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.662,
+          "text": "一旦某个 Worker 代码抛错崩溃退出"
+        },
+        {
+          "startSec": 3.662,
+          "endSec": 7.577,
+          "text": "pcntl_wait() 瞬间返回死掉的 PID！"
+        },
+        {
+          "startSec": 7.577,
+          "endSec": 12.845,
+          "text": "Master 从花名册删掉旧 PID，只要发现不是正常停机"
+        },
+        {
+          "startSec": 12.845,
+          "endSec": 18.04,
+          "text": "立刻调 forkOneWorker() 秒级拉起一个替补进程！"
+        },
+        {
+          "startSec": 18.04,
+          "endSec": 21.296,
+          "text": "实测 #1 号进程 code=9 崩溃后"
+        },
+        {
+          "startSec": 21.296,
+          "endSec": 25.606,
+          "text": "Master 毫秒内补位拉起新进程 70559！"
+        }
+      ]
+    }
+  }
+}

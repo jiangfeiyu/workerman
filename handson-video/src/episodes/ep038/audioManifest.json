@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-binary": {
+      "id": "shot-01-why-binary",
+      "audioFile": "audio/ep038/shot-01-why-binary.mp3",
+      "durationSec": 21.91,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.304,
+          "text": "TextProtocol 遇到换行符就切包"
+        },
+        {
+          "startSec": 4.304,
+          "endSec": 9.154,
+          "text": "万一聊天消息正文里自带换行符或者要传图片二进制"
+        },
+        {
+          "startSec": 9.154,
+          "endSec": 13.809,
+          "text": "当场就切碎了！工业级办法是不再用特殊字符定界"
+        },
+        {
+          "startSec": 13.809,
+          "endSec": 17.877,
+          "text": "而是在每条消息前面钉一个 4 字节定长包头"
+        },
+        {
+          "startSec": 17.877,
+          "endSec": 21.31,
+          "text": "直接写清楚“后面跟了多少字节”！"
+        }
+      ]
+    },
+    "shot-02-pack-microscope": {
+      "id": "shot-02-pack-microscope",
+      "audioFile": "audio/ep038/shot-02-pack-microscope.mp3",
+      "durationSec": 28.99,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.481,
+          "text": "用 10 行显微镜实验看懂 PHP 的 pack('N')！"
+        },
+        {
+          "startSec": 5.481,
+          "endSec": 11.005,
+          "text": "把整数 300 塞进大端序 32 位无符号整数格式 'N' 里"
+        },
+        {
+          "startSec": 11.005,
+          "endSec": 18.301,
+          "text": "用 ord() 逐字节打印十六进制：0x00、0x00、0x01、0x2C！"
+        },
+        {
+          "startSec": 18.301,
+          "endSec": 22.506,
+          "text": "因为 1 乘以 256 加 44 正好等于 300！"
+        },
+        {
+          "startSec": 22.506,
+          "endSec": 28.39,
+          "text": "再调 unpack('Nlen') 瞬间还原出整数 300！"
+        }
+      ]
+    }
+  }
+}

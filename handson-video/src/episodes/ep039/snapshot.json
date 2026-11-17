@@ -1,0 +1,8 @@
+{
+    "episode": "ep39",
+    "output": [
+        "[收到前10字节] input() = 0 (不够12B继续蓄水)",
+        "[切出完整帧 len=12] decode => Packet-1",
+        "[切出完整帧 len=36] decode => Line1\\nLine2(带换行也不怕!)"
+    ]
+}

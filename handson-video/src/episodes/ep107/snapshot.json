@@ -1,0 +1,7 @@
+{
+    "episode": "ep107",
+    "output": [
+        "[match 路由分发] join -> room:live-101 成员数=1 | ping => {\"type\":\"pong\"}",
+        "[弹幕上行就绪] broadcast[room:live-101] => 666太丝滑了!"
+    ]
+}

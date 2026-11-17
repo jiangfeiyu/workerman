@@ -1,0 +1,75 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-read-loop": {
+      "id": "shot-01-read-loop",
+      "audioFile": "audio/ep032/shot-01-read-loop.mp3",
+      "durationSec": 22.726,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.583,
+          "text": "承接上集 EP031B！今天正式完善读端 baseRead()"
+        },
+        {
+          "startSec": 5.583,
+          "endSec": 9.586,
+          "text": "第 98 行放进 while (true) 循环"
+        },
+        {
+          "startSec": 9.586,
+          "endSec": 12.242,
+          "text": "每次最多读 65535 字节"
+        },
+        {
+          "startSec": 12.242,
+          "endSec": 17.785,
+          "text": "一口气把内核接收缓冲区里的 200KB 全部抽干，延迟最低"
+        },
+        {
+          "startSec": 17.785,
+          "endSec": 22.126,
+          "text": "也兼容未来第 4 篇 Epoll 的边缘触发模式！"
+        }
+      ]
+    },
+    "shot-02-feof-check": {
+      "id": "shot-02-feof-check",
+      "audioFile": "audio/ep032/shot-02-feof-check.mp3",
+      "durationSec": 23.158,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.173,
+          "text": "关键修复在第 101 行"
+        },
+        {
+          "startSec": 2.173,
+          "endSec": 8.464,
+          "text": "读到空串时先用 feof($this->socket) 二次确认！看实测输出"
+        },
+        {
+          "startSec": 8.464,
+          "endSec": 11.32,
+          "text": "客户端发完 200KB 没断开时"
+        },
+        {
+          "startSec": 11.32,
+          "endSec": 14.538,
+          "text": "60 毫秒巡检显示连接依然稳稳存活"
+        },
+        {
+          "startSec": 14.538,
+          "endSec": 19.563,
+          "text": "直到客户端真正 fclose() 触发 feof===true"
+        },
+        {
+          "startSec": 19.563,
+          "endSec": 22.558,
+          "text": "才安全调用 destroy() 清理！"
+        }
+      ]
+    }
+  }
+}

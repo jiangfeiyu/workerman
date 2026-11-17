@@ -1,0 +1,75 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-p99-tail": {
+      "id": "shot-01-p99-tail",
+      "audioFile": "audio/ep111/shot-01-p99-tail.mp3",
+      "durationSec": 23.278,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.467,
+          "text": "写完系统去压测怎么看真实功力？"
+        },
+        {
+          "startSec": 3.467,
+          "endSec": 6.685,
+          "text": "别只看平均延迟被平均值骗了！"
+        },
+        {
+          "startSec": 6.685,
+          "endSec": 9.568,
+          "text": "如果 99% 请求只要 1 毫秒"
+        },
+        {
+          "startSec": 9.568,
+          "endSec": 14.541,
+          "text": "但那 1% 最倒霉的 P99 尾延迟飙到了 800 毫秒"
+        },
+        {
+          "startSec": 14.541,
+          "endSec": 18.804,
+          "text": "线上就会有成千上万用户觉得卡成幻灯片！"
+        },
+        {
+          "startSec": 18.804,
+          "endSec": 22.678,
+          "text": "P99 才是服务器扛压成色的试金石！"
+        }
+      ]
+    },
+    "shot-02-fake-high-qps": {
+      "id": "shot-02-fake-high-qps",
+      "audioFile": "audio/ep111/shot-02-fake-high-qps.mp3",
+      "durationSec": 24.622,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.693,
+          "text": "还要识破三大假高并发陷阱"
+        },
+        {
+          "startSec": 2.693,
+          "endSec": 6.499,
+          "text": "第一压测机连上立刻 404/500 报错"
+        },
+        {
+          "startSec": 6.499,
+          "endSec": 9.152,
+          "text": "跑出十万 QPS 全是失败包"
+        },
+        {
+          "startSec": 9.152,
+          "endSec": 18.533,
+          "text": "第二没调大 sysctl 与 ulimit -n 导致卡死在 1024 报错 Too many open files"
+        },
+        {
+          "startSec": 18.533,
+          "endSec": 24.022,
+          "text": "第三单开 1 进程忘了设 Worker 数量白瞎 15 核 CPU！"
+        }
+      ]
+    }
+  }
+}

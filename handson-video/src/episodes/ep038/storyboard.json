@@ -1,0 +1,29 @@
+{
+  "id": "EP038",
+  "epTag": "038 / 112",
+  "title": "【铺垫】零基础二进制课：pack('N') 与大端序显微镜",
+  "legoModule": "模块 3.1 · 粘包与协议插槽",
+  "outputFile": "out/EP038_铺垫_零基础二进制课_pack与大端序显微镜.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-binary",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "why-binary",
+      "ttsText": "TextProtocol 遇到换行符就切包，万一聊天消息正文里自带换行符或者要传图片二进制，当场就切碎了！工业级办法是不再用特殊字符定界，而是在每条消息前面钉一个 4 字节定长包头，直接写清楚“后面跟了多少字节”！",
+      "subtitleText": "【038/112】铺垫：消息正文里自带 \\n 怎么办？改用 4 字节二进制包头声明长度！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-pack-microscope",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "pack-microscope",
+      "ttsText": "用 10 行显微镜实验看懂 PHP 的 pack('N')！把整数 300 塞进大端序 32 位无符号整数格式 'N' 里，用 ord() 逐字节打印十六进制：0x00、0x00、0x01、0x2C！因为 1 乘以 256 加 44 正好等于 300！再调 unpack('Nlen') 瞬间还原出整数 300！",
+      "subtitleText": "显微镜拆解 pack('N', 300) → 00 00 01 2C (1×256+44=300)，unpack 秒还原！",
+      "fallbackDurationSec": 28.0
+    }
+  ]
+}

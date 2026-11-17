@@ -1,0 +1,7 @@
+{
+    "episode": "ep98",
+    "output": [
+        "[Gateway 双端转发] 公网收=\"Hi Gateway!\" -> 附带 connId=8 转交内网 BusinessWorker",
+        "[原路写出公网] 收到内网回包并写回 client -> 用户收到=\"Echo:Hi Gateway!\""
+    ]
+}

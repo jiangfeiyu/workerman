@@ -1,0 +1,60 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-header-end": {
+      "id": "shot-01-header-end",
+      "audioFile": "audio/ep042/shot-01-header-end.mp3",
+      "durationSec": 21.478,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.845,
+          "text": "开始手写 HttpProtocol::input()！第一步极其简单"
+        },
+        {
+          "startSec": 5.845,
+          "endSec": 14.967,
+          "text": "在 $buffer 里调用 strpos 查找两个连续回车换行 \\r\\n\\r\\n 的位置 $headerEnd"
+        },
+        {
+          "startSec": 14.967,
+          "endSec": 18.133,
+          "text": "如果找不到，说明请求头还没收完"
+        },
+        {
+          "startSec": 18.133,
+          "endSec": 20.878,
+          "text": "直接 return 0 继续等！"
+        }
+      ]
+    },
+    "shot-02-get-total": {
+      "id": "shot-02-get-total",
+      "audioFile": "audio/ep042/shot-02-get-total.mp3",
+      "durationSec": 21.286,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.141,
+          "text": "对于没有请求体的 GET 请求"
+        },
+        {
+          "startSec": 3.141,
+          "endSec": 11.815,
+          "text": "完整包长度正好等于 $headerEnd + 4（这 4 个字节就是 \\r\\n\\r\\n 本身）！"
+        },
+        {
+          "startSec": 11.815,
+          "endSec": 17.849,
+          "text": "下集 EP043 我们处理更棘手的 POST 请求：请求头到了"
+        },
+        {
+          "startSec": 17.849,
+          "endSec": 20.686,
+          "text": "Body 只到一半怎么算？"
+        }
+      ]
+    }
+  }
+}

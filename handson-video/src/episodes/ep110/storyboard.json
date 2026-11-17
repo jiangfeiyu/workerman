@@ -1,0 +1,29 @@
+{
+  "id": "EP110",
+  "epTag": "110 / 112",
+  "title": "生产级兜底：异常捕获、JSON 日志与 systemd 守护托管",
+  "legoModule": "模块 7.2 · 上线部署与万级并发横评",
+  "outputFile": "out/EP110_生产兜底_异常日志与systemd托管.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-json-log",
+      "chapter": "第 7 篇 · 模块 7.2 上线部署与压测",
+      "visual": "json-log",
+      "ttsText": "软件上线前最后一道工程护栏：统一用 Throwable 接住业务协程里的未知报错，输出带 traceId、roomId 与时间戳的 JSON 结构化日志方便 ELK 检索，防止单条坏请求把整条 Worker 进程打崩溃！",
+      "subtitleText": "【110/112】Throwable 全局兜底 + JSON 结构化日志，单条异常绝不连累全进程崩溃！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-systemd-unit",
+      "chapter": "第 7 篇 · 模块 7.2 上线部署与压测",
+      "visual": "systemd-unit",
+      "ttsText": "最后在 Linux 生产机写一份 10 行 systemd service 配置，挂上 ExecStart、ExecReload 发 SIGUSR1 以及 Restart=always 与 LimitNOFILE=1048576！机器就算凌晨断电重启，全集群也能秒级自启动拉起！",
+      "subtitleText": "配置 systemd unit + LimitNOFILE=1048576 + Restart=always 实现机房级开机自愈！",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

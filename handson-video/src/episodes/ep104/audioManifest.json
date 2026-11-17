@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-biz-connect": {
+      "id": "shot-01-biz-connect",
+      "audioFile": "audio/ep104/shot-01-biz-connect.mp3",
+      "durationSec": 16.966,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.394,
+          "text": "前排 Gateway 已经建好了"
+        },
+        {
+          "startSec": 2.394,
+          "endSec": 6.624,
+          "text": "现在来看后排真正跑业务的 BusinessWorker！"
+        },
+        {
+          "startSec": 6.624,
+          "endSec": 11.063,
+          "text": "它从 Register 拿到全量 Gateway 内网地址列表后"
+        },
+        {
+          "startSec": 11.063,
+          "endSec": 16.366,
+          "text": "用我们第 5 篇写的 AsyncTcpClient 全连上去建立常驻长连接！"
+        }
+      ]
+    },
+    "shot-02-gw-facade": {
+      "id": "shot-02-gw-facade",
+      "audioFile": "audio/ep104/shot-02-gw-facade.mp3",
+      "durationSec": 21.838,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.287,
+          "text": "业务开发写代码彻底解放！无需操心节点在哪台机房"
+        },
+        {
+          "startSec": 4.287,
+          "endSec": 9.904,
+          "text": "调一句 Gateway::sendToClient($cid, $msg)"
+        },
+        {
+          "startSec": 9.904,
+          "endSec": 14.151,
+          "text": "内部直接从 $cid 拆出前 6 字节定位内网 IP 和端口"
+        },
+        {
+          "startSec": 14.151,
+          "endSec": 17.542,
+          "text": "精准丢给那一条 Gateway 专线发出"
+        },
+        {
+          "startSec": 17.542,
+          "endSec": 21.238,
+          "text": "调用 sendToAll() 则自动群发全集群！"
+        }
+      ]
+    }
+  }
+}

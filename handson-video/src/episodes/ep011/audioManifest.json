@@ -1,0 +1,102 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-stop-flag": {
+      "id": "shot-01-stop-flag",
+      "audioFile": "audio/ep011/shot-01-stop-flag.mp3",
+      "durationSec": 21.238,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.17,
+          "text": "模块 1.2 最后一块零件！"
+        },
+        {
+          "startSec": 2.17,
+          "endSec": 6.112,
+          "text": "以前我们的引擎里写死的是 while (true)"
+        },
+        {
+          "startSec": 6.112,
+          "endSec": 7.924,
+          "text": "停机时只能强杀进程"
+        },
+        {
+          "startSec": 7.924,
+          "endSec": 11.707,
+          "text": "今天加上私有开关 $running = false"
+        },
+        {
+          "startSec": 11.707,
+          "endSec": 13.9,
+          "text": "在 run() 入口设为 true"
+        },
+        {
+          "startSec": 13.9,
+          "endSec": 18.001,
+          "text": "而 stop() 方法只需把 $running 翻回 false"
+        },
+        {
+          "startSec": 18.001,
+          "endSec": 20.638,
+          "text": "本轮回调一走完，循环优雅结束！"
+        }
+      ]
+    },
+    "shot-02-verify-loop": {
+      "id": "shot-02-verify-loop",
+      "audioFile": "audio/ep011/shot-02-verify-loop.mp3",
+      "durationSec": 15.91,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.827,
+          "text": "跑一遍合拢测试 verify.php"
+        },
+        {
+          "startSec": 2.827,
+          "endSec": 7.541,
+          "text": "先触发 onWritable 写数据并立刻 offWritable"
+        },
+        {
+          "startSec": 7.541,
+          "endSec": 11.959,
+          "text": "紧接着 onReadable 收到消息后调用 $loop->stop()"
+        },
+        {
+          "startSec": 11.959,
+          "endSec": 15.31,
+          "text": "引擎干脆利落退出 run() 并打印安全退出日志！"
+        }
+      ]
+    },
+    "shot-03-lego-done": {
+      "id": "shot-03-lego-done",
+      "audioFile": "audio/ep011/shot-03-lego-done.mp3",
+      "durationSec": 18.43,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.036,
+          "text": "恭喜！模块 1.2 事件发动机 SelectLoop 乐高正式完工！"
+        },
+        {
+          "startSec": 6.036,
+          "endSec": 11.269,
+          "text": "不过现在的循环一睡下，要是没有网络包就永远醒不过来"
+        },
+        {
+          "startSec": 11.269,
+          "endSec": 13.14,
+          "text": "下一篇模块 1.3"
+        },
+        {
+          "startSec": 13.14,
+          "endSec": 17.83,
+          "text": "我们用最小堆给引擎装上微秒级定时器 Timer！"
+        }
+      ]
+    }
+  }
+}

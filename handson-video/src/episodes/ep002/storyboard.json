@@ -1,0 +1,53 @@
+{
+  "id": "EP002",
+  "epTag": "002 / 112",
+  "title": "关闭阻塞开关与 CPU 100% 空转惨案",
+  "legoModule": "模块 1.1 · Socket 破冰",
+  "outputFile": "out/EP002_关闭阻塞开关与CPU空转惨案.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-diff-nonblocking",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "diff-nonblocking",
+      "ttsText": "上集客人 A 发呆把客人 B 活活堵死。今天第 2 集，我们在第 11 行加一句 stream_set_blocking($server, false)，把接待门和每个客人连接都切成非阻塞模式！同时把所有客人存进 $clients 数组，每一轮 while 循环用 fread 非阻塞地轮流扫一遍，没数据就立刻返回 false，绝不死等！",
+      "subtitleText": "【002/112】加上 stream_set_blocking(false)，把 $server 与 $clients 全部切为非阻塞模式",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-concurrent-ok",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "concurrent-ok",
+      "ttsText": "先看喜报！看右上角双终端实测：客人 A 和客人 B 同时连进 19002 端口。客人 A 依然故意发呆不说话，客人 B 发送 msg from B，终端立刻秒回 Echo: msg from B！之后客人 A 再说话，同样立刻收到回音！并发卡死的问题，好像真的解决掉了？",
+      "subtitleText": "并发实测成功：客人 A 发呆时，客人 B 发送 msg from B 立刻收到 Echo 回复，不再阻塞！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-03-cpu-disaster",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "cpu-disaster",
+      "ttsText": "别急着高兴！把目光移回终端一的服务器日志，直接看傻眼：[CPU 警报] 0.5 秒空转了 73,293 次 while 循环！哪怕半个客人都没有，单核 CPU 也直接飙到百分之百！看右下角内核视角：每次调 accept 和 fread，内核发现没数据就直接甩回一个 EAGAIN，PHP 压根不睡觉，一秒十几万次疯狂敲门问“有人吗、没人、有人吗”！",
+      "subtitleText": "CPU 100% 空转惨案：0.5 秒空跑 73,293 次循环！非阻塞遇到无数据时只返回 EAGAIN 而不休眠",
+      "fallbackDurationSec": 29.0
+    },
+    {
+      "id": "shot-04-usleep-trap",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "usleep-trap",
+      "ttsText": "很多同学第一反应是：我在 while 循环末尾加一行 usleep(10000) 睡 10 毫秒不就省 CPU 了吗？大错特错！如果你睡 10 毫秒，每秒最多只能处理 100 轮请求，刚连上的客人得干等 10 毫秒延迟暴涨；如果只睡 1 微秒，CPU 照样冒烟！真正完美的方案，是让进程安心睡眠，等网卡收到数据的那一纳秒由内核主动叫醒！",
+      "subtitleText": "为什么不能靠 usleep() 偷懒？睡长了延迟爆炸 QPS 暴跌，睡短了 CPU 照样空转冒烟！",
+      "fallbackDurationSec": 28.0
+    },
+    {
+      "id": "shot-05-recap-next",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "recap-next",
+      "ttsText": "这就逼出了网络编程最重要的武器：IO 多路复用 stream_select！不过直接往项目里塞很容易踩坑。下一集 EP003，我们先花一集专门做个本地铺垫实验，用 20 行代码亲眼抓出 stream_select 传引用修改数组的致命陷阱！",
+      "subtitleText": "破局方向：让内核在有数据时叫醒进程（IO 多路复用）｜下集 EP003【铺垫】：stream_select 陷阱",
+      "fallbackDurationSec": 22.0
+    }
+  ]
+}

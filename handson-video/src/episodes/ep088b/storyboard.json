@@ -1,0 +1,29 @@
+{
+  "id": "EP088B",
+  "epTag": "088B · 加餐过渡",
+  "title": "为什么不用 ssl:// 监听？看懂非阻塞 TLS 握手",
+  "legoModule": "模块 5.3 · TLS 加密与总装（过渡）",
+  "outputFile": "out/EP088B_加餐过渡_为什么不用ssl直接监听.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-ssl-accept-block",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "ssl-block",
+      "ttsText": "看 EP089 的 stream_socket_enable_crypto() 之前，先解决一个大疑问：上集已经配好 SSL Context 了，为什么不能直接写 stream_socket_server('ssl://0.0.0.0:443')，而要依然监听 tcp:// 呢？因为如果用 ssl://，每次 stream_socket_accept 都会同步阻塞等完整个 TLS 握手！",
+      "subtitleText": "【088B/加餐过渡】用 ssl:// 监听会导致 accept() 同步阻塞等 TLS 握手，1 个慢客户端冻死全服！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-manual-tls",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "manual-tls",
+      "ttsText": "所以工业级框架必须先用 tcp:// 零毫秒 accept 拿到明文 TCP 句柄并设为非阻塞，再靠我们自己调用 stream_socket_enable_crypto() 分段驱动 TLS 握手！下一集 EP089，就来看这个函数最坑的返回值 0！",
+      "subtitleText": "正确架构：tcp:// 0ms accept → 非阻塞手动调 enable_crypto()！下集 EP089 看大坑",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

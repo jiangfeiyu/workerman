@@ -1,0 +1,112 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-twice": {
+      "id": "shot-01-why-twice",
+      "audioFile": "audio/ep063/shot-01-why-twice.mp3",
+      "durationSec": 17.806,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.945,
+          "text": "要想关掉终端服务照样长命百岁"
+        },
+        {
+          "startSec": 2.945,
+          "endSec": 7.431,
+          "text": "必须练成 Unix 经典的两次 fork 守护化仪式！"
+        },
+        {
+          "startSec": 7.431,
+          "endSec": 10.52,
+          "text": "第 1 次 fork 后父进程立刻退出"
+        },
+        {
+          "startSec": 10.52,
+          "endSec": 13.425,
+          "text": "让老二子进程脱离原进程组控制"
+        },
+        {
+          "startSec": 13.425,
+          "endSec": 17.206,
+          "text": "这样才有资格调 posix_setsid()！"
+        }
+      ]
+    },
+    "shot-02-setsid-second-fork": {
+      "id": "shot-02-setsid-second-fork",
+      "audioFile": "audio/ep063/shot-02-setsid-second-fork.mp3",
+      "durationSec": 31.702,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.12,
+          "text": "posix_setsid() 会新建一个完全没有控制终端的独立会话"
+        },
+        {
+          "startSec": 6.12,
+          "endSec": 11.331,
+          "text": "把新会话 ID 从旧终端 70716 切成全新 70720！"
+        },
+        {
+          "startSec": 11.331,
+          "endSec": 14.371,
+          "text": "那为啥还要第 2 次 fork 呢？"
+        },
+        {
+          "startSec": 14.371,
+          "endSec": 18.674,
+          "text": "因为刚刚 setsid 的老二是新会话大队长"
+        },
+        {
+          "startSec": 18.674,
+          "endSec": 20.806,
+          "text": "仍有权重新打开终端"
+        },
+        {
+          "startSec": 20.806,
+          "endSec": 25.109,
+          "text": "再 fork 出孙子进程 70721 并杀掉老二"
+        },
+        {
+          "startSec": 25.109,
+          "endSec": 28.031,
+          "text": "孙子连会话领头羊资格都没了"
+        },
+        {
+          "startSec": 28.031,
+          "endSec": 31.102,
+          "text": "彻底断绝重新绑定终端的可能！"
+        }
+      ]
+    },
+    "shot-03-umask-verify": {
+      "id": "shot-03-umask-verify",
+      "audioFile": "audio/ep063/shot-03-umask-verify.mp3",
+      "durationSec": 17.686,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.461,
+          "text": "最后别忘了加上 umask(0) 清空继承来的文件权限掩码"
+        },
+        {
+          "startSec": 5.461,
+          "endSec": 10.242,
+          "text": "避免以后写日志或建 socket 文件权限莫名受限！"
+        },
+        {
+          "startSec": 10.242,
+          "endSec": 14.157,
+          "text": "至此真正的 Master 守护幽灵已经诞生"
+        },
+        {
+          "startSec": 14.157,
+          "endSec": 17.086,
+          "text": "哪怕把终端砸了它也稳如泰山！"
+        }
+      ]
+    }
+  }
+}

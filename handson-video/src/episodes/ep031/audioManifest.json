@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-close-vs-destroy": {
+      "id": "shot-01-close-vs-destroy",
+      "audioFile": "audio/ep031/shot-01-close-vs-destroy.mp3",
+      "durationSec": 20.59,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.464,
+          "text": "发送完最后一条告别消息或 1MB 文件后"
+        },
+        {
+          "startSec": 3.464,
+          "endSec": 7.234,
+          "text": "如果立刻调 destroy() 关闭 Socket"
+        },
+        {
+          "startSec": 7.234,
+          "endSec": 10.934,
+          "text": "缓冲区里还没发完的数据会当场被截断丢弃！"
+        },
+        {
+          "startSec": 10.934,
+          "endSec": 15.914,
+          "text": "所以框架必须区分两种关流方式：立刻拔线的 destroy()"
+        },
+        {
+          "startSec": 15.914,
+          "endSec": 19.99,
+          "text": "和等缓冲区发完再断的 close($data)！"
+        }
+      ]
+    },
+    "shot-02-closing-state": {
+      "id": "shot-02-closing-state",
+      "audioFile": "audio/ep031/shot-02-closing-state.mp3",
+      "durationSec": 26.878,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.767,
+          "text": "看第 71 到 92 行！"
+        },
+        {
+          "startSec": 1.767,
+          "endSec": 7.048,
+          "text": "close($tailMsg) 先把尾包交给 send()；如果没发完"
+        },
+        {
+          "startSec": 7.048,
+          "endSec": 13.16,
+          "text": "立刻切到 Closing 半关闭状态并 offReadable 停止接收新请求"
+        },
+        {
+          "startSec": 13.16,
+          "endSec": 15.95,
+          "text": "留着写监听继续干活！看本集实测"
+        },
+        {
+          "startSec": 15.95,
+          "endSec": 19.072,
+          "text": "调用 close() 先进入 closing"
+        },
+        {
+          "startSec": 19.072,
+          "endSec": 23.025,
+          "text": "等 baseWrite 排空 1MB 尾包后自动销毁"
+        },
+        {
+          "startSec": 23.025,
+          "endSec": 26.278,
+          "text": "客户端一字节不少收到末尾 BYE_OK！"
+        }
+      ]
+    }
+  }
+}

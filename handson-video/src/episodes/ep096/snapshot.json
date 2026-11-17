@@ -1,0 +1,7 @@
+{
+    "episode": "ep96",
+    "output": [
+        "[Before 本地孤岛] Worker#1 仅触达: Alice(fd=5) (漏掉 Bob(fd=6))",
+        "[After Channel 邮局] Worker#1 收到=全服红包来了! | Worker#2 收到=全服红包来了! (全服 100% 触达!)"
+    ]
+}

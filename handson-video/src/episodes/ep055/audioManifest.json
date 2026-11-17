@@ -1,0 +1,85 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-fork-split": {
+      "id": "shot-01-fork-split",
+      "audioFile": "audio/ep055/shot-01-fork-split.mp3",
+      "durationSec": 24.094,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.112,
+          "text": "第 4 篇正式进入多进程与高并发核动力！"
+        },
+        {
+          "startSec": 4.112,
+          "endSec": 7.428,
+          "text": "普通 PHP 函数调一次返回一次"
+        },
+        {
+          "startSec": 7.428,
+          "endSec": 12.423,
+          "text": "但 pcntl_fork() 是宇宙级分身术：调用一次"
+        },
+        {
+          "startSec": 12.423,
+          "endSec": 16.285,
+          "text": "会在父进程和子进程里各自返回一次！"
+        },
+        {
+          "startSec": 16.285,
+          "endSec": 20.021,
+          "text": "父进程拿到新出生孩子的真实 PID"
+        },
+        {
+          "startSec": 20.021,
+          "endSec": 23.494,
+          "text": "而子进程拿到的返回值永远是 0！"
+        }
+      ]
+    },
+    "shot-02-fork-verify": {
+      "id": "shot-02-fork-verify",
+      "audioFile": "audio/ep055/shot-02-fork-verify.mp3",
+      "durationSec": 29.878,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.66,
+          "text": "跑一遍 demo.php 看真格的！"
+        },
+        {
+          "startSec": 3.66,
+          "endSec": 6.947,
+          "text": "终端同时打出了两个视角的日志"
+        },
+        {
+          "startSec": 6.947,
+          "endSec": 12.938,
+          "text": "父进程 myPid=70531 拿到孩子 PID=70533"
+        },
+        {
+          "startSec": 12.938,
+          "endSec": 16.641,
+          "text": "子进程拿到的 fork 返回值等于 0"
+        },
+        {
+          "startSec": 16.641,
+          "endSec": 20.885,
+          "text": "它的 ppid 正好指向父进程 70531！"
+        },
+        {
+          "startSec": 20.885,
+          "endSec": 24.172,
+          "text": "靠这句 if ($pid === 0)"
+        },
+        {
+          "startSec": 24.172,
+          "endSec": 29.278,
+          "text": "两兄弟就能在同份代码里走上完全不同的人生分支！"
+        }
+      ]
+    }
+  }
+}

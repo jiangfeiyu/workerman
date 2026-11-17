@@ -1,0 +1,7 @@
+{
+    "episode": "ep77",
+    "output": [
+        "[深层栈冻结] start() 停在 3 层调用栈内并抛出信号: WAIT_DB_ROW",
+        "[状态检验] isSuspended=true | isTerminated=false"
+    ]
+}

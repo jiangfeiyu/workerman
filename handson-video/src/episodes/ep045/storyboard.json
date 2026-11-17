@@ -1,0 +1,29 @@
+{
+  "id": "EP045",
+  "epTag": "045 / 112",
+  "title": "手写 Response 与 HttpProtocol::encode() 响应编码",
+  "legoModule": "模块 3.2 · 手写 HTTP/1.1",
+  "outputFile": "out/EP045_手写Response与HttpProtocol_encode.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-response-class",
+      "chapter": "第 3 篇 · 模块 3.2 手写 HTTP/1.1 协议",
+      "visual": "response-class",
+      "ttsText": "浏览器能发请求了，怎么给浏览器回消息？新建 Response 类封装状态码、Headers 和 Body，顺手提供一个静态工厂 Response::json()，直接把数组编成 UTF-8 JSON 响应！",
+      "subtitleText": "【045/112】新建 Response 类 + Response::json() 快捷工厂方法",
+      "fallbackDurationSec": 20.0
+    },
+    {
+      "id": "shot-02-encode-http",
+      "chapter": "第 3 篇 · 模块 3.2 手写 HTTP/1.1 协议",
+      "visual": "encode-http",
+      "ttsText": "看 HttpProtocol::encode() 的关键细节：必须自动补齐 Content-Length 告诉浏览器正文有多长！如果不写 Content-Length 又不关连接，浏览器转圈圈一直以为响应没发完！",
+      "subtitleText": "encode() 核心：自动补齐 Content-Length 与 HTTP/1.1 200 OK 状态行",
+      "fallbackDurationSec": 20.0
+    }
+  ]
+}

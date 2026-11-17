@@ -1,0 +1,29 @@
+{
+  "id": "EP095",
+  "epTag": "095 / 112",
+  "title": "手写 Channel 内部邮局：Pub/Sub 跨进程订阅总线",
+  "legoModule": "模块 6.1 · Channel 跨进程内部邮局",
+  "outputFile": "out/EP095_手写Channel内部邮局PubSub总线.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-channel-hub",
+      "chapter": "第 6 篇 · 模块 6.1 Channel 内部邮局",
+      "visual": "channel-hub",
+      "ttsText": "怎么让 4 个孤岛一样的 Worker 互相喊话？自己搭一个轻量级 TCP 内部邮局 ChannelServer！每个 Worker 启动时用异步客户端 ChannelClient 连上这台内部邮局，统一订阅 broadcast 频道！",
+      "subtitleText": "【095/112】ChannelServer 当总机：所有 Worker 启动后订阅同一条频道当通信总线！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-pubsub-route",
+      "chapter": "第 6 篇 · 模块 6.1 Channel 内部邮局",
+      "visual": "pubsub-route",
+      "ttsText": "当 Worker #1 想发全服广播，不再傻傻只遍历自己，而是调一句 ChannelClient::publish('broadcast', $msg) 把消息交给邮局！邮局收到后顺着表立刻群发给全机房每一个订阅该频道的 Worker！",
+      "subtitleText": "publish('broadcast', $msg) 交给邮局总机，瞬间按订阅表路由派送给全部兄弟进程！",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

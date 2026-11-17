@@ -1,0 +1,37 @@
+{
+  "id": "EP087",
+  "epTag": "087 / 112",
+  "title": "手写协程连接池 ConnectionPool：借还闭环零串台",
+  "legoModule": "模块 5.2 · 协程 Redis 与连接池",
+  "outputFile": "out/EP087_手写协程安全连接池ConnectionPool.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-pool-borrow",
+      "chapter": "第 5 篇 · 模块 5.2 协程 Redis 与连接池",
+      "visual": "pool-borrow",
+      "ttsText": "根治串台必须写出协程安全 ConnectionPool！它内部维护两个 SplQueue 队列：一个 $idle 存着闲置连接，只要池里有货，调 borrow() 直接出队一条物理连接让你彻底独占使用！",
+      "subtitleText": "【087/112】ConnectionPool 维护 $idle 空闲连接队列 + $waiters 挂起协程队列！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-waiters-suspend",
+      "chapter": "第 5 篇 · 模块 5.2 协程 Redis 与连接池",
+      "visual": "waiters-suspend",
+      "ttsText": "万一并发飙高，池里所有连接全被借光了怎么办？千万别像传统连接池那样立刻报错！borrow() 把当前 Fiber::getCurrent() 塞进 $waiters 排队队列，然后直接 return Fiber::suspend() 原地优雅睡觉等空位！",
+      "subtitleText": "连接池借空时：当前协程入 $waiters 队列并 Fiber::suspend()，绝不瞎报错！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-03-release-handoff",
+      "chapter": "第 5 篇 · 模块 5.2 协程 Redis 与连接池",
+      "visual": "release-handoff",
+      "ttsText": "一旦上一位老哥用完调 release($conn)，先看 $waiters 有没有人排队，有的话不回闲池直接 resume($conn) 移交给下一位！实测容量设为 1 逼迫两根协程排队，Fiber1 用完交棒 Fiber2，真正做到 100% 独占零串台！",
+      "subtitleText": "实测池容量=1：Fiber1 归还瞬间直接 resume 唤醒 Fiber2 接力，0 串台闭环！",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

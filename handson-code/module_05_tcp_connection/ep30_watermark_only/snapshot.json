@@ -1,0 +1,8 @@
+{
+    "episode": "ep30",
+    "output": [
+        "[onBufferFull 第1次] 水位突破 512KB (布尔锁防重复报警)",
+        "[统计] 连发 1.2MB 后 onBufferFull 触发次数 = 1",
+        "[onBufferDrain] 发送缓冲彻底排空，触发绿灯恢复！"
+    ]
+}

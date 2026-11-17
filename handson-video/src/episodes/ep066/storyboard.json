@@ -1,0 +1,29 @@
+{
+  "id": "EP066",
+  "epTag": "066 / 112",
+  "title": "【合拢】手写 CommandRunner：start -d / stop / reload / status",
+  "legoModule": "模块 4.2 · 守护进程与 CLI 控制台",
+  "outputFile": "out/EP066_合拢_CommandRunner_CLI控制台.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-cli-parse",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "cli-parse",
+      "ttsText": "模块 4.2 合拢！把守护化、PID 锁和命令行全封装进 CommandRunner！解析 $argv 拿到主指令 start、stop、reload、status，再提取 -d 守护标记和 -g 优雅标记！",
+      "subtitleText": "【066/112】CommandRunner 统一解析 start / stop / reload / status 与 -d / -g 标志位！",
+      "fallbackDurationSec": 19.0
+    },
+    {
+      "id": "shot-02-cli-dispatch",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "cli-dispatch",
+      "ttsText": "各司其职极度优雅：start 先抢 master.pid 锁，发现带了 -d 就执行两次 fork 守护化；而 stop 和 reload 从 master.pid 读出 Master 编号后，一发 posix_kill() 信号飞过去就能精准遥控远在后台的守护进程！下一步模块 4.3，就来看 Master 怎么用信号实现零停机热更新！",
+      "subtitleText": "stop / reload 读 master.pid 后调 posix_kill() 发信号遥控守护进程！",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

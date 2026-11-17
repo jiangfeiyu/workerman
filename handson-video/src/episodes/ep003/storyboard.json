@@ -1,0 +1,53 @@
+{
+  "id": "EP003",
+  "epTag": "003 / 112",
+  "title": "【铺垫】stream_select 传引用改写数组陷阱",
+  "legoModule": "模块 1.1 · Socket 破冰",
+  "outputFile": "out/EP003_铺垫_stream_select传引用改写数组陷阱.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-prep",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "why-prep",
+      "ttsText": "很多同学第一次手写 stream_select 服务器时，都会遇到一个灵异 Bug：明明连着两个客户端，第一轮还正常，第二轮开始某个客户端就彻底收不到消息了！今天这集铺垫课，我们先不碰复杂的网络代码，只用 20 行纯本地管道 demo.php，把 stream_select 最反直觉的机制彻底扒光！",
+      "subtitleText": "【003/112】铺垫实验：暂不碰网络，用 20 行本地管道抓出 stream_select 最经典丢连接 Bug",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-pair-setup",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "pair-setup",
+      "ttsText": "看第 5 到第 9 行：我们用 stream_socket_pair 造出两根内存管道，分别起名叫 pipe1 和 pipe2，统一放进总档案数组 $allFds 里。接着第 9 行故意只往 pipe1 里塞入一句 hello-1，pipe2 保持安静不说话。现在我们要让 stream_select 帮我们点名，看哪根管道有数据可读。",
+      "subtitleText": "实验布置：造两根管道 pipe1、pipe2 放进 $allFds，只往 pipe1 写 hello-1，pipe2 安静等待",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-03-trap-mutation",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "trap-mutation",
+      "ttsText": "致命操作来了！看第 12 到 14 行，我们把数组 $badPool 直接传进 stream_select 的第一个参数。注意 PHP 函数签名里的 & 引用符号！看右下角 X-Ray：内核检查后发现只有 pipe1 就绪，于是当场把没说话的 pipe2 从 $badPool 里直接抹掉了！终端真实输出：第 1 轮后 badPool 剩下的键只剩 pipe1！",
+      "subtitleText": "高能预警：stream_select 第 1 参数是按引用传递！内核会直接把未就绪的 pipe2 原地删掉！",
+      "fallbackDurationSec": 30.0
+    },
+    {
+      "id": "shot-04-pipe2-lost",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "pipe2-lost",
+      "ttsText": "现在灾难在第 17 行爆发了！第二轮我们往 pipe2 写入了 hello-2，然后习惯性地拿同一个 $badPool 再次调用 stream_select。看终端输出结果：就绪数量等于 1，pipe2 彻底失联！因为上一轮内核已经把 pipe2 踢出数组了，以后不管 pipe2 喊破喉咙，循环也永远听不见它！",
+      "subtitleText": "事故实测：第 2 轮复用被改写的 $badPool，pipe2 哪怕写了 hello-2 也彻底失联！",
+      "fallbackDurationSec": 27.0
+    },
+    {
+      "id": "shot-05-copy-rule",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "copy-rule",
+      "ttsText": "解决办法极其简单，但必须刻进肌肉记忆！看第 22 行：永远保留一份只读总花名册 $allFds，每次进 stream_select 前先赋值拷贝一份 $read = $allFds，让内核随便去删改那份临时数组 $read！实测第 2 轮立刻同时抓到 pipe1 和 pipe2，成功读出 hello-2！下集我们立刻把这条铁律装回 TCP 服务器！",
+      "subtitleText": "黄金铁律：每次调用前必须拷贝 $read = $allFds，保护总花名册不被原地篡改！",
+      "fallbackDurationSec": 29.0
+    }
+  ]
+}

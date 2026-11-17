@@ -1,0 +1,45 @@
+{
+  "id": "EP007",
+  "epTag": "007 / 112",
+  "title": "【过渡】不建类！用回调表消灭主循环 if-else",
+  "legoModule": "模块 1.2 · SelectLoop",
+  "outputFile": "out/EP007_过渡_用回调表消灭主循环if_else.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-two-tables",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "two-tables",
+      "ttsText": "今天用上集理清的平铺思维，不建类直接改造 EP005！先建两张同下标的表：readFds 存资源，readCallbacks 存处理函数。为了不绕晕，watchRead 和 unwatchRead 直接写成最普通的 PHP 函数，再也不搞闭包套闭包！",
+      "subtitleText": "【007/112】用 $readFds 和 $readCallbacks 两张同下标表解耦，watchRead 用普通函数不套娃",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-register-handlers",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "register-handlers",
+      "ttsText": "看第 28 到 49 行的平铺写法！我们先在外面写好客人说话回调 onClientRead；再单独写门卫迎客回调 onAccept，迎到新客后只用一行 watchRead($conn, $onClientRead) 完成登记！最后第 49 行把门卫挂进 5 号抽屉，此时两段代码都还没执行！",
+      "subtitleText": "完全平铺不嵌套：先定义 $onClientRead，再定义 $onAccept，最后 watchRead 登记进抽屉",
+      "fallbackDurationSec": 28.0
+    },
+    {
+      "id": "shot-03-pure-loop",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "pure-loop",
+      "ttsText": "见证奇迹的时刻到了！看第 53 到 64 行，原本几十行混杂着 accept 和 fread 的 while 主循环，现在干干净净只剩 6 行纯调度！它不知道什么叫迎客，也不关心怎么 Echo，只管在就绪时查表执行 $cb($fd)！",
+      "subtitleText": "主循环缩水成 6 行纯引擎：select 醒来 → 遍历 $read → 查表执行 $cb($fd)",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-04-verify-next",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "verify-next",
+      "ttsText": "运行测试，客户端连接 fd=6 发消息，立刻拿到 Echo[cb]！现在回头看这组变量和函数：readFds、readCallbacks、watchRead、unwatchRead 和主循环——把它们装进一个盒子，就是现成的 EventLoop 类！下集先立契约！",
+      "subtitleText": "实测通过！这组表和函数装进一个类里，就是工业级 SelectLoop！下集定义接口",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

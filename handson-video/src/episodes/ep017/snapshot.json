@@ -1,0 +1,13 @@
+{
+    "episode": "ep17",
+    "port": "19017",
+    "serverOutput": [
+        "[Server] 心跳踢人服务器启动 (超时阈值=0.35s)",
+        "[Server] 新客入座 fd=9",
+        "[Server] 新客入座 fd=10",
+        "[心跳巡检] fd=9 超时未说话，强制踢出！",
+        "[Server] 客人主动离开 fd=10"
+    ],
+    "activeReply": "Pong: ping",
+    "idleKickedMsg": "BYE: heartbeat timeout"
+}

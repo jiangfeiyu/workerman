@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-async-client": {
+      "id": "shot-01-async-client",
+      "audioFile": "audio/ep082/shot-01-async-client.mp3",
+      "durationSec": 17.854,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.473,
+          "text": "把刚刚学到的异步建连和我们的 EventLoopInterface 拼起来"
+        },
+        {
+          "startSec": 5.473,
+          "endSec": 9.961,
+          "text": "就是能向外面任何服务发请求的 AsyncTcpClient！"
+        },
+        {
+          "startSec": 9.961,
+          "endSec": 13.327,
+          "text": "它自己不 bind 端口，而是主动朝上游连过去"
+        },
+        {
+          "startSec": 13.327,
+          "endSec": 17.254,
+          "text": "然后把同一个 FD 塞进我们自己的 EventLoop！"
+        }
+      ]
+    },
+    "shot-02-onconnect": {
+      "id": "shot-02-onconnect",
+      "audioFile": "audio/ep082/shot-02-onconnect.mp3",
+      "durationSec": 19.798,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.384,
+          "text": "状态机完全复用第 1 篇接口"
+        },
+        {
+          "startSec": 2.384,
+          "endSec": 5.578,
+          "text": "先挂 onWritable 等握手完成"
+        },
+        {
+          "startSec": 5.578,
+          "endSec": 10.98,
+          "text": "首次可写就绪立刻调用 offWritable 摘掉写监听防止空转"
+        },
+        {
+          "startSec": 10.98,
+          "endSec": 13.834,
+          "text": "再触发 onConnect 发请求"
+        },
+        {
+          "startSec": 13.834,
+          "endSec": 19.198,
+          "text": "同时挂上 onReadable 等回包！整个过程事件循环零卡顿！"
+        }
+      ]
+    }
+  }
+}

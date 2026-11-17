@@ -1,0 +1,29 @@
+{
+  "id": "EP028",
+  "epTag": "028 / 112",
+  "title": "封装 TcpConnection::send() 与防插队保序",
+  "legoModule": "模块 2.2 · 异步发送缓冲",
+  "outputFile": "out/EP028_封装TcpConnection_send与快速路径直写.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-fast-path",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "fast-path",
+      "ttsText": "有了前面几集的铺垫，今天把发送缓冲正式装进 TcpConnection::send()！看第 46 行为什么要先判断 $this->sendBuffer === ''？因为必须先确定前面没有老数据在排队，才能直接调 fwrite 快速路径直写！99% 的短消息当场发完直接 return true，连事件循环都不用麻烦！",
+      "subtitleText": "【028/112】Fast Path 优化：只有 $sendBuffer 为空（没人排队）才允许直接 fwrite！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-buffer-append",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "buffer-append",
+      "ttsText": "万一前面已经有包在排队，如果新包还去调 fwrite，就会直接插队到老包前面把数据搞乱！所以第 56 行一旦写不完或已有积压，必须严格拼接到 $sendBuffer 末尾并挂上 onWritable！看验证输出：短消息 OK 走快速路径直发，先发 64KB 再发 END 严格保序、零插队！",
+      "subtitleText": "严防插队乱序：有排队必追加到 $sendBuffer 末尾！实测 64KB + END 严格保序",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

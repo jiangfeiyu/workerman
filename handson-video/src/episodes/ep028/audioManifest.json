@@ -1,0 +1,85 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-fast-path": {
+      "id": "shot-01-fast-path",
+      "audioFile": "audio/ep028/shot-01-fast-path.mp3",
+      "durationSec": 26.038,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.866,
+          "text": "有了前面几集的铺垫"
+        },
+        {
+          "startSec": 1.866,
+          "endSec": 7.007,
+          "text": "今天把发送缓冲正式装进 TcpConnection::send()！"
+        },
+        {
+          "startSec": 7.007,
+          "endSec": 12.656,
+          "text": "看第 46 行为什么要先判断 $this->sendBuffer === ''？"
+        },
+        {
+          "startSec": 12.656,
+          "endSec": 15.835,
+          "text": "因为必须先确定前面没有老数据在排队"
+        },
+        {
+          "startSec": 15.835,
+          "endSec": 19.116,
+          "text": "才能直接调 fwrite 快速路径直写！"
+        },
+        {
+          "startSec": 19.116,
+          "endSec": 23.31,
+          "text": "99% 的短消息当场发完直接 return true"
+        },
+        {
+          "startSec": 23.31,
+          "endSec": 25.438,
+          "text": "连事件循环都不用麻烦！"
+        }
+      ]
+    },
+    "shot-02-buffer-append": {
+      "id": "shot-02-buffer-append",
+      "audioFile": "audio/ep028/shot-02-buffer-append.mp3",
+      "durationSec": 26.278,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.992,
+          "text": "万一前面已经有包在排队，如果新包还去调 fwrite"
+        },
+        {
+          "startSec": 4.992,
+          "endSec": 8.392,
+          "text": "就会直接插队到老包前面把数据搞乱！"
+        },
+        {
+          "startSec": 8.392,
+          "endSec": 11.681,
+          "text": "所以第 56 行一旦写不完或已有积压"
+        },
+        {
+          "startSec": 11.681,
+          "endSec": 18.037,
+          "text": "必须严格拼接到 $sendBuffer 末尾并挂上 onWritable！"
+        },
+        {
+          "startSec": 18.037,
+          "endSec": 21.695,
+          "text": "看验证输出：短消息 OK 走快速路径直发"
+        },
+        {
+          "startSec": 21.695,
+          "endSec": 25.678,
+          "text": "先发 64KB 再发 END 严格保序、零插队！"
+        }
+      ]
+    }
+  }
+}

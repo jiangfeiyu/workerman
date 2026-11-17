@@ -1,0 +1,191 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-hook": {
+      "id": "shot-01-hook",
+      "audioFile": "audio/ep005/shot-01-hook.mp3",
+      "durationSec": 25.726,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.279,
+          "text": "欢迎来到模块 1.1 的合拢验收集！"
+        },
+        {
+          "startSec": 3.279,
+          "endSec": 8.566,
+          "text": "前四集我们踩了阻塞卡死、CPU 空转和引用改写三个大坑"
+        },
+        {
+          "startSec": 8.566,
+          "endSec": 13.927,
+          "text": "今天这集把它们全部拼在一起：建一个总花名册 $allFds"
+        },
+        {
+          "startSec": 13.927,
+          "endSec": 17.799,
+          "text": "不管接待门 $server 还是客人 $conn"
+        },
+        {
+          "startSec": 17.799,
+          "endSec": 20.74,
+          "text": "全都以整数 (int)$fd 为键放进去"
+        },
+        {
+          "startSec": 20.74,
+          "endSec": 25.126,
+          "text": "交给同一个 stream_select 统一看管！"
+        }
+      ]
+    },
+    "shot-02-branch-accept": {
+      "id": "shot-02-branch-accept",
+      "audioFile": "audio/ep005/shot-02-branch-accept.mp3",
+      "durationSec": 27.766,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.792,
+          "text": "看第 19 到 27 行的核心分发！"
+        },
+        {
+          "startSec": 2.792,
+          "endSec": 8.047,
+          "text": "当 stream_select 唤醒后，遍历就绪数组 $read"
+        },
+        {
+          "startSec": 8.047,
+          "endSec": 12.229,
+          "text": "如果就绪的是 $server，说明门外有新客人！"
+        },
+        {
+          "startSec": 12.229,
+          "endSec": 17.019,
+          "text": "立刻调 accept 迎进来，设为非阻塞，然后关键一行"
+        },
+        {
+          "startSec": 17.019,
+          "endSec": 21.023,
+          "text": "$allFds[(int)$conn] = $conn！"
+        },
+        {
+          "startSec": 21.023,
+          "endSec": 23.668,
+          "text": "把它的 FD 编号登记进花名册"
+        },
+        {
+          "startSec": 23.668,
+          "endSec": 27.166,
+          "text": "下一轮内核就会顺带帮我们盯着它说话！"
+        }
+      ]
+    },
+    "shot-03-branch-read": {
+      "id": "shot-03-branch-read",
+      "audioFile": "audio/ep005/shot-03-branch-read.mp3",
+      "durationSec": 30.118,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.32,
+          "text": "再看第 28 到 38 行的老客人分支！"
+        },
+        {
+          "startSec": 3.32,
+          "endSec": 9.24,
+          "text": "如果就绪的不是 $server，说明某个客人说话了，或者断开了！"
+        },
+        {
+          "startSec": 9.24,
+          "endSec": 13.161,
+          "text": "用 fread 读出数据。特别注意第 30 行"
+        },
+        {
+          "startSec": 13.161,
+          "endSec": 18.327,
+          "text": "如果读到空字符串或者 false，说明客户端已经挂断！"
+        },
+        {
+          "startSec": 18.327,
+          "endSec": 24.511,
+          "text": "必须立刻 unset 踢出 $allFds 并 fclose 归还文件描述符"
+        },
+        {
+          "startSec": 24.511,
+          "endSec": 29.518,
+          "text": "否则下轮 select 会永远认为它就绪而陷入死循环！"
+        }
+      ]
+    },
+    "shot-04-verify-concurrent": {
+      "id": "shot-04-verify-concurrent",
+      "audioFile": "audio/ep005/shot-04-verify-concurrent.mp3",
+      "durationSec": 29.902,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.105,
+          "text": "双客户端合拢压测走起！看右上角真实执行日志"
+        },
+        {
+          "startSec": 5.105,
+          "endSec": 9.059,
+          "text": "客人 A 拿到 fd=6 连上后继续发呆"
+        },
+        {
+          "startSec": 9.059,
+          "endSec": 16.345,
+          "text": "客人 B 拿到 fd=7 连上后连发两条消息 B says 1 和 B says 2"
+        },
+        {
+          "startSec": 16.345,
+          "endSec": 21.187,
+          "text": "服务器毫秒级秒回！最后客人 A 终于开口说话"
+        },
+        {
+          "startSec": 21.187,
+          "endSec": 29.302,
+          "text": "同样稳稳收到 Echo[fd=6]！全程空闲 CPU 为零，零阻塞、零丢包！"
+        }
+      ]
+    },
+    "shot-05-milestone": {
+      "id": "shot-05-milestone",
+      "audioFile": "audio/ep005/shot-05-milestone.mp3",
+      "durationSec": 28.126,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.007,
+          "text": "恭喜！模块 1.1 乐高正式拼装完成！短短 38 行代码"
+        },
+        {
+          "startSec": 5.007,
+          "endSec": 8.742,
+          "text": "我们已经有了真正的单进程高并发心脏"
+        },
+        {
+          "startSec": 8.742,
+          "endSec": 10.821,
+          "text": "不过仔细看第 19 行"
+        },
+        {
+          "startSec": 10.821,
+          "endSec": 17.829,
+          "text": "现在业务逻辑和 if ($fd === $server) 全揉死在 while 循环里"
+        },
+        {
+          "startSec": 17.829,
+          "endSec": 22.604,
+          "text": "下一篇模块 1.2，我们用“回调数组查表”做过渡"
+        },
+        {
+          "startSec": 22.604,
+          "endSec": 27.526,
+          "text": "亲手抽象出第一个核心发动机 SelectLoop！"
+        }
+      ]
+    }
+  }
+}

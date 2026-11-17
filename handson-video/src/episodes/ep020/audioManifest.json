@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-crash-risk": {
+      "id": "shot-01-crash-risk",
+      "audioFile": "audio/ep020/shot-01-crash-risk.mp3",
+      "durationSec": 22.678,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.016,
+          "text": "传统 PHP-FPM 里一个请求抛了未捕获异常"
+        },
+        {
+          "startSec": 4.016,
+          "endSec": 8.515,
+          "text": "只会死掉这 1 个请求。但在常驻内存的 Worker 里"
+        },
+        {
+          "startSec": 8.515,
+          "endSec": 11.724,
+          "text": "成千上万个客人共享同一个事件循环！"
+        },
+        {
+          "startSec": 11.724,
+          "endSec": 18.316,
+          "text": "只要一个恶意包在 onMessage 里触发 RuntimeException"
+        },
+        {
+          "startSec": 18.316,
+          "endSec": 22.078,
+          "text": "整个进程当场暴毙，所有在线用户瞬间断网！"
+        }
+      ]
+    },
+    "shot-02-safe-call": {
+      "id": "shot-02-safe-call",
+      "audioFile": "audio/ep020/shot-02-safe-call.mp3",
+      "durationSec": 23.398,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.725,
+          "text": "解决办法是在框架调度层加上防弹衣！看第 57 到 70 行"
+        },
+        {
+          "startSec": 4.725,
+          "endSec": 8.187,
+          "text": "我们封装一个私有方法 safeCall"
+        },
+        {
+          "startSec": 8.187,
+          "endSec": 14.201,
+          "text": "所有外部回调统一放进 try catch (Throwable) 里执行！"
+        },
+        {
+          "startSec": 14.201,
+          "endSec": 15.914,
+          "text": "如果业务代码炸了"
+        },
+        {
+          "startSec": 15.914,
+          "endSec": 20.075,
+          "text": "捕获异常交给 onError 或打印到标准错误流"
+        },
+        {
+          "startSec": 20.075,
+          "endSec": 22.798,
+          "text": "绝对不让异常穿透到事件循环！"
+        }
+      ]
+    },
+    "shot-03-verify-alive": {
+      "id": "shot-03-verify-alive",
+      "audioFile": "audio/ep020/shot-03-verify-alive.mp3",
+      "durationSec": 21.766,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.848,
+          "text": "看实测结果！第一个客户端发送 boom 故意引爆异常"
+        },
+        {
+          "startSec": 4.848,
+          "endSec": 7.42,
+          "text": "标准错误流安全记录了报错"
+        },
+        {
+          "startSec": 7.42,
+          "endSec": 11.669,
+          "text": "紧接着第二个客户端问 still alive?"
+        },
+        {
+          "startSec": 11.669,
+          "endSec": 16.775,
+          "text": "服务器依然秒回 OK: still alive? 稳如泰山！"
+        },
+        {
+          "startSec": 16.775,
+          "endSec": 21.166,
+          "text": "下一集 EP021，迎来第 1 篇大结局合拢实战！"
+        }
+      ]
+    }
+  }
+}

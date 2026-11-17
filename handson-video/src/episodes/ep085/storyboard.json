@@ -1,0 +1,29 @@
+{
+  "id": "EP085",
+  "epTag": "085 / 112",
+  "title": "协程 RedisClient：同步代码并发 200 次读写实测",
+  "legoModule": "模块 5.2 · 协程 Redis 与连接池",
+  "outputFile": "out/EP085_协程RedisClient并发200次读写实测.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-redis-await",
+      "chapter": "第 5 篇 · 模块 5.2 协程 Redis 与连接池",
+      "visual": "redis-await",
+      "ttsText": "把 RespCodec 插进刚才写的协程 AsyncTcpClient::await() 里，不需要引入 phpredis C 扩展，纯 PHP 二十行就组装出一个全异步协程 RedisClient！",
+      "subtitleText": "【085/112】RespCodec + 协程 AsyncTcpClient = 零 C 扩展纯 PHP 协程 RedisClient！",
+      "fallbackDurationSec": 19.0
+    },
+    {
+      "id": "shot-02-redis-bench",
+      "chapter": "第 5 篇 · 模块 5.2 协程 Redis 与连接池",
+      "visual": "redis-bench",
+      "ttsText": "本地起一个原生 RESP Server 连跑 100 组 SET 加 100 组 GET 共 200 次命令！校验结果 100 组全部精准命中 100/100，总耗时仅仅 15.24 毫秒！业务写起来全是同步的 $redis->get('k1')！",
+      "subtitleText": "实测连续 200 次 SET+GET (ok=100/100) 仅耗时 15.24ms，全靠同步直觉写法！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-status-signal": {
+      "id": "shot-01-status-signal",
+      "audioFile": "audio/ep071/shot-01-status-signal.mp3",
+      "durationSec": 21.718,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.026,
+          "text": "服务跑在后台怎么知道每个 Worker 占了多少内存"
+        },
+        {
+          "startSec": 4.026,
+          "endSec": 9.256,
+          "text": "是不是有内存泄漏？敲一条 php server.php status"
+        },
+        {
+          "startSec": 9.256,
+          "endSec": 11.775,
+          "text": "CLI 投递 SIGUSR2 信号"
+        },
+        {
+          "startSec": 11.775,
+          "endSec": 17.356,
+          "text": "每个 Worker 瞬间把自己的 memory_get_usage(true)"
+        },
+        {
+          "startSec": 17.356,
+          "endSec": 21.118,
+          "text": "累计请求数和活跃连接数快照写进临时统计目录！"
+        }
+      ]
+    },
+    "shot-02-status-table": {
+      "id": "shot-02-status-table",
+      "audioFile": "audio/ep071/shot-02-status-table.mp3",
+      "durationSec": 21.382,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.579,
+          "text": "Master 等待几百毫秒汇总所有子进程报表后"
+        },
+        {
+          "startSec": 4.579,
+          "endSec": 10.11,
+          "text": "直接在终端打出一张清晰的进程体检看板：masterPid"
+        },
+        {
+          "startSec": 10.11,
+          "endSec": 14.306,
+          "text": "各个 Worker 的状态、物理内存 2.0MB"
+        },
+        {
+          "startSec": 14.306,
+          "endSec": 17.434,
+          "text": "以及当前 QPS 18400 每秒！"
+        },
+        {
+          "startSec": 17.434,
+          "endSec": 20.782,
+          "text": "有没有内存持续暴涨一眼抓出真凶！"
+        }
+      ]
+    }
+  }
+}

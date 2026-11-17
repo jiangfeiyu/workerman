@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-track-active": {
+      "id": "shot-01-track-active",
+      "audioFile": "audio/ep017/shot-01-track-active.mp3",
+      "durationSec": 22.486,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.613,
+          "text": "模块 1.3 合拢验收实战！"
+        },
+        {
+          "startSec": 2.613,
+          "endSec": 7.491,
+          "text": "线上服务器最怕大量客户端连上后一直发呆耗尽 FD"
+        },
+        {
+          "startSec": 7.491,
+          "endSec": 9.565,
+          "text": "看第 17 和第 23 行"
+        },
+        {
+          "startSec": 9.565,
+          "endSec": 14.136,
+          "text": "客人进门时记录 lastActive 当前时间戳"
+        },
+        {
+          "startSec": 14.136,
+          "endSec": 16.786,
+          "text": "每次收到客户端发来的消息"
+        },
+        {
+          "startSec": 16.786,
+          "endSec": 21.886,
+          "text": "立刻把 lastActive 刷新续命并回复 Pong！"
+        }
+      ]
+    },
+    "shot-02-patrol": {
+      "id": "shot-02-patrol",
+      "audioFile": "audio/ep017/shot-02-patrol.mp3",
+      "durationSec": 28.486,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.406,
+          "text": "接着第 28 行挂上一个每 0.1 秒巡检一次的 repeat() 定时器！"
+        },
+        {
+          "startSec": 6.406,
+          "endSec": 10.015,
+          "text": "只要发现某位客人闲置时间超过阈值"
+        },
+        {
+          "startSec": 10.015,
+          "endSec": 15.976,
+          "text": "立刻发送 BYE 踢人通知，摘掉监听并 fclose 释放资源！"
+        },
+        {
+          "startSec": 15.976,
+          "endSec": 21.004,
+          "text": "看实测输出：活跃连接 fd=10 稳稳拿到 Pong"
+        },
+        {
+          "startSec": 21.004,
+          "endSec": 25.14,
+          "text": "而发呆的 fd=9 被巡检定时器精准踢出！"
+        },
+        {
+          "startSec": 25.14,
+          "endSec": 27.886,
+          "text": "恭喜模块 1.3 正式毕业！"
+        }
+      ]
+    }
+  }
+}

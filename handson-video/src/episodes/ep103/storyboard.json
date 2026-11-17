@@ -1,0 +1,29 @@
+{
+  "id": "EP103",
+  "epTag": "103 / 112",
+  "title": "Gateway 接入层核心：扛连接、保心跳与按 client_id 原路回递",
+  "legoModule": "模块 6.2 · 分布式 ModernGateway 集群",
+  "outputFile": "out/EP103_Gateway接入层核心_持连接与原路回递.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-gw-dual",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "gw-dual",
+      "ttsText": "现在来组装三剑客里的前排盾牌 Gateway！它内部同时开两个端口：公网端口跑 WebSocket 或 Frame 协议收发客户心跳与数据；内网端口跑 GatewayProtocol 连向后端群组里的 BusinessWorker！",
+      "subtitleText": "【103/112】Gateway 双面神盾：外网扛海量客户 WebSocket 长连接，内网走极速二进制协议！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-gw-route",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "gw-route",
+      "ttsText": "用户发上行消息时，Gateway 按 connId 取模挑一个健康的 BusinessWorker 发过去；当后端回发一个指定 client_id 的数据包时，Gateway 拆出末尾的 connId 在本地哈希表 O(1) 找到对应 TcpConnection 原路写出，绝不拖泥带水！",
+      "subtitleText": "收到后端带 client_id 的回包后，拆出局部 connId O(1) 定位连接当场发出！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

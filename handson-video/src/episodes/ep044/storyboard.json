@@ -1,0 +1,29 @@
+{
+  "id": "EP044",
+  "epTag": "044 / 112",
+  "title": "手写不可变 Request 类：拆出 Method / Query / Headers",
+  "legoModule": "模块 3.2 · 手写 HTTP/1.1",
+  "outputFile": "out/EP044_手写不可变Request类.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-readonly-req",
+      "chapter": "第 3 篇 · 模块 3.2 手写 HTTP/1.1 协议",
+      "visual": "readonly-req",
+      "ttsText": "现在来写 HttpProtocol::decode() 与 Request 对象！用 PHP 8.2 的 readonly class 定义 Request，保证请求到达业务层后不可被篡改：包含 method、path、query、headers 和 body，并把所有 Header 键名统一转小写方便读取！",
+      "subtitleText": "【044/112】readonly class Request：拆出 method/path/query/headers/body，Header 统一小写",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-decode-parse",
+      "chapter": "第 3 篇 · 模块 3.2 手写 HTTP/1.1 协议",
+      "visual": "decode-parse",
+      "ttsText": "decode() 只需按 \\r\\n\\r\\n 一刀切开头部和 Body：首行用空格拆出 Method 和 URI，再用 parse_url 和 parse_str 拆出路径与 Query 参数，循环遍历剩余行按冒号拆进 headers 数组！实测 POST /api/login?from=web 全部字段精准拆出！",
+      "subtitleText": "实测精准拆解 POST /api/login?from=web 与 body=user=modern！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-cert-gen": {
+      "id": "shot-01-cert-gen",
+      "audioFile": "audio/ep088/shot-01-cert-gen.mp3",
+      "durationSec": 20.782,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.276,
+          "text": "模块 5.3 给服务器穿上防弹衣：HTTPS 与 WSS 加密！"
+        },
+        {
+          "startSec": 6.276,
+          "endSec": 11.985,
+          "text": "第一步开发测试用 OpenSSL 直接生成一份 2048 位"
+        },
+        {
+          "startSec": 11.985,
+          "endSec": 17.65,
+          "text": "RSA 私钥和 X.509 自签名证书打包成 PEM 文件"
+        },
+        {
+          "startSec": 17.65,
+          "endSec": 20.182,
+          "text": "零成本开启加密实验！"
+        }
+      ]
+    },
+    "shot-02-ssl-context": {
+      "id": "shot-02-ssl-context",
+      "audioFile": "audio/ep088/shot-02-ssl-context.mp3",
+      "durationSec": 21.022,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.465,
+          "text": "第二步把证书路径塞进"
+        },
+        {
+          "startSec": 1.465,
+          "endSec": 10.13,
+          "text": "stream_context_create(['ssl' => ['local_cert' => $certFile]]) 上下文里"
+        },
+        {
+          "startSec": 10.13,
+          "endSec": 14.235,
+          "text": "再传给 stream_socket_server()！最神奇的是"
+        },
+        {
+          "startSec": 14.235,
+          "endSec": 17.627,
+          "text": "无论是 HTTP/1.1 还是 WebSocket"
+        },
+        {
+          "startSec": 17.627,
+          "endSec": 20.422,
+          "text": "业务层与协议层一行加密逻辑都不用改！"
+        }
+      ]
+    }
+  }
+}

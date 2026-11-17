@@ -1,0 +1,29 @@
+{
+  "id": "EP039",
+  "epTag": "039 / 112",
+  "title": "FrameProtocol：4B 长度头 + 二进制 Body",
+  "legoModule": "模块 3.1 · 粘包与协议插槽",
+  "outputFile": "out/EP039_FrameProtocol_4B长度头与二进制Body.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-frame-encode-decode",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "frame-code",
+      "ttsText": "有了上一集 pack('N') 和 unpack('N') 的基础，基础版 FrameProtocol 极其简洁！发消息调 encode()，先把总长度 4 加上 Body 长度用 pack('N') 压成 4 字节包头拼在最前面；收包后调 decode() 直接 substr($package, 4) 剥掉前 4 字节，正文里带换行符或图片二进制都绝不会切错！",
+      "subtitleText": "【039/112】FrameProtocol：encode() 加 4B 总长头，decode() 跳过前 4B 取 Body！",
+      "fallbackDurationSec": 28.0
+    },
+    {
+      "id": "shot-02-frame-input",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "frame-input",
+      "ttsText": "最关键的分帧开关在 input()！第一步先看缓冲区够不够 4 字节，连包头都没收齐立刻 return 0；一旦够 4 字节，用 unpack('NtotalLen') 读出总长度，只要实际字节数还小于 $totalLen，同样 return 0 蓄水等待！实测前 10B 半包拦截、补齐后精准切出带换行符的两帧！",
+      "subtitleText": "input() 两道关卡：不够 4B 包头 return 0；不够 $totalLen 继续 return 0 蓄水！",
+      "fallbackDurationSec": 29.0
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-mask": {
+      "id": "shot-01-why-mask",
+      "audioFile": "audio/ep052/shot-01-why-mask.mp3",
+      "durationSec": 26.83,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.742,
+          "text": "为什么浏览器发往服务端的 WebSocket 帧"
+        },
+        {
+          "startSec": 4.742,
+          "endSec": 7.903,
+          "text": "协议硬性规定 MASK 必须等于 1"
+        },
+        {
+          "startSec": 7.903,
+          "endSec": 12.605,
+          "text": "还要带 4 字节随机密钥？这可不是为了防黑客偷看"
+        },
+        {
+          "startSec": 12.605,
+          "endSec": 21.575,
+          "text": "而是防止恶意网页在 TCP 流里伪造一段 GET / HTTP 报文去毒化老旧透明代理服务器的缓存！"
+        },
+        {
+          "startSec": 21.575,
+          "endSec": 26.23,
+          "text": "随机数一异或，流里绝不会出现合法 HTTP 头！"
+        }
+      ]
+    },
+    "shot-02-decode-loop": {
+      "id": "shot-02-decode-loop",
+      "audioFile": "audio/ep052/shot-02-decode-loop.mp3",
+      "durationSec": 26.062,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.185,
+          "text": "写 decode() 只有 6 行！"
+        },
+        {
+          "startSec": 2.185,
+          "endSec": 5.195,
+          "text": "先按阶梯长度偏移跳过前 2 到 10 字节"
+        },
+        {
+          "startSec": 5.195,
+          "endSec": 12.047,
+          "text": "紧挨着截出 4 字节 $maskKey = substr($package, $offset, 4)"
+        },
+        {
+          "startSec": 12.047,
+          "endSec": 14.513,
+          "text": "后面全是密文 $payload"
+        },
+        {
+          "startSec": 14.513,
+          "endSec": 20.885,
+          "text": "开一个 for 循环让 $payload[$i] 与 $maskKey[$i % 4] 循环取模异或"
+        },
+        {
+          "startSec": 20.885,
+          "endSec": 25.462,
+          "text": "实测 21 字节掩码帧秒级解密回 Hi Workerman!！"
+        }
+      ]
+    }
+  }
+}

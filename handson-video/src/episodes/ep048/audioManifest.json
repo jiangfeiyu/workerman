@@ -1,0 +1,75 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-state": {
+      "id": "shot-01-why-state",
+      "audioFile": "audio/ep048/shot-01-why-state.mp3",
+      "durationSec": 23.95,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.682,
+          "text": "如果同一条 TCP 连接上，第 1 个包走 HTTP 文本握手"
+        },
+        {
+          "startSec": 4.682,
+          "endSec": 8.752,
+          "text": "第 2 个包突然变成二进制 WebSocket 帧"
+        },
+        {
+          "startSec": 8.752,
+          "endSec": 12.751,
+          "text": "死板地调用单一 input() 必然报错！怎么办？"
+        },
+        {
+          "startSec": 12.751,
+          "endSec": 20.035,
+          "text": "答案是在 TcpConnection 里加一个握手布尔状态位 $wsHandshake"
+        },
+        {
+          "startSec": 20.035,
+          "endSec": 23.35,
+          "text": "在 101 握手瞬间原地切换解析策略！"
+        }
+      ]
+    },
+    "shot-02-hot-swap": {
+      "id": "shot-02-hot-swap",
+      "audioFile": "audio/ep048/shot-02-hot-swap.mp3",
+      "durationSec": 23.974,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.488,
+          "text": "流程极度丝滑：连接刚 accept 时 $wsHandshake = false"
+        },
+        {
+          "startSec": 6.488,
+          "endSec": 10.133,
+          "text": "收到第一段双回车换行结尾的 HTTP 头后"
+        },
+        {
+          "startSec": 10.133,
+          "endSec": 15.46,
+          "text": "立刻回发 101 响应并把 $wsHandshake 置为 true！"
+        },
+        {
+          "startSec": 15.46,
+          "endSec": 17.002,
+          "text": "这一句赋值之后"
+        },
+        {
+          "startSec": 17.002,
+          "endSec": 22.048,
+          "text": "同一条 Socket 里剩下的所有字节全部切入二进制帧解析"
+        },
+        {
+          "startSec": 22.048,
+          "endSec": 23.374,
+          "text": "零毫秒断连！"
+        }
+      ]
+    }
+  }
+}

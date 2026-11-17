@@ -1,0 +1,102 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-why-while-read": {
+      "id": "shot-01-why-while-read",
+      "audioFile": "audio/ep031b/shot-01-why-while-read.mp3",
+      "durationSec": 20.326,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.372,
+          "text": "看 EP032 完善 baseRead() 之前"
+        },
+        {
+          "startSec": 3.372,
+          "endSec": 6.3,
+          "text": "我们先复现一个极隐蔽的读端大坑！"
+        },
+        {
+          "startSec": 6.3,
+          "endSec": 10.978,
+          "text": "第 22 集我们写的 baseRead 只调用一次 fread"
+        },
+        {
+          "startSec": 10.978,
+          "endSec": 14.748,
+          "text": "遇到客户端发来 200KB 大包，一次读不完"
+        },
+        {
+          "startSec": 14.748,
+          "endSec": 19.726,
+          "text": "于是很自然想加个 while (true) 循环把它一次读空！"
+        }
+      ]
+    },
+    "shot-02-false-kill": {
+      "id": "shot-02-false-kill",
+      "audioFile": "audio/ep031b/shot-02-false-kill.mp3",
+      "durationSec": 28.174,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.201,
+          "text": "看第 13 到 24 行的恐怖实测！"
+        },
+        {
+          "startSec": 3.201,
+          "endSec": 7.388,
+          "text": "客户端发了 200KB 但故意不断开连接"
+        },
+        {
+          "startSec": 7.388,
+          "endSec": 13.505,
+          "text": "while 循环前 25 轮稳稳把 204,800 字节全读出来了"
+        },
+        {
+          "startSec": 13.505,
+          "endSec": 16.748,
+          "text": "到了第 26 轮，缓冲区已经读空"
+        },
+        {
+          "startSec": 16.748,
+          "endSec": 19.704,
+          "text": "非阻塞 fread 返回空串！"
+        },
+        {
+          "startSec": 19.704,
+          "endSec": 23.768,
+          "text": "如果沿用旧逻辑以为返回空串就是断开了"
+        },
+        {
+          "startSec": 23.768,
+          "endSec": 27.574,
+          "text": "当场就会把还活着的客户端误杀关掉！"
+        }
+      ]
+    },
+    "shot-03-need-feof": {
+      "id": "shot-03-need-feof",
+      "audioFile": "audio/ep031b/shot-03-need-feof.mp3",
+      "durationSec": 15.238,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.665,
+          "text": "所以非阻塞 fread 返回空串有两副面孔"
+        },
+        {
+          "startSec": 3.665,
+          "endSec": 8.44,
+          "text": "到底是“这次数据读干净了”，还是“对方真拔网线了”？"
+        },
+        {
+          "startSec": 8.44,
+          "endSec": 14.638,
+          "text": "下一集 EP032，我们用 feof($this->socket) 一招辨真伪！"
+        }
+      ]
+    }
+  }
+}

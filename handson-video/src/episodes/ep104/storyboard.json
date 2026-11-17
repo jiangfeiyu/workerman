@@ -1,0 +1,29 @@
+{
+  "id": "EP104",
+  "epTag": "104 / 112",
+  "title": "BusinessWorker 核心：直连全量 Gateway 集群",
+  "legoModule": "模块 6.2 · 分布式 ModernGateway 集群",
+  "outputFile": "out/EP104_BusinessWorker核心_直连全量Gateway集群.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-biz-connect",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "biz-connect",
+      "ttsText": "前排 Gateway 已经建好了，现在来看后排真正跑业务的 BusinessWorker！它从 Register 拿到全量 Gateway 内网地址列表后，用我们第 5 篇写的 AsyncTcpClient 全连上去建立常驻长连接！",
+      "subtitleText": "【104/112】BusinessWorker 用 AsyncTcpClient 连上全体在线 Gateway 节点！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-gw-facade",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "gw-facade",
+      "ttsText": "业务开发写代码彻底解放！无需操心节点在哪台机房，调一句 Gateway::sendToClient($cid, $msg)，内部直接从 $cid 拆出前 6 字节定位内网 IP 和端口，精准丢给那一条 Gateway 专线发出；调用 sendToAll() 则自动群发全集群！",
+      "subtitleText": "Gateway::sendToClient($cid) 自动解出 IP:Port 直投目标专线；sendToAll() 广播全网！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

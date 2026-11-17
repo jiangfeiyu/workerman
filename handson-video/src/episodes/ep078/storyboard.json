@@ -1,0 +1,29 @@
+{
+  "id": "EP078",
+  "epTag": "078 / 112",
+  "title": "双向传值接力：Fiber::suspend() 与 $fiber->resume()",
+  "legoModule": "模块 5.1 · Fiber 协程调度器",
+  "outputFile": "out/EP078_Fiber双向传值接力_suspend与resume.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-suspend-out",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "suspend-out",
+      "ttsText": "把协程冻结还不够，怎么把异步查到的结果无缝塞回刚才暂停的那一行呢？答案就在 suspend 与 resume 的双向接力！外层调 $fiber->start() 后，内层一句 Fiber::suspend('WAIT_DB_ROW') 会把请求信号作为 start() 的返回值传出来！",
+      "subtitleText": "【078/112】去程：$fiber->start() 收到内层通过 Fiber::suspend($req) 抛出的异步意图！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-resume-in",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "resume-in",
+      "ttsText": "等事件循环拿到数据库结果后，只需调一句 $fiber->resume('user#42')！奇妙的一幕发生了：字符串 'user#42' 直接穿透三层函数栈变成 Fiber::suspend() 的返回值赋给 $row，deepQuery 像什么都没发生过一样继续往下算完拿到 FINAL => GOT: user#42！",
+      "subtitleText": "回程：$fiber->resume('user#42') 穿透调用栈变成 suspend() 的返回值继续同步往下算！",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-channel-verify": {
+      "id": "shot-01-channel-verify",
+      "audioFile": "audio/ep096/shot-01-channel-verify.mp3",
+      "durationSec": 16.702,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.976,
+          "text": "模块 6.1 实测合拢！"
+        },
+        {
+          "startSec": 1.976,
+          "endSec": 8.905,
+          "text": "两个隔离的 Worker 客户端同时连入本地 ChannelServer 订阅广播频道"
+        },
+        {
+          "startSec": 8.905,
+          "endSec": 12.437,
+          "text": "Worker #1 刚发出一条全服红包来了"
+        },
+        {
+          "startSec": 12.437,
+          "endSec": 16.102,
+          "text": "双方立刻同步收到推送，全服 100% 触达！"
+        }
+      ]
+    },
+    "shot-02-why-gateway": {
+      "id": "shot-02-why-gateway",
+      "audioFile": "audio/ep096/shot-02-why-gateway.mp3",
+      "durationSec": 20.278,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.74,
+          "text": "而且因为 Channel 走的是标准 TCP Socket"
+        },
+        {
+          "startSec": 4.74,
+          "endSec": 7.686,
+          "text": "不仅同一台机器上 4 个进程能互通"
+        },
+        {
+          "startSec": 7.686,
+          "endSec": 11.965,
+          "text": "把邮局部署在内网另一台主机上照样能跨机器喊话！"
+        },
+        {
+          "startSec": 11.965,
+          "endSec": 15.192,
+          "text": "不过遇到十万长连接频繁发版怎么办？"
+        },
+        {
+          "startSec": 15.192,
+          "endSec": 19.678,
+          "text": "下集开启核心架构升级 ModernGateway！"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "EP031",
+  "epTag": "031 / 112",
+  "title": "优雅断连 close($data) vs 强行拔线 destroy()",
+  "legoModule": "模块 2.3 · 优雅断连与合拢",
+  "outputFile": "out/EP031_优雅断连close与强行拔线destroy.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-close-vs-destroy",
+      "chapter": "第 2 篇 · 模块 2.3 优雅断连与合拢",
+      "visual": "close-vs-destroy",
+      "ttsText": "发送完最后一条告别消息或 1MB 文件后，如果立刻调 destroy() 关闭 Socket，缓冲区里还没发完的数据会当场被截断丢弃！所以框架必须区分两种关流方式：立刻拔线的 destroy()，和等缓冲区发完再断的 close($data)！",
+      "subtitleText": "【031/112】destroy() 立刻拔线，close($data) 等缓冲区最后 1 字节发完再优雅挂断",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-closing-state",
+      "chapter": "第 2 篇 · 模块 2.3 优雅断连与合拢",
+      "visual": "closing-state",
+      "ttsText": "看第 71 到 92 行！close($tailMsg) 先把尾包交给 send()；如果没发完，立刻切到 Closing 半关闭状态并 offReadable 停止接收新请求，留着写监听继续干活！看本集实测：调用 close() 先进入 closing，等 baseWrite 排空 1MB 尾包后自动销毁，客户端一字节不少收到末尾 BYE_OK！",
+      "subtitleText": "实测 close(1MB+BYE_OK)：先切 closing 关读留写 → 排空自动 destroy → 客户端完整收齐！",
+      "fallbackDurationSec": 28.0
+    }
+  ]
+}

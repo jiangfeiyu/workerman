@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-stateless-trap": {
+      "id": "shot-01-stateless-trap",
+      "audioFile": "audio/ep104b/shot-01-stateless-trap.mp3",
+      "durationSec": 24.478,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.033,
+          "text": "学 EP105 的 bindUid 之前"
+        },
+        {
+          "startSec": 3.033,
+          "endSec": 6.866,
+          "text": "先解决一个最容易踩的架构误区！很多同学会想"
+        },
+        {
+          "startSec": 6.866,
+          "endSec": 11.54,
+          "text": "BusinessWorker 有 16 个进程还会随时重启"
+        },
+        {
+          "startSec": 11.54,
+          "endSec": 18.568,
+          "text": "如果把用户登录 $_SESSION 或 uid 绑定表直接写进某个 Worker 的静态数组里"
+        },
+        {
+          "startSec": 18.568,
+          "endSec": 23.878,
+          "text": "reload 一杀进程全丢，别的 Worker 进程也根本读不到！"
+        }
+      ]
+    },
+    "shot-02-gateway-store": {
+      "id": "shot-02-gateway-store",
+      "audioFile": "audio/ep104b/shot-02-gateway-store.mp3",
+      "durationSec": 23.278,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.971,
+          "text": "所以 BusinessWorker 必须保持百分之百无状态！"
+        },
+        {
+          "startSec": 4.971,
+          "endSec": 8.627,
+          "text": "连接级别的 $_SESSION 和 uid 映射表"
+        },
+        {
+          "startSec": 8.627,
+          "endSec": 13.893,
+          "text": "统一交给常驻不重启的 Gateway（或共享存储）按连接托管！"
+        },
+        {
+          "startSec": 13.893,
+          "endSec": 16.375,
+          "text": "每次请求透传 Session"
+        },
+        {
+          "startSec": 16.375,
+          "endSec": 22.678,
+          "text": "下一集 EP105 看 bindUid 和 sendToUid 如何跨多端精准投递！"
+        }
+      ]
+    }
+  }
+}

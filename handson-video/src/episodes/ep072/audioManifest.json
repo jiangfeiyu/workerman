@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-select-scale": {
+      "id": "shot-01-select-scale",
+      "audioFile": "audio/ep072/shot-01-select-scale.mp3",
+      "durationSec": 23.806,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.483,
+          "text": "模块 4.4 换装万级并发核动力！"
+        },
+        {
+          "startSec": 3.483,
+          "endSec": 10.159,
+          "text": "从第 1 篇用到现在的 SelectLoop 到底卡在哪？直接上实测"
+        },
+        {
+          "startSec": 10.159,
+          "endSec": 14.316,
+          "text": "50 个连接扫 300 轮只花 0.56 毫秒"
+        },
+        {
+          "startSec": 14.316,
+          "endSec": 17.633,
+          "text": "涨到 250 个变成 3.02 毫秒"
+        },
+        {
+          "startSec": 17.633,
+          "endSec": 23.206,
+          "text": "涨到 500 个直接飙升到 6.33 毫秒！连接越多越慢！"
+        }
+      ]
+    },
+    "shot-02-fdset-1024": {
+      "id": "shot-02-fdset-1024",
+      "audioFile": "audio/ep072/shot-02-fdset-1024.mp3",
+      "durationSec": 26.35,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.969,
+          "text": "更致命的是它的天花板硬死在 1024！"
+        },
+        {
+          "startSec": 3.969,
+          "endSec": 10.531,
+          "text": "C 语言标准库里的 fd_set 是一张写死 1024 位的固定比特位图！"
+        },
+        {
+          "startSec": 10.531,
+          "endSec": 14.946,
+          "text": "第 1025 个用户的连接号只要超过 1023"
+        },
+        {
+          "startSec": 14.946,
+          "endSec": 19.604,
+          "text": "放进 stream_select() 轻则越界报错警告"
+        },
+        {
+          "startSec": 19.604,
+          "endSec": 21.589,
+          "text": "重则直接丢弃失灵"
+        },
+        {
+          "startSec": 21.589,
+          "endSec": 25.75,
+          "text": "在互联网万人同时在线场景里彻底不可用！"
+        }
+      ]
+    },
+    "shot-03-copy-waste": {
+      "id": "shot-03-copy-waste",
+      "audioFile": "audio/ep072/shot-03-copy-waste.mp3",
+      "durationSec": 19.606,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.597,
+          "text": "而且每次调用 select()"
+        },
+        {
+          "startSec": 2.597,
+          "endSec": 6.08,
+          "text": "哪怕一万条连接里只有 1 个人在发消息"
+        },
+        {
+          "startSec": 6.08,
+          "endSec": 10.119,
+          "text": "你都得把整张千人大数组从用户态拷贝进内核"
+        },
+        {
+          "startSec": 10.119,
+          "endSec": 13.714,
+          "text": "内核再从头到尾一个不落轮询遍历一遍！"
+        },
+        {
+          "startSec": 13.714,
+          "endSec": 19.006,
+          "text": "这就是 O(N) 的本质浪费，必须用 epoll 彻底换掉它！"
+        }
+      ]
+    }
+  }
+}

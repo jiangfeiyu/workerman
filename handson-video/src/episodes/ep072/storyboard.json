@@ -1,0 +1,37 @@
+{
+  "id": "EP072",
+  "epTag": "072 / 112",
+  "title": "【踩坑】stream_select() 超过 1024 连接当场崩溃的底层原因",
+  "legoModule": "模块 4.4 · Epoll 万级并发核动力",
+  "outputFile": "out/EP072_踩坑_select超过1024个FD崩溃原因.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-select-scale",
+      "chapter": "第 4 篇 · 模块 4.4 Epoll 万级并发核动力",
+      "visual": "select-scale",
+      "ttsText": "模块 4.4 换装万级并发核动力！从第 1 篇用到现在的 SelectLoop 到底卡在哪？直接上实测：50 个连接扫 300 轮只花 0.56 毫秒；涨到 250 个变成 3.02 毫秒；涨到 500 个直接飙升到 6.33 毫秒！连接越多越慢！",
+      "subtitleText": "【072/112】实测 stream_select() O(N) 膨胀：50 FD→0.56ms，250 FD→3.02ms，500 FD→6.33ms！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-fdset-1024",
+      "chapter": "第 4 篇 · 模块 4.4 Epoll 万级并发核动力",
+      "visual": "fdset-1024",
+      "ttsText": "更致命的是它的天花板硬死在 1024！C 语言标准库里的 fd_set 是一张写死 1024 位的固定比特位图！第 1025 个用户的连接号只要超过 1023，放进 stream_select() 轻则越界报错警告、重则直接丢弃失灵，在互联网万人同时在线场景里彻底不可用！",
+      "subtitleText": "C 语言 fd_set 是写死 1024 位的固定位图，FD 编号 ≥1024 当场越界失灵！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-03-copy-waste",
+      "chapter": "第 4 篇 · 模块 4.4 Epoll 万级并发核动力",
+      "visual": "copy-waste",
+      "ttsText": "而且每次调用 select()，哪怕一万条连接里只有 1 个人在发消息，你都得把整张千人大数组从用户态拷贝进内核，内核再从头到尾一个不落轮询遍历一遍！这就是 O(N) 的本质浪费，必须用 epoll 彻底换掉它！",
+      "subtitleText": "select 每次唤醒都要用户态↔内核态全量拷贝 + O(N) 盲扫全部空闲连接！",
+      "fallbackDurationSec": 20.0
+    }
+  ]
+}

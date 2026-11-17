@@ -1,0 +1,7 @@
+{
+    "episode": "ep55_fork",
+    "output": [
+        "[父进程视角] pcntl_fork() 返回子PID=70533 | myPid=70531",
+        "[子进程视角] pcntl_fork() 返回=0 | myPid=70533 | ppid=70531"
+    ]
+}

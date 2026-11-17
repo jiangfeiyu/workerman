@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-frame-encode-decode": {
+      "id": "shot-01-frame-encode-decode",
+      "audioFile": "audio/ep039/shot-01-frame-encode-decode.mp3",
+      "durationSec": 26.374,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.0,
+          "text": "有了上一集 pack('N') 和 unpack('N') 的基础"
+        },
+        {
+          "startSec": 5.0,
+          "endSec": 10.283,
+          "text": "基础版 FrameProtocol 极其简洁！发消息调 encode()"
+        },
+        {
+          "startSec": 10.283,
+          "endSec": 16.371,
+          "text": "先把总长度 4 加上 Body 长度用 pack('N') 压成 4 字节包头拼在最前面"
+        },
+        {
+          "startSec": 16.371,
+          "endSec": 22.298,
+          "text": "收包后调 decode() 直接 substr($package, 4) 剥掉前 4 字节"
+        },
+        {
+          "startSec": 22.298,
+          "endSec": 25.774,
+          "text": "正文里带换行符或图片二进制都绝不会切错！"
+        }
+      ]
+    },
+    "shot-02-frame-input": {
+      "id": "shot-02-frame-input",
+      "audioFile": "audio/ep039/shot-02-frame-input.mp3",
+      "durationSec": 26.374,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.947,
+          "text": "最关键的分帧开关在 input()！"
+        },
+        {
+          "startSec": 2.947,
+          "endSec": 5.748,
+          "text": "第一步先看缓冲区够不够 4 字节"
+        },
+        {
+          "startSec": 5.748,
+          "endSec": 10.144,
+          "text": "连包头都没收齐立刻 return 0；一旦够 4 字节"
+        },
+        {
+          "startSec": 10.144,
+          "endSec": 14.895,
+          "text": "用 unpack('NtotalLen') 读出总长度"
+        },
+        {
+          "startSec": 14.895,
+          "endSec": 18.405,
+          "text": "只要实际字节数还小于 $totalLen"
+        },
+        {
+          "startSec": 18.405,
+          "endSec": 22.837,
+          "text": "同样 return 0 蓄水等待！实测前 10B 半包拦截"
+        },
+        {
+          "startSec": 22.837,
+          "endSec": 25.774,
+          "text": "补齐后精准切出带换行符的两帧！"
+        }
+      ]
+    }
+  }
+}

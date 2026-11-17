@@ -1,0 +1,37 @@
+{
+  "id": "EP015",
+  "epTag": "015 / 112",
+  "title": "把最小堆装进 SelectLoop：delay 与懒惰删除",
+  "legoModule": "模块 1.3 · Timer",
+  "outputFile": "out/EP015_把最小堆装进SelectLoop_delay与懒惰删除.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-delay-method",
+      "chapter": "第 1 篇 · 模块 1.3 Timer 定时器",
+      "visual": "delay-method",
+      "ttsText": "正式把前两集的铺垫拼进 SelectLoop！第 18 到 25 行写出 delay() 方法：生成递增编号 $id，算出到期时间戳 $triggerAt，登记进存活账本 $activeTimers[$id] = true，再以负时间戳 -$triggerAt 塞进最小堆！",
+      "subtitleText": "【015/112】SelectLoop::delay()：生成唯一 ID，同步写入 $activeTimers 账本与最小堆",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-lazy-delete",
+      "chapter": "第 1 篇 · 模块 1.3 Timer 定时器",
+      "visual": "lazy-delete",
+      "ttsText": "难点来了！如果业务想半路取消定时器，在最小堆中间硬挖掉一个元素复杂度很高怎么办？看第 26 到 29 行的工业级绝招——懒惰删除！delTimer() 只需 O(1) 时间从 $activeTimers 里 unset 删掉 ID！等到以后它自己浮到堆顶准备触发时，tickTimers 检查账本发现它已被取消，当场 extract 丢弃！",
+      "subtitleText": "工业级“懒惰删除”：delTimer() 只 O(1) 划掉账本记录，等它浮到堆顶时再悄悄丢弃！",
+      "fallbackDurationSec": 30.0
+    },
+    {
+      "id": "shot-03-tick-timers",
+      "chapter": "第 1 篇 · 模块 1.3 Timer 定时器",
+      "visual": "tick-timers",
+      "ttsText": "运行 verify.php 实测！timer#1 在 80 毫秒前被取消，50 毫秒和 150 毫秒按时精准触发，被取消的幽灵定时器彻底消失！下一集 EP016，我们用 delay() 套娃实现循环定时器 repeat()！",
+      "subtitleText": "实测 timer#1 被成功跳过，50ms 与 150ms 准时触发！下集 EP016：实现循环定时器 repeat()",
+      "fallbackDurationSec": 21.0
+    }
+  ]
+}

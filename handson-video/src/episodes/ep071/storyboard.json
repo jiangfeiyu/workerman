@@ -1,0 +1,29 @@
+{
+  "id": "EP071",
+  "epTag": "071 / 112",
+  "title": "ModernWorker 实时 status 看板：PID / 内存 / QPS 全透视",
+  "legoModule": "模块 4.3 · 信号、热更新与看板",
+  "outputFile": "out/EP071_实时status看板_PID内存与QPS透视.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-status-signal",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "status-sig",
+      "ttsText": "服务跑在后台怎么知道每个 Worker 占了多少内存、是不是有内存泄漏？敲一条 php server.php status，CLI 投递 SIGUSR2 信号，每个 Worker 瞬间把自己的 memory_get_usage(true)、累计请求数和活跃连接数快照写进临时统计目录！",
+      "subtitleText": "【071/112】敲 status 命令投递 SIGUSR2，所有 Worker 快照写下各自 PID、内存与请求数！",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-status-table",
+      "chapter": "第 4 篇 · 模块 4.3 信号、热更新与看板",
+      "visual": "status-table",
+      "ttsText": "Master 等待几百毫秒汇总所有子进程报表后，直接在终端打出一张清晰的进程体检看板：masterPid、各个 Worker 的状态、物理内存 2.0MB、以及当前 QPS 18400 每秒！有没有内存持续暴涨一眼抓出真凶！",
+      "subtitleText": "汇总渲染进程体检表：PID、版本、内存 MB 与 QPS 一目了然，内存泄漏无处遁形！",
+      "fallbackDurationSec": 22.0
+    }
+  ]
+}

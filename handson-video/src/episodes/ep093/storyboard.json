@@ -1,0 +1,29 @@
+{
+  "id": "EP093",
+  "epTag": "093 / 112",
+  "title": "【合拢】PSR-4 + composer.json 规范总装：第 5 篇收官",
+  "legoModule": "模块 5.3 · TLS 加密与总装",
+  "outputFile": "out/EP093_合拢_PSR4规范与composer总装验收.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-psr4-tree",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "psr4-tree",
+      "ttsText": "第 5 篇总装验收！写完 90 多集组件后，把零散的 require 全部清理，按现代 PHP PSR-4 规范组织成清晰的目录树：Events、Connection、Protocols、Coroutine、Worker 五大命名空间各归其位，用 composer.json 一键自动加载！",
+      "subtitleText": "【093/112】PSR-4 规范目录树：Events / Connection / Protocols / Coroutine / Worker 清晰解耦！",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-part5-recap",
+      "chapter": "第 5 篇 · 模块 5.3 TLS 加密与总装",
+      "visual": "part5-recap",
+      "ttsText": "恭喜通关第 5 篇！至此你的 ModernWorker 单机内核已经集齐 Epoll 多进程、PHP 8 Fiber 协程、安全连接池、非阻塞 TLS 加密与防御体系！下一篇第 6 篇，我们要把单机突破成跨机器、不停服热更新的分布式网关集群 ModernGateway！",
+      "subtitleText": "第 5 篇完美收官 🎉：单机版 ModernWorker 工业级总装完成，下一站分布式集群！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

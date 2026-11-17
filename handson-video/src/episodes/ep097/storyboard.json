@@ -1,0 +1,37 @@
+{
+  "id": "EP097",
+  "epTag": "097 / 112",
+  "title": "十万连接下 reload 雪崩推演：为什么要网关与业务分离？",
+  "legoModule": "模块 6.2 · 分布式 ModernGateway 集群",
+  "outputFile": "out/EP097_十万连接reload雪崩推演_网关业务分离.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-monolith-pain",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "monolith-pain",
+      "ttsText": "进入第 6 篇重头戏 ModernGateway！前 5 篇我们写的单机 Worker 虽然能优雅 reload，但有个架构死结：客户端十万条 WebSocket 长连接和业务逻辑代码全混在同一个 Worker 进程里！",
+      "subtitleText": "【097/112】架构痛点：单层 Worker 里“客户端长连接”与“业务代码”死死焊在一起！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-reconnect-storm",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "reconnect-storm",
+      "ttsText": "只要运营一天改三次活动接口执行三次 reload，这十万个老 Worker 进程就必须轮番退出重启！海量手机用户在同一秒钟集体掉线重连、同时打爆登录鉴权和数据库，这就是大厂闻风丧胆的断线重连雪崩！",
+      "subtitleText": "业务代码天天改，每次 reload 都踢断十万长连接 → 十万人同秒重连瞬间打爆 DB！",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-03-split-cure",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "split-cure",
+      "ttsText": "解法就是把一层拆成两层：前排 Gateway 接入层只做极简 Socket 收发永远不升级、一年不重启；后排 BusinessWorker 业务层纯无状态跑业务，随时随地杀掉热重启，前排客户长连接连一根都不会断！",
+      "subtitleText": "终极解药：前排 Gateway 稳死死扛住十万连接不重启；后排 BusinessWorker 随时热替换！",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

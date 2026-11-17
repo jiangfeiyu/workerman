@@ -1,0 +1,29 @@
+{
+  "id": "EP104B",
+  "epTag": "104B · 加餐过渡",
+  "title": "BusinessWorker 无状态之谜：$_SESSION 与路由表存哪？",
+  "legoModule": "模块 6.2 · 分布式 ModernGateway 集群（过渡）",
+  "outputFile": "out/EP104B_加餐过渡_BusinessWorker无状态与Session存储.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-stateless-trap",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "stateless-trap",
+      "ttsText": "学 EP105 的 bindUid 之前，先解决一个最容易踩的架构误区！很多同学会想：BusinessWorker 有 16 个进程还会随时重启，如果把用户登录 $_SESSION 或 uid 绑定表直接写进某个 Worker 的静态数组里，reload 一杀进程全丢，别的 Worker 进程也根本读不到！",
+      "subtitleText": "【104B/加餐过渡】若把 $_SESSION 或 uidMap 放 BusinessWorker 进程内存，reload 即丢且多进程隔离！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-gateway-store",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "gateway-store",
+      "ttsText": "所以 BusinessWorker 必须保持百分之百无状态！连接级别的 $_SESSION 和 uid 映射表，统一交给常驻不重启的 Gateway（或共享存储）按连接托管！每次请求透传 Session，下一集 EP105 看 bindUid 和 sendToUid 如何跨多端精准投递！",
+      "subtitleText": "正确设计：$_SESSION 与 uidMap 托管在 Gateway / 共享存储，BusinessWorker 随时无痛重启！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

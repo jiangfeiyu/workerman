@@ -1,0 +1,8 @@
+{
+    "episode": "ep91_93_security",
+    "output": [
+        "[EP091 · Slowloris 慢连接防御] 仅收半截头且耗时 6.2s > 5s => 触发超时强踢连接!",
+        "[EP092 · 受信任 Nginx(10.0.0.1) 透传] 真实客户 IP = 203.0.113.88 | 黑客直连伪造 XFF => 锁定直连 IP = 198.51.100.7",
+        "[EP093 · 第 5 篇总装] composer.json PSR-4 => ModernWorker\\ => src\/ | Fiber + Pool + TLS 全部就绪!"
+    ]
+}

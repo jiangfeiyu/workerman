@@ -1,0 +1,8 @@
+{
+    "episode": "ep15",
+    "output": [
+        "[注册并立即取消] timer#1",
+        "[delay 50ms 触发] 耗时=55ms",
+        "[delay 150ms 触发] 耗时=155ms"
+    ]
+}

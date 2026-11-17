@@ -1,0 +1,7 @@
+{
+    "episode": "ep42",
+    "output": [
+        "[未收齐请求头] input() = 0 (缺少空行 \\r\\n\\r\\n，继续等)",
+        "[收齐 GET 请求] input() = 39 ($headerEnd + 4 = 39 字节)"
+    ]
+}

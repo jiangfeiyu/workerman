@@ -1,0 +1,8 @@
+{
+    "episode": "ep84_85_redis",
+    "output": [
+        "[EP084 · RESP 编码] SET user:1 Alice => *3\\r\\n$3\\r\\nSET\\r\\n$6\\r\\nuser:1\\r\\n$5\\r\\nAlice\\r\\n",
+        "[EP084 · RESP 解码] +OK => OK | $5\\r\\nAlice => Alice",
+        "[EP085 · 协程 RedisClient 实测] 连续完成 SET+GET 200 次指令 (ok=100\/100) 仅耗时 15.24ms!"
+    ]
+}

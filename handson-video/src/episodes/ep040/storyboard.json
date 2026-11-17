@@ -1,0 +1,29 @@
+{
+  "id": "EP040",
+  "epTag": "040 / 112",
+  "title": "【踩坑】防恶意超大包攻击：maxPackageSize 熔断",
+  "legoModule": "模块 3.1 · 粘包与协议插槽（合拢）",
+  "outputFile": "out/EP040_踩坑_防恶意超大包攻击_maxPackageSize熔断.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-attack-risk",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "attack-risk",
+      "ttsText": "看似完美的 FrameProtocol 藏着一个安全死穴：如果黑客连上后只发 4 个字节，声称这包总长是 2 个 GB，框架傻傻一直往 $recvBuffer 里攒到爆内存怎么办？",
+      "subtitleText": "【040/112】安全隐患：黑客发 4 字节伪造 totalLen=2GB，会直接撑爆服务器内存！",
+      "fallbackDurationSec": 19.0
+    },
+    {
+      "id": "shot-02-fuse-protect",
+      "chapter": "第 3 篇 · 模块 3.1 粘包与二进制基础",
+      "visual": "fuse-protect",
+      "ttsText": "看第 15 到 17 行熔断防线！解出 $totalLen 之后立刻校验：小于 4 或者超过 10MB 上限 MAX_PACKAGE_SIZE，直接抛 LengthException 让连接层当场 destroy 踢掉！实测伪造近百兆非法包瞬间拦截！模块 3.1 正式毕业，下一集手写 HTTP/1.1！",
+      "subtitleText": "🎉 模块 3.1 毕业！$totalLen 超限当场熔断拦截｜下集 EP041：手写 HTTP/1.1 协议",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

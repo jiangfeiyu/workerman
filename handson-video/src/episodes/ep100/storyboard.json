@@ -1,0 +1,29 @@
+{
+  "id": "EP100",
+  "epTag": "100 / 112",
+  "title": "全局唯一 client_id 编解码：IP + Port + ConnId 精准寻址",
+  "legoModule": "模块 6.2 · 分布式 ModernGateway 集群",
+  "outputFile": "out/EP100_全局唯一client_id编解码_精准寻址.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-cid",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "why-cid",
+      "ttsText": "恭喜跨过第 100 集大关！进入集群架构后遇到一个灵魂问题：多台机器上跑着十个 Gateway 进程，每个进程都有 5 号 FD！后端 BusinessWorker 怎么靠一个字符串瞬间精准定位到“10.0.0.8 这台机器 8282 进程里的第 42 号连接”？",
+      "subtitleText": "【100/112】集群路由痛点：每台 Gateway 都有 FD #5，怎么全局无冲突定位任意用户连接？",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-cid-pack",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "cid-pack",
+      "ttsText": "Workerman 的绝妙设计是把网关内网 IP、端口和局部 connId 直接打包成全局 client_id！调用 bin2hex(pack('NnN', ip2long($ip), $port, $connId)) 生成固定 20 位十六进制坐标 0a000008205a0000002a！不需要查 Redis 路由表，unpack 瞬间逆向秒级定位目标机器直投！",
+      "subtitleText": "pack('NnN') 将 IP+Port+ConnId 压进 20 字符 HEX，不查数据库瞬间直达目标 Gateway！",
+      "fallbackDurationSec": 27.0
+    }
+  ]
+}

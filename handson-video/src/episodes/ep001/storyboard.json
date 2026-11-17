@@ -1,0 +1,53 @@
+{
+  "id": "EP001",
+  "epTag": "001 / 112",
+  "title": "10 行代码写最简阻塞 TCP Server",
+  "legoModule": "模块 1.1 · Socket 破冰",
+  "outputFile": "out/EP001_10行代码写最简阻塞TCP_Server.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-hook",
+      "chapter": "第 1 篇 · 网络地基与事件发动机",
+      "visual": "hook-lego-plan",
+      "ttsText": "欢迎来到实战编程系列！接下来一百一十二集，我们用分而治之、递归拼装的办法，不靠任何第三方扩展，手把手从第一行 PHP 代码开始，拼出一套完整的 ModernWorker 协程框架！今天第一集，先写十行最土的阻塞 TCP Server，再亲手用两个终端把它打趴下！",
+      "subtitleText": "【001/112】分而治之递归拼装 ModernWorker：今天先写 10 行阻塞 TCP Server，并复现卡死现场",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-02-code-listen",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "code-listen",
+      "ttsText": "新建 server.php。第 5 行调用 stream_socket_server 在本机 9001 端口挂起门牌号。只要启动脚本，终端一立刻打印出监听成功，等待客人上门！透视右下角内核视角：Linux 内核已经为我们的进程分配了 3 号监听 FD，开好大门等着接客了。",
+      "subtitleText": "第 5 行 stream_socket_server()：向内核申请 3 号监听 Socket FD，成功开启端口监听",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-03-code-accept",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "code-accept",
+      "ttsText": "接着写第 11 到 22 行的接客死循环。stream_socket_accept 接到新连接后，第 16 行直接调用 fgets 从客人嘴里读一行话，再通过 fwrite 原样回显并 fclose 送客。代码干净利落，看起来毫无破绽！但第 16 行这句 fgets，其实藏着一个致命炸弹！",
+      "subtitleText": "第 11-22 行接客循环：accept() 接入连接 → fgets() 读请求 → fwrite() 回显 → fclose() 送客",
+      "fallbackDurationSec": 22.0
+    },
+    {
+      "id": "shot-04-crash-demo",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "crash-demo",
+      "ttsText": "看右上角双终端实测！终端二客人 A 连进来后故意发呆 1.2 秒不发数据；此时终端三客人 B 连进来发送 hello from B，结果直接超时卡死整整 1201 毫秒！为什么？看右下角调用栈：唯一的 PHP 进程正死死卡在第 16 行的 fgets 等待客人 A，客人 B 连 accept 的门都摸不到！",
+      "subtitleText": "真实翻车实测：客人 A 发呆不发包，进程死卡第 16 行 fgets()，客人 B 直接阻塞超时 1201ms！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-05-recap-next",
+      "chapter": "第 1 篇 · 模块 1.1 Socket 破冰",
+      "visual": "recap-next",
+      "ttsText": "第一集踩坑结论非常明确：默认的阻塞 IO 会让一个发呆的客人劫持整台服务器！下一集 EP002，我们只需加一行 stream_set_blocking 把阻塞开关关掉，但紧接着你会亲眼看到一个更吓人的现象：0.5 秒空转七万三千次的 CPU 百分百惨案！",
+      "subtitleText": "总结：阻塞 IO 导致单进程被单连接劫持｜下集 EP002：关闭阻塞开关，直面 CPU 100% 空转惨案",
+      "fallbackDurationSec": 20.0
+    }
+  ]
+}

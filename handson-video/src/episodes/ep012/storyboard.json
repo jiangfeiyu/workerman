@@ -1,0 +1,29 @@
+{
+  "id": "EP012",
+  "epTag": "012 / 112",
+  "title": "【铺垫】用 stream_select 超时实现精准睡眠",
+  "legoModule": "模块 1.3 · Timer",
+  "outputFile": "out/EP012_铺垫_用stream_select超时实现精准睡眠.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-timeout-param",
+      "chapter": "第 1 篇 · 模块 1.3 Timer 定时器",
+      "visual": "timeout-param",
+      "ttsText": "上集 SelectLoop 加上 stop 之后，还有最后一个遗憾：如果第 4 个参数传 null，万一没有客人上门，进程就无限睡死，定时任务根本没法触发！今天用 15 行小实验解锁第 4 和第 5 个参数：0 秒外加 200,000 微秒！",
+      "subtitleText": "【012/112】铺垫：解锁 stream_select 第 4/5 参数（秒 + 微秒），不靠客户端也能按时醒来",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-verify-sleep",
+      "chapter": "第 1 篇 · 模块 1.3 Timer 定时器",
+      "visual": "verify-sleep",
+      "ttsText": "运行 demo.php，管道里一个字节都没发，但整整 205 毫秒后 stream_select 准时返回 0 醒了过来！期间 CPU 占用为零！下集 EP013，我们解决另一个核心问题：如果同时挂了 10 万个闹钟，怎么一瞬间知道哪个最早响？",
+      "subtitleText": "实测 205ms 精准超时唤醒且 0% CPU！下集 EP013：SplPriorityQueue 最小堆原理",
+      "fallbackDurationSec": 21.0
+    }
+  ]
+}

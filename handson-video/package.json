@@ -1,0 +1,23 @@
+{
+  "name": "workerman-handson-videos",
+  "version": "1.0.0",
+  "description": "《手把手从 0 到 1 写一个 Workerman（ModernWorker）》112 集实战编程视频生产工坊",
+  "private": true,
+  "scripts": {
+    "studio": "npx remotion studio src/index.ts",
+    "tts": ".venv/bin/python scripts/generate_tts.py",
+    "render": "node scripts/render_episode.mjs",
+    "typecheck": "npx tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.0"
+  }
+}

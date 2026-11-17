@@ -1,0 +1,85 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-oom-problem": {
+      "id": "shot-01-oom-problem",
+      "audioFile": "audio/ep029b/shot-01-oom-problem.mp3",
+      "durationSec": 23.998,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.924,
+          "text": "进入 EP030 水位线背压之前"
+        },
+        {
+          "startSec": 2.924,
+          "endSec": 5.626,
+          "text": "先搞懂一个最容易看懵的问题"
+        },
+        {
+          "startSec": 5.626,
+          "endSec": 10.335,
+          "text": "很多同学听说框架有个 onBufferFull 回调"
+        },
+        {
+          "startSec": 10.335,
+          "endSec": 13.694,
+          "text": "以为只要写上去内存就不会爆了。错！"
+        },
+        {
+          "startSec": 13.694,
+          "endSec": 17.673,
+          "text": "onBufferFull 只是一盏报警红灯"
+        },
+        {
+          "startSec": 17.673,
+          "endSec": 21.287,
+          "text": "它自己不会停掉 send()！真正踩刹车的"
+        },
+        {
+          "startSec": 21.287,
+          "endSec": 23.398,
+          "text": "是你的上游业务代码！"
+        }
+      ]
+    },
+    "shot-02-pump-demo": {
+      "id": "shot-02-pump-demo",
+      "audioFile": "audio/ep029b/shot-02-pump-demo.mp3",
+      "durationSec": 27.694,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.493,
+          "text": "看第 10 到 24 行的生产者联动模型！"
+        },
+        {
+          "startSec": 3.493,
+          "endSec": 7.021,
+          "text": "上游推流泵每次往连接里塞 256KB"
+        },
+        {
+          "startSec": 7.021,
+          "endSec": 11.112,
+          "text": "当水位冲到 512KB 安全线时触发红灯信号"
+        },
+        {
+          "startSec": 11.112,
+          "endSec": 16.141,
+          "text": "上游立刻把 $paused 设为 true 踩下刹车暂停读盘"
+        },
+        {
+          "startSec": 16.141,
+          "endSec": 19.294,
+          "text": "等慢客户端慢慢消费把缓冲区排空"
+        },
+        {
+          "startSec": 19.294,
+          "endSec": 27.094,
+          "text": "触发绿灯 onBufferDrain 再把 $paused 设为 false 松刹车恢复推流！"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "EP080",
+  "epTag": "080 / 112",
+  "title": "每个请求自动包进 Fiber：告别回调地狱",
+  "legoModule": "模块 5.1 · Fiber 协程调度器",
+  "outputFile": "out/EP080_每请求自动包进Fiber告别回调地狱.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-callback-hell",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "cb-hell",
+      "ttsText": "有了协程能力后，还要业务程序员每次手动写 new Fiber(...)->start() 吗？当然不用！Workerman 只需在底层的 onMessage 派发入口把回调包进一句 Coroutine::spawn(...) 里！",
+      "subtitleText": "【080/112】框架层在 onMessage 入口自动包入 Coroutine::spawn()，业务无感知协程化！",
+      "fallbackDurationSec": 20.0
+    },
+    {
+      "id": "shot-02-sync-style",
+      "chapter": "第 5 篇 · 模块 5.1 Fiber 协程调度器",
+      "visual": "sync-style",
+      "ttsText": "从此业务代码写起来就像传统 PHP-FPM 一样直白清爽：第一行查缓存、第二行查数据库、第三行调接口、第四行直接返回响应，零回调嵌套地狱！但底层引擎却以全异步非阻塞跑出上万并发！",
+      "subtitleText": "用最直观的同步顺序代码写法，底层跑出全异步高并发事件驱动性能！",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

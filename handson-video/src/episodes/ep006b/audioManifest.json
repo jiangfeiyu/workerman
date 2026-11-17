@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-separate-functions": {
+      "id": "shot-01-separate-functions",
+      "audioFile": "audio/ep006b/shot-01-separate-functions.mp3",
+      "durationSec": 23.446,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.189,
+          "text": "进入 EP007 之前，先花一分钟把回调函数的嵌套看透！"
+        },
+        {
+          "startSec": 5.189,
+          "endSec": 10.037,
+          "text": "很多同学容易被闭包套闭包绕晕，今天我们完全不嵌套"
+        },
+        {
+          "startSec": 10.037,
+          "endSec": 12.63,
+          "text": "直接平铺写出两个普通函数"
+        },
+        {
+          "startSec": 12.63,
+          "endSec": 16.351,
+          "text": "第 8 行的 onGateRing 负责迎客"
+        },
+        {
+          "startSec": 16.351,
+          "endSec": 22.846,
+          "text": "第 14 行的 onGuestSpeak 负责回消息，各写各的，清清爽爽！"
+        }
+      ]
+    },
+    "shot-02-register-vs-run": {
+      "id": "shot-02-register-vs-run",
+      "audioFile": "audio/ep006b/shot-02-register-vs-run.mp3",
+      "durationSec": 20.83,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.045,
+          "text": "最关键的区别来了！看第 21 行"
+        },
+        {
+          "startSec": 3.045,
+          "endSec": 6.811,
+          "text": "我们把函数名字符串放进 5 号抽屉。注意"
+        },
+        {
+          "startSec": 6.811,
+          "endSec": 8.675,
+          "text": "这一行跑完的时候"
+        },
+        {
+          "startSec": 8.675,
+          "endSec": 13.316,
+          "text": "onGateRing 里面的代码一行都没有执行！"
+        },
+        {
+          "startSec": 13.316,
+          "endSec": 16.892,
+          "text": "“登记”只是在抽屉里留一张待办便条"
+        },
+        {
+          "startSec": 16.892,
+          "endSec": 20.23,
+          "text": "真正加括号触发要等事件到来以后！"
+        }
+      ]
+    },
+    "shot-03-dispatch-chain": {
+      "id": "shot-03-dispatch-chain",
+      "audioFile": "audio/ep006b/shot-03-dispatch-chain.mp3",
+      "durationSec": 24.958,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.584,
+          "text": "看第 24 和 27 行的真实执行顺序：当 5 号门响了"
+        },
+        {
+          "startSec": 4.584,
+          "endSec": 10.274,
+          "text": "查表取出函数加括号一触发，onGateRing 才真正运行"
+        },
+        {
+          "startSec": 10.274,
+          "endSec": 15.009,
+          "text": "并且顺手把 onGuestSpeak 放进 6 号抽屉"
+        },
+        {
+          "startSec": 15.009,
+          "endSec": 19.477,
+          "text": "接着 6 号客人说话时，再从 6 号抽屉拿出来触发！"
+        },
+        {
+          "startSec": 19.477,
+          "endSec": 24.358,
+          "text": "下一集 EP007，我们就用这种平铺写法彻底看懂！"
+        }
+      ]
+    }
+  }
+}

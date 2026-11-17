@@ -1,0 +1,7 @@
+{
+    "episode": "ep74",
+    "output": [
+        "[接口契约一致] EpollLoop 实现同款 6 大方法: onReadable, offReadable, onWritable, offWritable, stop, run",
+        "[自动引擎探测] 当前环境选定引擎 => SelectLoopWithRepeat (上层业务 0 行改动!)"
+    ]
+}

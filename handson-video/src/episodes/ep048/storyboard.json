@@ -1,0 +1,29 @@
+{
+  "id": "EP048",
+  "epTag": "048 / 112",
+  "title": "协议热切换：为什么需要握手期状态位",
+  "legoModule": "模块 3.3 · 手写 WebSocket 协议",
+  "outputFile": "out/EP048_协议热切换_为什么需要握手期状态位.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-state",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "state-problem",
+      "ttsText": "如果同一条 TCP 连接上，第 1 个包走 HTTP 文本握手、第 2 个包突然变成二进制 WebSocket 帧，死板地调用单一 input() 必然报错！怎么办？答案是在 TcpConnection 里加一个握手布尔状态位 $wsHandshake，在 101 握手瞬间原地切换解析策略！",
+      "subtitleText": "【048/112】同一条 TCP：第 1 包是 HTTP 文本，第 2 包变 WS 二进制，靠状态位热切换！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-02-hot-swap",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "hot-swap",
+      "ttsText": "流程极度丝滑：连接刚 accept 时 $wsHandshake = false，收到第一段双回车换行结尾的 HTTP 头后，立刻回发 101 响应并把 $wsHandshake 置为 true！这一句赋值之后，同一条 Socket 里剩下的所有字节全部切入二进制帧解析，零毫秒断连！",
+      "subtitleText": "实测 $wsHandshake false → true 原地升级！后续帧解析将在下几集逐字节实现",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

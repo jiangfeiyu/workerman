@@ -1,0 +1,8 @@
+{
+    "episode": "ep21b",
+    "output": [
+        "[踩坑报错] Attempt to assign property \"uid\" on resource",
+        "[散装数组] 维护多张全局表，断连时漏 unset 一张就泄漏！",
+        "[最小包装盒] $box->uid = 10086 成功！销毁时 unset($box) 全部带走！"
+    ]
+}

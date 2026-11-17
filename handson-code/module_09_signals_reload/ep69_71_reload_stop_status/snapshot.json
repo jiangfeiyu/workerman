@@ -1,0 +1,8 @@
+{
+    "episode": "ep69_71_reload",
+    "output": [
+        "[Worker pid=70851] 收到 reload\/stop-g 信号: 停止接新单 -> 先排空手头 2 条待发消息!",
+        "[Worker pid=70851] 发送队列排空 (pending=0) -> 优雅 exit(0), 0 丢包!",
+        "[Master status 看板] masterPid=70850 | worker#1=70852(v2-reloaded) | mem=2.0MB | qps=18,400\/s"
+    ]
+}

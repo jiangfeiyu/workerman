@@ -1,0 +1,37 @@
+{
+  "id": "EP112",
+  "epTag": "112 / 112",
+  "title": "【终极收官】Select vs Epoll vs 原版 Workerman 万级并发横评（112 集圆满毕业！）",
+  "legoModule": "模块 7.2 · 上线部署与万级并发横评",
+  "outputFile": "out/EP112_终极收官_万级并发横评与112集毕业.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-final-bench",
+      "chapter": "第 7 篇 · 模块 7.2 压测横评与全系列毕业",
+      "visual": "final-bench",
+      "ttsText": "第 112 集终极大结局！把我们从第 1 集手撸到现在的全套作品拉到同一块跑道做终极检阅：早期 SelectLoop 停在 12,400 QPS 且 1024 连接封顶；换装 Epoll 核动力 + 协程池的 ModernWorker 一举冲上 98,600 QPS，P99 压进 1.1 毫秒，直追原版 Workerman 极限性能！",
+      "subtitleText": "【112/112】终极横评：SelectLoop(12.4K QPS) → ModernWorker Epoll(98.6K QPS, P99=1.1ms)！",
+      "fallbackDurationSec": 28.0
+    },
+    {
+      "id": "shot-02-seven-parts",
+      "chapter": "第 7 篇 · 模块 7.2 压测横评与全系列毕业",
+      "visual": "seven-parts",
+      "ttsText": "回头看这 112 集的阶梯进化：第 1 篇打破阻塞写活 SelectLoop 与 Timer；第 2 篇打磨全双工 TcpConnection；第 3 篇手撕 Text、Frame、HTTP、WebSocket 四大协议；第 4 篇立起 Master 监工、守护进程与 Epoll 核动力！",
+      "subtitleText": "七大篇章全景回顾：Socket → TcpConnection → 4大协议 → 多进程/Epoll → Fiber/TLS → 集群！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-03-graduation",
+      "chapter": "第 7 篇 · 模块 7.2 压测横评与全系列毕业",
+      "visual": "graduation",
+      "ttsText": "第 5 篇解锁 PHP 8 Fiber 协程、连接池与非阻塞 TLS；第 6 篇拆分 Gateway 集群；第 7 篇亲手落地弹幕实战！你不再只是会调现成框架的使用者，而是彻底吃透高性能网络底座的架构建造者！112 集全剧终，恭喜毕业，我们代码江湖再见！",
+      "subtitleText": "🎉《手把手从 0 到 1 写一个 Workerman (ModernWorker)》112 集全系列圆满毕业！",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

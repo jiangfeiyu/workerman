@@ -1,0 +1,29 @@
+{
+  "id": "EP023",
+  "epTag": "023 / 112",
+  "title": "用 PHP 8 Enum 定义连接状态机 ConnectionStatus",
+  "legoModule": "模块 2.1 · 连接对象化",
+  "outputFile": "out/EP023_用PHP8枚举定义连接状态机ConnectionStatus.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-enum-def",
+      "chapter": "第 2 篇 · 模块 2.1 TcpConnection 对象化",
+      "visual": "enum-def",
+      "ttsText": "老版 Workerman 用数字常量 1、2、4、8 代表连接状态，看源码时经常一头雾水。今天我们用 PHP 8 的字符串枚举定义 ConnectionStatus：其中 Connecting 是给以后第 5 篇异步客户端拨号预留的；服务端 accept 进来的连接一出生就是 Established 已建立；后面还要经历 Closing 半关闭和 Closed 已关闭！",
+      "subtitleText": "【023/112】用 PHP 8 Enum 定义四态：Connecting(异步拨号预留) → Established → Closing → Closed",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-state-guard",
+      "chapter": "第 2 篇 · 模块 2.1 TcpConnection 对象化",
+      "visual": "state-guard",
+      "ttsText": "有了状态机，后续的收发和销毁都能做状态守卫：比如进入 Closing 后就不允许继续发新包；一旦变成 Closed，无论重复调多少次 destroy() 都幂等直接返回！运行本集的状态机测试，四态流转与守卫拦截全部精准生效！",
+      "subtitleText": "实测四态流转：Closing 拦截新发包，Closed 幂等拦截重复 destroy()",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

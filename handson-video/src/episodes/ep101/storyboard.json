@@ -1,0 +1,29 @@
+{
+  "id": "EP101",
+  "epTag": "101 / 112",
+  "title": "GatewayProtocol 内部二进制协议：4B总长 + cmd + client_id + Body",
+  "legoModule": "模块 6.2 · 分布式 ModernGateway 集群",
+  "outputFile": "out/EP101_GatewayProtocol内部二进制协议.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-gw-frame",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "gw-frame",
+      "ttsText": "有了地址编号，Gateway 和 BusinessWorker 内网通信用什么格式？当然复刻第 3 篇写过的 FrameProtocol 思想，定义极速二进制 GatewayProtocol！固定包头由三部分组成：4 字节总长度 + 1 字节指令号 cmd + 20 字节 client_id，紧跟任意业务 Body！",
+      "subtitleText": "【101/112】GatewayProtocol 封包格式：[4B 总长] + [1B cmd] + [20B client_id] + [Body]！",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-gw-verify",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "gw-verify",
+      "ttsText": "实测调 encodePacket() 把指令 CMD_SEND_TO_ONE 和一条问候封成 39 字节二进制帧，再调 decodePacket() 用 unpack('NtotalLen/Ccmd/a20cid') 一刀解出指令号 2 与正文 Hello Gateway！内网零 JSON 冗余开销，快到飞起！",
+      "subtitleText": "实测 39B 封包与 unpack 一刀解包：零 JSON 冗余字段，内网毫秒级超高吞吐！",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

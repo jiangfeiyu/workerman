@@ -1,0 +1,85 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-drain-loop": {
+      "id": "shot-01-drain-loop",
+      "audioFile": "audio/ep029/shot-01-drain-loop.mp3",
+      "durationSec": 23.062,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.187,
+          "text": "上集 send() 把写不完的数据存进了 $this->sendBuffer"
+        },
+        {
+          "startSec": 4.187,
+          "endSec": 7.974,
+          "text": "并挂载了 onWritable 指向 baseWrite()"
+        },
+        {
+          "startSec": 7.974,
+          "endSec": 11.264,
+          "text": "今天我们就来写这个最纯粹的 baseWrite()"
+        },
+        {
+          "startSec": 11.264,
+          "endSec": 13.586,
+          "text": "当内核发件柜腾出空位唤醒我们时"
+        },
+        {
+          "startSec": 13.586,
+          "endSec": 17.014,
+          "text": "把 $this->sendBuffer 喂给 fwrite"
+        },
+        {
+          "startSec": 17.014,
+          "endSec": 19.474,
+          "text": "拿回实际写入字节数 $written"
+        },
+        {
+          "startSec": 19.474,
+          "endSec": 22.462,
+          "text": "再用 substr 切掉已经送出去的前半段！"
+        }
+      ]
+    },
+    "shot-02-off-writable": {
+      "id": "shot-02-off-writable",
+      "audioFile": "audio/ep029/shot-02-off-writable.mp3",
+      "durationSec": 22.294,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.25,
+          "text": "最关键的一步在第 123 行"
+        },
+        {
+          "startSec": 2.25,
+          "endSec": 5.742,
+          "text": "一旦 $this->sendBuffer 彻底变空"
+        },
+        {
+          "startSec": 5.742,
+          "endSec": 11.637,
+          "text": "立刻调用 $this->loop->offWritable($this->socket)"
+        },
+        {
+          "startSec": 11.637,
+          "endSec": 13.367,
+          "text": "干脆利落摘掉写监听"
+        },
+        {
+          "startSec": 13.367,
+          "endSec": 17.115,
+          "text": "彻底杜绝第 27 集那种 CPU 100% 空转惨案！"
+        },
+        {
+          "startSec": 17.115,
+          "endSec": 21.694,
+          "text": "实测 2MB 数据经 8 轮 baseWrite 精准排空并卸载！"
+        }
+      ]
+    }
+  }
+}

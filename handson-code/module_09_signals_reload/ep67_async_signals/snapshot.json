@@ -1,0 +1,7 @@
+{
+    "episode": "ep67_async_sig",
+    "output": [
+        "[pcntl_async_signals(true)] 无需手写 dispatch() 轮询 -> SIGUSR1(30) 秒级异步触发: received=true",
+        "[stream_select 被信号打断保护] 收到 EINTR 返回 false 时 @stream_select() 不报错，直接 continue 进入下轮事件循环!"
+    ]
+}

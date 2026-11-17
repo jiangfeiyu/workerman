@@ -1,0 +1,29 @@
+{
+  "id": "EP058",
+  "epTag": "058 / 112",
+  "title": "惊群效应前奏：多 Worker 共享同一个监听 FD",
+  "legoModule": "模块 4.1 · 多进程与 Master 监工",
+  "outputFile": "out/EP058_惊群前奏_多Worker共享监听FD.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-shared-fd",
+      "chapter": "第 4 篇 · 模块 4.1 多进程与 Master 监工",
+      "visual": "shared-fd",
+      "ttsText": "既然每个子进程内存独立，那 4 个 Worker 怎么同时监听同一个 8080 端口呢？奥秘就在 fork 的继承机制！Master 在 fork 之前先调 stream_socket_server() 打开监听 Socket，所有子进程一出生，文件描述符表里全指向内核里那同一个 3 号监听端口！",
+      "subtitleText": "【058/112】先 listen 再 fork：所有 Worker 天然共享内核里同一份监听 FD，共同 accept 抢单！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-thundering",
+      "chapter": "第 4 篇 · 模块 4.1 多进程与 Master 监工",
+      "visual": "thundering",
+      "ttsText": "实测两个 Worker 同时在同端口 accept，客户端 A 和 B 连上来时，Worker #1 抢到 Client-B，Worker #2 抢到 Client-A！不过如果上百个 Worker 睡在同一把监听 FD 上，一个新连接来了全员被同时吵醒只一个人抢到，这就叫惊群效应，待会儿我们用 SO_REUSEPORT 治它！",
+      "subtitleText": "共享 FD 会把连接分给不同 Worker；但千人同时唤醒只 1 人抢单叫“惊群效应”！",
+      "fallbackDurationSec": 27.0
+    }
+  ]
+}

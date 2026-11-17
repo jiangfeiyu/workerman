@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-sticky-demo": {
+      "id": "shot-01-sticky-demo",
+      "audioFile": "audio/ep034/shot-01-sticky-demo.mp3",
+      "durationSec": 26.758,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.311,
+          "text": "欢迎来到第 3 篇！很多新手以为"
+        },
+        {
+          "startSec": 3.311,
+          "endSec": 7.411,
+          "text": "客户端调用两次 send() 发两条 JSON"
+        },
+        {
+          "startSec": 7.411,
+          "endSec": 13.498,
+          "text": "服务端就会触发两次 onMessage 各收一条。大错特错！"
+        },
+        {
+          "startSec": 13.498,
+          "endSec": 19.047,
+          "text": "看第 6 到 15 行实验：发送端连续发送 20 条短 JSON"
+        },
+        {
+          "startSec": 19.047,
+          "endSec": 24.389,
+          "text": "接收端调用 fread(128) 每次只读 128 字节"
+        },
+        {
+          "startSec": 24.389,
+          "endSec": 26.158,
+          "text": "结果直接翻车！"
+        }
+      ]
+    },
+    "shot-02-disaster-log": {
+      "id": "shot-02-disaster-log",
+      "audioFile": "audio/ep034/shot-02-disaster-log.mp3",
+      "durationSec": 28.798,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.069,
+          "text": "看右上角真实输出！"
+        },
+        {
+          "startSec": 2.069,
+          "endSec": 8.662,
+          "text": "第一次 fread(128) 一次性抓到了第 1 到第 5 条完整 JSON——"
+        },
+        {
+          "startSec": 8.662,
+          "endSec": 11.549,
+          "text": "这叫粘包！更致命的是第 6 条"
+        },
+        {
+          "startSec": 11.549,
+          "endSec": 24.579,
+          "text": "读到 {\"id\":6,\"msg\" 时刚好凑够 128 字节被一刀腰斩——这叫半包！紧接着第二次 fread 开头吐出半截残片 :\"hello\"}"
+        },
+        {
+          "startSec": 24.579,
+          "endSec": 28.198,
+          "text": "拿去 json_decode 当场报错！"
+        }
+      ]
+    },
+    "shot-03-waterpipe": {
+      "id": "shot-03-waterpipe",
+      "audioFile": "audio/ep034/shot-03-waterpipe.mp3",
+      "durationSec": 23.182,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.268,
+          "text": "牢记底层真相：TCP 根本没有“一条消息”的概念"
+        },
+        {
+          "startSec": 5.268,
+          "endSec": 8.725,
+          "text": "它就是一根连续流水的自来水管！"
+        },
+        {
+          "startSec": 8.725,
+          "endSec": 13.953,
+          "text": "至于你什么时候用瓢去舀水、一次舀出半杯还是三杯"
+        },
+        {
+          "startSec": 13.953,
+          "endSec": 17.41,
+          "text": "全靠内核缓冲和网卡 MTU 心情！"
+        },
+        {
+          "startSec": 17.41,
+          "endSec": 22.582,
+          "text": "下集 EP035 先用 15 行代码铺垫出切包蓄水池！"
+        }
+      ]
+    }
+  }
+}

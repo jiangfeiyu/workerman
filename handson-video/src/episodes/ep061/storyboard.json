@@ -1,0 +1,29 @@
+{
+  "id": "EP061",
+  "epTag": "061 / 112",
+  "title": "安全降权 posix_setuid 与 SO_REUSEPORT 治惊群",
+  "legoModule": "模块 4.1 · 多进程与 Master 监工",
+  "outputFile": "out/EP061_安全降权与SO_REUSEPORT治惊群.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-setuid",
+      "chapter": "第 4 篇 · 模块 4.1 多进程与 Master 监工",
+      "visual": "setuid",
+      "ttsText": "模块 4.1 最后两块安全与性能拼图！第一块是安全降权：Worker 监听 80 或 443 端口时往往需要 root 启动，但真用 root 跑业务代码一旦被注入就全盘沦陷！所以 Master 绑定端口后、fork 出 Worker 立刻调 posix_setuid() 把子进程降权成普通用户 www-data！",
+      "subtitleText": "【061/112】先用 root 绑低位端口，fork 后立刻 posix_setuid() 将 Worker 降权隔离风险！",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-reuseport",
+      "chapter": "第 4 篇 · 模块 4.1 多进程与 Master 监工",
+      "visual": "reuseport",
+      "ttsText": "第二块是治惊群的 SO_REUSEPORT！开启这个内核选项后，每个 Worker 都能独立监听同一端口，Linux 内核直接在底层按四元组哈希把新连接精准投递给其中某 1 个 Worker，再也不会全员惊醒抢单！实测 macOS 和 Linux 均原生支持 ENABLED！",
+      "subtitleText": "开启 SO_REUSEPORT 后每个 Worker 独立监听同端口，内核哈希派单彻底消灭惊群！",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

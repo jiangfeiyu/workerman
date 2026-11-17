@@ -1,0 +1,8 @@
+{
+    "episode": "ep76_bench",
+    "output": [
+        "[SelectLoop 500 FD × 500 轮] O(N) 全量拷贝轮询耗时 = 10.98 ms",
+        "[Epoll\/ReadyList 500 FD × 500 轮] O(1) 仅派发就绪事件 = 0.006 ms",
+        "[第 4 篇终极合拢] O(1) 就绪事件调度提速约 1700.2x! Master + Daemon + Reload + Epoll 核动力就位!"
+    ]
+}

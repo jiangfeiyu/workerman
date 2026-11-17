@@ -1,0 +1,139 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-add-write": {
+      "id": "shot-01-add-write",
+      "audioFile": "audio/ep010/shot-01-add-write.mp3",
+      "durationSec": 18.766,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.596,
+          "text": "还记得上集 EP009B 我们把 8KB 发件柜塞满后"
+        },
+        {
+          "startSec": 3.596,
+          "endSec": 5.948,
+          "text": "fwrite 返回 0 写不进去吗？"
+        },
+        {
+          "startSec": 5.948,
+          "endSec": 8.644,
+          "text": "为了等发件柜腾出空位通知我们继续写"
+        },
+        {
+          "startSec": 8.644,
+          "endSec": 14.351,
+          "text": "今天把 writeFds 和 writeCallbacks 装进 SelectLoop"
+        },
+        {
+          "startSec": 14.351,
+          "endSec": 18.166,
+          "text": "写出 onWritable 和 offWritable！"
+        }
+      ]
+    },
+    "shot-02-pitfall-intro": {
+      "id": "shot-02-pitfall-intro",
+      "audioFile": "audio/ep010/shot-02-pitfall-intro.mp3",
+      "durationSec": 19.294,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.864,
+          "text": "但刚才也看到了，发件柜平时大部分时间都是空的！"
+        },
+        {
+          "startSec": 4.864,
+          "endSec": 8.581,
+          "text": "这就引出一条和读事件完全相反的铁律"
+        },
+        {
+          "startSec": 8.581,
+          "endSec": 11.705,
+          "text": "读事件是“收件箱没信就安静”"
+        },
+        {
+          "startSec": 11.705,
+          "endSec": 15.62,
+          "text": "可写事件只要发件柜哪怕还有 1 字节空位"
+        },
+        {
+          "startSec": 15.62,
+          "endSec": 18.694,
+          "text": "就永远处于“可写就绪”状态！"
+        }
+      ]
+    },
+    "shot-03-demo-trap": {
+      "id": "shot-03-demo-trap",
+      "audioFile": "audio/ep010/shot-03-demo-trap.mp3",
+      "durationSec": 22.15,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.855,
+          "text": "看 demo_write.php 实测！"
+        },
+        {
+          "startSec": 2.855,
+          "endSec": 5.884,
+          "text": "第 1 次 onWritable 写完数据后"
+        },
+        {
+          "startSec": 5.884,
+          "endSec": 9.525,
+          "text": "我们故意先不卸载监听。结果发件柜还有大把空位"
+        },
+        {
+          "startSec": 9.525,
+          "endSec": 13.013,
+          "text": "下一微秒 stream_select 压根不睡觉"
+        },
+        {
+          "startSec": 13.013,
+          "endSec": 15.981,
+          "text": "第 2 次 onWritable 立刻炸响！"
+        },
+        {
+          "startSec": 15.981,
+          "endSec": 19.469,
+          "text": "如果不及时调 offWritable 摘掉监听"
+        },
+        {
+          "startSec": 19.469,
+          "endSec": 21.55,
+          "text": "CPU 直接飙满 100%！"
+        }
+      ]
+    },
+    "shot-04-rule-next": {
+      "id": "shot-04-rule-next",
+      "audioFile": "audio/ep010/shot-04-rule-next.mp3",
+      "durationSec": 18.622,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.998,
+          "text": "刻进骨子里的规则：读监听常驻直到断开"
+        },
+        {
+          "startSec": 3.998,
+          "endSec": 7.357,
+          "text": "写监听只在发件柜塞满时按需挂载"
+        },
+        {
+          "startSec": 7.357,
+          "endSec": 12.915,
+          "text": "发完必须当场 offWritable！下一集 EP011"
+        },
+        {
+          "startSec": 12.915,
+          "endSec": 18.022,
+          "text": "加上 stop() 熄火开关，完成模块 1.2 的乐高合拢！"
+        }
+      ]
+    }
+  }
+}

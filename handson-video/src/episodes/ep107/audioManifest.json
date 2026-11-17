@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-danmaku-arch": {
+      "id": "shot-01-danmaku-arch",
+      "audioFile": "audio/ep107/shot-01-danmaku-arch.mp3",
+      "durationSec": 20.734,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.529,
+          "text": "进入收官第 7 篇综合实战！"
+        },
+        {
+          "startSec": 2.529,
+          "endSec": 6.579,
+          "text": "我们要用从第 1 篇到第 6 篇亲手写的全套组件"
+        },
+        {
+          "startSec": 6.579,
+          "endSec": 10.369,
+          "text": "组装一个生产级高并发实时直播弹幕系统！"
+        },
+        {
+          "startSec": 10.369,
+          "endSec": 20.134,
+          "text": "前排 Gateway 直接挂上第 3 篇手写的 WebsocketProtocol 加第 5 篇 TLS 加密支持 WSS！"
+        }
+      ]
+    },
+    "shot-02-msg-router": {
+      "id": "shot-02-msg-router",
+      "audioFile": "audio/ep107/shot-02-msg-router.mp3",
+      "durationSec": 17.854,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.207,
+          "text": "后端 BusinessWorker 收到 JSON 报文"
+        },
+        {
+          "startSec": 4.207,
+          "endSec": 8.245,
+          "text": "用 match 按 type 一键分发：join 进直播间"
+        },
+        {
+          "startSec": 8.245,
+          "endSec": 11.701,
+          "text": "danmaku 发弹幕、ping 心跳保活！"
+        },
+        {
+          "startSec": 11.701,
+          "endSec": 14.091,
+          "text": "整套业务核心只有不到三十行"
+        },
+        {
+          "startSec": 14.091,
+          "endSec": 17.254,
+          "text": "清清爽爽却站在十万并发分布式底座上！"
+        }
+      ]
+    }
+  }
+}

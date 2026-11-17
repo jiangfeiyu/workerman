@@ -1,0 +1,65 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-json-log": {
+      "id": "shot-01-json-log",
+      "audioFile": "audio/ep110/shot-01-json-log.mp3",
+      "durationSec": 19.462,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.719,
+          "text": "软件上线前最后一道工程护栏"
+        },
+        {
+          "startSec": 2.719,
+          "endSec": 7.39,
+          "text": "统一用 Throwable 接住业务协程里的未知报错"
+        },
+        {
+          "startSec": 7.39,
+          "endSec": 9.381,
+          "text": "输出带 traceId"
+        },
+        {
+          "startSec": 9.381,
+          "endSec": 14.595,
+          "text": "roomId 与时间戳的 JSON 结构化日志方便 ELK 检索"
+        },
+        {
+          "startSec": 14.595,
+          "endSec": 18.862,
+          "text": "防止单条坏请求把整条 Worker 进程打崩溃！"
+        }
+      ]
+    },
+    "shot-02-systemd-unit": {
+      "id": "shot-02-systemd-unit",
+      "audioFile": "audio/ep110/shot-02-systemd-unit.mp3",
+      "durationSec": 21.382,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.645,
+          "text": "最后在 Linux 生产机写一份 10 行 systemd service 配置"
+        },
+        {
+          "startSec": 5.645,
+          "endSec": 7.578,
+          "text": "挂上 ExecStart"
+        },
+        {
+          "startSec": 7.578,
+          "endSec": 16.662,
+          "text": "ExecReload 发 SIGUSR1 以及 Restart=always 与 LimitNOFILE=1048576！"
+        },
+        {
+          "startSec": 16.662,
+          "endSec": 20.782,
+          "text": "机器就算凌晨断电重启，全集群也能秒级自启动拉起！"
+        }
+      ]
+    }
+  }
+}

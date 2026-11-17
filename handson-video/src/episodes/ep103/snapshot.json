@@ -1,0 +1,7 @@
+{
+    "episode": "ep103",
+    "output": [
+        "[Gateway 上行散列] connId=7 % 4 => 固定转发至 BizWorker#3",
+        "[Gateway O(1) 原路回递] 拆出 connId=7 -> 命中 UserConn#7(alice) 写出: \"Hello Alice!\""
+    ]
+}

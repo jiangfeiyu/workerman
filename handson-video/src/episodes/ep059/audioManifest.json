@@ -1,0 +1,70 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-orphan-zombie": {
+      "id": "shot-01-orphan-zombie",
+      "audioFile": "audio/ep059/shot-01-orphan-zombie.mp3",
+      "durationSec": 27.094,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.142,
+          "text": "多进程运维最常听到的两个鬼故事：孤儿和僵尸！"
+        },
+        {
+          "startSec": 5.142,
+          "endSec": 9.677,
+          "text": "父进程先死了、孩子还活着叫孤儿，它无害"
+        },
+        {
+          "startSec": 9.677,
+          "endSec": 14.866,
+          "text": "系统 1 号进程会自动领养；真正要命的是僵尸进程"
+        },
+        {
+          "startSec": 14.866,
+          "endSec": 20.055,
+          "text": "子进程 exit 退出了，但父进程一直不给它收尸"
+        },
+        {
+          "startSec": 20.055,
+          "endSec": 26.494,
+          "text": "它的 PID 坑位就会永远占着内存表直到系统无法创建新进程！"
+        }
+      ]
+    },
+    "shot-02-waitpid": {
+      "id": "shot-02-waitpid",
+      "audioFile": "audio/ep059/shot-02-waitpid.mp3",
+      "durationSec": 23.686,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.96,
+          "text": "解决办法就是 Master 调 pcntl_waitpid() 或 pcntl_wait()！"
+        },
+        {
+          "startSec": 5.96,
+          "endSec": 9.727,
+          "text": "实测子进程带着 exitCode=42 提前退出"
+        },
+        {
+          "startSec": 9.727,
+          "endSec": 14.951,
+          "text": "Master 调一遍 pcntl_waitpid($pid, $status)"
+        },
+        {
+          "startSec": 14.951,
+          "endSec": 20.143,
+          "text": "立刻读出 normalExit=true 与 exitCode=42"
+        },
+        {
+          "startSec": 20.143,
+          "endSec": 23.086,
+          "text": "同时把内核里那具僵尸表项彻底注销！"
+        }
+      ]
+    }
+  }
+}

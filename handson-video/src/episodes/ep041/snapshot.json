@@ -1,0 +1,9 @@
+{
+    "episode": "ep41",
+    "output": [
+        "[1. 请求行] POST \/api\/login?from=web HTTP\/1.1",
+        "[2. Headers 行数] 2 行 (以 \\r\\n 分隔)",
+        "[3. 空行分隔符] \\r\\n\\r\\n 出现在偏移 75 (占 4 字节)",
+        "[4. Body 正文] user=modern (共 11 字节)"
+    ]
+}

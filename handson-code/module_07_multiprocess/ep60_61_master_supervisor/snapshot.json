@@ -1,0 +1,10 @@
+{
+    "episode": "ep60_61_master",
+    "output": [
+        "[Worker #1 pid=70557] 模拟崩溃退出 code=9!",
+        "[Worker #2 pid=70558] 正常拉起并就绪!",
+        "[Master 监工] 发现 Worker #1(pid=70557) 异常退出 code=9 -> 秒级拉起替补 pid=70559!",
+        "[Worker #1 pid=70559] 正常拉起并就绪!",
+        "[SO_REUSEPORT] socket_set_option(SOL_SOCKET, SO_REUSEPORT, 1) => ENABLED (内核级多队列无惊群分发!)"
+    ]
+}

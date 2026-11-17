@@ -1,0 +1,75 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-enum-def": {
+      "id": "shot-01-enum-def",
+      "audioFile": "audio/ep023/shot-01-enum-def.mp3",
+      "durationSec": 28.078,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.948,
+          "text": "老版 Workerman 用数字常量 1、2、4、8 代表连接状态"
+        },
+        {
+          "startSec": 4.948,
+          "endSec": 6.924,
+          "text": "看源码时经常一头雾水"
+        },
+        {
+          "startSec": 6.924,
+          "endSec": 12.469,
+          "text": "今天我们用 PHP 8 的字符串枚举定义 ConnectionStatus"
+        },
+        {
+          "startSec": 12.469,
+          "endSec": 17.377,
+          "text": "其中 Connecting 是给以后第 5 篇异步客户端拨号预留的"
+        },
+        {
+          "startSec": 17.377,
+          "endSec": 22.922,
+          "text": "服务端 accept 进来的连接一出生就是 Established 已建立"
+        },
+        {
+          "startSec": 22.922,
+          "endSec": 27.478,
+          "text": "后面还要经历 Closing 半关闭和 Closed 已关闭！"
+        }
+      ]
+    },
+    "shot-02-state-guard": {
+      "id": "shot-02-state-guard",
+      "audioFile": "audio/ep023/shot-02-state-guard.mp3",
+      "durationSec": 21.262,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.3,
+          "text": "有了状态机，后续的收发和销毁都能做状态守卫"
+        },
+        {
+          "startSec": 4.3,
+          "endSec": 8.56,
+          "text": "比如进入 Closing 后就不允许继续发新包"
+        },
+        {
+          "startSec": 8.56,
+          "endSec": 10.765,
+          "text": "一旦变成 Closed"
+        },
+        {
+          "startSec": 10.765,
+          "endSec": 15.324,
+          "text": "无论重复调多少次 destroy() 都幂等直接返回！"
+        },
+        {
+          "startSec": 15.324,
+          "endSec": 20.662,
+          "text": "运行本集的状态机测试，四态流转与守卫拦截全部精准生效！"
+        }
+      ]
+    }
+  }
+}

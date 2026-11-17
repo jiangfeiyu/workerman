@@ -1,0 +1,45 @@
+{
+  "id": "EP010",
+  "epTag": "010 / 112",
+  "title": "加上 onWritable 写监听与可写死循环大坑",
+  "legoModule": "模块 1.2 · SelectLoop",
+  "outputFile": "out/EP010_加上onWritable写监听与可写死循环大坑.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-add-write",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "add-write",
+      "ttsText": "还记得上集 EP009B 我们把 8KB 发件柜塞满后，fwrite 返回 0 写不进去吗？为了等发件柜腾出空位通知我们继续写，今天把 writeFds 和 writeCallbacks 装进 SelectLoop，写出 onWritable 和 offWritable！",
+      "subtitleText": "【010/112】承接 EP009B：当发件柜塞满时靠 onWritable 等空位通知，补全读写双监听",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-pitfall-intro",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "pitfall-intro",
+      "ttsText": "但刚才也看到了，发件柜平时大部分时间都是空的！这就引出一条和读事件完全相反的铁律：读事件是“收件箱没信就安静”；可写事件只要发件柜哪怕还有 1 字节空位，就永远处于“可写就绪”状态！",
+      "subtitleText": "致命差异：收件箱“有信才响”，发件柜“只要没满就永远在响”！",
+      "fallbackDurationSec": 23.0
+    },
+    {
+      "id": "shot-03-demo-trap",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "demo-trap",
+      "ttsText": "看 demo_write.php 实测！第 1 次 onWritable 写完数据后，我们故意先不卸载监听。结果发件柜还有大把空位，下一微秒 stream_select 压根不睡觉，第 2 次 onWritable 立刻炸响！如果不及时调 offWritable 摘掉监听，CPU 直接飙满 100%！",
+      "subtitleText": "真实复现：写完不调用 offWritable()，发件柜仍有空位 → 下微秒立刻再触发 100% 空转！",
+      "fallbackDurationSec": 27.0
+    },
+    {
+      "id": "shot-04-rule-next",
+      "chapter": "第 1 篇 · 模块 1.2 SelectLoop",
+      "visual": "rule-next",
+      "ttsText": "刻进骨子里的规则：读监听常驻直到断开；写监听只在发件柜塞满时按需挂载，发完必须当场 offWritable！下一集 EP011，加上 stop() 熄火开关，完成模块 1.2 的乐高合拢！",
+      "subtitleText": "黄金法则：读监听常驻，写监听用完即卸 offWritable()｜下集 EP011：stop() 与模块合拢",
+      "fallbackDurationSec": 22.0
+    }
+  ]
+}

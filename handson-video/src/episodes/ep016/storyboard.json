@@ -1,0 +1,29 @@
+{
+  "id": "EP016",
+  "epTag": "016 / 112",
+  "title": "把 delay 接力封装成 repeat() 循环定时器",
+  "legoModule": "模块 1.3 · Timer",
+  "outputFile": "out/EP016_用delay递归套娃实现repeat循环定时器.mp4",
+  "voice": "zh-CN-YunxiNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-self-schedule",
+      "chapter": "第 1 篇 · 模块 1.3 Timer 定时器",
+      "visual": "self-schedule",
+      "ttsText": "有了上集 EP015B 的接力棒思路，今天封装 repeat() 非常清爽！看第 11 到 29 行：我们不用绕口的自引用闭包，而是把“预约下一单”拆成一个普通的私有方法 scheduleNext！repeat() 先登记 ID 并调一次 scheduleNext；每次 delay() 到点执行完用户回调后，再调一次 scheduleNext 接力下一单！",
+      "subtitleText": "【016/112】拒绝自引用闭包套娃！用普通私有方法 scheduleNext() 清晰实现 delay() 接力续订",
+      "fallbackDurationSec": 28.0
+    },
+    {
+      "id": "shot-02-cancel-inside",
+      "chapter": "第 1 篇 · 模块 1.3 Timer 定时器",
+      "visual": "cancel-inside",
+      "ttsText": "而且支持在回调函数内部调用 cancelRepeat() 随时停掉续订！只要第 24 行检查账本发现已被移除，就不再调用 scheduleNext！运行 verify.php 实测每 60 毫秒跑一次，第 3 次触发后立刻停止！下集 EP017，我们用它写出心跳踢人服务器！",
+      "subtitleText": "实测 +65ms/+130ms/+194ms 连续 3 次后自停！下集 EP017【合拢】：心跳超时踢人实战",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

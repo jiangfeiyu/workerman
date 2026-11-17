@@ -1,0 +1,7 @@
+{
+    "episode": "ep104b",
+    "output": [
+        "[误区警示] 若 $_SESSION\/uidMap 放 BusinessWorker 进程内存 -> reload 即丢失且多 Worker 隔离!",
+        "[正确存储] 会话与绑定表交由 Gateway(或共享存储)托管 -> v2 重启仍读出 uid=uid_888"
+    ]
+}

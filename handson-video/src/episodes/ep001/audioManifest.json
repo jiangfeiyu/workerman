@@ -1,0 +1,196 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-hook": {
+      "id": "shot-01-hook",
+      "audioFile": "audio/ep001/shot-01-hook.mp3",
+      "durationSec": 24.67,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.052,
+          "text": "欢迎来到实战编程系列！接下来一百一十二集"
+        },
+        {
+          "startSec": 4.052,
+          "endSec": 8.985,
+          "text": "我们用分而治之、递归拼装的办法，不靠任何第三方扩展"
+        },
+        {
+          "startSec": 8.985,
+          "endSec": 11.893,
+          "text": "手把手从第一行 PHP 代码开始"
+        },
+        {
+          "startSec": 11.893,
+          "endSec": 17.562,
+          "text": "拼出一套完整的 ModernWorker 协程框架！今天第一集"
+        },
+        {
+          "startSec": 17.562,
+          "endSec": 21.206,
+          "text": "先写十行最土的阻塞 TCP Server"
+        },
+        {
+          "startSec": 21.206,
+          "endSec": 24.07,
+          "text": "再亲手用两个终端把它打趴下！"
+        }
+      ]
+    },
+    "shot-02-code-listen": {
+      "id": "shot-02-code-listen",
+      "audioFile": "audio/ep001/shot-02-code-listen.mp3",
+      "durationSec": 24.43,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.668,
+          "text": "新建 server.php"
+        },
+        {
+          "startSec": 2.668,
+          "endSec": 9.858,
+          "text": "第 5 行调用 stream_socket_server 在本机 9001 端口挂起门牌号"
+        },
+        {
+          "startSec": 9.858,
+          "endSec": 15.041,
+          "text": "只要启动脚本，终端一立刻打印出监听成功，等待客人上门！"
+        },
+        {
+          "startSec": 15.041,
+          "endSec": 17.012,
+          "text": "透视右下角内核视角"
+        },
+        {
+          "startSec": 17.012,
+          "endSec": 21.72,
+          "text": "Linux 内核已经为我们的进程分配了 3 号监听 FD"
+        },
+        {
+          "startSec": 21.72,
+          "endSec": 23.83,
+          "text": "开好大门等着接客了"
+        }
+      ]
+    },
+    "shot-03-code-accept": {
+      "id": "shot-03-code-accept",
+      "audioFile": "audio/ep001/shot-03-code-accept.mp3",
+      "durationSec": 23.926,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.257,
+          "text": "接着写第 11 到 22 行的接客死循环"
+        },
+        {
+          "startSec": 3.257,
+          "endSec": 7.768,
+          "text": "stream_socket_accept 接到新连接后"
+        },
+        {
+          "startSec": 7.768,
+          "endSec": 11.93,
+          "text": "第 16 行直接调用 fgets 从客人嘴里读一行话"
+        },
+        {
+          "startSec": 11.93,
+          "endSec": 17.316,
+          "text": "再通过 fwrite 原样回显并 fclose 送客。代码干净利落"
+        },
+        {
+          "startSec": 17.316,
+          "endSec": 21.128,
+          "text": "看起来毫无破绽！但第 16 行这句 fgets"
+        },
+        {
+          "startSec": 21.128,
+          "endSec": 23.326,
+          "text": "其实藏着一个致命炸弹！"
+        }
+      ]
+    },
+    "shot-04-crash-demo": {
+      "id": "shot-04-crash-demo",
+      "audioFile": "audio/ep001/shot-04-crash-demo.mp3",
+      "durationSec": 28.774,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.338,
+          "text": "看右上角双终端实测！"
+        },
+        {
+          "startSec": 2.338,
+          "endSec": 7.136,
+          "text": "终端二客人 A 连进来后故意发呆 1.2 秒不发数据"
+        },
+        {
+          "startSec": 7.136,
+          "endSec": 12.136,
+          "text": "此时终端三客人 B 连进来发送 hello from B"
+        },
+        {
+          "startSec": 12.136,
+          "endSec": 16.652,
+          "text": "结果直接超时卡死整整 1201 毫秒！为什么？"
+        },
+        {
+          "startSec": 16.652,
+          "endSec": 18.426,
+          "text": "看右下角调用栈"
+        },
+        {
+          "startSec": 18.426,
+          "endSec": 24.434,
+          "text": "唯一的 PHP 进程正死死卡在第 16 行的 fgets 等待客人 A"
+        },
+        {
+          "startSec": 24.434,
+          "endSec": 28.174,
+          "text": "客人 B 连 accept 的门都摸不到！"
+        }
+      ]
+    },
+    "shot-05-recap-next": {
+      "id": "shot-05-recap-next",
+      "audioFile": "audio/ep001/shot-05-recap-next.mp3",
+      "durationSec": 23.278,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.393,
+          "text": "第一集踩坑结论非常明确"
+        },
+        {
+          "startSec": 2.393,
+          "endSec": 7.062,
+          "text": "默认的阻塞 IO 会让一个发呆的客人劫持整台服务器！"
+        },
+        {
+          "startSec": 7.062,
+          "endSec": 8.863,
+          "text": "下一集 EP002"
+        },
+        {
+          "startSec": 8.863,
+          "endSec": 14.892,
+          "text": "我们只需加一行 stream_set_blocking 把阻塞开关关掉"
+        },
+        {
+          "startSec": 14.892,
+          "endSec": 18.531,
+          "text": "但紧接着你会亲眼看到一个更吓人的现象"
+        },
+        {
+          "startSec": 18.531,
+          "endSec": 22.678,
+          "text": "0.5 秒空转七万三千次的 CPU 百分百惨案！"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+    "episode": "ep04",
+    "port": "19004",
+    "serverOutput": [
+        "[Server] 已用 stream_select 守护接待门 (CPU 0% 睡眠中)...",
+        "[Server] 内核叫醒！迎入新客人: 127.0.0.1:64284",
+        "[Server] 内核叫醒！迎入新客人: 127.0.0.1:64285"
+    ],
+    "replies": [
+        "Welcome 127.0.0.1:64284",
+        "Welcome 127.0.0.1:64285"
+    ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "EP029B",
+  "epTag": "029B · 加餐过渡",
+  "title": "onBufferFull 不会自己刹车！看懂背压联动",
+  "legoModule": "模块 2.2 · 异步发送缓冲（过渡）",
+  "outputFile": "out/EP029B_加餐过渡_onBufferFull不会自己刹车_背压联动.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-oom-problem",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "oom-problem",
+      "ttsText": "进入 EP030 水位线背压之前，先搞懂一个最容易看懵的问题：很多同学听说框架有个 onBufferFull 回调，以为只要写上去内存就不会爆了。错！onBufferFull 只是一盏报警红灯，它自己不会停掉 send()！真正踩刹车的，是你的上游业务代码！",
+      "subtitleText": "【029B/加餐过渡】破除误区：onBufferFull 只是“红灯报警”，真正踩刹车的是上游推流端！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-02-pump-demo",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "pump-demo",
+      "ttsText": "看第 10 到 24 行的生产者联动模型！上游推流泵每次往连接里塞 256KB，当水位冲到 512KB 安全线时触发红灯信号，上游立刻把 $paused 设为 true 踩下刹车暂停读盘；等慢客户端慢慢消费把缓冲区排空，触发绿灯 onBufferDrain 再把 $paused 设为 false 松刹车恢复推流！",
+      "subtitleText": "完整闭环：红灯 onBufferFull → 上游 $paused=true 停推 → 排空绿灯 onBufferDrain → 恢复！",
+      "fallbackDurationSec": 27.0
+    }
+  ]
+}

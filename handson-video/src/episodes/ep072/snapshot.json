@@ -1,0 +1,9 @@
+{
+    "episode": "ep72",
+    "output": [
+        "[FD= 50 × 300轮] stream_select O(N) 耗时 = 0.59 ms",
+        "[FD=200 × 300轮] stream_select O(N) 耗时 = 2.39 ms",
+        "[FD=450 × 300轮] stream_select O(N) 耗时 = 5.81 ms",
+        "[硬上限警报] Linux glibc FD_SETSIZE=1024，超过第 1024 个连接即越界崩溃!"
+    ]
+}

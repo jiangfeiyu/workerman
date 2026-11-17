@@ -1,0 +1,29 @@
+{
+  "id": "EP062B",
+  "epTag": "062B · 加餐过渡",
+  "title": "为什么不能直接调 posix_setsid()？进程组长困境",
+  "legoModule": "模块 4.2 · 守护进程与 CLI 控制台（过渡）",
+  "outputFile": "out/EP062B_加餐过渡_为什么不能直接调posix_setsid.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-leader-fail",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "leader-fail",
+      "ttsText": "进入 EP063 两次 fork 之前，先看清一个 Linux 内核硬规定！很多同学想：既然 posix_setsid() 能脱离终端，那我在脚本第一行直接调用不就行了吗？看第 10 到 14 行实测：终端启动的脚本本身就是进程组长，pid 等于 pgid，直接调 setsid 当场返回负一被内核拒绝！",
+      "subtitleText": "【062B/加餐过渡】实测：终端启动的进程是进程组长 (pid===pgid)，直接调 setsid() 必返回 -1！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-fork-unlock",
+      "chapter": "第 4 篇 · 模块 4.2 守护进程与 CLI 控制台",
+      "visual": "fork-unlock",
+      "ttsText": "怎么破？只要先 fork 一次！新出生的小孩 pid 是新的，但进程组编号 pgid 继承自老爹，所以小孩一定不是组长！此时小孩再调 posix_setsid()，一举成功新建无终端会话！下一集 EP063，再加上第 2 次 fork 甩掉会话首领资格！",
+      "subtitleText": "fork 出子进程后不再是组长，setsid() 立刻成功！下集 EP063 补全第 2 次 fork",
+      "fallbackDurationSec": 25.0
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "EP102",
+  "epTag": "102 / 112",
+  "title": "Register 注册中心：集群服务发现与节点心跳剔除",
+  "legoModule": "模块 6.2 · 分布式 ModernGateway 集群",
+  "outputFile": "out/EP102_Register注册中心服务发现与心跳剔除.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-why-register",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "why-register",
+      "ttsText": "线上扩容多加了 3 台 Gateway 机器，总不能每次都手改配置去重启全集群业务机吧？这就需要第 3 个轻巧角色：Register 注册中心！所有 Gateway 和 BusinessWorker 上线第一件事都是去 Register 报到！",
+      "subtitleText": "【102/112】Register 当集群通信录：Gateway 上线自动报到，BusinessWorker 自动拉取！",
+      "fallbackDurationSec": 21.0
+    },
+    {
+      "id": "shot-02-broadcast-nodes",
+      "chapter": "第 6 篇 · 模块 6.2 ModernGateway 集群",
+      "visual": "broadcast-nodes",
+      "ttsText": "只要任何一台 Gateway 新增上线、或心跳超时宕机下线，Register 瞬间把最新的在线 Gateway 内网地址列表广播推给全部 BusinessWorker！BusinessWorker 动态连上新节点或断开死节点，全程自动化零人工干预！",
+      "subtitleText": "Gateway 增减或心跳超时，Register 秒级向业务机广播最新列表实现无缝扩缩容！",
+      "fallbackDurationSec": 23.0
+    }
+  ]
+}

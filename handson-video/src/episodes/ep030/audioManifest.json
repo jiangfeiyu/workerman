@@ -1,0 +1,107 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-oom-risk": {
+      "id": "shot-01-oom-risk",
+      "audioFile": "audio/ep030/shot-01-oom-risk.mp3",
+      "durationSec": 19.558,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.685,
+          "text": "有了上集 EP029B 的红绿灯刹车思路"
+        },
+        {
+          "startSec": 2.685,
+          "endSec": 6.345,
+          "text": "今天把这组水位线正式装进 TcpConnection！"
+        },
+        {
+          "startSec": 6.345,
+          "endSec": 10.486,
+          "text": "先在类里新增 $maxSendBufferSize 默认 1MB 上限"
+        },
+        {
+          "startSec": 10.486,
+          "endSec": 14.199,
+          "text": "$onBufferFull、$onBufferDrain"
+        },
+        {
+          "startSec": 14.199,
+          "endSec": 18.958,
+          "text": "还有最关键的防重复报警布尔锁 $bufferFullTriggered！"
+        }
+      ]
+    },
+    "shot-02-high-watermark": {
+      "id": "shot-02-high-watermark",
+      "audioFile": "audio/ep030/shot-02-high-watermark.mp3",
+      "durationSec": 19.534,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.908,
+          "text": "看第 60 到 66 行！"
+        },
+        {
+          "startSec": 1.908,
+          "endSec": 6.723,
+          "text": "每次追加 $sendBuffer 后检查长度是否超过上限"
+        },
+        {
+          "startSec": 6.723,
+          "endSec": 8.304,
+          "text": "加上布尔锁判断"
+        },
+        {
+          "startSec": 8.304,
+          "endSec": 12.4,
+          "text": "保证连发 3 个 400KB 大包突破 512KB 时"
+        },
+        {
+          "startSec": 12.4,
+          "endSec": 17.035,
+          "text": "只触发 1 次 onBufferFull 通知上游踩刹车"
+        },
+        {
+          "startSec": 17.035,
+          "endSec": 18.934,
+          "text": "绝不重复刷屏报警！"
+        }
+      ]
+    },
+    "shot-03-drain-resume": {
+      "id": "shot-03-drain-resume",
+      "audioFile": "audio/ep030/shot-03-drain-resume.mp3",
+      "durationSec": 16.294,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.827,
+          "text": "等 baseWrite() 把积压全部排空"
+        },
+        {
+          "startSec": 2.827,
+          "endSec": 7.689,
+          "text": "第 69 行检测到 $bufferFullTriggered 为 true"
+        },
+        {
+          "startSec": 7.689,
+          "endSec": 11.306,
+          "text": "立刻复位并触发绿灯 onBufferDrain！"
+        },
+        {
+          "startSec": 11.306,
+          "endSec": 13.974,
+          "text": "实测连发 1.2MB 精准只报 1 次红灯"
+        },
+        {
+          "startSec": 13.974,
+          "endSec": 15.694,
+          "text": "排空后触发 1 次绿灯！"
+        }
+      ]
+    }
+  }
+}

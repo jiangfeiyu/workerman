@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-formula": {
+      "id": "shot-01-formula",
+      "audioFile": "audio/ep014/shot-01-formula.mp3",
+      "durationSec": 32.206,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.037,
+          "text": "今天先不改 SelectLoop"
+        },
+        {
+          "startSec": 3.037,
+          "endSec": 7.389,
+          "text": "用 20 行独立脚本推导出框架里最重要的定时公式！"
+        },
+        {
+          "startSec": 7.389,
+          "endSec": 11.206,
+          "text": "假设手头有 50 毫秒和 150 毫秒两个闹钟"
+        },
+        {
+          "startSec": 11.206,
+          "endSec": 15.273,
+          "text": "第 13 到 16 行先取最早到期时间 $nextAt"
+        },
+        {
+          "startSec": 15.273,
+          "endSec": 19.625,
+          "text": "再减去当前时间 microtime(true)！"
+        },
+        {
+          "startSec": 19.625,
+          "endSec": 24.227,
+          "text": "特别注意第 14 行外层套的 max(0.0, ...)"
+        },
+        {
+          "startSec": 24.227,
+          "endSec": 26.689,
+          "text": "万一上轮业务太忙已经过期"
+        },
+        {
+          "startSec": 26.689,
+          "endSec": 31.606,
+          "text": "绝对不能把负数传给 stream_select 导致报错！"
+        }
+      ]
+    },
+    "shot-02-verify": {
+      "id": "shot-02-verify",
+      "audioFile": "audio/ep014/shot-02-verify.mp3",
+      "durationSec": 21.478,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 7.354,
+          "text": "接着把浮点秒拆成整数秒 $sec 和微秒 $usec 传进 stream_select！"
+        },
+        {
+          "startSec": 7.354,
+          "endSec": 11.031,
+          "text": "看终端输出：55 毫秒精准触发闹钟 B"
+        },
+        {
+          "startSec": 11.031,
+          "endSec": 15.49,
+          "text": "155 毫秒精准触发闹钟 A！下一集 EP015"
+        },
+        {
+          "startSec": 15.49,
+          "endSec": 20.878,
+          "text": "我们正式把最小堆和这条公式装进 SelectLoop！"
+        }
+      ]
+    }
+  }
+}

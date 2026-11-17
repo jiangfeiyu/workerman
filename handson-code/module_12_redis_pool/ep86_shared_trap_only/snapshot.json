@@ -1,0 +1,7 @@
+{
+    "episode": "ep86",
+    "output": [
+        "[Fiber A] 向共享连接发出请求 keyA，随即 suspend() 等回复",
+        "[Fiber B 串台灾难] 读同一条共享连接错拿成 Fiber A 的响应: RES_FOR_A (线上数据大乱套!)"
+    ]
+}

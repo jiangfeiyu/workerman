@@ -1,0 +1,37 @@
+{
+  "id": "EP025B",
+  "epTag": "025B · 加餐过渡",
+  "title": "为什么不能 while 死磕 fwrite()？",
+  "legoModule": "模块 2.2 · 异步发送缓冲（过渡）",
+  "outputFile": "out/EP025B_加餐过渡_为什么不能while死磕fwrite.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-while-idea",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "while-idea",
+      "ttsText": "上一集 EP025 看到 fwrite 发 10MB 只写进去 327KB。很多同学第一反应一定是：那我直接在代码里写个 while 循环，把没发完的 substr 切片接着塞不就行了吗？干嘛非要麻烦 SelectLoop？今天我们就用 10 行代码试一次！",
+      "subtitleText": "【025B/加餐过渡】直觉疑问：既然一次 fwrite 写不完，为什么不用 while 循环死磕写完？",
+      "fallbackDurationSec": 24.0
+    },
+    {
+      "id": "shot-02-spin-freeze",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "spin-freeze",
+      "ttsText": "看第 13 到 24 行的运行结果！面对一个不怎么读数据的慢客户端，前 3 轮塞满内核后，内核再也没空位了！while 循环疯狂空转一万次 fwrite 全返回 0！在单进程事件循环里，只要这一条连接进入 while 死磕，整台服务器就彻底卡死，其他一万个正常客人全被饿死！",
+      "subtitleText": "血泪真相：慢客户端让内核满载，while 疯狂空转返回 0 → 单进程服务器全员卡死！",
+      "fallbackDurationSec": 27.0
+    },
+    {
+      "id": "shot-03-hand-to-loop",
+      "chapter": "第 2 篇 · 模块 2.2 异步发送缓冲与背压",
+      "visual": "hand-to-loop",
+      "ttsText": "所以异步服务器的唯一正途是：今天写不完，立刻把剩下的存进应用层缓冲，交给 EventLoop::onWritable 去等内核有空位通知，自己马上 return 去服务别的客人！下一集 EP026，我们就用全局变量 $pending + onWritable 跑通 10MB 零丢包！",
+      "subtitleText": "唯一正途：写不完就存起来交还给 EventLoop::onWritable！下集 EP026 实战跑通",
+      "fallbackDurationSec": 24.0
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-async-save": {
+      "id": "shot-01-async-save",
+      "audioFile": "audio/ep109/shot-01-async-save.mp3",
+      "durationSec": 18.91,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.359,
+          "text": "热门主播开播时一秒钟飞过上千条弹幕，除了立刻屏幕广播"
+        },
+        {
+          "startSec": 4.359,
+          "endSec": 6.13,
+          "text": "后台还得存历史回放！"
+        },
+        {
+          "startSec": 6.13,
+          "endSec": 9.517,
+          "text": "这时候绝不能在主线程直接同步写 MySQL"
+        },
+        {
+          "startSec": 9.517,
+          "endSec": 18.31,
+          "text": "我们把第 5 篇写的协程 RedisClient 加 ConnectionPool 直接插进 BusinessWorker！"
+        }
+      ]
+    },
+    "shot-02-pool-guard": {
+      "id": "shot-02-pool-guard",
+      "audioFile": "audio/ep109/shot-02-pool-guard.mp3",
+      "durationSec": 17.95,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 6.478,
+          "text": "每条弹幕进 try-finally 借用独占连接执行 lPush 异步落库"
+        },
+        {
+          "startSec": 6.478,
+          "endSec": 10.437,
+          "text": "用完必归还保证连接池永远不泄露、零串台！"
+        },
+        {
+          "startSec": 10.437,
+          "endSec": 15.025,
+          "text": "实测 1000 条弹幕流水无锁入队仅花 0.02 毫秒"
+        },
+        {
+          "startSec": 15.025,
+          "endSec": 17.35,
+          "text": "弹幕大促期间丝般顺滑！"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "episode": "ep29",
+    "output": [
+        "[baseWrite 第8轮] $sendBuffer 已排空，立刻调用 offWritable()",
+        "[接收完毕] 完整收到 2,097,152 bytes，且无任何空转！"
+    ]
+}

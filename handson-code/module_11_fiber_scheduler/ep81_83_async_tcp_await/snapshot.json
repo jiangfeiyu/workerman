@@ -1,0 +1,7 @@
+{
+    "episode": "ep81_83_async_tcp",
+    "output": [
+        "[EP081 · ASYNC_CONNECT 握手成功] stream_socket_get_name(peer) = 127.0.0.1:62191",
+        "[EP082-083 · AsyncTcpClient::await()] 同步代码风格拿到异步回包 => PONG:hello-fiber"
+    ]
+}

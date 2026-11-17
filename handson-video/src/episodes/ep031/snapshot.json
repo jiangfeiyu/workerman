@@ -1,0 +1,8 @@
+{
+    "episode": "ep31",
+    "output": [
+        "[调用 close()] 立即进入半关闭态 status=closing，继续等写缓冲排空",
+        "[服务端 onClose] 缓冲排空，状态切换为 closed 后安全销毁",
+        "[客户端收齐断线] 总字节=1048583，末尾=BYE_OK"
+    ]
+}

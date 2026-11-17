@@ -1,0 +1,102 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-forget-off": {
+      "id": "shot-01-forget-off",
+      "audioFile": "audio/ep027/shot-01-forget-off.mp3",
+      "durationSec": 20.614,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.217,
+          "text": "上一集最后我们强调排空后必须调 offWritable()"
+        },
+        {
+          "startSec": 5.217,
+          "endSec": 9.301,
+          "text": "很多同学不理解：缓冲区都空了，不调能怎样？"
+        },
+        {
+          "startSec": 9.301,
+          "endSec": 13.202,
+          "text": "今天用 20 行代码故意把这行删掉看看下场！"
+        },
+        {
+          "startSec": 13.202,
+          "endSec": 18.452,
+          "text": "看第 14 到 19 行，写完 Hello 后故意直接 return"
+        },
+        {
+          "startSec": 18.452,
+          "endSec": 20.014,
+          "text": "不卸载写监听"
+        }
+      ]
+    },
+    "shot-02-50k-spin": {
+      "id": "shot-02-50k-spin",
+      "audioFile": "audio/ep027/shot-02-50k-spin.mp3",
+      "durationSec": 20.35,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.804,
+          "text": "运行实测直接炸裂！"
+        },
+        {
+          "startSec": 1.804,
+          "endSec": 5.672,
+          "text": "明明应用层缓冲区 $pending 早就空空如也"
+        },
+        {
+          "startSec": 5.672,
+          "endSec": 7.844,
+          "text": "但只要内核缓冲区有空位"
+        },
+        {
+          "startSec": 7.844,
+          "endSec": 13.239,
+          "text": "stream_select 每微秒都在尖叫着可写可写！短短一瞬间"
+        },
+        {
+          "startSec": 13.239,
+          "endSec": 17.616,
+          "text": "onWritable 回调就被狂刷了 50,000 次"
+        },
+        {
+          "startSec": 17.616,
+          "endSec": 19.75,
+          "text": "CPU 直接锁死百分百！"
+        }
+      ]
+    },
+    "shot-03-golden-rule": {
+      "id": "shot-03-golden-rule",
+      "audioFile": "audio/ep027/shot-03-golden-rule.mp3",
+      "durationSec": 17.014,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 1.234,
+          "text": "记住这条铁律"
+        },
+        {
+          "startSec": 1.234,
+          "endSec": 6.56,
+          "text": "只有 $sendBuffer 里还有积压数据时才挂载 onWritable"
+        },
+        {
+          "startSec": 6.56,
+          "endSec": 11.58,
+          "text": "一旦排空，必须立刻 offWritable 摘掉！下一集 EP028"
+        },
+        {
+          "startSec": 11.58,
+          "endSec": 16.414,
+          "text": "我们正式把这套机制封装进 TcpConnection::send()！"
+        }
+      ]
+    }
+  }
+}

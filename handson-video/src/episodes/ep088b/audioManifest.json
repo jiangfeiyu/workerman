@@ -1,0 +1,60 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-ssl-accept-block": {
+      "id": "shot-01-ssl-accept-block",
+      "audioFile": "audio/ep088b/shot-01-ssl-accept-block.mp3",
+      "durationSec": 29.182,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.69,
+          "text": "看 EP089 的 stream_socket_enable_crypto() 之前"
+        },
+        {
+          "startSec": 5.69,
+          "endSec": 10.204,
+          "text": "先解决一个大疑问：上集已经配好 SSL Context 了"
+        },
+        {
+          "startSec": 10.204,
+          "endSec": 18.128,
+          "text": "为什么不能直接写 stream_socket_server('ssl://0.0.0.0:443')"
+        },
+        {
+          "startSec": 18.128,
+          "endSec": 22.479,
+          "text": "而要依然监听 tcp:// 呢？因为如果用 ssl://"
+        },
+        {
+          "startSec": 22.479,
+          "endSec": 28.582,
+          "text": "每次 stream_socket_accept 都会同步阻塞等完整个 TLS 握手！"
+        }
+      ]
+    },
+    "shot-02-manual-tls": {
+      "id": "shot-02-manual-tls",
+      "audioFile": "audio/ep088b/shot-02-manual-tls.mp3",
+      "durationSec": 20.35,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 7.588,
+          "text": "所以工业级框架必须先用 tcp:// 零毫秒 accept 拿到明文 TCP 句柄并设为非阻塞"
+        },
+        {
+          "startSec": 7.588,
+          "endSec": 15.241,
+          "text": "再靠我们自己调用 stream_socket_enable_crypto() 分段驱动 TLS 握手！"
+        },
+        {
+          "startSec": 15.241,
+          "endSec": 19.75,
+          "text": "下一集 EP089，就来看这个函数最坑的返回值 0！"
+        }
+      ]
+    }
+  }
+}

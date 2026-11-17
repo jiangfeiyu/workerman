@@ -1,0 +1,7 @@
+{
+    "episode": "ep77_78_fiber",
+    "output": [
+        "[EP077 · 深层栈冻结] start() 停在 3 层调用栈内并抛出信号: WAIT_DB_ROW (isSuspended=true)",
+        "[EP078 · 双向传值接力] resume(\"user#42\") 唤醒深层函数并返回: FINAL => GOT: user#42"
+    ]
+}

@@ -1,0 +1,112 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-inbox-vs-outbox": {
+      "id": "shot-01-inbox-vs-outbox",
+      "audioFile": "audio/ep009b/shot-01-inbox-vs-outbox.mp3",
+      "durationSec": 24.598,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 3.833,
+          "text": "看 EP010 的 onWritable 之前"
+        },
+        {
+          "startSec": 3.833,
+          "endSec": 7.554,
+          "text": "先用 1 分钟彻底搞懂什么叫内核写缓冲区！"
+        },
+        {
+          "startSec": 7.554,
+          "endSec": 13.536,
+          "text": "把每个 Socket 想象成两个柜子：读缓冲是“收件箱”，平时空的"
+        },
+        {
+          "startSec": 13.536,
+          "endSec": 18.606,
+          "text": "对面寄包裹来才响铃；而写缓冲是你本地的“发件暂存柜”"
+        },
+        {
+          "startSec": 18.606,
+          "endSec": 23.998,
+          "text": "fwrite 只是把包裹塞进这个柜子，再由网卡慢慢往外运！"
+        }
+      ]
+    },
+    "shot-02-fill-buffer": {
+      "id": "shot-02-fill-buffer",
+      "audioFile": "audio/ep009b/shot-02-fill-buffer.mp3",
+      "durationSec": 24.166,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.406,
+          "text": "眼见为实！看第 5 到 20 行：我们建一对无阻塞管道"
+        },
+        {
+          "startSec": 5.406,
+          "endSec": 8.175,
+          "text": "故意不让收件端 $r 取包裹"
+        },
+        {
+          "startSec": 8.175,
+          "endSec": 14.406,
+          "text": "拿发件端 $w 循环每次 fwrite 塞 4KB！运行结果出来了"
+        },
+        {
+          "startSec": 14.406,
+          "endSec": 17.608,
+          "text": "前两次一共塞进 8192 字节"
+        },
+        {
+          "startSec": 17.608,
+          "endSec": 23.566,
+          "text": "第 3 次 fwrite 直接返回 0——发件柜被彻底塞满了！"
+        }
+      ]
+    },
+    "shot-03-drain-and-why": {
+      "id": "shot-03-drain-and-why",
+      "audioFile": "audio/ep009b/shot-03-drain-and-why.mp3",
+      "durationSec": 28.726,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 4.353,
+          "text": "看第 23 行！只要收件端读走 8KB 腾出空位"
+        },
+        {
+          "startSec": 4.353,
+          "endSec": 8.785,
+          "text": "再次 fwrite 立刻成功塞入 4096 字节！"
+        },
+        {
+          "startSec": 8.785,
+          "endSec": 13.494,
+          "text": "现在你就彻底明白 EP010 的两个秘密了：第一"
+        },
+        {
+          "startSec": 13.494,
+          "endSec": 15.829,
+          "text": "只有发件柜塞满卡住时"
+        },
+        {
+          "startSec": 15.829,
+          "endSec": 20.538,
+          "text": "才需要挂 onWritable 等空位通知；第二"
+        },
+        {
+          "startSec": 20.538,
+          "endSec": 25.841,
+          "text": "因为平时发件柜几乎永远有空位，只要你挂着监听不摘掉"
+        },
+        {
+          "startSec": 25.841,
+          "endSec": 28.126,
+          "text": "它就会不停疯狂响铃！"
+        }
+      ]
+    }
+  }
+}

@@ -27,3 +27,13 @@ video-studio/out/
 108/out/*
 !108/out/*.mp4
 chapters/**/*.mp4
+
+# ModernWorker 手把手实战课程：忽略密钥、依赖、虚拟环境与中间音频/QA截图
+handson-video/.env
+handson-video/node_modules
+handson-video/node_modules/
+handson-video/.venv
+handson-video/.venv/
+handson-video/.npm-cache/
+handson-video/public/audio/
+handson-video/out/qa/

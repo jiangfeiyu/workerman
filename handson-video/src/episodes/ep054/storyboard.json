@@ -1,0 +1,37 @@
+{
+  "id": "EP054",
+  "epTag": "054 / 112",
+  "title": "【合拢】第 3 篇终极验收：手写原生 WebSocket 聊天室",
+  "legoModule": "模块 3.3 · 手写 WebSocket 协议",
+  "outputFile": "out/EP054_合拢_第3篇终极验收_手写原生WebSocket聊天室.mp4",
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "shots": [
+    {
+      "id": "shot-01-live-chat",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "ws-live-chat",
+      "ttsText": "第 3 篇终极合拢验收！我们用真实 TCP Socket 跑通端到端原生 WebSocket 聊天室：第一步 Alice 发起 HTTP Upgrade 握手，服务端回发 101 Switching Protocols 当场完成协议热切换；第二步 Alice 发来 31 字节掩码帧，被 decode 完美解出中文问候！",
+      "subtitleText": "【054/112】合拢验收：真实 TCP 上完成 101 升级 → 解密 Alice 掩码帧“大家好，我是 Alice!”！",
+      "fallbackDurationSec": 26.0
+    },
+    {
+      "id": "shot-02-broadcast-bob",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "broadcast-bob",
+      "ttsText": "第三步服务端直接调 WebsocketProtocol::encode() 把消息包装成 43 字节无掩码推送帧，广播写进 Bob 的 Socket！Bob 收到后按相同 input 和 decode 流程解包，屏幕精准弹出：[广播] Alice: 大家好，我是 Alice!，零第三方库依赖全链路闭环！",
+      "subtitleText": "服务端 encode() 生成 43B 无掩码推送帧发给 Bob，端到端全双工聊天 100% 打通！",
+      "fallbackDurationSec": 25.0
+    },
+    {
+      "id": "shot-03-part3-recap",
+      "chapter": "第 3 篇 · 模块 3.3 手写 WebSocket 协议",
+      "visual": "part3-recap",
+      "ttsText": "恭喜通关第 3 篇可插拔协议层！21 集里我们从粘包半包惨案出发，建起 recvBuffer 蓄水池，定下 ProtocolInterface 三大契约，把 Text、Frame、HTTP/1.1、WebSocket 四大工业协议全变成了可随时插拔的乐高块！下一篇第 4 篇，向多进程 Master 和 Epoll 万级并发进军！",
+      "subtitleText": "第 3 篇完结撒花：Text / Frame / HTTP/1.1 / WebSocket 四大协议乐高插槽全部就位！",
+      "fallbackDurationSec": 26.0
+    }
+  ]
+}

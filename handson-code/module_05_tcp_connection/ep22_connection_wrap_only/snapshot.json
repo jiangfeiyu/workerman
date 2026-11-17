@@ -1,0 +1,7 @@
+{
+    "episode": "ep22",
+    "output": [
+        "[连接创建] id=1, uid=10086",
+        "[onMessage id=1 uid=10086] 收到: login user 10086"
+    ]
+}

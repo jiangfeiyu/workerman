@@ -1,0 +1,80 @@
+{
+  "hasAudio": true,
+  "voice": "zh-CN-XiaochenMultilingualNeural",
+  "shots": {
+    "shot-01-peer-and-destroy": {
+      "id": "shot-01-peer-and-destroy",
+      "audioFile": "audio/ep024/shot-01-peer-and-destroy.mp3",
+      "durationSec": 24.958,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 2.389,
+          "text": "完善连接对象的两项基础能力"
+        },
+        {
+          "startSec": 2.389,
+          "endSec": 11.025,
+          "text": "第 34 行用 stream_socket_get_name($this->socket, true) 拿到客人真实 IP 和端口"
+        },
+        {
+          "startSec": 11.025,
+          "endSec": 14.168,
+          "text": "第 48 行写出 destroy() 零泄漏销毁"
+        },
+        {
+          "startSec": 14.168,
+          "endSec": 16.2,
+          "text": "先改状态为 Closed"
+        },
+        {
+          "startSec": 16.2,
+          "endSec": 21.407,
+          "text": "再同时从 EventLoop 摘掉可读和可写监听，关闭 Socket"
+        },
+        {
+          "startSec": 21.407,
+          "endSec": 24.358,
+          "text": "最后触发 onClose 通知业务层！"
+        }
+      ]
+    },
+    "shot-02-verify-lifecycle": {
+      "id": "shot-02-verify-lifecycle",
+      "audioFile": "audio/ep024/shot-02-verify-lifecycle.mp3",
+      "durationSec": 24.334,
+      "cues": [
+        {
+          "startSec": 0.04,
+          "endSec": 5.492,
+          "text": "跑一遍实测：连入拿到 id=1、绑定 uid=10086"
+        },
+        {
+          "startSec": 5.492,
+          "endSec": 7.875,
+          "text": "收到消息后客户端断开"
+        },
+        {
+          "startSec": 7.875,
+          "endSec": 13.407,
+          "text": "destroy() 干净清理 FD 并把状态切到 closed！"
+        },
+        {
+          "startSec": 13.407,
+          "endSec": 15.79,
+          "text": "不过下一集 EP025"
+        },
+        {
+          "startSec": 15.79,
+          "endSec": 19.788,
+          "text": "我们就要亲手引爆连接层最大的一颗核弹"
+        },
+        {
+          "startSec": 19.788,
+          "endSec": 23.734,
+          "text": "发送 10MB 数据凭空消失 96.9%！"
+        }
+      ]
+    }
+  }
+}

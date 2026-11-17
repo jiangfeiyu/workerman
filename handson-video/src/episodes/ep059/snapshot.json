@@ -1,0 +1,7 @@
+{
+    "episode": "ep59_zombie",
+    "output": [
+        "[子进程 pid=70556 先行退出] 若父进程不调用 pcntl_waitpid()，PID 表项永远残留为僵尸 (Z)!",
+        "[Master 调用 pcntl_waitpid(70556)] 回收 pid=70556 | normalExit=true | exitCode=42"
+    ]
+}
