@@ -491,7 +491,7 @@
             }
 
             function getQueryEp() {
-              var match = location.hash.match(/[?&]ep=(EP\d+)/i);
+              var match = location.hash.match(/[?&]ep=([A-Z]+\d+[A-Z]*)/i);
               return match ? match[1].toUpperCase() : '';
             }
 
