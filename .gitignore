@@ -37,3 +37,11 @@ handson-video/.venv/
 handson-video/.npm-cache/
 handson-video/public/audio/
 handson-video/out/qa/
+
+# 职场逻辑思维 64 集课程：忽略依赖、虚拟环境与中间配音 WAV，保留源码、脚本与 out/*.mp4
+logic/node_modules/
+logic/.venv/
+logic/.npm-cache/
+logic/public/audio/
+logic/.agents/
+logic/.claude/
